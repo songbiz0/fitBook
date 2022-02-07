@@ -8,20 +8,4 @@ public class MainController {
 
     @GetMapping("/")
     public String main() { return "main"; }
-
-    @GetMapping("/minjae")
-    public void minjae() {}
-
-    @GetMapping("/doungkyu")
-    public void doungkyu(){}
-
-    @GetMapping("/eonsu")
-    public void eonsu() {}
-
-    // test
-
-    //test
-
-    @GetMapping("/gyuhyeong")
-    public void gyuhyeong() {}
 }
