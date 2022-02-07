@@ -14,4 +14,7 @@ public class MainController {
 
     @GetMapping("/doungkyu")
     public void doungkyu(){}
+
+    @GetMapping("/eonsu")
+    public void eonsu() {}
 }
