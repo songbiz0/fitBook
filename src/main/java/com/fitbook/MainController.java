@@ -21,4 +21,7 @@ public class MainController {
     // test
 
     //test
+
+    @GetMapping("/gyuhyeong")
+    public void gyuhyeong() {}
 }
