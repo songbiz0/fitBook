@@ -1,0 +1,31 @@
+#monthChart{
+    width:1000px !important;
+    height:400px !important;
+}
+#brandDemand  {
+    width:450px !important;
+    height:300px !important;
+}
+#thisMonthChart {
+    width:450px !important;
+    height:300px !important;
+}
+.brandDiv {
+    display: flex;
+    justify-content: space-between;
+}
+.brandDiv > div > h1 {
+    text-align: center;
+}
+#monthChart {
+    border: 1px solid;
+}
+#brandDemand {
+    border: 1px solid;
+}
+#thisMonthChart {
+    border: 1px solid;
+}
+.admin-main-container > h1{
+    text-align: center;
+}

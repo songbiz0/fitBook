@@ -43,7 +43,8 @@
                     y: {
                         beginAtZero: true
                     }
-                }
+                },
+                responsive: false
             },
         };
 
@@ -98,6 +99,9 @@
         const config = {
             type: 'doughnut',
             data: data,
+            options: {
+                responsive: false
+            }
         };
         const myChart = new Chart(
             document.getElementById('brandDemand'),
@@ -144,6 +148,9 @@
         const config = {
             type: 'line',
             data: data,
+            options: {
+                responsive: false
+            }
         };
         const myChart = new Chart(
             document.getElementById('thisMonthChart'),
