@@ -1,0 +1,15 @@
+<html lang="ko"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="admin/temp/admin_page_layout">
+<head>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script defer th:src="@{/js/admin/main.js}"></script>
+    <title></title>
+</head>
+
+<th:block layout:fragment="content">
+    <div class="w100p">
+        <canvas id="monthChart"></canvas>
+    </div>
+</th:block>
