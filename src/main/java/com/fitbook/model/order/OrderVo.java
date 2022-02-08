@@ -1,4 +1,4 @@
-package com.fitbook.model;
+package com.fitbook.model.order;
 
 import lombok.Getter;
 import lombok.Setter;

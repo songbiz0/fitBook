@@ -7,5 +7,5 @@ import lombok.Setter;
 @Setter
 public class ResultVo {
     private String rdt;
-    private int result;
+    private int result_price;
 }
