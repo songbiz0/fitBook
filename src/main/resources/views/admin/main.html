@@ -1,0 +1,27 @@
+<html lang="ko"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="admin/temp/admin_page_layout">
+<head>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script defer th:src="@{/js/admin/main.js}"></script>
+    <link rel="stylesheet" th:href="@{/css/admin/main.css}">
+    <title></title>
+</head>
+
+<th:block layout:fragment="content">
+    <div class="w100p admin-main-container">
+        <h1>최근 12개월 수익</h1>
+        <canvas id="monthChart" width="1000" height="400"></canvas>
+        <div class="w100p brandDiv mt50">
+            <div>
+                <h1>브랜드별 수요</h1>
+                <canvas class="mr30" id="brandDemand" width="450" height="300"></canvas>
+            </div>
+            <div>
+                <h1>이번 달 수익</h1>
+                <canvas class="ml30" id="thisMonthChart" width="450" height="300"></canvas>
+            </div>
+        </div>
+    </div>
+</th:block>

@@ -94,7 +94,8 @@ table {
 .ml5 { margin-left: 5px !important; }
 .m20 { margin: 20px !important; }
 .ml10 { margin-left: 10px !important; }
-.ml30 { margin-left: 60px; }
+.ml30 { margin-left: 30px; !important; }
+.ml60 { margin-left: 60px; }
 .ml40 { margin-left: 40px !important; }
 .ml45 { margin-left: 45px !important; }
 .ml50 { margin-left: 50px !important; }
@@ -102,7 +103,8 @@ table {
 .mr10 { margin-right: 10px !important; }
 .mr15 { margin-right: 15px !important; }
 .mr20 { margin-right: 20px !important; }
-.mr30 { margin-right: 60px; }
+.mr30 { margin-right: 30px !important;}
+.mr60 { margin-right: 60px; }
 .mlr30 { margin-left: 30px !important; margin-right: 30px !important; }
 .mlr3 { margin-left: 2px !important; margin-right: 2px !important; }
 .mlr3 { margin-left: 3px !important; margin-right: 3px !important; }
