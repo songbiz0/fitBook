@@ -25,9 +25,7 @@ public class AdminController {
     }
 
     @GetMapping("/user")
-    public void user(Model model) {
-        model.addAttribute(Const.URI, Const.USER);
-    }
+    public void user(Model model) {model.addAttribute(Const.URI, Const.USER);}
 
     @GetMapping("/userinfo")
     public void userinfo(Model model) {
@@ -39,5 +37,7 @@ public class AdminController {
         model.addAttribute(Const.URI, Const.ORDER);
     }
 
+    @GetMapping("/product")
+    public void product(Model model) {model.addAttribute(Const.URI, Const.PRODUCT);}
 
 }

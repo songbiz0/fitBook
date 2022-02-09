@@ -28,4 +28,6 @@
         ON B.idetail = C.idetail
         ]]>
     </select>
+
+
 </mapper>

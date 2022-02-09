@@ -4,6 +4,7 @@ import com.fitbook.ResultVo;
 import com.fitbook.model.order.OrderDto;
 import com.fitbook.model.order.OrderVo;
 import com.fitbook.model.orderproduct.OrderProductVo;
+import com.fitbook.model.user.UserVo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -39,4 +40,6 @@ public class AdminRestController {
         return service.selOrderList();
     }
 
+    @GetMapping("/user")
+    public List<UserVo> selUserList() {return service.selUserList();}
 }

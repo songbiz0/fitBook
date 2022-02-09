@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.fitbook.admin.AdminMapper">
+   <select id="selUserList" resultType="UserVo">
+        SELECT A.iuser, A.uid, A.nm, A.nickname, A.email, B.post, B.addr, B.addr_detail, A.rdt, A.point
+        FROM t_user A
+        INNER JOIN t_address B
+        ON A.iuser = B.iuser
+   </select>
+
+</mapper>

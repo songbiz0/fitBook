@@ -4,6 +4,7 @@ import com.fitbook.ResultVo;
 import com.fitbook.model.order.OrderDto;
 import com.fitbook.model.order.OrderVo;
 import com.fitbook.model.orderproduct.OrderProductVo;
+import com.fitbook.model.user.UserVo;
 import org.apache.tomcat.jni.Local;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -15,6 +16,7 @@ import java.util.*;
 public class AdminService {
 
     @Autowired private AdminMapper mapper;
+
     // Main Chart
     public String getDate(String type) {
         LocalDate now = LocalDate.now();
@@ -96,5 +98,10 @@ public class AdminService {
             data.setCdt(data.getCdt().substring(0, 16));
         }
         return list;
+    }
+
+    //User List
+    public List<UserVo> selUserList() {
+        return mapper.selUserList();
     }
 }
