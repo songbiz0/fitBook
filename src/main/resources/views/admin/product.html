@@ -1,0 +1,57 @@
+<html lang="ko"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="admin/temp/admin_page_layout">
+<head>
+    <title></title>
+</head>
+
+<th:block layout:fragment="content">
+    <form method="post" th:action="@{/admin/product}" enctype="multipart/form-data">
+        <div>
+            <input type="text" name="nm" placeholder="상품명">
+        </div>
+        <div>
+            <input type="text" name="product_code" placeholder="상품코드">
+        </div>
+        <div>
+            <input type="text" name="rdt" placeholder="출시일자">
+        </div>
+        <div>
+            <select name="icpu">
+                <th:block th:each="cpu : ${cpuList}">
+                    <option th:value="${cpu.icpu}" th:text="${cpu.nm}"></option>
+                </th:block>
+            </select>
+        </div>
+        <div>
+            <select name="igpu">
+                <th:block th:each="gpu : ${gpuList}">
+                    <option th:value="${gpu.igpu}" th:text="${gpu.nm}"></option>
+                </th:block>
+            </select>
+        </div>
+        <div>
+            <input type="text" name="ram" placeholder="RAM 용량">
+        </div>
+        <div>
+            <input type="text" name="size" placeholder="사이즈">
+        </div>
+        <div>
+            <input type="text" name="weight" placeholder="무게">
+        </div>
+        <div>
+            <input type="text" name="brand" placeholder="브랜드">
+        </div>
+        <div>
+            <select name="os">
+                <option value="1">Window 11</option>
+                <option value="2">Window 10</option>
+                <option value="3">Window 8</option>
+            </select>
+        </div>
+        <div>
+            <input type="file" name="uploadfile" multiple="multiple">
+        </div>
+    </form>
+</th:block>

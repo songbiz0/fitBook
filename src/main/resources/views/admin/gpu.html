@@ -1,0 +1,29 @@
+<html lang="ko"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="admin/temp/admin_page_layout">
+<head>
+    <title></title>
+</head>
+
+<th:block layout:fragment="content">
+    <span th:text="${msg}"></span>
+    <form method="post" th:action="@{/admin/gpu}">
+        <div>
+            <input type="text" name="nm" placeholder="GPU명">
+        </div>
+        <div>
+            <input type="text" name="performance" placeholder="성능수치">
+        </div>
+        <div>
+            <input type="text" name="seq" placeholder="세대">
+        </div>
+        <div>
+            <input type="text" name="brand" placeholder="브랜드">
+        </div>
+        <div>
+            <input type="submit" value="등록">
+            <input type="reset"  value="초기화">
+        </div>
+    </form>
+</th:block>
