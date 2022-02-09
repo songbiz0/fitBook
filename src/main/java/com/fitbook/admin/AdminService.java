@@ -107,4 +107,5 @@ public class AdminService {
     public int insGpu(GpuEntity entity) {
         return mapper.insGpu(entity);
     }
+    // 시발롬아 이거도 불러라
 }
