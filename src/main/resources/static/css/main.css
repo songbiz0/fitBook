@@ -1,0 +1,33 @@
+.like, .star, .temper { transition: all 0.1s; }
+.like:hover :first-child { color: red; }
+.like:hover :last-child { color: rgba(0,0,0); }
+
+.star:hover :first-child { color: gold; }
+.star:hover :last-child { color: rgba(0,0,0); }
+
+.temper:hover :first-child { color: red; }
+
+.product { transition: transform 0.2s linear; }
+.product:hover { transform: translateY(-5px); }
+
+.sidebar_toggle { position: fixed; top: 45%; left: 20px; padding: 25px 7px !important; border-radius: 0 !important; }
+.sidebar_toggle i { display: flex; justify-content: center; align-items: center; margin: 0 !important; padding: 0; width: 100%; }
+
+.accordion a { font-size: 13px !important; padding: 0; }
+.accordion label { font-size: 12px !important; }
+.accordion .field { display: inline-block !important; margin-right: 20px !important; margin-bottom: 0px !important; padding: 0px !important; }
+
+.product_info:not(:first-child) { margin-top: 10px; margin-bottom: 10px; }
+
+.star.active { color: gold !important; }
+
+.board { border-top: 1px solid #AAAAAA; border-bottom: 1px solid #AAAAAA; margin-top: 15px; }
+.board td { padding: 10px; }
+.reply { background-color: #F3F3F3;}
+
+.article .title { background-color: #f7f7f7; border-top: 1px solid #999999; border-bottom: 1px solid #dbdbdb; padding: 15px; }
+.article .info { border-bottom: 1px solid #dbdbdb; padding: 10px 15px 10px 15px; display: flex; gap: 30px; }
+.article .content { border-bottom: 1px solid #dbdbdb; padding: 30px 15px; min-height: 300px; }
+
+.headerDiv > h1 { width: calc(50% + 46.29px); text-align: right; }
+.headerDiv > div { width: calc(50% - 46.29px); }
