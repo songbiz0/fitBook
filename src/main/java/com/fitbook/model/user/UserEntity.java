@@ -8,8 +8,6 @@ import lombok.Setter;
 public class UserEntity {
     private int iuser;
     private String uid;
-    private String nickname;
-    private int upw;
     private String nm;
     private String email;
     private String rdt;
