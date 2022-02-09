@@ -9,7 +9,11 @@ import java.util.List;
 
 @Mapper
 public interface AdminMapper {
+    // Main 차트
     List<OrderVo> selCurrentMonthList(OrderDto dto);
     List<OrderVo> selThisMonthList(OrderDto dto);
     List<OrderProductVo> selBrandDemandList();
+
+    // Order List
+    List<OrderVo> selOrderList();
 }

@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.fitbook.admin.AdminMapper">
+    <select id="selOrderList" resultType="OrderVo">
+        SELECT A.iorder, A.rdt, B.nm, B.nickname, B.uid
+        , A.spent_point, A.payment_way, A.order_status
+        , A.result_price, A.cdt
+        FROM t_order A
+        INNER JOIN t_user B
+        ON A.iuser = B.iuser
+        INNER JOIN t_address C
+        ON B.iuser = C.iuser
+    </select>
+</mapper>

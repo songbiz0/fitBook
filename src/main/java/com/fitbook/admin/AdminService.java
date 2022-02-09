@@ -15,7 +15,7 @@ import java.util.*;
 public class AdminService {
 
     @Autowired private AdminMapper mapper;
-
+    // Main Chart
     public String getDate(String type) {
         LocalDate now = LocalDate.now();
         String date = now.toString();
@@ -86,5 +86,15 @@ public class AdminService {
             result.put(brand, data.getQuantity() + result.getOrDefault(brand, 0));
         }
         return result;
+    }
+
+    // Order List
+    public List<OrderVo> selOrderList() {
+        List<OrderVo> list = mapper.selOrderList();
+        for(OrderVo data: list) {
+            data.setRdt(data.getRdt().substring(0, 16));
+            data.setCdt(data.getCdt().substring(0, 16));
+        }
+        return list;
     }
 }
