@@ -1,6 +1,8 @@
 package com.fitbook.admin;
 
 import com.fitbook.ResultVo;
+import com.fitbook.model.cpu.CpuEntity;
+import com.fitbook.model.gpu.GpuEntity;
 import com.fitbook.model.order.OrderDto;
 import com.fitbook.model.order.OrderVo;
 import com.fitbook.model.orderproduct.OrderProductVo;
@@ -96,5 +98,13 @@ public class AdminService {
             data.setCdt(data.getCdt().substring(0, 16));
         }
         return list;
+    }
+
+    // Parts
+    public int insCpu(CpuEntity entity) {
+        return mapper.insCpu(entity);
+    }
+    public int insGpu(GpuEntity entity) {
+        return mapper.insGpu(entity);
     }
 }

@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.fitbook.admin.AdminMapper">
+    <insert id="insGpu">
+        INSERT INTO t_product_gpu
+        (nm, performance, seq, brand)
+        VALUES
+        (#{nm}, ${performance}, ${seq}, #{brand})
+    </insert>
+
+    <insert id="insCpu">
+        INSERT INTO t_product_cpu
+        (nm, performance, inner_gpu, seq, brand)
+        VALUES
+        (#{nm}, ${performance}, ${inner_gpu}, ${seq}, #{brand})
+    </insert>
+</mapper>

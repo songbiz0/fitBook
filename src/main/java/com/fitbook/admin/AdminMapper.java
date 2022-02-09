@@ -1,5 +1,7 @@
 package com.fitbook.admin;
 
+import com.fitbook.model.cpu.CpuEntity;
+import com.fitbook.model.gpu.GpuEntity;
 import com.fitbook.model.order.OrderDto;
 import com.fitbook.model.order.OrderVo;
 import com.fitbook.model.orderproduct.OrderProductVo;
@@ -16,4 +18,8 @@ public interface AdminMapper {
 
     // Order List
     List<OrderVo> selOrderList();
+
+    // Parts
+    int insCpu(CpuEntity entity);
+    int insGpu(GpuEntity entity);
 }
