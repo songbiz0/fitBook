@@ -2,6 +2,7 @@ package com.fitbook.admin;
 
 import com.fitbook.ResultVo;
 import com.fitbook.model.order.OrderDto;
+import com.fitbook.model.order.OrderVo;
 import com.fitbook.model.orderproduct.OrderProductVo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -32,4 +33,10 @@ public class AdminRestController {
     public Map<String, Integer> selBrandDemand() {
         return service.selBrandDemandList();
     }
+
+    @GetMapping("/order")
+    public List<OrderVo> selOrderList() {
+        return service.selOrderList();
+    }
+
 }
