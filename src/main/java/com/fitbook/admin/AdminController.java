@@ -41,7 +41,7 @@ public class AdminController {
     }
 
     @GetMapping("/insproduct")
-    public void product(Model model) {
+    public void insProduct(Model model) {
         model.addAttribute(Const.URI, Const.INS_PRODUCT);
     }
 
