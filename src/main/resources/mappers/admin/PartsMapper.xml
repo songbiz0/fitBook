@@ -14,4 +14,16 @@
         VALUES
         (#{nm}, ${performance}, ${inner_gpu}, ${seq}, #{brand})
     </insert>
+
+    <select id="selGpu" resultType="GpuVo">
+        SELECT *
+        FROM t_product_gpu
+        ORDER BY seq DESC, brand
+    </select>
+
+    <select id="selCpu" resultType="CpuVo">
+        SELECT *
+        FROM t_product_cpu
+        ORDER BY seq DESC, brand
+    </select>
 </mapper>
