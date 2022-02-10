@@ -1,0 +1,303 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://cdn.jsdelivr.net/npm/jquery@3.3.1/dist/jquery.min.js"></script>
+    <link rel="stylesheet" type="text/css" href="../../../../../../../../../../OneDrive/바탕%20화면/fitBook/semantic/dist/semantic.min.css">
+    <link rel="stylesheet" href="../../../../../../../../../../OneDrive/바탕%20화면/fitBook/common.css">
+    <link rel="stylesheet" href="order.css">
+    <title>aocument</title>
+</head>
+
+<body>
+    <head>
+        <div class="fc">
+            <div class="ui right aligned container h37">
+                <button class="tiny ui button bgwhite h100p">로그인</button>
+                <button class="tiny ui button bgwhite">회원가입</button>
+                <button class="tiny ui button bgwhite">장바구니</button>
+                <button class="tiny ui button bgwhite">마이페이지</button>
+                <button class="tiny ui button bgwhite">고객센터</button>
+            </div>
+            <div class="ct h122 btgrey">
+                <h1>fitBook</h1>
+            </div>
+            <div class="ui center aligned container h42">
+                <button class="medium ui button bgwhite mlr30 h100p">HOME</button>
+                <button class="medium ui button bgwhite mlr30">NEW</button>
+                <button class="medium ui button bgwhite mlr30">BEST</button>
+                <button class="medium ui button bgwhite mlr30">SHOP</button>
+                <button class="medium ui button bgwhite mlr30">FIT!</button>
+            </div>
+        </div>
+    </head>
+    <main class="btgrey">
+        <div class="ui left aligned container mt50">
+            <h3 class="mb30">상품 주문</h3>
+            <table class="mytable w100p">
+                <colgroup>
+                    <col width="45%">
+                    <col width="10%">
+                    <col width="15%">
+                    <col width="15%">
+                    <col width="15%">
+                </colgroup>
+                <tr>
+                    <th>상품 정보</th>
+                    <th>수량</th>
+                    <th>상품 금액</th>
+                    <th>할인/적립</th>
+                    <th>결제 금액</th>
+                </tr>
+                <tr>
+                    <td>
+                        <div class="fr w100p ct gap20">
+                            <img src="http://img.danawa.com/prod_img/500000/474/706/img/13706474_1.jpg?shrink=330:330&_v=20211210141001"
+                                width="100px" height="100px">
+                            <div class="taleft">
+                                <div class="mb5">삼성전자 노트북 플러스2</div>
+                                <div class="mb5">NT550XDA-K14AW</div>
+                                <div class="c777777">옵션 : SSD 128GB</div>
+                            </div>
+                        </div>
+                    </td>
+                    <td>
+                        <div class="w40 ib">
+                        1
+                        </div>
+                    </td>
+                    <td><b>1,200,000원</b></td>
+                    <td><b>-72,000원</b><br>(1,200원 적립 예정)</td>
+                    <td><b>1,128,000원</b></td>
+                </tr>
+                <tr>
+                    <td>
+                        <div class="fr w100p ct gap20">
+                            <img src="https://shop1.daumcdn.net/thumb/R500x500/?fname=http%3A%2F%2Fshop1.daumcdn.net%2Fshophow%2Fp%2FW14139414164.jpg%3Fut%3D20210727135851"
+                                width="100px" height="100px">
+                            <div class="taleft">
+                                <div class="mb5">LG전자 2012 그램14</div>
+                                <div class="mb5">14ZD90P-GX50K</div>
+                                <div class="c777777">옵션 : SSD 256GB</div>
+                            </div>
+                        </div>
+                    </td>
+                    <td>
+                        <div class="w40 ib">
+                        1
+                        </div>
+                    </td>
+                    <td><b>1,288,980원</b></td>
+                    <td><b>-72,000원</b><br>(1,500원 적립 예정)</td>
+                    <td><b>1,198,000원</b></td>
+                </tr>
+            </table>
+            <form class="ui tiny form mt50">
+                <h4 class="ui dividing header pb10">주문 정보</h4>
+                <div class="six wide field ml50">
+                    <label>주문하시는 분</label>
+                    <input type="text">
+                </div>
+                <div class="six wide field ml50">
+                    <label>연락처</label>
+                    <input type="text">
+                </div>
+                <div class="six wide field ml50">
+                    <label>이메일</label>
+                    <input type="text">
+                </div>
+                <h4 class="ui dividing header pb10">배송 정보</h4>
+                <div class="inline fields ml50">
+                    <label for="ship">배송지 확인</label>
+                    <div class="field mr10">
+                      <div class="ui radio checkbox checked">
+                        <input type="radio" name="ship" checked="" tabindex="0" class="hidden" id="rep">
+                        <label for="rep">기본 배송지</label>
+                      </div>
+                    </div>
+                    <div class="field mr10">
+                      <div class="ui radio checkbox">
+                        <input type="radio" name="ship" tabindex="0" class="hidden" id="recent">
+                        <label for="recent">최근 배송지</label>
+                      </div>
+                    </div>
+                    <div class="field mr10">
+                      <div class="ui radio checkbox">
+                        <input type="radio" name="ship" tabindex="0" class="hidden" id="custom">
+                        <label for="custom">직접 입력</label>
+                      </div>
+                    </div>
+                    <div class="field">
+                      <button class="ui basic mini button" id="shipManageBtn">배송지 관리</button>
+                    </div>
+                  </div>
+                <div class="six wide field ml50">
+                    <label>받으실 분</label>
+                    <input type="text">
+                </div>
+                <div class="two fields">
+                    <div class="six wide field ml50">
+                        <label>받으실 곳</label>
+                        <input type="text">
+                    </div>
+                    <div class="field">
+                        <label class="hidden">.</label>
+                        <button class="ui basic mini button">우편번호 검색</button>
+                    </div>
+                </div>
+                <div class="two fields ml45">
+                    <div class="seven wide field">
+                        <input type="text">
+                    </div>
+                    <div class="four wide field">
+                        <input type="text">
+                    </div>
+                </div>
+                <div class="six wide field ml50">
+                    <label>연락처</label>
+                    <input type="text">
+                </div>
+                <div class="eleven wide field ml50">
+                    <label>배송 메시지</label>
+                    <input type="text">
+                </div>
+                <h4 class="ui dividing header pb10">결제 정보</h4>
+                <div class="frow orderResult w300 m20 ml50">
+                    <div class="fc fr1">
+                        <div>상품 합계 금액</div>
+                        <div class="fs13">2,100,000원</div>
+                    </div>
+                    <div class="fc fr1">
+                        <div>할인 금액</div>
+                        <div class="fs13">-50,000원</div>
+                    </div>
+                    <div class="fc fr1">
+                        <div>적립 예정 금액</div>
+                        <div class="fs13">5,000원</div>
+                    </div>
+            </div>
+            <div class="inline fields ml50">
+                <div class="field">
+                <label>적립금 사용</label>
+                <input type="text" class="w100">원
+            </div>
+            <div class="field">
+                <div class="ui checkbox"><input type="checkbox" id="useall"><label for="useall" class="hp">전액 사용하기</label></div>
+                <span class="cinfo">(보유 마일리지 : 0 원)</span>
+            </div>
+            </div>
+            <div class="ml50 m20">
+            <div class="fs14 mb5">최종 결제 금액</div>
+                <div class="fs18 fwb">2,000,000원</div>
+            </div>
+            <div class="tact">
+            <button class="ui secondary big button w300 mt50">결제하기</button>
+        </div>
+            </form>
+            <div class="ui first coupled modal">
+                <i class="close icon"></i>
+                <div class="header fs18">
+                  배송지 관리
+                </div>
+                <div class="content pb50">
+                    <table class="mytable w100p">
+                        <colgroup>
+                            <col width="10%">
+                            <col width="11%">
+                            <col width="11%">
+                            <col width="32%">
+                            <col width="18%">
+                            <col width="18%">
+                        </colgroup>
+                        <tr>
+                            <th></th>
+                            <th>배송지명</th>
+                            <th>받으실 분</th>
+                            <th>주소</th>
+                            <th>연락처</th>
+                            <th>수정/삭제</th>
+                        </tr>
+                        <tr>
+                            <td><button class="ui basic mini button">선택</button></td>
+                            <td>집</td>
+                            <td>유언수</td>
+                            <td>대구광역시 중구 무슨동 154-21 202호</td>
+                            <td>010-0000-0000</td>
+                            <td>
+                                <button class="ui basic mini button">수정</button>
+                                <button class="ui basic mini button">삭제</button>
+                            </td>
+                        </tr>
+                    </table>
+                    <div class="actions">
+                        <button class="ui secondary mini button mt10 fr" id="addShipBtn2">새 배송지 추가</button>
+                    </div>
+                </div>
+              </div>
+              <div class="ui second coupled modal">
+                <i class="close icon"></i>
+                <div class="header fs18">
+                  배송지 등록
+                </div>
+                <div class="content">
+                    <form class="ui mini form">
+                        <div class="six wide field ml50">
+                            <label>배송지명</label>
+                            <input type="text">
+                        </div>
+                        <div class="six wide field ml50">
+                            <label>받으실 분</label>
+                            <input type="text">
+                        </div>
+                        <div class="two fields">
+                            <div class="six wide field ml50">
+                                <label>받으실 곳</label>
+                                <input type="text">
+                            </div>
+                            <div class="field">
+                                <label class="hidden">.</label>
+                                <button class="ui basic mini button">우편번호 검색</button>
+                            </div>
+                        </div>
+                        <div class="two fields ml45">
+                            <div class="seven wide field">
+                                <input type="text">
+                            </div>
+                            <div class="four wide field">
+                                <input type="text">
+                            </div>
+                        </div>
+                        <div class="six wide field ml50">
+                            <label>연락처</label>
+                            <input type="text">
+                        </div>
+                        <div class="field ml50">
+                            <div class="ui checkbox"><input type="checkbox" id="repChk"><label for="repChk" class="hp">기본 배송지로 설정합니다.</label></div>
+                        </div>
+                    </form>
+                </div>
+                <div class="actions tact">
+                    <div class="tact">
+                  <div class="ui basic tiny button">취소</div>
+                  <div class="ui secondary tiny button">등록</div>
+                </div>
+                </div>
+                </div>
+    </main>
+    <footer class="btgrey mt100">
+        <div class="ui vertical footer padded segment">
+            <div class="ui left aligned container fs12">
+                <p>fitBook</p>
+                <p>Kim Min-jae, Kim Gyu-Hyeongm Kim Dong-gyu, Yu Eon-su</p>
+            </div>
+        </div>
+    </footer>
+</div>
+</body>
+
+</html>
+<script src="../../../../../../../../../../OneDrive/바탕%20화면/fitBook/semantic/dist/semantic.min.js"></script>
+<script src="mypage.js"></script>

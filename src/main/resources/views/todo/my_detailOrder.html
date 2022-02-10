@@ -1,0 +1,212 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://cdn.jsdelivr.net/npm/jquery@3.3.1/dist/jquery.min.js"></script>
+    <link rel="stylesheet" type="text/css" href="../../../../../../../../../../OneDrive/바탕%20화면/fitBook/semantic/dist/semantic.min.css">
+    <link rel="stylesheet" href="../../../../../../../../../../OneDrive/바탕%20화면/fitBook/common.css">
+    <link rel="stylesheet" href="../../../../../../../../../../OneDrive/바탕%20화면/fitBook/main.css">
+    <title>aocument</title>
+</head>
+
+<body>
+
+    <head>
+        <div class="fc">
+            <div class="ui right aligned container h37">
+                <button class="tiny ui button bgwhite h100p">로그인</button>
+                <button class="tiny ui button bgwhite">회원가입</button>
+                <button class="tiny ui button bgwhite">장바구니</button>
+                <button class="tiny ui button bgwhite">마이페이지</button>
+                <button class="tiny ui button bgwhite">고객센터</button>
+            </div>
+            <div class="ct h122 btgrey">
+                <h1>fitBook</h1>
+            </div>
+            <div class="ui center aligned container h42">
+                <button class="medium ui button bgwhite mlr30 h100p">HOME</button>
+                <button class="medium ui button bgwhite mlr30">NEW</button>
+                <button class="medium ui button bgwhite mlr30">BEST</button>
+                <button class="medium ui button bgwhite mlr30">SHOP</button>
+                <button class="medium ui button bgwhite mlr30">FIT!</button>
+            </div>
+        </div>
+    </head>
+    <main class="btgrey">
+        <div class="ui left aligned container mt50">
+            <div class="frow gap50">
+                <div class="fc">
+                    <h4 class="bbgrey pb15">마이 페이지</h4>
+                    <div class="ui vertical text menu">
+                        <div class="header item">쇼핑 정보</div>
+                        <a class="item fs12 pl10">
+                            - 주문목록
+                        </a>
+                        <a class="item fs12 pl10">
+                            - 취소/반품 내역
+                        </a>
+                        <a class="item fs12 pl10">
+                            - 적립금 내역
+                        </a>
+                        <a class="item fs12 pl10">
+                            - 좋아요한 상품
+                        </a>
+                    </div>
+                    <div class="ui vertical text menu">
+                        <div class="header item">회원 정보</div>
+                        <a class="item fs12 pl10">
+                            - 회원정보 변경
+                        </a>
+                        <a class="item fs12 pl10">
+                            - 회원 탈퇴
+                        </a>
+                        <a class="item fs12 pl10">
+                            - 배송지 관리
+                        </a>
+                    </div>
+                </div>
+                <div class="fr1">
+                    <h3>주문 상세 내역</h3>
+                    <table class="mytablenoline w100p mt50">
+                        <colgroup>
+                            <col width="15%">
+                            <col width="40%">
+                            <col width="15%">
+                            <col width="15%">
+                            <col width="15%">
+                        </colgroup>
+                        <tr>
+                            <th>날짜/주문번호</th>
+                            <th>상품명</th>
+                            <th>금액/수량</th>
+                            <th>주문상태</th>
+                            <th>확인/후기</th>
+                        </tr>
+                        <tr>
+                            <td rowspan="2" class="btline">
+                                <div>
+                                    <div>2021107203256</div>
+                                    <div>2021.10.27</div>
+                                </div>
+                            </td>
+                            <td>
+                                <div class="frow w100p ct gap20">
+                                    <img src="http://img.danawa.com/prod_img/500000/474/706/img/13706474_1.jpg?shrink=330:330&_v=20211210141001"
+                                        width="100px" height="100px">
+                                    <div class="taleft">
+                                        <div class="mb5">삼성전자 노트북 플러스2</div>
+                                        <div class="mb5">NT550XDA-K14AW</div>
+                                        <div class="c777777">옵션 : SSD 128GB</div>
+                                    </div>
+                                </div>
+                            </td>
+                            <td>
+                                <div>
+                                    <div class="mb5"><b>529,000원</b></div>
+                                    <div>(1)</div>
+                                </div>
+                            </td>
+                            <td>
+                                <div>배송완료</div>
+                            </td>
+                            <td>
+                                <div>
+                                    <button class="ui secondary mini button">후기 작성</button>
+                                </div>
+                            </td>
+                        </tr>
+                        <tr class="btline">
+                            <td>
+                                <div class="frow w100p ct gap20">
+                                    <img src="http://img.danawa.com/prod_img/500000/474/706/img/13706474_1.jpg?shrink=330:330&_v=20211210141001"
+                                        width="100px" height="100px">
+                                    <div class="taleft">
+                                        <div class="mb5">삼성전자 노트북 플러스2</div>
+                                        <div class="mb5">NT550XDA-K14AW</div>
+                                        <div class="c777777">옵션 : SSD 128GB</div>
+                                    </div>
+                                </div>
+                            </td>
+                            <td>
+                                <div>
+                                    <div><b>1,288,980원</b></div>
+                                    <div>(1)</div>
+                                </div>
+                            </td>
+                            <td>
+                                <div class="center">배송완료</div>
+                            </td>
+                            <td>
+                                <div class="center">
+                                    <button class="ui secondary mini button">후기 작성</button>
+                                </div>
+                            </td>
+                        </tr>
+                    </table>
+                    <div class="frow gap50 mt50">
+                        <div class="fc fr1">
+                            <h5>배송지 정보</h5>
+                            <table class="mytable">
+                                <tr>
+                                    <td>이름</td>
+                                    <td>김민재</td>
+                                </tr>
+                                <tr>
+                                    <td>연락처</td>
+                                    <td>010-6672-9799</td>
+                                </tr>
+                                <tr>
+                                    <td>배송지 주소</td>
+                                    <td>(41564) 대구광역시 북구 복현동 450-4</td>
+                                </tr>
+                                <tr>
+                                    <td>배송 메시지</td>
+                                    <td>부재 시 집 앞에 놔주세요.</td>
+                                </tr>
+                            </table>
+                        </div>
+                        <div class="fc fr1">
+                            <h5>결제 정보</h5>
+                            <table class="mytable">
+                                <tr>
+                                    <td>상품 합계</td>
+                                    <td>1,817,980원</td>
+                                </tr>
+                                <tr>
+                                    <td>적립금 할인</td>
+                                    <td class="cinfo">-50,000원</td>
+                                </tr>
+                                <tr>
+                                    <td>결제 수단</td>
+                                    <td>
+                                        <div>무통장입금</div>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>최종 결제 금액</td>
+                                    <td><strong>1,767,980원</strong></td>
+                                </tr>
+                            </table>
+                        </div>
+                    </div>
+                    </div>
+                </div>
+            </div>
+    </main>
+    <footer class="btgrey mt100">
+        <div class="ui vertical footer padded segment">
+            <div class="ui left aligned container fs12">
+                <p>fitBook</p>
+                <p>Kim Min-jae, Kim Gyu-Hyeongm Kim Dong-gyu, Yu Eon-su</p>
+            </div>
+        </div>
+    </footer>
+    </div>
+</body>
+
+</html>
+<script src="../../../../../../../../../../OneDrive/바탕%20화면/fitBook/semantic/dist/semantic.min.js"></script>
+<script src="mypage.js"></script>
