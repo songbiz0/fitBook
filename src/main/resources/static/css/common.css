@@ -21,7 +21,7 @@ table {
 
 .f { display: flex; width: 100%; }
 .fc { display: flex; flex-direction: column; }
-.frow { display: flex; flex-direction: row; }
+.frow { display: flex; flex-direction: row; align-items: flex-start; }
 .frr { display: flex; flex-direction: row-reverse }
 .fcr { display: flex; flex-direction: column-reverse; }
 .ib { display: inline-block; }

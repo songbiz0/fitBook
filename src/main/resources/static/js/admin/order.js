@@ -18,7 +18,6 @@
                 <td>${item.iorder}</td>
                 <td>${item.rdt}</td>
                 <td>${item.nm}</td>
-                <td>${item.nickname}</td>
                 <td>${item.uid}</td>
                 <td>${item.spent_point}</td>
                 <td>${item.payment_way}</td>
