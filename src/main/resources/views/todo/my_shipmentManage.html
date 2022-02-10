@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://cdn.jsdelivr.net/npm/jquery@3.3.1/dist/jquery.min.js"></script>
+    <link rel="stylesheet" type="text/css" href="../../../../../../../../../../OneDrive/바탕%20화면/fitBook/semantic/dist/semantic.min.css">
+    <link rel="stylesheet" href="../../../../../../../../../../OneDrive/바탕%20화면/fitBook/common.css">
+    <link rel="stylesheet" href="../../../../../../../../../../OneDrive/바탕%20화면/fitBook/main.css">
+    <title>aocument</title>
+</head>
+
+<body>
+
+    <head>
+        <div class="fc">
+            <div class="ui right aligned container h37">
+                <button class="tiny ui button bgwhite h100p">로그인</button>
+                <button class="tiny ui button bgwhite">회원가입</button>
+                <button class="tiny ui button bgwhite">장바구니</button>
+                <button class="tiny ui button bgwhite">마이페이지</button>
+                <button class="tiny ui button bgwhite">고객센터</button>
+            </div>
+            <div class="ct h122 btgrey">
+                <h1>fitBook</h1>
+            </div>
+            <div class="ui center aligned container h42">
+                <button class="medium ui button bgwhite mlr30 h100p">HOME</button>
+                <button class="medium ui button bgwhite mlr30">NEW</button>
+                <button class="medium ui button bgwhite mlr30">BEST</button>
+                <button class="medium ui button bgwhite mlr30">SHOP</button>
+                <button class="medium ui button bgwhite mlr30">FIT!</button>
+            </div>
+        </div>
+    </head>
+    <main class="btgrey">
+        <div class="ui left aligned container mt50">
+            <div class="frow gap50">
+                <div class="fc">
+                    <h4 class="bbgrey pb15">마이 페이지</h4>
+                    <div class="ui vertical text menu">
+                        <div class="header item">쇼핑 정보</div>
+                        <a class="item fs12 pl10">
+                            - 주문목록
+                        </a>
+                        <a class="item fs12 pl10">
+                            - 취소/반품 내역
+                        </a>
+                        <a class="item fs12 pl10">
+                            - 적립금 내역
+                        </a>
+                        <a class="item fs12 pl10">
+                            - 좋아요한 상품
+                        </a>
+                    </div>
+                    <div class="ui vertical text menu">
+                        <div class="header item">회원 정보</div>
+                        <a class="item fs12 pl10">
+                            - 회원정보 변경
+                        </a>
+                        <a class="item fs12 pl10">
+                            - 회원 탈퇴
+                        </a>
+                        <a class="active item fs12 pl10">
+                            - 배송지 관리
+                        </a>
+                    </div>
+                </div>
+                <div class="fr1">
+                    <h3>배송지 관리</h3>
+                    <table class="mytable w100p">
+                        <colgroup>
+                            <col width="13%">
+                            <col width="13%">
+                            <col width="34%">
+                            <col width="20%">
+                            <col width="20%">
+                        </colgroup>
+                        <tr>
+                            <th>배송지명</th>
+                            <th>받으실 분</th>
+                            <th>주소</th>
+                            <th>연락처</th>
+                            <th>수정/삭제</th>
+                        </tr>
+                        <tr>
+                            <td>집</td>
+                            <td>유언수</td>
+                            <td>대구광역시 중구 무슨동 154-21 202호</td>
+                            <td>010-0000-0000</td>
+                            <td>
+                                <button class="ui basic mini button">수정</button>
+                                <button class="ui basic mini button">삭제</button>
+                            </td>
+                        </tr>
+                    </table>
+                    <button class="ui secondary mini button mt10 fr" id="addShipBtn">새 배송지 추가</button>
+                </div>
+            </div>
+            <div class="ui modal">
+                <i class="close icon"></i>
+                <div class="header fs18">
+                  배송지 등록
+                </div>
+                <div class="content">
+                    <form class="ui mini form">
+                        <div class="six wide field ml50">
+                            <label>배송지명</label>
+                            <input type="text">
+                        </div>
+                        <div class="six wide field ml50">
+                            <label>받으실 분</label>
+                            <input type="text">
+                        </div>
+                        <div class="two fields">
+                            <div class="six wide field ml50">
+                                <label>받으실 곳</label>
+                                <input type="text">
+                            </div>
+                            <div class="field">
+                                <label class="hidden">.</label>
+                                <button class="ui basic mini button">우편번호 검색</button>
+                            </div>
+                        </div>
+                        <div class="two fields ml45">
+                            <div class="seven wide field">
+                                <input type="text">
+                            </div>
+                            <div class="four wide field">
+                                <input type="text">
+                            </div>
+                        </div>
+                        <div class="six wide field ml50">
+                            <label>연락처</label>
+                            <input type="text">
+                        </div>
+                        <div class="field ml50">
+                            <div class="ui checkbox"><input type="checkbox" id="repChk"><label for="repChk" class="hp">기본 배송지로 설정합니다.</label></div>
+                        </div>
+                    </form>
+                </div>
+                <div class="actions tact">
+                    <div class="tact">
+                  <div class="ui basic tiny button">취소</div>
+                  <div class="ui secondary tiny button">등록</div>
+                </div>
+                </div>
+              </div>
+    </main>
+    <footer class="btgrey mt100">
+        <div class="ui vertical footer padded segment">
+            <div class="ui left aligned container fs12">
+                <p>fitBook</p>
+                <p>Kim Min-jae, Kim Gyu-Hyeongm Kim Dong-gyu, Yu Eon-su</p>
+            </div>
+        </div>
+    </footer>
+    </div>
+</body>
+
+</html>
+<script src="../../../../../../../../../../OneDrive/바탕%20화면/fitBook/semantic/dist/semantic.min.js"></script>
+<script src="mypage.js"></script>

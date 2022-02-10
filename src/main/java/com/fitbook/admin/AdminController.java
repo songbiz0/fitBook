@@ -47,24 +47,6 @@ public class AdminController {
         model.addAttribute(Const.URI, Const.INS_PRODUCT);
     }
 
-    @PostMapping("/insproduct")
-    public String insProductProc(ProductDetailListVo list, ProductEntity entity) {
-        System.out.println("entity : " + entity);
-        System.out.println("list : " + list);
-        return "redirect:/admin/insproduct";
-    }
-
-    @GetMapping("/test")
-    public void test() {
-
-    }
-
-    @PostMapping("/test")
-    public String insTest(MultipartFile file) throws Exception {
-        service.write(file);
-        return "redirect:/admin/test";
-    }
-
     @GetMapping("/cpu")
     public void cpu(Model model) {
         model.addAttribute(Const.URI, "cpu");

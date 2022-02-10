@@ -7,6 +7,7 @@
         <div class="fc">
             <div class="ui container h37">
                 <button class="tiny ui button bgwhite h100p">돌아가기</button>
+                <a th:href="@{/admin/main}"><button class="tiny ui button bgwhite h100p">메인</button></a>
             </div>
         </div>
     </header>
@@ -17,20 +18,15 @@
     <div class="fc">
         <h4 class="bbgrey pb15">관리자 페이지</h4>
         <div class="ui vertical text menu">
-            <div class="header item">메인</div>
-            <a class="item fs12 pl10" href="/admin/main" th:classappend="${uri} == 'main' ? 'active' : ''">
-                - 현황보기
-            </a>
-
             <div class="header item">목록</div>
             <a class="item fs12 pl10" href="/admin/user" th:classappend="${uri} == 'user' ? 'active' : ''">
-                - 회원목록
+                - 회원 목록
             </a>
             <a class="item fs12 pl10" href="/admin/order" th:classappend="${uri} == 'order' ? 'active' : ''">
-                - 주문목록
+                - 주문 목록
             </a>
             <a class="item fs12 pl10">
-                - 상품목록
+                - 상품 목록
             </a>
             <a class="item fs12 pl10">
                 - GPU 목록
@@ -39,13 +35,13 @@
                 - CPU 목록
             </a>
             <a class="item fs12 pl10">
-                - 프로그램목록
+                - 프로그램 목록
             </a>
         </div>
         <div class="ui vertical text menu">
             <div class="header item">등록</div>
             <a class="item fs12 pl10" href="/admin/insproduct" th:classappend="${uri} == 'insproduct' ? 'active' : ''">
-                - 상품등록
+                - 상품 등록
             </a>
             <a class="item fs12 pl10" href="/admin/cpu" th:classappend="${uri} == 'cpu' ? 'active' : ''">
                 - CPU 등록
@@ -54,13 +50,13 @@
                 - GPU 등록
             </a>
             <a class="item fs12 pl10">
-                - 프로그램등록
+                - 프로그램 등록
             </a>
         </div>
         <div class="ui vertical text menu pb50">
             <div class="header item">고객센터</div>
             <a class="item fs12 pl10">
-                - 질의응답하러가기
+                - 질의응답
             </a>
         </div>
     </div>
