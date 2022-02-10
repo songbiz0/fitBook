@@ -3,7 +3,7 @@
     const detailElem = document.querySelector('#detail-list-container');
     const addDetailBtn = document.querySelector('#add-detail-btn');
     let delBtnnum = 1;
-    addDetailBtn.addEventListener('click', (e) => {
+    addDetailBtn.addEventListener('click', (e)=>{
         e.preventDefault();
         const divElem = document.createElement('div');
         divElem.innerHTML = `
@@ -45,9 +45,44 @@
         detailElem.appendChild(divElem);
 
         const delBtn = document.querySelector(`#delBtn${delBtnnum}`);
-        delBtn.addEventListener('click', (e) => {
+        delBtn.addEventListener('click', (e)=>{
             e.target.parentNode.parentNode.parentNode.removeChild(e.target.parentNode.parentNode);
         });
         delBtnnum += 1;
     });
+
+    const list = [
+        'color', 'hdd', 'ssd', 'price', 'stock', 'isrep', 'dc_rate', 'mfFile'
+    ];
+
+    const submitBtn = document.querySelector('#submitBtn');
+    submitBtn.addEventListener('click', (e)=>{
+        e.preventDefault();
+        let nodes = document.querySelector('#detail-list-container').childNodes;
+        const num = nodes.length;
+
+        console.log('num : ' + num);
+        let idx = 1;
+        while(idx != num) {
+            console.log('idx: ' + idx);
+            const productList = 'productList[' + idx + '].';
+            let forNum = 1;
+            for(let i in list) {
+                console.log(forNum);
+                const result = productList + list[i];
+                if(list[i] === 'isrep') {
+                    nodes[idx].childNodes[forNum].childNodes[3].name = result;
+                    nodes[idx].childNodes[forNum].childNodes[5].name = result;
+                    forNum = forNum + 2;
+                } else {
+                    nodes[idx].childNodes[forNum].childNodes[3].name = result;
+                    forNum = forNum + 2;
+                    console.log(result);
+                }
+            }
+            idx++;
+        }
+        const frmElem = document.querySelector('#frm');
+        frmElem.submit();
+    })
 }

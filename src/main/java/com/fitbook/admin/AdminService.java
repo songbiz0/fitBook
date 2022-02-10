@@ -108,6 +108,7 @@ public class AdminService {
         // Insert Detail
         int result2 = 0;
         for (ProductDetailVo item : listEntity.getProductList()) {
+            System.out.println(item);
             item.setIproduct(iproduct);
             try {
                 item.setImg(Utils.uploadFile(item.getMfFile(), "detail", String.valueOf(item.getIproduct())));
