@@ -1,13 +1,15 @@
 package com.fitbook.admin;
 
-import com.fitbook.ResultVo;
 import com.fitbook.model.cpu.CpuEntity;
+import com.fitbook.model.cpu.CpuVo;
 import com.fitbook.model.gpu.GpuEntity;
+import com.fitbook.model.gpu.GpuVo;
 import com.fitbook.model.order.OrderDto;
 import com.fitbook.model.order.OrderVo;
 import com.fitbook.model.orderproduct.OrderProductVo;
 import com.fitbook.model.product.ProductVo;
 import org.apache.tomcat.jni.Local;
+import com.fitbook.model.product.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
@@ -22,40 +24,10 @@ public class AdminService {
     @Autowired private AdminMapper mapper;
 
     // Main Chart
-    public String getDate(String type) {
-        LocalDate now = LocalDate.now();
-        String date = now.toString();
-        date = date.replace("-", "");
-        String month = date.substring(4,6);
-        String year = date.substring(0,4);
-        String result = "";
-        if("year".equals(type)) {
-            result = (Integer.parseInt(year) - 1) + month + "01";
-        } else if ("month".equals(type)) {
-            if((Integer.parseInt(month) - 1) < 10) {
-
-                if((Integer.parseInt(month) - 1) == 0) {
-                    // 12월 일 경우
-                    month = "12";
-                    year = String.valueOf(Integer.parseInt(year) - 1);
-                } else {
-                    // 12월이 아니고 10보다 작을 경우
-                    month = "0" + (Integer.parseInt(month) - 1);
-                }
-                result = year + month + "31";
-            } else {
-                result = year + (Integer.parseInt(month) - 1) + "31";
-            }
-        } else if("day".equals(type)) {
-            result = year + month + "01";
-        }
-        return result;
-    }
-
     public Map<String, Integer> selCurrentMonthList() {
         OrderDto dto = new OrderDto();
-        String yearResult = getDate("year");
-        String monthResult = getDate("month");
+        String yearResult = Utils.getDate("year");
+        String monthResult = Utils.getDate("month");
         dto.setLast_year(yearResult);
         dto.setLast_month(monthResult);
 
@@ -72,7 +44,7 @@ public class AdminService {
     public Map<String, Integer> selThisMonthList() {
         OrderDto dto = new OrderDto();
         LocalDate now = LocalDate.now();
-        dto.setMonth_first_day(getDate("day"));
+        dto.setMonth_first_day(Utils.getDate("day"));
         dto.setToday(now.toString());
 
         List<OrderVo> list = mapper.selThisMonthList(dto);
@@ -104,6 +76,7 @@ public class AdminService {
         return list;
     }
 
+    // 시발롬아 이거도 불러라
     // Parts
     public int insCpu(CpuEntity entity) {
         return mapper.insCpu(entity);
@@ -112,19 +85,52 @@ public class AdminService {
         return mapper.insGpu(entity);
     }
 
-    // Test
-    public void write(MultipartFile file) throws Exception {
-        String projectPath =  System.getProperty("user.dir") + "\\src\\main\\resources\\static\\images\\product\\000001"; // + 상픔코드
-        File folder = new File(projectPath);
-        if(!folder.exists()) {
-            folder.mkdirs();
+    public List<GpuVo> selGpu() {
+        return mapper.selGpu();
+    }
+
+    public List<CpuVo> selCpu() {
+        return mapper.selCpu();
+    }
+
+    // Product
+    public int insProduct(ProductVo vo, ProductDetailListVo listEntity) {
+        // Insert Master
+        try {
+            vo.setImg(Utils.uploadFile(vo.getMfFile(), "master", vo.getProduct_code()));
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        String rdt = vo.getYear() + vo.getMonth() + vo.getDay();
+        vo.setRdt(rdt);
+        int result1 = mapper.insProductMaster(vo);
+        int iproduct = vo.getIproduct();
+        System.out.println(iproduct);
+
+        // Insert Detail
+        int result2 = 0;
+        for (ProductDetailVo item : listEntity.getProductList()) {
+            System.out.println(item);
+            item.setIproduct(iproduct);
+            try {
+                item.setImg(Utils.uploadFile(item.getMfFile(), "detail", String.valueOf(item.getIproduct())));
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+            item.setDc_rate(item.getDc_rate() / 100);
+            result2 = mapper.insProductDetail(item);
+        }
+        if(result2 < 3) {
+            result2 = 0;
+        } else {
+            result2 = 1;
         }
 
-        UUID uuid = UUID.randomUUID();
-        String fileNm = uuid + "_" + file.getOriginalFilename();
+        if(result1 == result2) {
+            return 1;
+        }
 
-        File saveFile = new File(projectPath, fileNm);
-        file.transferTo(saveFile);
+        return 0;
     }
 
     public List<ProductVo> selProductList(){

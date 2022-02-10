@@ -5,4 +5,17 @@
         SELECT * FROM t_product_master
     </select>
 
+    <insert id="insProductMaster" useGeneratedKeys="true" keyProperty="iproduct" keyColumn="iproduct">
+        INSERT INTO t_product_master
+        (nm, product_code, rdt, icpu, igpu, ram, size, weight, brand, os, img)
+        VALUES
+        (#{nm}, #{product_code}, #{rdt}, ${icpu}, ${igpu}, ${ram}, ${size}, ${weight}, #{brand}, #{os}, #{img})
+    </insert>
+
+    <insert id="insProductDetail">
+        INSERT INTO t_product_detail
+        (iproduct, color, hdd, ssd, price, stock, isrep, dc_rate, img)
+        VALUES
+        (${iproduct}, #{color}, ${hdd}, ${ssd}, ${price}, ${stock}, #{isrep}, ${dc_rate}, #{img})
+    </insert>
 </mapper>

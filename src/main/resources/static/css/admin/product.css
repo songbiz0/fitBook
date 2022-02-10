@@ -1,0 +1,36 @@
+#detail-container {
+    padding-top: 10px;
+    margin-top: 10px;
+}
+
+#detail-sec-container {
+    border-top: 1px solid;
+    padding-top: 20px;
+}
+
+#detail-sec-container > div:last-child {
+    padding-bottom: 20px;
+    border-bottom: 1px solid;
+}
+
+#detail-container > div > div {
+    margin-bottom: 20px;
+}
+
+#detail-list-container {
+    padding-top: 10px;
+}
+
+#detail-list-container > div > div {
+    margin-bottom: 20px;
+}
+
+#detail-list-container > div > div:last-child {
+    border-bottom: 1px solid;
+    padding-bottom: 20px;
+}
+
+.utils-container {
+    display: flex;
+    justify-content: space-between;
+}
