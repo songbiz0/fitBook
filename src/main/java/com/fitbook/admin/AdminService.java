@@ -6,6 +6,7 @@ import com.fitbook.model.gpu.GpuEntity;
 import com.fitbook.model.order.OrderDto;
 import com.fitbook.model.order.OrderVo;
 import com.fitbook.model.orderproduct.OrderProductVo;
+import com.fitbook.model.product.ProductVo;
 import org.apache.tomcat.jni.Local;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -124,5 +125,9 @@ public class AdminService {
 
         File saveFile = new File(projectPath, fileNm);
         file.transferTo(saveFile);
+    }
+
+    public List<ProductVo> selProductList(){
+        return mapper.selProductList();
     }
 }

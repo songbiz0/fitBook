@@ -20,4 +20,5 @@ public class ProductEntity {
     private String brand;
     private String os;
     private String img;
+    private int quantity;
 }

@@ -60,6 +60,7 @@ table {
 .w60p { width: 60%; }
 .w80p { width: 80%; }
 .w100p { width: 100%; }
+.w110p {width: 110%;}
 .wfc { width: fit-content !important; }
 
 .fs11 { font-size: 11px !important; }

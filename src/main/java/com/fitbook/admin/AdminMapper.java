@@ -5,6 +5,7 @@ import com.fitbook.model.gpu.GpuEntity;
 import com.fitbook.model.order.OrderDto;
 import com.fitbook.model.order.OrderVo;
 import com.fitbook.model.orderproduct.OrderProductVo;
+import com.fitbook.model.product.ProductVo;
 import org.apache.ibatis.annotations.Mapper;
 
 import java.util.List;
@@ -22,4 +23,7 @@ public interface AdminMapper {
     // Parts
     int insCpu(CpuEntity entity);
     int insGpu(GpuEntity entity);
+
+    //product_master 상품목록
+    List<ProductVo> selProductList();
 }
