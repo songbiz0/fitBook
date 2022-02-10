@@ -2,7 +2,14 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.fitbook.admin.AdminMapper">
     <select id="selProductList" resultType="ProductVo">
-        SELECT * FROM t_product_master
+        SELECT A.iproduct, A.nm, A.product_code
+             , A.icpu, A.igpu
+             , A.ram, A.size, A.weight
+             ,A.brand, A.os, B.img, B.stock
+        FROM t_product_master A
+        INNER JOIN t_product_detail B
+        ON A.iproduct = B.iproduct
+        WHERE B.isrep ='Y'
     </select>
 
     <insert id="insProductMaster" useGeneratedKeys="true" keyProperty="iproduct" keyColumn="iproduct">
