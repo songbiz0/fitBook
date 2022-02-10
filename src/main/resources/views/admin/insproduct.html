@@ -5,13 +5,11 @@
 <head>
     <link rel="stylesheet" th:href="@{/css/admin/product.css}">
     <script defer th:src="@{/js/admin/product.js}"></script>
-    <script defer th:src="@{/js/admin/product.js}"></script>
     <title></title>
 </head>
 
 <th:block layout:fragment="content">
     <form id="frm" method="post" th:action="@{/admin/insproduct}" enctype="multipart/form-data">
-    <form method="post" th:action="@{/admin/insproduct}" enctype="multipart/form-data">
         <div>
             <span>상품명 : </span>
             <input type="text" name="nm" placeholder="상품명">
@@ -117,41 +115,6 @@
         <div class="utils-container">
             <input type="submit" value="등록" id="submitBtn">
             <button id="add-detail-btn">추가하기</button>
-        </div>
-
-        <div id="detail-container">
-            <div id="copy-detail">
-                <div>
-                    <input type="text" name="productList[0].color">
-                </div>
-                <div>
-                    <input type="text" name="productList[0].hdd">
-                </div>
-                <div>
-                    <input type="text" name="productList[0].ssd">
-                </div>
-                <div>
-                    <input type="text" name="productList[0].price">
-                </div>
-                <div>
-                    <input type="text" name="productList[0].stock">
-                </div>
-                <label>
-                    Y<input type="radio" name="Y" value="Y">
-                    N<input type="radio" name="N" value="N">
-                </label>
-                <div>
-                    <input type="text" name="productList[0].dc_rate">
-                </div>
-                <div>
-                    <input type="text" name="productList[0].img">
-                </div>
-            </div>
-        </div>
-        <button id="add-detail-btn">추가하기</button>
-
-        <div>
-            <input type="submit" value="등록">
         </div>
     </form>
 </th:block>
