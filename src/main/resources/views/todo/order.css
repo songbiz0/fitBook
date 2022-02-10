@@ -1,0 +1,2 @@
+.orderResult * { text-align: center; }
+.orderResult > div :last-child { font-weight: bold; }

@@ -1,0 +1,284 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://cdn.jsdelivr.net/npm/jquery@3.3.1/dist/jquery.min.js"></script>
+    <link rel="stylesheet" type="text/css" href="../../../../../../../../../../OneDrive/바탕%20화면/fitBook/semantic/dist/semantic.min.css">
+    <link rel="stylesheet" href="../../../../../../../../../../OneDrive/바탕%20화면/fitBook/common.css">
+    <link rel="stylesheet" href="../../../../../../../../../../OneDrive/바탕%20화면/fitBook/main.css">
+    <title>aocument</title>
+</head>
+
+<body>
+    <head>
+        <div class="fc">
+            <div class="ui right aligned container h37">
+                <button class="tiny ui button bgwhite h100p">로그인</button>
+                <button class="tiny ui button bgwhite">회원가입</button>
+                <button class="tiny ui button bgwhite">장바구니</button>
+                <button class="tiny ui button bgwhite">마이페이지</button>
+                <button class="tiny ui button bgwhite">고객센터</button>
+            </div>
+            <div class="ct h122 btgrey">
+                <h1>fitBook</h1>
+            </div>
+            <div class="ui center aligned container h42">
+                <button class="medium ui button bgwhite mlr30 h100p">HOME</button>
+                <button class="medium ui button bgwhite mlr30">NEW</button>
+                <button class="medium ui button bgwhite mlr30">BEST</button>
+                <button class="medium ui button bgwhite mlr30">SHOP</button>
+                <button class="medium ui button bgwhite mlr30">FIT!</button>
+            </div>
+        </div>
+    </head>
+    <main class="btgrey">
+        <div class="ui center aligned container">
+            <div class="fc mt50">
+                <div class="fr fr1">
+                    <img class="w500" src="//image7.coupangcdn.com/image/rs_quotation_api/pj2ekdhb/5ee1033c799d4b678353d2d867fabd7a.jpg">
+                    <div class="ui left aligned container fr1 pt50 pl50 product_info">
+                        <div class="fs18 bbgrey pb15">삼성전자 2021 갤럭시북 15.6</div>
+                        <div class="fr w100p mt20">
+                            <div class="w100 fs12">정가</div>
+                            <div class="tdlt fs12">1,514,780원</div>
+                        </div>
+                        <div class="fr w100p mt20">
+                            <div class="w100 fs12">할인가</div>
+                            <div class="fwb fs13">1,469,050원</div>
+                        </div>
+                        <div class="fr w100p mt20">
+                            <div class="w100 fs12">평가</div>
+                            <div class="fwb fs13">
+                                <span class="fs12 hp cgold">
+                                    <i class="star icon"></i> <span class="cb">4.2</span><span class="cb fwn"> (15)</span>
+                                </span>
+                            </div>
+                        </div>
+                        <div class="fr w100p mt20">
+                            <div class="w100 fs12">좋아요</div>
+                            <div class="fwb fs13">
+                                <span class="like fs12 hp cb0_5">
+                                    <i class="like icon"></i> <span class="cb">18개</span>
+                                </span>
+                            </div>
+                        </div>
+                        <div class="fr w100p mt20 mb20 pb15 bbgrey">
+                            <div class="w100 fs12">나와의 적합도</div>
+                            <div class="fwb fs13">
+                                <i class="fire icon cred"></i>
+                            <span class="fs13 cred">89°</span></span>
+                            </div>
+                        </div>
+                        <div class="fr w100p">
+                            <div class="w100 fs12 mtauto mbauto">색상</div>
+                            <div class="ui mini selection dropdown">
+                                <input type="hidden" name="pet">
+                                <i class="dropdown icon"></i>
+                                <div class="default text">색상</div>
+                                <div class="scrollhint menu">
+                                  <div class="item" data-value="0">미스틱 블루</div>
+                                  <div class="item" data-value="1">미스틱 실버</div>
+                                  <div class="item" data-value="2">실버</div>
+                                </div>
+                              </div>
+                        </div>
+                        <div class="fr w100p mt10">
+                            <div class="w100 fs12 mtauto mbauto">옵션</div>
+                            <div class="ui mini selection dropdown">
+                                <input type="hidden" name="pet">
+                                <i class="dropdown icon"></i>
+                                <div class="default text">옵션</div>
+                                <div class="scrollhint menu">
+                                  <div class="item" data-value="0">SSD 256GB</div>
+                                  <div class="item" data-value="1">SSD 512GB</div>
+                                </div>
+                              </div>
+                        </div>
+                        <div class="fr w100p jccenter mt20 gap20">
+                            <button class="ui basic button" id="cartBtn">장바구니 담기</button>
+                            <button class="ui secondary button">바로 구매하기</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="ui tabular menu fr w100p" id="productDetail">
+                <a class="item active fs13 fr1">
+                  <div class="tact w100p">상품상세</div>
+                </a>
+                <a class="item fs13 fr1" id="goToProductReview">
+                    <div class="tact w100p">상품후기</div>
+                </a>
+                <a class="item fs13 fr1">
+                    <div class="tact w100p">상품문의</div>
+                </a>
+            </div>
+            <img class="mt30" src="../../../../../../../../../../OneDrive/바탕%20화면/fitBook/productDetail.jpg">
+            <div class="ui tabular menu fr w100p mt50" id="productReview">
+                <a class="item fs13 fr1">
+                  <div class="tact w100p">상품상세</div>
+                </a>
+                <a class="item active fs13 fr1">
+                    <div class="tact w100p">상품후기</div>
+                </a>
+                <a class="item fs13 fr1">
+                    <div class="tact w100p">상품문의</div>
+                </a>
+            </div>
+            <div class="mt30">
+                <div class="ui right aligned container">
+                <button class="ui secondary tiny button mr10" id="reviewWriteBtn">상품후기 쓰기</button>
+                <table class="w100p board">
+                    <colgroup>
+                        <col width="156px">
+                        <col>
+                        <col width="156px">
+                        <col width="156px">
+                    </colgroup>
+                    <tr>
+                        <td class="tact">
+                            <div class="ui rating disabled">
+                                <i class="star icon active"></i>
+                                <i class="star icon active"></i>
+                                <i class="star icon active"></i>
+                                <i class="star icon active"></i>
+                                <i class="star icon"></i>
+                              </div>
+                        </td>
+                        <td class="taleft fs12">배터리가 아주 오래 가요.</td>
+                        <td class="tact fs12">김동규</td>
+                        <td class="tact fs12">2022.1.21</td>
+                    </tr>
+                    <tr>
+                        <td class="tact">
+                            <div class="ui rating disabled">
+                                <i class="star icon active"></i>
+                                <i class="star icon active"></i>
+                                <i class="star icon active"></i>
+                                <i class="star icon active"></i>
+                                <i class="star icon active"></i>
+                              </div>
+                        </td>
+                        <td class="taleft fs12">굿입니당.</td>
+                        <td class="tact fs12">김규형</td>
+                        <td class="tact fs12">2022.1.21</td>
+                    </tr>
+                </table>
+                <div class="ui center aligned container mt30">
+                <div class="ui mini pagination menu">
+                    <a class="item">
+                      1
+                    </a>
+                    <div class="disabled item">
+                      ...
+                    </div>
+                    <a class="item active">
+                      10
+                    </a>
+                    <a class="item">
+                      11
+                    </a>
+                    <a class="item">
+                      12
+                    </a>
+                  </div>
+                </div>
+            </div>
+            </div>
+            <div class="ui tabular menu fr w100p mt50" id="productReview">
+                <a class="item fs13 fr1">
+                  <div class="tact w100p">상품상세</div>
+                </a>
+                <a class="item fs13 fr1">
+                    <div class="tact w100p">상품후기</div>
+                </a>
+                <a class="item active fs13 fr1">
+                    <div class="tact w100p">상품문의</div>
+                </a>
+            </div>
+            <div class="mt30">
+                <div class="ui right aligned container">
+                <button class="ui secondary tiny button mr10">상품문의 쓰기</button>
+                <table class="w100p board">
+                    <colgroup>
+                        <col width="156px">
+                        <col>
+                        <col width="156px">
+                        <col width="156px">
+                    </colgroup>
+                    <tr>
+                        <td class="tact fs12">
+                            대기중
+                        </td>
+                        <td class="taleft fs12">궁금하다.</td>
+                        <td class="tact fs12">김동규</td>
+                        <td class="tact fs12">2022.1.21</td>
+                    </tr>
+                    <tr>
+                        <td class="tact fs12">
+                            답변완료
+                        </td>
+                        <td class="taleft fs12">배송 언제 돼요?</td>
+                        <td class="tact fs12">김규형</td>
+                        <td class="tact fs12">2022.1.21</td>
+                    </tr>
+                    <tr class="reply">
+                        <td class="tact fs12">답변</td>
+                        <td class="taleft fs12">안녕하세요 관리자입니다.<br>배송 일정은 저도 잘 모르겠습니다.<br>감사합니다.</td>
+                        <td class="tact fs12">관리자</td>
+                        <td class="tact fs12">2022.1.22</td>
+                    </tr>
+                </table>
+                <div class="ui center aligned container mt30">
+                    <div class="ui mini pagination menu">
+                        <a class="item">
+                          1
+                        </a>
+                        <div class="disabled item">
+                          ...
+                        </div>
+                        <a class="item active">
+                          10
+                        </a>
+                        <a class="item">
+                          11
+                        </a>
+                        <a class="item">
+                          12
+                        </a>
+                      </div>
+                    </div>
+            </div>
+            </div>
+    </main>
+    <footer class="btgrey mt100">
+        <div class="ui vertical footer padded segment">
+            <div class="ui left aligned container fs12">
+                <p>fitBook</p>
+                <p>Kim Min-jae, Kim Gyu-Hyeongm Kim Dong-gyu, Yu Eon-su</p>
+            </div>
+        </div>
+    </footer>
+</div>
+<div class="ui modal">
+    <i class="close icon"></i>
+    <div class="header">
+      상품후기 쓰기
+    </div>
+    <div class="ui form m10">
+        <div class="field">
+          <textarea rows="2"></textarea>
+        </div>
+      </div>
+    <div class="actions">
+      <div class="ui button">Cancel</div>
+      <div class="ui button">OK</div>
+    </div>
+</div>
+</body>
+
+</html>
+<script src="../../../../../../../../../../OneDrive/바탕%20화면/fitBook/semantic/dist/semantic.min.js"></script>
+<script src="../../../../../../../../../../OneDrive/바탕%20화면/fitBook/main.js"></script>
