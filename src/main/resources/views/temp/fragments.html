@@ -6,11 +6,44 @@
 
 <th:block th:fragment="header">
     <header>
-        헤더
+        <div class="fc">
+            <div class="ui right aligned container h37">
+                <button class="tiny ui button bgwhite h100p">로그인</button>
+                <button class="tiny ui button bgwhite">회원가입</button>
+                <button class="tiny ui button bgwhite">장바구니</button>
+                <button class="tiny ui button bgwhite">마이페이지</button>
+            </div>
+            <div class="ct h122 btgrey headerDiv">
+                <h1>fitBook</h1>
+                <div>
+                    <div class="ui tiny action input ml260 w200">
+                        <input type="text" placeholder="제품 검색" class="w200">
+                        <button class="ui tiny secondary icon button">
+                            <i class="search icon"></i>
+                        </button>
+                    </div>
+                </div>
+            </div>
+            <div class="ui center aligned container h42">
+                <button class="medium ui button bgwhite mlr30 h100p">HOME</button>
+                <button class="medium ui button bgwhite mlr30">NEW</button>
+                <button class="medium ui button bgwhite mlr30">BEST</button>
+                <button class="medium ui button bgwhite mlr30">SHOP</button>
+                <button class="medium ui button bgwhite mlr30">FIT!</button>
+                <button class="medium ui button bgwhite mlr30">NOTICE</button>
+            </div>
+        </div>
     </header>
 </th:block>
 
 <th:block th:fragment="footer">
-    푸터
+    <footer class="btgrey mt100">
+        <div class="ui vertical footer padded segment">
+            <div class="ui left aligned container fs12">
+                <p>fitBook</p>
+                <p>Kim Min-jae, Kim Gyu-Hyeongm, Kim Dong-gyu, Yu Eon-su</p>
+            </div>
+        </div>
+    </footer>
 </th:block>
 </html>
