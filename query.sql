@@ -1,4 +1,4 @@
-CREATE table product_master (
+CREATE table t_product_master (
 	iproduct INT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
 	nm VARCHAR(100) NOT NULL,
 	product_code VARCHAR(100) NOT NULL,
@@ -15,7 +15,7 @@ CREATE table product_master (
 
 
 
-CREATE TABLE product_cpu (
+CREATE TABLE t_product_cpu (
 	icpu INT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
 	nm VARCHAR(20) NOT NULL,
 	performance INT UNSIGNED NOT NULL,
@@ -24,7 +24,7 @@ CREATE TABLE product_cpu (
 	brand VARCHAR(20) NOT NULL
 );
 
-CREATE TABLE product_gpu (
+CREATE TABLE t_product_gpu (
 	igpu INT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
 	nm VARCHAR(20) NOT NULL,
 	performance INT UNSIGNED NOT NULL,
@@ -32,7 +32,7 @@ CREATE TABLE product_gpu (
 	brand VARCHAR(20) NOT NULL
 );
 
-CREATE TABLE product_detail (
+CREATE TABLE t_product_detail (
 	idetail INT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
 	iproduct INT UNSIGNED NOT NULL,
 	color VARCHAR(20) NOT NULL,
@@ -45,7 +45,7 @@ CREATE TABLE product_detail (
 	img VARCHAR(100) NOT NULL
 );
 
-CREATE TABLE product_question(
+CREATE TABLE t_product_question(
 	iquestion INT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
 	iproduct INT UNSIGNED NOT NULL,
 	iuser INT UNSIGNED NOT NULL,
@@ -54,7 +54,7 @@ CREATE TABLE product_question(
 	parent INT UNSIGNED NOT NULL
 );
 
-CREATE TABLE product_review(
+CREATE TABLE t_product_review(
 	ireview INT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
 	iproduct INT UNSIGNED NOT NULL,
 	rating INT UNSIGNED NOT NULL,
@@ -67,19 +67,11 @@ CREATE TABLE t_user(
 	iuser INT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
 	uid VARCHAR(20) NOT NULL,
 	upw VARCHAR(300) NOT NULL,
-	nickname VARCHAR(10) NOT NULL,
 	nm VARCHAR(5) NOT NULL,
 	email VARCHAR(30) NOT NULL,
 	rdt DATETIME DEFAULT CURRENT_TIMESTAMP,
-	`point` INT UNSIGNED DEFAULT 0
-);
-
-CREATE TABLE t_admin(
-	iadmin INT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
-	uid VARCHAR(20) NOT NULL,
-	upw VARCHAR(300) NOT NULL,
-	nickname VARCHAR(10) NOT NULL,
-	nm VARCHAR(5) NOT NULL
+	`point` INT UNSIGNED DEFAULT 0,
+	role varchar(10) not null default 'ROLE_USER'
 );
 
 CREATE TABLE t_address(

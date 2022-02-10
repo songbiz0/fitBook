@@ -21,8 +21,8 @@
     <select id="selBrandDemandList" resultType="OrderProductVo">
         <![CDATA[
         SELECT A.brand, C.quantity
-        FROM product_master A
-        INNER JOIN product_detail B
+        FROM t_product_master A
+        INNER JOIN t_product_detail B
         ON A.iproduct = B.iproduct
         INNER JOIN t_order_product C
         ON B.idetail = C.idetail

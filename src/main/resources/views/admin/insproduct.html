@@ -3,11 +3,12 @@
       xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
       layout:decorate="admin/temp/admin_page_layout">
 <head>
+    <script defer th:src="@{/js/admin/product.js}"></script>
     <title></title>
 </head>
 
 <th:block layout:fragment="content">
-    <form method="post" th:action="@{/admin/product}" enctype="multipart/form-data">
+    <form method="post" th:action="@{/admin/insproduct}" enctype="multipart/form-data">
         <div>
             <input type="text" name="nm" placeholder="상품명">
         </div>
@@ -52,6 +53,41 @@
         </div>
         <div>
             <input type="file" name="uploadfile" multiple="multiple">
+        </div>
+
+        <div id="detail-container">
+            <div id="copy-detail">
+                <div>
+                    <input type="text" name="productList[0].color">
+                </div>
+                <div>
+                    <input type="text" name="productList[0].hdd">
+                </div>
+                <div>
+                    <input type="text" name="productList[0].ssd">
+                </div>
+                <div>
+                    <input type="text" name="productList[0].price">
+                </div>
+                <div>
+                    <input type="text" name="productList[0].stock">
+                </div>
+                <label>
+                    Y<input type="radio" name="Y" value="Y">
+                    N<input type="radio" name="N" value="N">
+                </label>
+                <div>
+                    <input type="text" name="productList[0].dc_rate">
+                </div>
+                <div>
+                    <input type="text" name="productList[0].img">
+                </div>
+            </div>
+        </div>
+        <button id="add-detail-btn">추가하기</button>
+
+        <div>
+            <input type="submit" value="등록">
         </div>
     </form>
 </th:block>

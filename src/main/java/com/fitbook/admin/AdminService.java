@@ -8,15 +8,18 @@ import com.fitbook.model.order.OrderVo;
 import com.fitbook.model.orderproduct.OrderProductVo;
 import org.apache.tomcat.jni.Local;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.io.File;
 import java.time.LocalDate;
 import java.util.*;
 
 @Service
 public class AdminService {
-
     @Autowired private AdminMapper mapper;
+
     // Main Chart
     public String getDate(String type) {
         LocalDate now = LocalDate.now();
@@ -100,12 +103,26 @@ public class AdminService {
         return list;
     }
 
-    // 시발롬아 이거도 불러라
     // Parts
     public int insCpu(CpuEntity entity) {
         return mapper.insCpu(entity);
     }
     public int insGpu(GpuEntity entity) {
         return mapper.insGpu(entity);
+    }
+
+    // Test
+    public void write(MultipartFile file) throws Exception {
+        String projectPath =  System.getProperty("user.dir") + "\\src\\main\\resources\\static\\images\\product\\000001"; // + 상픔코드
+        File folder = new File(projectPath);
+        if(!folder.exists()) {
+            folder.mkdirs();
+        }
+
+        UUID uuid = UUID.randomUUID();
+        String fileNm = uuid + "_" + file.getOriginalFilename();
+
+        File saveFile = new File(projectPath, fileNm);
+        file.transferTo(saveFile);
     }
 }
