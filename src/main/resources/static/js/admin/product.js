@@ -29,8 +29,9 @@
                 </div>
                 <label>
                     <span>대표이미지 설정 : </span>
-                    예<input type="radio" value="Y">
-                    아니오<input type="radio" value="N" checked>
+                    예<input type="radio" value="Y" name="y">
+                    아니오<input type="radio" value="N" name="y" checked>
+                   
                 </label>
                 <div>
                     <span>할인 : </span>
@@ -85,7 +86,7 @@
                 idx++;
             }
             const frmElem = document.querySelector('#frm');
-            frmElem.submit();
+            // frmElem.submit();
         });
     }
 }
