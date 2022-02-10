@@ -45,6 +45,11 @@ public class AdminController {
         model.addAttribute(Const.URI, Const.INS_PRODUCT);
     }
 
+    @PostMapping("/product")
+    public String productProc() {
+        return "redirect:/admin/product";
+    }
+
     @GetMapping("/cpu")
     public void cpu(Model model) {
         model.addAttribute(Const.URI, "cpu");

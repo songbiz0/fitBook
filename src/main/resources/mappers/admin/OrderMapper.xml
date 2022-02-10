@@ -2,7 +2,7 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.fitbook.admin.AdminMapper">
     <select id="selOrderList" resultType="OrderVo">
-        SELECT A.iorder, A.rdt, B.nm, B.nickname, B.uid
+        SELECT A.iorder, A.rdt, B.nm, B.uid
         , A.spent_point, A.payment_way, A.order_status
         , A.result_price, A.cdt
         FROM t_order A
