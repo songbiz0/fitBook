@@ -42,7 +42,7 @@ public class AdminService {
     public Map<String, Integer> selThisMonthList() {
         OrderDto dto = new OrderDto();
         LocalDate now = LocalDate.now();
-        dto.setMonth_first_day(getDate("day"));
+        dto.setMonth_first_day(Utils.getDate("day"));
         dto.setToday(now.toString());
 
         List<OrderVo> list = mapper.selThisMonthList(dto);
