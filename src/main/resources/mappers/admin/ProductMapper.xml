@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.fitbook.admin.AdminMapper">
+    <insert id="insProductMaster" useGeneratedKeys="true" keyProperty="iproduct" keyColumn="iproduct">
+        INSERT INTO t_product_master
+        (nm, product_code, rdt, icpu, igpu, ram, size, weight, brand, os, img)
+        VALUES
+        (#{nm}, #{product_code}, #{rdt}, ${icpu}, ${igpu}, ${ram}, ${size}, ${weight}, #{brand}, #{os}, #{img})
+    </insert>
+
+    <insert id="insProductDetail">
+        INSERT INTO t_product_detail
+        (iproduct, color, hdd, ssd, price, stock, isrep, dc_rate, img)
+        VALUES
+        (${iproduct}, #{color}, ${hdd}, ${ssd}, ${price}, ${stock}, #{isrep}, ${dc_rate}, #{img})
+    </insert>
+</mapper>

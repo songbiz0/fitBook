@@ -3,14 +3,14 @@ package com.fitbook.admin;
 import com.fitbook.Const;
 import com.fitbook.model.cpu.CpuEntity;
 import com.fitbook.model.gpu.GpuEntity;
-import com.fitbook.model.product.ProductDetailEntity;
+import com.fitbook.model.product.ProductDetailListEntity;
 import com.fitbook.model.product.ProductDetailListVo;
 import com.fitbook.model.product.ProductEntity;
+import com.fitbook.model.product.ProductVo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 @Controller
@@ -45,29 +45,16 @@ public class AdminController {
     @GetMapping("/insproduct")
     public void insProduct(Model model) {
         model.addAttribute(Const.URI, Const.INS_PRODUCT);
-    }
+        model.addAttribute("gpuData", service.selGpu());
+        model.addAttribute("cpuData", service.selCpu());
 
-    @PostMapping("/product")
-    public String productProc() {
-        return "redirect:/admin/product";
     }
 
     @PostMapping("/insproduct")
-    public String insProductProc(ProductDetailListVo list, ProductEntity entity) {
-        System.out.println("entity : " + entity);
-        System.out.println("list : " + list);
+    public String insProductProc(@ModelAttribute(value="ProductDetailListVo") ProductDetailListVo productList, ProductVo vo) {
+        System.out.println("vo : " + vo);
+        int result = service.insProduct(vo, productList);
         return "redirect:/admin/insproduct";
-    }
-
-    @GetMapping("/test")
-    public void test() {
-
-    }
-
-    @PostMapping("/test")
-    public String insTest(MultipartFile file) throws Exception {
-        service.write(file);
-        return "redirect:/admin/test";
     }
 
     @GetMapping("/cpu")
