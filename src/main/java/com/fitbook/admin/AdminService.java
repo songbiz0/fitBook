@@ -9,6 +9,7 @@ import com.fitbook.model.order.OrderVo;
 import com.fitbook.model.orderproduct.OrderProductVo;
 import com.fitbook.model.product.*;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -41,7 +42,7 @@ public class AdminService {
     public Map<String, Integer> selThisMonthList() {
         OrderDto dto = new OrderDto();
         LocalDate now = LocalDate.now();
-        dto.setMonth_first_day(Utils.getDate("day"));
+        dto.setMonth_first_day(getDate("day"));
         dto.setToday(now.toString());
 
         List<OrderVo> list = mapper.selThisMonthList(dto);
@@ -73,6 +74,7 @@ public class AdminService {
         return list;
     }
 
+    // 시발롬아 이거도 불러라
     // Parts
     public int insCpu(CpuEntity entity) {
         return mapper.insCpu(entity);

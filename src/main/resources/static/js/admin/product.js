@@ -50,7 +50,18 @@
         });
         delBtnnum += 1;
     });
+// 상품등록
+{
+    const addBtn = document.querySelector('#add-detail-btn');
+    const detailContainer = document.querySelector('#detail-container');
+    const copyDetail = detailContainer.querySelector('#copy-detail');
 
+    addBtn.addEventListener('click', (e) => {
+        e.preventDefault();
+        console.log('asd');
+        detailContainer.appendChild(copyDetail);
+    });
+}
     const list = [
         'color', 'hdd', 'ssd', 'price', 'stock', 'isrep', 'dc_rate', 'mfFile'
     ];

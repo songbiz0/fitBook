@@ -10,6 +10,7 @@ import java.util.List;
 @Getter
 @Setter
 @ToString
+public class ProductDetailListVo {
 public class ProductDetailListVo extends ProductDetailEntity{
     private List<ProductDetailVo> productList;
 }
