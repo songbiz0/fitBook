@@ -1,11 +1,12 @@
-
+{
     const detailElem = document.querySelector('#detail-list-container');
     const addDetailBtn = document.querySelector('#add-detail-btn');
     let delBtnnum = 1;
-    addDetailBtn.addEventListener('click', (e)=>{
-        e.preventDefault();
-        const divElem = document.createElement('div');
-        divElem.innerHTML = `
+    if(addDetailBtn) {
+        addDetailBtn.addEventListener('click', (e) => {
+            e.preventDefault();
+            const divElem = document.createElement('div');
+            divElem.innerHTML = `
                 <div>
                     <span>색상 : </span>
                     <input type="text">
@@ -41,49 +42,55 @@
                     <input type="button" value="삭제하기" id="delBtn${delBtnnum}">
                 </div>
         `;
-        detailElem.appendChild(divElem);
+            detailElem.appendChild(divElem);
 
-        const delBtn = document.querySelector(`#delBtn${delBtnnum}`);
-        delBtn.addEventListener('click', (e)=>{
-            e.target.parentNode.parentNode.parentNode.removeChild(e.target.parentNode.parentNode);
+            const delBtn = document.querySelector(`#delBtn${delBtnnum}`);
+            delBtn.addEventListener('click', (e) => {
+                e.target.parentNode.parentNode.parentNode.removeChild(e.target.parentNode.parentNode);
+            });
+            delBtnnum += 1;
         });
-        delBtnnum += 1;
-    });
+    }
 
     const list = [
         'color', 'hdd', 'ssd', 'price', 'stock', 'isrep', 'dc_rate', 'mfFile'
     ];
 
     const submitBtn = document.querySelector('#submitBtn');
-    submitBtn.addEventListener('click', (e)=>{
-        e.preventDefault();
-        let nodes = document.querySelector('#detail-list-container').childNodes;
-        const num = nodes.length;
+    if(submitBtn) {
+        submitBtn.addEventListener('click', (e) => {
+            e.preventDefault();
+            let nodes = document.querySelector('#detail-list-container').childNodes;
+            const num = nodes.length;
 
-        console.log('num : ' + num);
-        let idx = 1;
-        while(idx != num) {
-            console.log('idx: ' + idx);
-            const productList = 'productList[' + idx + '].';
-            let forNum = 1;
-            for(let i in list) {
-                console.log(forNum);
-                const result = productList + list[i];
-                if(list[i] === 'isrep') {
-                    nodes[idx].childNodes[forNum].childNodes[3].name = result;
-                    nodes[idx].childNodes[forNum].childNodes[5].name = result;
-                    forNum = forNum + 2;
-                } else {
-                    nodes[idx].childNodes[forNum].childNodes[3].name = result;
-                    forNum = forNum + 2;
-                    console.log(result);
+            console.log('num : ' + num);
+            let idx = 1;
+            while (idx != num) {
+                console.log('idx: ' + idx);
+                const productList = 'productList[' + idx + '].';
+                let forNum = 1;
+                for (let i in list) {
+                    console.log(forNum);
+                    const result = productList + list[i];
+                    if (list[i] === 'isrep') {
+                        nodes[idx].childNodes[forNum].childNodes[3].name = result;
+                        nodes[idx].childNodes[forNum].childNodes[5].name = result;
+                        forNum = forNum + 2;
+                    } else {
+                        nodes[idx].childNodes[forNum].childNodes[3].name = result;
+                        forNum = forNum + 2;
+                        console.log(result);
+                    }
                 }
+                idx++;
             }
-            idx++;
-        }
-        const frmElem = document.querySelector('#frm');
-        frmElem.submit();
-    })
+            const frmElem = document.querySelector('#frm');
+            frmElem.submit();
+        });
+    }
+}
+
+{
     fetch('/ajax/admin/product_master')
         .then(res => res.json())
         .then(list => {
@@ -97,10 +104,10 @@
     const selProductList = list => {
         const tbodyElem = Productlist.querySelector('table tbody')
         list.forEach(item => {
-           const trElem = document.createElement('tr')
+            const trElem = document.createElement('tr')
             tbodyElem.appendChild(trElem);
 
-           trElem.innerHTML = `
+            trElem.innerHTML = `
             <td>${item.img}</td>
             <td>${item.iproduct}</td>
             <td>${item.product_code}</td>
@@ -114,6 +121,5 @@
             <td>${item.weight}</td>
             `;
         });
-
-
     }
+}
