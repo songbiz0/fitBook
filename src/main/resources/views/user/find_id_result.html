@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security"
+      layout:decorate="temp/thymeleaf_layout">
+<head>
+    <meta charset="UTF-8">
+    <title>로그인</title>
+</head>
+<body>
+<th:block layout:fragment="content">
+    <main class="btgrey">
+        <div class="ui center aligned container mt50">
+            <h3 class="mb30">아이디 찾기</h3>
+            <div class="fc gap20 mt50">
+                <div class="fs50"><i class="check icon"></i></div>
+                <div class="ui fs15">회원님의 아이디는 <strong th:text="${param.uid}"></strong>입니다.</div>
+                <div>
+                    <a th:href="@{/}"><button class="ui basic tiny button">홈으로</button></a>
+                    <a th:href="@{/user/login}"><button class="ui secondary tiny button">로그인</button></a>
+                </div>
+            </div>
+        </div>
+    </main>
+</th:block>
+</body>
+</html>

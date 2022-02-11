@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security"
+      layout:decorate="temp/thymeleaf_layout">
+<head>
+    <meta charset="UTF-8">
+    <script defer th:src="@{/js/user/find_id.js}"></script>
+    <title>로그인</title>
+</head>
+<body>
+<th:block layout:fragment="content">
+    <div sec:authorize="isAuthenticated()">
+        <script>
+            alert('이미 로그인되어 있습니다.');
+            window.stop();
+            window.history.back();
+        </script>
+    </div>
+    <main class="btgrey">
+        <div class="ui left aligned container mt50">
+            <div class="w500 mct">
+                <form class="ui tiny form mb10" id="findIdForm">
+                    <h3 class="mb30">아이디 찾기</h3>
+                    <div class="field">
+                        <label>이메일</label>
+                        <input type="text" name="uid" placeholder="이메일" id="emailInput">
+                    </div>
+                    <div class="fr w100p ct gap5">
+                        <button class="ui basic tiny button" id="findIdCancelBtn">취소</button>
+                        <button class="ui secondary tiny button" id="findIdBtn">아이디 찾기</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </main>
+</th:block>
+</body>
+</html>

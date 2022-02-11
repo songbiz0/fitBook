@@ -104,7 +104,6 @@ let emailCode = '';
 
 emailConfBtnElem.addEventListener('click', e => {
     e.preventDefault();
-    joinFormElem.classList.add('loading');
     if(!emailRegex.test(emailInput.value)) {
         $('body').toast({
             class: 'error',
@@ -112,33 +111,49 @@ emailConfBtnElem.addEventListener('click', e => {
         });
         return;
     }
-    fetch(`/email`, {
-        method: 'post',
-        body: JSON.stringify({email: emailInput.value}),
-        headers: {'Content-Type': 'application/json'}
-    }).then(res => res.json())
+
+    fetch(`/user/emailChk?email=${emailInput.value}`)
+        .then(res => res.json())
         .then(data => {
-            emailCode = data.resultString;
-            if (emailCode === undefined) {
+            if(data.result === 0) {
                 $('body').toast({
                     class: 'error',
-                    message: '이메일 전송에 실패했어요.'
+                    message: '이미 존재하는 이메일이에요.'
                 });
             } else {
-                $('body').toast({
-                    class: 'info',
-                    message: '인증번호를 전송했어요.'
+                joinFormElem.classList.add('loading');
+
+                fetch(`/email`, {
+                    method: 'post',
+                    body: JSON.stringify({email: emailInput.value}),
+                    headers: {'Content-Type': 'application/json'}
+                }).then(res => res.json())
+                    .then(data => {
+                        emailCode = data.resultString;
+                        if (emailCode === undefined) {
+                            $('body').toast({
+                                class: 'error',
+                                message: '이메일 전송에 실패했어요.'
+                            });
+                            joinFormElem.classList.remove('loading');
+                        } else {
+                            $('body').toast({
+                                class: 'info',
+                                message: '인증번호를 전송했어요.'
+                            });
+                            joinFormElem.classList.remove('loading');
+                            emailInput.setAttribute('disabled', '');
+                        }
+                    }).catch(err => {
+                    console.error(err);
+                    $('body').toast({
+                        class: 'error',
+                        message: '이메일 전송에 실패했어요.'
+                    });
+                    joinFormElem.classList.remove('loading');
                 });
-                joinFormElem.classList.remove('loading');
-                emailInput.setAttribute('disabled', '');
             }
-        }).catch(err => {
-        console.error(err);
-        $('body').toast({
-            class: 'error',
-            message: '이메일 전송에 실패했어요.'
-        });
-    });
+        }).catch(err => { console.error(err) });
 });
 
 let confirmedEmail = '';
