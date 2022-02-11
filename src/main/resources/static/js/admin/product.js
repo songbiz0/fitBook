@@ -86,7 +86,7 @@
                 idx++;
             }
             const frmElem = document.querySelector('#frm');
-            // frmElem.submit();
+            frmElem.submit();
         });
     }
 }
