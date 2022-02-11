@@ -1,0 +1,49 @@
+<html lang="ko"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="admin/temp/admin_page_layout">
+<head>
+    <link rel="stylesheet" th:href="@{/css/admin/product_master.css}">
+    <script defer th:src="@{/js/admin/product.js}"></script>
+    <title></title>
+</head>
+
+<th:block layout:fragment="content">
+    <div class="product-master w110p">
+        <div class="product-searchArea">
+            <form>
+                <select>
+                    <option value="1">상품분류</option>
+                    <option value="2">상품명</option>
+                    <option value="3">상품번호</option>
+                </select>
+                <div>
+                    <input type="text" placeholder="Check This Out 나는 유언수" style="width: 200px">
+                    <span>검색</span>
+                </div>
+            </form>
+        </div>
+        <div>
+            <table class="mytable w110p">
+                <thead>
+                    <tr>
+                        <th>상품이미지</th>
+                        <th>상품번호</th>
+                        <th>상품코드</th>
+                        <th>상품명</th>
+                        <th>브랜드</th>
+                        <th>재고수량</th>
+                        <th>CPU</th>
+                        <th>그래픽카드</th>
+                        <th>RAM</th>
+                        <th>화면크기</th>
+                        <th>무게</th>
+                        <th>OS</th>
+                    </tr>
+                </thead>
+                <tbody>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</th:block>

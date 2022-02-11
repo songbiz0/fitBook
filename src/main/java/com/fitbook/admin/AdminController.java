@@ -10,6 +10,7 @@ import com.fitbook.model.product.ProductVo;
 import com.fitbook.model.product.ProductDetailEntity;
 import com.fitbook.model.product.ProductDetailListVo;
 import com.fitbook.model.product.ProductEntity;
+import com.fitbook.model.product.ProductVo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -17,6 +18,8 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
+
+import java.util.List;
 
 @Controller
 @RequestMapping("/admin")
@@ -42,9 +45,16 @@ public class AdminController {
         model.addAttribute(Const.URI, "userinfo");
     }
 
+
     @GetMapping("/order")
     public void order(Model model) {
         model.addAttribute(Const.URI, Const.ORDER);
+    }
+
+    //상품목록
+    @GetMapping("/product_master")
+    public void productmaster(Model model){
+        model.addAttribute(Const.URI,Const.PRODUCTMASTER);
     }
 
     @GetMapping("/insproduct")
