@@ -1,7 +1,15 @@
 {
+    const detailListNodes = document.querySelector('#detail-list-container').childNodes;
+    const detailList = document.querySelector('#detail-list-container');
+    detailList.insertBefore(detailListNodes[2], detailListNodes[0]);
+    detailList.insertBefore(detailListNodes[4], detailListNodes[0]);
+
+
     const detailElem = document.querySelector('#detail-list-container');
     const addDetailBtn = document.querySelector('#add-detail-btn');
-    let delBtnnum = 1;
+    let delBtnnum = 2;
+    let repre = 1;
+
     if(addDetailBtn) {
         addDetailBtn.addEventListener('click', (e) => {
             e.preventDefault();
@@ -27,34 +35,75 @@
                     <span>재고 : </span>
                     <input type="text">
                 </div>
-                <label>
-                    <span>대표이미지 설정 : </span>
-                    예<input type="radio" value="Y" name="y">
-                    아니오<input type="radio" value="N" name="y" checked>
-                   
-                </label>
                 <div>
                     <span>할인 : </span>
                     <input type="text">
                 </div>
-                <div>
+                <div class="repre-div">
                     <span>이미지 : </span>
                     <input type="file">
                     <input type="button" value="삭제하기" id="delBtn${delBtnnum}">
+                    <input type="button" value="test" id="repre${repre}">
                 </div>
         `;
+
             detailElem.appendChild(divElem);
+
+            if(repre === 1) {
+                const fst_repre = document.querySelector('#detail-list-container');
+                const fst_nodes = fst_repre.childNodes;
+                const idx = fst_nodes.length-1;
+                console.log('idx : ' + idx);
+                for(let i=0; i<fst_nodes[idx].childNodes.length; i++) {
+                    console.log('length : ' + fst_nodes[idx].childNodes.length);
+                    if(fst_nodes[idx].childNodes[i].className !== '' && fst_nodes[idx].childNodes[i].className !== undefined) {
+                        fst_nodes[idx].childNodes[i].childNodes[7].className = 'hidden';
+                    }
+                }
+            }
+
+            const repreElem = document.querySelector(`#repre${repre}`);
+            repreElem.addEventListener('click', (e) => {
+                const elem = e.target.parentNode.parentNode;
+                let idx = 0;
+                for(let i=0; i<detailList.childNodes.length; i++) {
+                    if(detailList.childNodes[i].nodeName === 'DIV') {
+                        idx++;
+                    }
+                }
+                const appendIdx = detailList.childNodes.length - idx;
+                detailList.insertBefore(elem, detailListNodes[appendIdx]);
+                const list2 = document.querySelector('#detail-list-container');
+                const nodes = list2.childNodes;
+                for(let i=1; i<nodes.length; i++) {
+                    if(nodes[i].nodeName === 'DIV') {
+                        for(let y=0; y<nodes[i].childNodes.length; y++) {
+                            if (nodes[i].childNodes[y].className !== '' && nodes[i].id === '') {
+                                if(nodes[i].childNodes[y].nodeName === 'DIV') {
+                                    if (i == appendIdx) {
+                                        nodes[i].childNodes[y].childNodes[7].className = 'hidden';
+                                    } else {
+                                        nodes[i].childNodes[y].childNodes[7].className = '';
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            })
 
             const delBtn = document.querySelector(`#delBtn${delBtnnum}`);
             delBtn.addEventListener('click', (e) => {
                 e.target.parentNode.parentNode.parentNode.removeChild(e.target.parentNode.parentNode);
             });
+
             delBtnnum += 1;
+            repre += 1;
         });
     }
 
     const list = [
-        'color', 'hdd', 'ssd', 'price', 'stock', 'isrep', 'dc_rate', 'mfFile'
+        'color', 'hdd', 'ssd', 'price', 'stock', 'dc_rate', 'mfFile'
     ];
 
     const submitBtn = document.querySelector('#submitBtn');
@@ -65,23 +114,25 @@
             const num = nodes.length;
 
             console.log('num : ' + num);
-            let idx = 1;
+            let idx = 0;
+            let nmIdx = 0;
             while (idx != num) {
-                console.log('idx: ' + idx);
-                const productList = 'productList[' + idx + '].';
+                const productList = 'productList[' + nmIdx + '].';
                 let forNum = 1;
-                for (let i in list) {
-                    console.log(forNum);
-                    const result = productList + list[i];
-                    if (list[i] === 'isrep') {
-                        nodes[idx].childNodes[forNum].childNodes[3].name = result;
-                        nodes[idx].childNodes[forNum].childNodes[5].name = result;
+                if (nodes[idx].nodeName === 'DIV' && nodes[idx].id === '') {
+                    for (let i in list) {
+                        const result = productList + list[i];
+                        console.log('idx : ' + idx);
+                        if (list[i] === 'isrep') {
+                            nodes[idx].childNodes[forNum].childNodes[3].name = result;
+                            nodes[idx].childNodes[forNum].childNodes[5].name = result;
+                        } else {
+                            nodes[idx].childNodes[forNum].childNodes[3].name = result;
+                            console.log(result);
+                        }
                         forNum = forNum + 2;
-                    } else {
-                        nodes[idx].childNodes[forNum].childNodes[3].name = result;
-                        forNum = forNum + 2;
-                        console.log(result);
                     }
+                    nmIdx++;
                 }
                 idx++;
             }

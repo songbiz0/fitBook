@@ -16,14 +16,13 @@
             const trElem = document.createElement('tr');
             trElem.innerHTML = `
                 <td>${item.iorder}</td>
+                <td>${item.detailNm} (외 ${item.cnt}건)</td>
                 <td>${item.rdt}</td>
-                <td>${item.nm}</td>
-                <td>${item.uid}</td>
+                <td>${item.nm}/${item.uid}</td>
                 <td>${item.spent_point}</td>
                 <td>${item.payment_way}</td>
                 <td>${item.order_status}</td>
                 <td>${item.result_price}</td>
-                <td>${item.cdt}</td>
             `;
             tbodyElem.appendChild(trElem);
             tableElem.appendChild(tbodyElem);
