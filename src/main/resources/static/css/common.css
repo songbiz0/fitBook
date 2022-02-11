@@ -42,7 +42,7 @@ table {
 .h42 { height: 42px; }
 .h50 { height: 50px }
 .h122 { height: 122px; }
-.h100p { height: 100%; }
+.h100p { height: 100% !important; }
 .h500 { height: 500px !important; }
 .inh { height: inherit; }
 

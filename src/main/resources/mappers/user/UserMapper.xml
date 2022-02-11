@@ -3,9 +3,9 @@
 <mapper namespace="com.fitbook.user.UserMapper">
     <insert id="insUser">
         INSERT INTO t_user
-            (uid, upw, nickname, nm ,email)
+            (uid, upw, nm ,email)
         VALUES
-            (#{uid}, #{upw}, #{nickname}, #{nm}, #{email})
+            (#{uid}, #{upw}, #{nm}, #{email})
     </insert>
 
     <select id="selUser" resultType="UserEntity">

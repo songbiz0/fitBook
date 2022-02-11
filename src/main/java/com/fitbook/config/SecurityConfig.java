@@ -22,7 +22,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     // 페이지별 권한 설정
     @Override
     protected void configure(HttpSecurity http) throws Exception {
-        http
+        http.csrf().disable()
                 .authorizeRequests()
                 .antMatchers("/mypage/**").authenticated()
                 // .antMatchers("/admin/**").access("hasRole('ROLE_ADMIN')")
@@ -38,7 +38,11 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .logout()
                 .logoutRequestMatcher(new AntPathRequestMatcher("/user/logout"))
                 .invalidateHttpSession(true)
-                .logoutSuccessUrl("/");
+                .logoutSuccessUrl("/")
+                .and()
+                .rememberMe()
+                .key("fitBook")
+                .tokenValiditySeconds(86400 * 30);
     }
 
     @Autowired

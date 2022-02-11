@@ -8,10 +8,15 @@
     <header>
         <div class="fc">
             <div class="ui right aligned container h37">
-                <button class="tiny ui button bgwhite h100p">로그인</button>
-                <button class="tiny ui button bgwhite">회원가입</button>
-                <button class="tiny ui button bgwhite">장바구니</button>
-                <button class="tiny ui button bgwhite">마이페이지</button>
+                <div sec:authorize="isAuthenticated()" class="h100p">
+                    <a th:href="@{/user/logout}"><button class="tiny ui button bgwhite h100p">로그아웃</button></a>
+                    <button class="tiny ui button bgwhite h100p">장바구니</button>
+                    <button class="tiny ui button bgwhite h100p">마이페이지</button>
+                </div>
+                <div sec:authorize="!isAuthenticated()" class="h100p">
+                    <a th:href="@{/user/login}"><button class="tiny ui button bgwhite h100p">로그인</button></a>
+                    <a th:href="@{/user/join}"><button class="tiny ui button bgwhite h100p">회원가입</button></a>
+                </div>
             </div>
             <div class="ct h122 btgrey headerDiv">
                 <h1>fitBook</h1>

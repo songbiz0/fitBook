@@ -22,4 +22,8 @@ public class UserService {
         }
         return result;
     }
+
+    public UserEntity selUser(UserEntity entity) {
+        return mapper.selUser(entity);
+    }
 }
