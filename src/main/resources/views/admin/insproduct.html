@@ -10,108 +10,70 @@
 
 <th:block layout:fragment="content">
     <form id="frm" method="post" th:action="@{/admin/insproduct}" enctype="multipart/form-data">
-        <div>
-            <span>상품명 : </span>
-            <input type="text" name="nm" placeholder="상품명">
-        </div>
-        <div>
-            <span>상품코드 : </span>
-            <input type="text" name="product_code" placeholder="상품코드">
-        </div>
-        <div>
-            <span>출시일자 : </span>
-            <input type="text" name="year" placeholder="yyyy">
-            <input type="text" name="month" placeholder="mm">
-            <input type="text" name="day" placeholder="dd">
-        </div>
-        <div>
-            <span>CPU : </span>
-            <select name="icpu">
-                <th:block th:each="cpu : ${cpuData}">
-                    <option th:value="${cpu.icpu}" th:text="${cpu.nm}"></option>
-                </th:block>
-            </select>
-        </div>
-        <div>
-            <span>GPU : </span>
-            <select name="igpu">
-                <th:block th:each="gpu : ${gpuData}">
-                    <option th:value="${gpu.igpu}" th:text="${gpu.nm}"></option>
-                </th:block>
-            </select>
-        </div>
-        <div>
-            <span>RAM 용량 : </span>
-            <input type="text" name="ram" placeholder="RAM 용량">
-        </div>
-        <div>
-            <span>사이즈 : </span>
-            <input type="text" name="size" placeholder="사이즈">
-        </div>
-        <div>
-            <span>무게 : </span>
-            <input type="text" name="weight" placeholder="무게">
-        </div>
-        <div>
-            <span>브랜드 : </span>
-            <input type="text" name="brand" placeholder="브랜드">
-        </div>
-        <div>
-            <span>OS : </span>
-            <select name="os">
-                <option value="1">Window 11</option>
-                <option value="2">Window 10</option>
-                <option value="3">Window 8</option>
-            </select>
-        </div>
-        <div>
-            <span>이미지 : </span>
-            <input type="file" name="mfFile" multiple="multiple">
-        </div>
-
-        <div id="detail-container">
-            <div id="detail-sec-container">
-                <div>
-                    <span>색상 : </span>
-                    <input type="text" name="productList[0].color">
-                </div>
-                <div>
-                    <span>하드디스크 용량 : </span>
-                    <input type="text" name="productList[0].hdd">
-                </div>
-                <div>
-                    <span>SSD 용량 : </span>
-                    <input type="text" name="productList[0].ssd">
-                </div>
-                <div>
-                    <span>가격 : </span>
-                    <input type="text" name="productList[0].price">
-                </div>
-                <div>
-                    <span>재고 : </span>
-                    <input type="text" name="productList[0].stock">
-                </div>
-                <label>
-                    <span>대표이미지 설정 : </span>
-                    <span>예</span>
-                    <input type="radio" name="productList[0].isrep" value="Y">
-                    <span>아니오</span>
-                    <input type="radio" name="productList[0].isrep" value="N" checked>
-                </label>
-                <div>
-                    <span>할인 : </span>
-                    <input type="text" name="productList[0].dc_rate">
-                </div>
-                <div>
-                    <span>이미지 : </span>
-                    <input type="file" name="productList[0].mfFile">
-                </div>
+        <div class="frmDiv">
+            <div>
+                <span>상품명 : </span>
+                <input type="text" name="nm" placeholder="상품명">
             </div>
-            <div id="detail-list-container">
-
+            <div>
+                <span>상품코드 : </span>
+                <input type="text" name="product_code" placeholder="상품코드">
+            </div>
+            <div>
+                <span>출시일자 : </span>
+                <input type="text" name="year" placeholder="yyyy">
+                <input type="text" name="month" placeholder="mm">
+                <input type="text" name="day" placeholder="dd">
+            </div>
+            <div>
+                <span>CPU : </span>
+                <select name="icpu">
+                    <th:block th:each="cpu : ${cpuData}">
+                        <option th:value="${cpu.icpu}" th:text="${cpu.nm}"></option>
+                    </th:block>
+                </select>
+            </div>
+            <div>
+                <span>GPU : </span>
+                <select name="igpu">
+                    <th:block th:each="gpu : ${gpuData}">
+                        <option th:value="${gpu.igpu}" th:text="${gpu.nm}"></option>
+                    </th:block>
+                </select>
+            </div>
+            <div>
+                <span>RAM 용량 : </span>
+                <input type="text" name="ram" placeholder="RAM 용량">
+            </div>
+            <div>
+                <span>사이즈 : </span>
+                <input type="text" name="size" placeholder="사이즈">
+            </div>
+            <div>
+                <span>무게 : </span>
+                <input type="text" name="weight" placeholder="무게">
+            </div>
+            <div>
+                <span>브랜드 : </span>
+                <input type="text" name="brand" placeholder="브랜드">
+            </div>
+            <div>
+                <span>OS : </span>
+                <select name="os">
+                    <option value="1">Window 11</option>
+                    <option value="2">Window 10</option>
+                    <option value="3">Window 8</option>
+                </select>
+            </div>
+            <div>
+                <span>이미지 : </span>
+                <input type="file" name="mfFile" multiple="multiple">
             </div>
         </div>
-
+        <div id="detail-list-container">
+            <h3>대표상품섹션</h3>
+            <div id="ins-before-div"></div>
+        </div>
         <div class="utils-container">
             <input type="submit" value="등록" id="submitBtn">
             <button id="add-detail-btn">추가하기</button>

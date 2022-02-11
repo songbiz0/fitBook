@@ -12,4 +12,9 @@ public class OrderVo extends OrderEntity{
     private String addr;
     private String addr_detail;
     private String post;
+
+    // 주문목록 (List)
+    private int idetail;
+    private String detailNm;
+    private int cnt;
 }

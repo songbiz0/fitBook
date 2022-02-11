@@ -71,12 +71,10 @@ public class AdminService {
         List<OrderVo> list = mapper.selOrderList();
         for(OrderVo data: list) {
             data.setRdt(data.getRdt().substring(0, 16));
-            data.setCdt(data.getCdt().substring(0, 16));
         }
         return list;
     }
 
-    // 시발롬아 이거도 불러라
     // Parts
     public int insCpu(CpuEntity entity) {
         return mapper.insCpu(entity);
@@ -109,8 +107,14 @@ public class AdminService {
 
         // Insert Detail
         int result2 = 0;
+        for(int i=0; i<listEntity.getProductList().size(); i++) {
+            if(i == 0) {
+                listEntity.getProductList().get(i).setIsrep("Y");
+            } else {
+                listEntity.getProductList().get(i).setIsrep("N");
+            }
+        }
         for (ProductDetailVo item : listEntity.getProductList()) {
-            System.out.println(item);
             item.setIproduct(iproduct);
             try {
                 item.setImg(Utils.uploadFile(item.getMfFile(), "detail", String.valueOf(item.getIproduct())));
