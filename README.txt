@@ -13,6 +13,9 @@ t_user role varchar(10) not null default 'ROLE_USER' 추가
 t_address post(int) -> post(varchar)
 t_product_master : rdt(datetime) -> rdt(date)
 
+d
+
+
 
 - 자바스크립트 작성할 때 if문으로 꼭 좀 감싸주세요 에러터짐 !
 - 자바스크립트 작성할 때 if문으로 꼭 좀 감싸주세요 에러터짐 !- 자바스크립트 작성할 때 if문으로 꼭 좀 감싸주세요 에러터짐 !- 자바스크립트 작성할 때 if문으로 꼭 좀 감싸주세요 에러터짐 !- 자바스크립트 작성할 때 if문으로 꼭 좀 감싸주세요 에러터짐 !- 자바스크립트 작성할 때 if문으로 꼭 좀 감싸주세요 에러터짐 !
@@ -24,3 +27,4 @@ t_product_master : rdt(datetime) -> rdt(date)
 
 민재형한테 물어봐야 할 것 :
 상품목록 isrep
+
