@@ -10,6 +10,19 @@
 
     <select id="selUser" resultType="UserEntity">
         SELECT * FROM t_user
-        WHERE uid = #{uid}
+        <where>
+            <if test="uid != null and uid != ''">AND uid = #{uid}</if>
+            <if test="email != null and email != ''">AND email = #{email}</if>
+        </where>
     </select>
+
+    <update id="updUser">
+        UPDATE t_user
+        SET
+        <if test="upw != null and upw != ''">upw = #{upw}</if>
+        <where>
+            <if test="iuser > 0">AND iuser = ${iuser}</if>
+            <if test="uid != null and uid != ''">AND uid = #{uid}</if>
+        </where>
+    </update>
 </mapper>

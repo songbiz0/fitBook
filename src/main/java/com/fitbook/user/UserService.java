@@ -26,4 +26,11 @@ public class UserService {
     public UserEntity selUser(UserEntity entity) {
         return mapper.selUser(entity);
     }
+
+    public int updUser(UserEntity entity) {
+        if(entity.getUpw() != null) {
+            entity.setUpw(passwordEncoder.encode(entity.getUpw()));
+        }
+        return mapper.updUser(entity);
+    }
 }
