@@ -1,12 +1,10 @@
 package com.fitbook.user;
 
+import com.fitbook.ResultVo;
 import com.fitbook.model.user.UserEntity;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
 
 @Controller
 @RequestMapping("/user")
@@ -24,5 +22,15 @@ public class UserController {
     public String joinProc(UserEntity userEntity) {
         int result = service.join(userEntity);
         return "redirect:login";
+    }
+
+    @GetMapping("/idChk/{uid}")
+    @ResponseBody
+    public ResultVo idChk(@PathVariable String uid) {
+        ResultVo result = new ResultVo();
+        UserEntity entity = new UserEntity();
+        entity.setUid(uid);
+        result.setResult(service.selUser(entity) == null ? 0 : 1);
+        return result;
     }
 }

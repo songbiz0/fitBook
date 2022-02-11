@@ -2,6 +2,7 @@
 <html lang="en"
       xmlns:th="http://www.thymeleaf.org"
       xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security"
       layout:decorate="temp/thymeleaf_layout">
 <head>
     <meta charset="UTF-8">
@@ -10,10 +11,17 @@
 </head>
 <body>
 <th:block layout:fragment="content">
+    <div sec:authorize="isAuthenticated()">
+        <script>
+            alert('이미 로그인되어 있습니다.');
+            window.stop();
+            window.history.back();
+        </script>
+    </div>
     <main class="btgrey">
         <div class="ui left aligned container mt50">
             <div class="w500 mct">
-                <form class="ui tiny form mb10" method="post" th:action="@{/user/login}">
+                <form id="loginForm" class="ui tiny form mb10" method="post" th:action="@{/user/login}">
                     <h3 class="mb30">로그인</h3>
                     <div class="field">
                         <label>아이디</label>
@@ -29,17 +37,17 @@
                             <label class="hp" for="saveIdChk">아이디 저장</label>
                         </div>
                         <div class="ui checkbox">
-                            <input type="checkbox" id="keepLoginChk">
+                            <input type="checkbox" id="keepLoginChk" name="remember-me">
                             <label class="hp" for="keepLoginChk">로그인 유지</label>
                         </div>
                     </div>
                     <button class="ui secondary tiny fluid button" id="loginBtn">로그인</button>
                 </form>
                 <div>
-                    <div class="frow w100p mb10">
-                        <button class="ui basic tiny button fr1">회원가입</button>
-                        <button class="ui basic tiny button fr1" id="findIdBtn">아이디 찾기</button>
-                        <button class="ui basic tiny button fr1" id="findPwBtn">비밀번호 찾기</button>
+                    <div class="frow w100p mb10 gap5">
+                        <a th:href="@{/user/join}" class="fr1"><button class="ui basic tiny fluid button">회원가입</button></a>
+                        <a th:href="@{/}" class="fr1"><button class="ui basic tiny fluid button" id="findIdBtn">아이디 찾기</button></a>
+                        <a th:href="@{/}" class="fr1"><button class="ui basic tiny fluid button" id="findPwBtn">비밀번호 찾기</button></a>
                     </div>
                 </div>
                 <div class="fs12 tact c757575 mt80">SNS 계정으로 간편 로그인 / 회원가입</div>
