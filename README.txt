@@ -12,3 +12,4 @@ t_admin 삭제
 t_user role varchar(10) not null default 'ROLE_USER' 추가
 t_address post(int) -> post(varchar)
 t_product_master : rdt(datetime) -> rdt(date)
+d
