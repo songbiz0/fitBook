@@ -15,9 +15,9 @@
             e.preventDefault();
             const divElem = document.createElement('div');
             divElem.innerHTML = `
-                <div>
+                <div class="ui inverted input">
                     <span>색상 : </span>
-                    <input type="text">
+                    <input type="text" placeholder="색상">
                 </div>
                 <div>
                     <span>하드디스크 용량 : </span>
@@ -39,13 +39,16 @@
                     <span>할인 : </span>
                     <input type="text">
                 </div>
-                <div class="repre-div">
+                <div id="repre-div">
                     <span>이미지 : </span>
-                    <input type="file">
-                    <input type="button" value="삭제하기" id="delBtn${delBtnnum}">
-                    <input type="button" value="test" id="repre${repre}">
+                    <label for="hidden-new-file" class="ui icon button">
+                    <i class="cloud icon"></i>
+                        Open File
+                    </label>
+                    <input type="button" class="ui inverted red button" value="삭제하기" id="delBtn${delBtnnum}">
+                    <input type="button" class="ui inverted blue button" value="대표옵션으로설정" id="repre${repre}">
                 </div>
-        `;
+                `;
 
             detailElem.appendChild(divElem);
 
@@ -53,10 +56,8 @@
                 const fst_repre = document.querySelector('#detail-list-container');
                 const fst_nodes = fst_repre.childNodes;
                 const idx = fst_nodes.length-1;
-                console.log('idx : ' + idx);
                 for(let i=0; i<fst_nodes[idx].childNodes.length; i++) {
-                    console.log('length : ' + fst_nodes[idx].childNodes.length);
-                    if(fst_nodes[idx].childNodes[i].className !== '' && fst_nodes[idx].childNodes[i].className !== undefined) {
+                    if(fst_nodes[idx].childNodes[i].id !== '' && fst_nodes[idx].childNodes[i].id !== undefined) {
                         fst_nodes[idx].childNodes[i].childNodes[7].className = 'hidden';
                     }
                 }
@@ -78,12 +79,12 @@
                 for(let i=1; i<nodes.length; i++) {
                     if(nodes[i].nodeName === 'DIV') {
                         for(let y=0; y<nodes[i].childNodes.length; y++) {
-                            if (nodes[i].childNodes[y].className !== '' && nodes[i].id === '') {
+                            if (nodes[i].childNodes[y].id !== '' && nodes[i].id === '') {
                                 if(nodes[i].childNodes[y].nodeName === 'DIV') {
                                     if (i == appendIdx) {
                                         nodes[i].childNodes[y].childNodes[7].className = 'hidden';
                                     } else {
-                                        nodes[i].childNodes[y].childNodes[7].className = '';
+                                        nodes[i].childNodes[y].childNodes[7].className = 'ui inverted blue button';
                                     }
                                 }
                             }
@@ -113,7 +114,6 @@
             let nodes = document.querySelector('#detail-list-container').childNodes;
             const num = nodes.length;
 
-            console.log('num : ' + num);
             let idx = 0;
             let nmIdx = 0;
             while (idx != num) {
@@ -122,13 +122,10 @@
                 if (nodes[idx].nodeName === 'DIV' && nodes[idx].id === '') {
                     for (let i in list) {
                         const result = productList + list[i];
-                        console.log('idx : ' + idx);
-                        if (list[i] === 'isrep') {
-                            nodes[idx].childNodes[forNum].childNodes[3].name = result;
-                            nodes[idx].childNodes[forNum].childNodes[5].name = result;
-                        } else {
-                            nodes[idx].childNodes[forNum].childNodes[3].name = result;
-                            console.log(result);
+                        for(let y=0; y<nodes[idx].childNodes[forNum].childNodes.length; y++) {
+                            if(nodes[idx].childNodes[forNum].childNodes[y].nodeName === 'INPUT') {
+                                nodes[idx].childNodes[forNum].childNodes[y].name = result;
+                            }
                         }
                         forNum = forNum + 2;
                     }

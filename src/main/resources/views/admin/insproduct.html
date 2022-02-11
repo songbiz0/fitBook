@@ -49,9 +49,12 @@
                 <span>사이즈 : </span>
                 <input type="text" name="size" placeholder="사이즈">
             </div>
-            <div>
+            <div class="ui right labeled input">
                 <span>무게 : </span>
                 <input type="text" name="weight" placeholder="무게">
+                <div class="ui basic label">
+                    kg
+                </div>
             </div>
             <div>
                 <span>브랜드 : </span>
@@ -66,17 +69,24 @@
                 </select>
             </div>
             <div>
-                <span>이미지 : </span>
-                <input type="file" name="mfFile" multiple="multiple">
+                <label for="hidden-new-file" class="ui icon button">
+                    <i class="cloud icon"></i>
+                    Open File
+                </label>
+                <input type="file" name="mfFile" id="hidden-new-file" style="display: none">
             </div>
+<!--            <div>-->
+<!--                <span>이미지 : </span>-->
+<!--                <input class="" type="file" name="mfFile" multiple="multiple">-->
+<!--            </div>-->
         </div>
         <div id="detail-list-container">
             <h3>대표상품섹션</h3>
             <div id="ins-before-div"></div>
         </div>
         <div class="utils-container">
-            <input type="submit" value="등록" id="submitBtn">
-            <button id="add-detail-btn">추가하기</button>
+            <input type="submit" class="ui inverted secondary button" value="등록" id="submitBtn">
+            <button id="add-detail-btn" class="ui inverted blue button">추가하기</button>
         </div>
     </form>
 </th:block>
