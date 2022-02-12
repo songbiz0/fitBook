@@ -9,7 +9,7 @@
 </head>
 
 <th:block layout:fragment="content">
-    <form id="frm" method="post" th:action="@{/admin/insproduct}" enctype="multipart/form-data">
+    <form id="frm" method="post" th:action="@{/admin/insproduct}" enctype="multipart/form-data" class="adm-con01">
         <div class="frmDiv">
             <div>
                 <span>상품명 : </span>
@@ -75,10 +75,6 @@
                 </label>
                 <input type="file" name="mfFile" id="hidden-new-file" style="display: none">
             </div>
-<!--            <div>-->
-<!--                <span>이미지 : </span>-->
-<!--                <input class="" type="file" name="mfFile" multiple="multiple">-->
-<!--            </div>-->
         </div>
         <div id="detail-list-container">
             <h3>대표상품섹션</h3>

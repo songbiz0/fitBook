@@ -1,97 +1,110 @@
 {
     const detailListNodes = document.querySelector('#detail-list-container').childNodes;
     const detailList = document.querySelector('#detail-list-container');
-    detailList.insertBefore(detailListNodes[2], detailListNodes[0]);
-    detailList.insertBefore(detailListNodes[4], detailListNodes[0]);
+    const product_detail_list = document.querySelectorAll('.product-detail');
 
 
     const detailElem = document.querySelector('#detail-list-container');
     const addDetailBtn = document.querySelector('#add-detail-btn');
     let delBtnnum = 2;
+    let cnt = 1;
     let repre = 1;
 
     if(addDetailBtn) {
         addDetailBtn.addEventListener('click', (e) => {
             e.preventDefault();
             const divElem = document.createElement('div');
+            divElem.className = 'product-detail';
             divElem.innerHTML = `
-                <div class="ui inverted input">
-                    <span>색상 : </span>
-                    <input type="text" placeholder="색상">
+                <div class="inv-box">
+                    <div class="inv-name">
+                        <span>색상</span>
+                        <span>:</span>
+                    </div>
+                    <input type="text" id="color">
                 </div>
-                <div>
-                    <span>하드디스크 용량 : </span>
-                    <input type="text">
+                <div class="inv-box">
+                    <div class="inv-name">
+                        <span>하드디스크 용량</span>
+                        <span>:</span>
+                    </div>
+                    <input type="text" id="hdd">
                 </div>
-                <div>
-                    <span>SSD 용량 : </span>
-                    <input type="text">
+                <div class="inv-box">
+                    <div class="inv-name">
+                        <span>SSD 용량</span>
+                        <span>:</span>
+                    </div>
+                    <input type="text" id="ssd">
                 </div>
-                <div>
-                    <span>가격 : </span>
-                    <input type="text">
+                <div class="inv-box">
+                    <div class="inv-name">
+                        <span>가격</span>
+                        <span>:</span>
+                    </div>
+                    <input type="text" id="price">
                 </div>
-                <div>
-                    <span>재고 : </span>
-                    <input type="text">
+                <div class="inv-box">
+                    <div class="inv-name">
+                        <span>재고</span>
+                        <span>:</span>
+                    </div>
+                    <input type="text" id="stock">
                 </div>
-                <div>
-                    <span>할인 : </span>
-                    <input type="text">
+                <div class="inv-box">
+                    <div class="inv-name">
+                        <span>할인</span>
+                        <span>:</span>
+                    </div>
+                    <input type="text" id="dc_rate">
                 </div>
                 <div id="repre-div">
-                    <span>이미지 : </span>
-                    <label for="hidden-new-file" class="ui icon button">
-                    <i class="cloud icon"></i>
-                        Open File
-                    </label>
-                    <input type="button" class="ui inverted red button" value="삭제하기" id="delBtn${delBtnnum}">
-                    <input type="button" class="ui inverted blue button" value="대표옵션으로설정" id="repre${repre}">
+                    <div class="inv-name">
+                        <span>이미지</span>
+                        <span>:</span>
+                    </div>
+                    <div class="inv-btm">
+                        <div class="file-area">
+                            <input type="file" id="mfFile">
+                        </div>
+                        <div class="file-set">
+                            <input type="button" class="ui inverted red button" value="삭제하기" id="delBtn${delBtnnum}">
+                            <input type="button" class="ui inverted blue button ml10 repre" value="대표옵션으로설정">
+                        </div>
+                    </div>
                 </div>
                 `;
-
-            detailElem.appendChild(divElem);
-
-            if(repre === 1) {
-                const fst_repre = document.querySelector('#detail-list-container');
-                const fst_nodes = fst_repre.childNodes;
-                const idx = fst_nodes.length-1;
-                for(let i=0; i<fst_nodes[idx].childNodes.length; i++) {
-                    if(fst_nodes[idx].childNodes[i].id !== '' && fst_nodes[idx].childNodes[i].id !== undefined) {
-                        fst_nodes[idx].childNodes[i].childNodes[7].className = 'hidden';
-                    }
-                }
+            if(cnt === 1) {
+                const insBeforeElem = document.querySelector('#ins-before-div');
+                insBeforeElem.appendChild(divElem);
+                document.querySelector('.product-detail').querySelector('.repre').className = 'hidden repre';
+                cnt++;
+            }else {
+                detailElem.appendChild(divElem);
             }
 
-            const repreElem = document.querySelector(`#repre${repre}`);
-            repreElem.addEventListener('click', (e) => {
-                const elem = e.target.parentNode.parentNode;
-                let idx = 0;
-                for(let i=0; i<detailList.childNodes.length; i++) {
-                    if(detailList.childNodes[i].nodeName === 'DIV') {
-                        idx++;
-                    }
-                }
-                const appendIdx = detailList.childNodes.length - idx;
-                detailList.insertBefore(elem, detailListNodes[appendIdx]);
-                const list2 = document.querySelector('#detail-list-container');
-                const nodes = list2.childNodes;
-                for(let i=1; i<nodes.length; i++) {
-                    if(nodes[i].nodeName === 'DIV') {
-                        for(let y=0; y<nodes[i].childNodes.length; y++) {
-                            if (nodes[i].childNodes[y].id !== '' && nodes[i].id === '') {
-                                if(nodes[i].childNodes[y].nodeName === 'DIV') {
-                                    if (i == appendIdx) {
-                                        nodes[i].childNodes[y].childNodes[7].className = 'hidden';
-                                    } else {
-                                        nodes[i].childNodes[y].childNodes[7].className = 'ui inverted blue button';
-                                    }
-                                }
-                            }
-                        }
-                    }
-                }
-            })
+            const detail_list = document.querySelectorAll('.repre');
+            detail_list.forEach(item => item.addEventListener('click', (e) => {
+                const thisElem = e.target.closest('.product-detail');
+                const thisRepreBtn = thisElem.querySelector('.repre');
+
+                const beforeElem = document.querySelector('#ins-before-div');
+                const beforeBtn = beforeElem.querySelector('.repre');
+
+                const detailListContainer = document.querySelector('#detail-list-container');
+                const repreElem = beforeElem.querySelector('.product-detail');
+
+                beforeBtn.className = 'ui inverted blue button ml10 repre';
+                thisRepreBtn.className = 'hidden repre';
+                console.log(thisRepreBtn);
+
+
+                detailListContainer.appendChild(repreElem);
+
+                const insElem = document.querySelector('#ins-before-div');
+
+                insElem.appendChild(thisElem);
+            }));
 
             const delBtn = document.querySelector(`#delBtn${delBtnnum}`);
             delBtn.addEventListener('click', (e) => {
@@ -111,28 +124,19 @@
     if(submitBtn) {
         submitBtn.addEventListener('click', (e) => {
             e.preventDefault();
-            let nodes = document.querySelector('#detail-list-container').childNodes;
-            const num = nodes.length;
+            const submitBeforeList = document.querySelectorAll('.product-detail');
 
-            let idx = 0;
-            let nmIdx = 0;
-            while (idx != num) {
-                const productList = 'productList[' + nmIdx + '].';
-                let forNum = 1;
-                if (nodes[idx].nodeName === 'DIV' && nodes[idx].id === '') {
-                    for (let i in list) {
-                        const result = productList + list[i];
-                        for(let y=0; y<nodes[idx].childNodes[forNum].childNodes.length; y++) {
-                            if(nodes[idx].childNodes[forNum].childNodes[y].nodeName === 'INPUT') {
-                                nodes[idx].childNodes[forNum].childNodes[y].name = result;
-                            }
-                        }
-                        forNum = forNum + 2;
-                    }
-                    nmIdx++;
+            let num = 0;
+            submitBeforeList.forEach(item => {
+                let forNo = 0;
+                for(let i in list) {
+                    const dbName = list[forNo];
+                    const result = 'productList[' + num + '].' + dbName;
+                    item.querySelector(`#${dbName}`).name = result;
+                    forNo++;
                 }
-                idx++;
-            }
+                num++;
+            });
             const frmElem = document.querySelector('#frm');
             frmElem.submit();
         });
