@@ -99,8 +99,8 @@ public class AdminService {
         } catch (Exception e) {
             e.printStackTrace();
         }
-        String rdt = vo.getYear() + vo.getMonth() + vo.getDay();
-        vo.setRdt(rdt);
+//        String rdt = vo.getYear() + vo.getMonth() + vo.getDay();
+//        vo.setRdt(rdt);
         int result1 = mapper.insProductMaster(vo);
         int iproduct = vo.getIproduct();
         System.out.println(iproduct);

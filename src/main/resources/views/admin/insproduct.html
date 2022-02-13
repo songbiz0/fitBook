@@ -11,69 +11,100 @@
 <th:block layout:fragment="content">
     <form id="frm" method="post" th:action="@{/admin/insproduct}" enctype="multipart/form-data" class="adm-con01">
         <div class="frmDiv">
-            <div>
-                <span>상품명 : </span>
+            <div class="inv-box">
+                <div class="inv-name">
+                    <span>상품명</span>
+                    <span>:</span>
+                </div>
                 <input type="text" name="nm" placeholder="상품명">
             </div>
-            <div>
-                <span>상품코드 : </span>
+            <div class="inv-box">
+                <div class="inv-name">
+                    <span>상품코드 : </span>
+                </div>
                 <input type="text" name="product_code" placeholder="상품코드">
             </div>
-            <div>
-                <span>출시일자 : </span>
-                <input type="text" name="year" placeholder="yyyy">
-                <input type="text" name="month" placeholder="mm">
-                <input type="text" name="day" placeholder="dd">
+            <div class="inv-box">
+                <div class="inv-name">
+                    <span>출시일자</span>
+                    <span>:</span>
+                </div>
+                <input type="date" name="rdt">
             </div>
-            <div>
-                <span>CPU : </span>
+            <div class="inv-box">
+                <div class="inv-name">
+                    <span>CPU</span>
+                    <span>:</span>
+                </div>
                 <select name="icpu">
                     <th:block th:each="cpu : ${cpuData}">
                         <option th:value="${cpu.icpu}" th:text="${cpu.nm}"></option>
                     </th:block>
                 </select>
             </div>
-            <div>
-                <span>GPU : </span>
+            <div class="inv-box">
+                <div class="inv-name">
+                    <span>GPU</span>
+                    <span>:</span>
+                </div>
                 <select name="igpu">
                     <th:block th:each="gpu : ${gpuData}">
                         <option th:value="${gpu.igpu}" th:text="${gpu.nm}"></option>
                     </th:block>
                 </select>
             </div>
-            <div>
-                <span>RAM 용량 : </span>
+            <div class="inv-box">
+                <div class="inv-name">
+                    <span>RAM 용량</span>
+                    <span>:</span>
+                </div>
                 <input type="text" name="ram" placeholder="RAM 용량">
             </div>
-            <div>
-                <span>사이즈 : </span>
+            <div class="inv-box">
+                <div class="inv-name">
+                    <span>사이즈</span>
+                    <span>:</span>
+                </div>
                 <input type="text" name="size" placeholder="사이즈">
             </div>
-            <div class="ui right labeled input">
-                <span>무게 : </span>
-                <input type="text" name="weight" placeholder="무게">
-                <div class="ui basic label">
-                    kg
+            <div class="inv-box">
+                <div class="inv-name">
+                    <span>무게</span>
+                    <span>:</span>
                 </div>
+                <input type="text" name="weight" placeholder="무게">
             </div>
-            <div>
-                <span>브랜드 : </span>
+            <div class="inv-box">
+                <div class="inv-name">
+                    <span>브랜드</span>
+                    <span>:</span>
+                </div>
                 <input type="text" name="brand" placeholder="브랜드">
             </div>
-            <div>
-                <span>OS : </span>
+            <div class="inv-box">
+                <div class="inv-name">
+                    <span>OS</span>
+                    <span>:</span>
+                </div>
                 <select name="os">
                     <option value="1">Window 11</option>
                     <option value="2">Window 10</option>
                     <option value="3">Window 8</option>
                 </select>
             </div>
-            <div>
-                <label for="hidden-new-file" class="ui icon button">
-                    <i class="cloud icon"></i>
-                    Open File
-                </label>
-                <input type="file" name="mfFile" id="hidden-new-file" style="display: none">
+            <div id="repre-div">
+                <div class="inv-name">
+                    <span>이미지</span>
+                    <span>:</span>
+                </div>
+                <div class="inv-btm">
+                    <div class="file-area">
+                        <input type="file" id="mfFile">
+                    </div>
+                    <div class="file-set">
+                        <input type="button" name="mfFile" class="ui inverted red button file-remove-button" value="파일초기화">
+                    </div>
+                </div>
             </div>
         </div>
         <div id="detail-list-container">
@@ -82,7 +113,7 @@
         </div>
         <div class="utils-container">
             <input type="submit" class="ui inverted secondary button" value="등록" id="submitBtn">
-            <button id="add-detail-btn" class="ui inverted blue button">추가하기</button>
+            <button id="add-detail-btn" class="ui inverted blue button button-mg-reset">추가하기</button>
         </div>
     </form>
 </th:block>
