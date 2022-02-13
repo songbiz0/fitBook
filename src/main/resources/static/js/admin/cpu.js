@@ -24,22 +24,37 @@
         const cpuElem = document.createElement('div');
         cpuElem.className = 'cpu';
         cpuElem.innerHTML = `
-            <div>
-                <input type="text" placeholder="CPU명" class="nm">
-            </div>
-            <div>
-                <input type="text" placeholder="성능수치" class="performance">
-            </div>
-            <div>
-                <input type="text" placeholder="내장그래픽 성능수치" class="inner_gpu">
-            </div>
-            <div>
-                <input type="text" placeholder="세대" class="seq">
-            </div>
-            <div>
-                <input type="text" placeholder="브랜드" class="brand">
-                <input type="button" value="삭제하기" class="delBtn">
-            </div>
+            <div class="ui right labeled input">
+                    <input type="text" class="nm">
+                    <div class="ui basic label">
+                        CPU 이름
+                    </div>
+                </div>
+                <div class="ui right labeled input">
+                    <input type="text" class="performance">
+                    <div class="ui basic label">
+                        성능수치
+                    </div>
+                </div>
+                <div class="ui right labeled input">
+                    <input type="text" class="inner_gpu">
+                    <div class="ui basic label">
+                        내장그래픽 성능수치
+                    </div>
+                </div>
+                <div class="ui right labeled input">
+                    <input type="text" class="seq">
+                    <div class="ui basic label">
+                        세대
+                    </div>
+                </div>
+                <div class="ui right labeled input">
+                    <input type="text" class="brand">
+                    <div class="ui basic label">
+                        브랜드
+                    </div>
+                </div>
+                <input type="button" value="삭제하기" class="delBtn ui inverted red button">
         `;
         const cpuContainer = document.querySelector('.cpu-enrollment-container');
         cpuContainer.appendChild(cpuElem);
