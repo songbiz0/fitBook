@@ -1,32 +1,38 @@
 <html lang="ko"
       xmlns:th="http://www.thymeleaf.org"
       xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
-      layout:decorate="admin/temp/admin_page_layout">
+      layout:decorate="temp/admin_page_layout">
 <head>
+    <link rel="stylesheet" th:href="@{/css/admin/cpu.css}">
+    <script defer th:src="@{/js/admin/cpu.js}"></script>
     <title></title>
 </head>
 
 <th:block layout:fragment="content">
     <span th:text="${msg}"></span>
     <form method="post" th:action="@{/admin/cpu}">
-        <div>
-            <input type="text" name="nm" placeholder="CPU명">
+        <div class="cpu-enrollment-container">
+            <div class="cpu">
+                <div>
+                    <input type="text" placeholder="CPU명" class="nm">
+                </div>
+                <div>
+                    <input type="text" placeholder="성능수치" class="performance">
+                </div>
+                <div>
+                    <input type="text" placeholder="내장그래픽 성능수치" class="inner_gpu">
+                </div>
+                <div>
+                    <input type="text" placeholder="세대" class="seq">
+                </div>
+                <div>
+                    <input type="text" placeholder="브랜드" class="brand">
+                </div>
+            </div>
         </div>
         <div>
-            <input type="text" name="performance" placeholder="성능수치">
-        </div>
-        <div>
-            <input type="text" name="inner_gpu" placeholder="내장그래픽 성능수치">
-        </div>
-        <div>
-            <input type="text" name="seq" placeholder="세대">
-        </div>
-        <div>
-            <input type="text" name="brand" placeholder="브랜드">
-        </div>
-        <div>
-            <input type="submit" value="등록">
-            <input type="reset"  value="초기화">
+            <input type="submit" value="등록" id="frmBtn">
+            <input type="button"  value="추가하기" id="addBtn">
         </div>
     </form>
 </th:block>

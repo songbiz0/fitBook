@@ -3,29 +3,28 @@
       xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 
 <th:block th:fragment="admin_header">
-    <header>
+    <header th:with="url = ${#strings.substring(#httpServletRequest.requestURI, 7)}">
         <div class="fc">
             <div class="ui container h37">
                 <button class="tiny ui button bgwhite h100p">돌아가기</button>
-                <a th:href="@{/admin/main}"><button class="tiny ui button bgwhite h100p">메인</button></a>
+                <a th:href="@{/admin/main}"><button class="tiny ui button bgwhite h100p" th:classappend="${url} == 'main' ? 'active' : ''">메인</button></a>
             </div>
         </div>
     </header>
 </th:block>
 
-<th:block th:fragment="admin_menu">
-    <span ></span>
+<th:block th:fragment="admin_menu" th:with="url = ${#strings.substring(#httpServletRequest.requestURI, 7)}">
     <div class="fc">
         <h4 class="bbgrey pb15">관리자 페이지</h4>
         <div class="ui vertical text menu">
             <div class="header item">목록</div>
-            <a class="item fs12 pl10" href="/admin/user" th:classappend="${uri} == 'user' ? 'active' : ''">
+            <a class="item fs12 pl10" href="/admin/user" th:classappend="${url} == 'user' ? 'active' : ''">
                 - 회원 목록
             </a>
-            <a class="item fs12 pl10" href="/admin/order" th:classappend="${uri} == 'order' ? 'active' : ''">
+            <a class="item fs12 pl10" href="/admin/order" th:classappend="${url} == 'order' ? 'active' : ''">
                 - 주문 목록
             </a>
-            <a class="item fs12 pl10" href="/admin/product_master" th:classappend="${uri} == 'product_master' ? 'active' : ''">
+            <a class="item fs12 pl10" href="/admin/product_master" th:classappend="${url} == 'product_master' ? 'active' : ''">
                 - 상품 목록
             </a>
             <a class="item fs12 pl10">
@@ -40,16 +39,16 @@
         </div>
         <div class="ui vertical text menu">
             <div class="header item">등록</div>
-            <a class="item fs12 pl10" href="/admin/insproduct" th:classappend="${uri} == 'insproduct' ? 'active' : ''">
+            <a class="item fs12 pl10" href="/admin/insproduct" th:classappend="${url} == 'insproduct' ? 'active' : ''">
                 - 상품 등록
             </a>
-            <a class="item fs12 pl10" href="/admin/cpu" th:classappend="${uri} == 'cpu' ? 'active' : ''">
+            <a class="item fs12 pl10" href="/admin/cpu" th:classappend="${url} == 'cpu' ? 'active' : ''">
                 - CPU 등록
             </a>
-            <a class="item fs12 pl10" href="/admin/gpu" th:classappend="${uri} == 'gpu' ? 'active' : ''">
+            <a class="item fs12 pl10" href="/admin/gpu" th:classappend="${url} == 'gpu' ? 'active' : ''">
                 - GPU 등록
             </a>
-            <a class="item fs12 pl10">
+            <a class="item fs12 pl10" href="/admin/program" th:classappend="${url} == 'program' ? 'active' : ''">
                 - 프로그램 등록
             </a>
         </div>
