@@ -6,9 +6,13 @@
 
     const detailElem = document.querySelector('#detail-list-container');
     const addDetailBtn = document.querySelector('#add-detail-btn');
-    let delBtnnum = 2;
-    let cnt = 1;
-    let repre = 1;
+
+    const fileRemoveBtnArr = document.querySelectorAll('.file-remove-button');
+    if(fileRemoveBtnArr) {
+        fileRemoveBtnArr.forEach((item) => item.addEventListener('click', (e) => {
+            e.target.closest('.inv-btm').querySelector('#mfFile').value = '';
+        }));
+    }
 
     if(addDetailBtn) {
         addDetailBtn.addEventListener('click', (e) => {
@@ -68,19 +72,29 @@
                             <input type="file" id="mfFile">
                         </div>
                         <div class="file-set">
-                            <input type="button" class="ui inverted red button" value="삭제하기" id="delBtn${delBtnnum}">
+                            <input type="button" class="ui inverted red button file-remove-button" value="파일초기화">
+                            <input type="button" class="ui inverted red button ml10 delBtn" value="삭제하기">
                             <input type="button" class="ui inverted blue button ml10 repre" value="대표옵션으로설정">
                         </div>
                     </div>
                 </div>
                 `;
-            if(cnt === 1) {
+
+            const insBeforeElem = document.querySelector('#ins-before-div');
+            const repreElem = insBeforeElem.querySelector('.product-detail');
+            if(!repreElem) {
                 const insBeforeElem = document.querySelector('#ins-before-div');
                 insBeforeElem.appendChild(divElem);
-                document.querySelector('.product-detail').querySelector('.repre').className = 'hidden repre';
-                cnt++;
+                document.querySelector('.product-detail').querySelector('.repre').className = 'dis-none repre';
             }else {
                 detailElem.appendChild(divElem);
+            }
+
+            const fileRemoveBtnArr = document.querySelectorAll('.file-remove-button');
+            if(fileRemoveBtnArr) {
+                fileRemoveBtnArr.forEach((item) => item.addEventListener('click', (e) => {
+                    e.target.closest('.inv-btm').querySelector('#mfFile').value = '';
+                }));
             }
 
             const detail_list = document.querySelectorAll('.repre');
@@ -95,7 +109,7 @@
                 const repreElem = beforeElem.querySelector('.product-detail');
 
                 beforeBtn.className = 'ui inverted blue button ml10 repre';
-                thisRepreBtn.className = 'hidden repre';
+                thisRepreBtn.className = 'dis-none repre';
                 console.log(thisRepreBtn);
 
 
@@ -106,13 +120,21 @@
                 insElem.appendChild(thisElem);
             }));
 
-            const delBtn = document.querySelector(`#delBtn${delBtnnum}`);
-            delBtn.addEventListener('click', (e) => {
-                e.target.parentNode.parentNode.parentNode.removeChild(e.target.parentNode.parentNode);
-            });
+            const delBtnElemArr = document.querySelectorAll('.delBtn');
+            delBtnElemArr.forEach((item) => item.addEventListener('click', (e) => {
+                const insBeforeDivElem = document.querySelector('#ins-before-div');
+                const repreDivElem = insBeforeDivElem.querySelector('.product-detail');
+                const thisDivElem = e.target.closest('.product-detail');
 
-            delBtnnum += 1;
-            repre += 1;
+                if(thisDivElem === repreDivElem) {
+                    thisDivElem.remove();
+                    const productDetailArr = document.querySelectorAll('.product-detail');
+                    const toBeRepreDivElem = productDetailArr[0];
+                    const repreBtn = toBeRepreDivElem.querySelector('.repre');
+                    repreBtn.className = 'dis-none repre';
+                    insBeforeDivElem.appendChild(productDetailArr[0]);
+                }
+            }))
         });
     }
 

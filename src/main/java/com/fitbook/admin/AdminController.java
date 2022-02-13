@@ -57,7 +57,7 @@ public class AdminController {
 
     @PostMapping("/insproduct")
     public String insProductProc(@ModelAttribute(value="ProductDetailListVo") ProductDetailListVo productList, ProductVo vo) {
-        System.out.println("list : " + productList);
+        System.out.println("vo : "+ vo.getRdt());
         int result = service.insProduct(vo, productList);
         return "redirect:/admin/insproduct";
     }
