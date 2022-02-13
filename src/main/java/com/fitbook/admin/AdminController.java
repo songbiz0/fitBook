@@ -2,7 +2,9 @@ package com.fitbook.admin;
 
 import com.fitbook.Const;
 import com.fitbook.model.cpu.CpuEntity;
+import com.fitbook.model.cpu.CpuListEntity;
 import com.fitbook.model.gpu.GpuEntity;
+import com.fitbook.model.gpu.GpuListEntity;
 import com.fitbook.model.product.ProductDetailListVo;
 import com.fitbook.model.product.ProductVo;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,42 +19,37 @@ public class AdminController {
 
     @Autowired private AdminService service;
 
+    // 메인
     @GetMapping("")
     public String index() { return "redirect:/admin/main"; }
 
     @GetMapping("/main")
-    public void admin(Model model) {
-        model.addAttribute(Const.URI, Const.MAIN);
+    public void admin() {
     }
 
+    // 유저
     @GetMapping("/user")
-    public void user(Model model) {
-        model.addAttribute(Const.URI, Const.USER);
+    public void user() {
     }
 
     @GetMapping("/userinfo")
-    public void userinfo(Model model) {
-        model.addAttribute(Const.URI, "userinfo");
+    public void userinfo () {
     }
 
-
+    // 주문
     @GetMapping("/order")
-    public void order(Model model) {
-        model.addAttribute(Const.URI, Const.ORDER);
+    public void order() {
     }
 
-    //상품목록
+    //상품
     @GetMapping("/product_master")
-    public void productmaster(Model model){
-        model.addAttribute(Const.URI,Const.PRODUCTMASTER);
+    public void productmaster(){
     }
 
     @GetMapping("/insproduct")
     public void insProduct(Model model) {
-        model.addAttribute(Const.URI, Const.INS_PRODUCT);
         model.addAttribute("gpuData", service.selGpu());
         model.addAttribute("cpuData", service.selCpu());
-
     }
 
     @PostMapping("/insproduct")
@@ -62,34 +59,45 @@ public class AdminController {
         return "redirect:/admin/insproduct";
     }
 
+    // CPU
     @GetMapping("/cpu")
-    public void cpu(Model model) {
-        model.addAttribute(Const.URI, "cpu");
+    public void cpu() {
+
     }
 
     @PostMapping("/cpu")
-    public String cpuProc(CpuEntity entity, RedirectAttributes attr) {
-        int result = service.insCpu(entity);
-        attr.addFlashAttribute("msg", "CPU 등록 성공");
-        if(result == 0) {
-            attr.addFlashAttribute("msg", "CPU 등록 실패");
+    public String cpuProc(CpuListEntity cpuList, Model model) {
+        int cpuListLength = cpuList.getCpuList().size();
+        int result = service.insCpu(cpuList);
+
+        if(cpuListLength != result) {
+            model.addAttribute("msg", (cpuListLength - result) + "개의 파일이 업로드에 실패하였습니다.");
         }
+
+        System.out.println(result);
+
         return "redirect:/admin/cpu";
     }
 
+    // GPU
     @GetMapping("/gpu")
-    public void gpu(Model model) {
-        model.addAttribute(Const.URI, "gpu");
+    public void gpu() {
     }
 
     @PostMapping("/gpu")
-    public String gpuProc(GpuEntity entity, RedirectAttributes attr) {
-        int result = service.insGpu(entity);
-        attr.addFlashAttribute("msg", "GPU 등록 성공");
-        if(result == 0) {
-            attr.addFlashAttribute("msg", "GPU 등록 실패");
+    public String gpuProc(GpuListEntity gpuList, Model model) {
+        int gpuListLength = gpuList.getGpuList().size();
+        int result = service.insGpu(gpuList);
+        if(gpuListLength != result) {
+            model.addAttribute("msg", (gpuListLength - result) + "개의 파일이 업로드에 실패하였습니다.");
         }
+
         return "redirect:/admin/gpu";
+    }
+
+    // 프로그램
+    @GetMapping("/program")
+    public void program() {
     }
 
 }

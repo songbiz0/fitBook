@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="temp/admin_page_layout">
+<head>
+    <meta charset="UTF-8">
+    <script defer th:src="@{/js/admin/program.js}"></script>
+    <link rel="stylesheet" th:href="@{/css/admin/program.css}">
+    <title></title>
+</head>
+<body>
+<th:block layout:fragment="content">
+    <form th:action="@{/admin/program}" method="post" enctype="multipart/form-data" id="frm">
+        <div class="program_enrollment_div">
+            <div class="program">
+                <div>
+                    <input type="text" class="nm">
+                </div>
+                <div>
+                    <input type="text" class="required_cpu">
+                </div>
+                <div>
+                    <input type="text" class="required_gpu">
+                </div>
+                <div>
+                    <input type="text" class="required_ram">
+                </div>
+                <div>
+                    <input type="file" class="img">
+                </div>
+            </div>
+
+        </div>
+        <div>
+            <input type="submit" value="등록" id="frmSmBtn">
+            <input type="button" id="addBtn" value="추가하기">
+        </div>
+    </form>
+</th:block>
+</body>
+</html>
