@@ -26,4 +26,12 @@
         FROM t_product_cpu
         ORDER BY seq DESC, brand
     </select>
+
+    <select id="selGpuList" resultType="GpuVo">
+        SELECT *
+        FROM t_product_gpu
+        <if test="select != null">
+        WHERE ${select} LIKE CONCAT('%', #{search}, '%')
+        </if>
+    </select>
 </mapper>

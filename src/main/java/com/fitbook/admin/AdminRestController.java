@@ -1,12 +1,15 @@
 package com.fitbook.admin;
 
 import com.fitbook.ResultVo;
+import com.fitbook.model.gpu.GpuDto;
+import com.fitbook.model.gpu.GpuVo;
 import com.fitbook.model.order.OrderDto;
 import com.fitbook.model.order.OrderVo;
 import com.fitbook.model.orderproduct.OrderProductVo;
 import com.fitbook.model.product.ProductVo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -43,5 +46,11 @@ public class AdminRestController {
     @GetMapping("/product_master")
     public List<ProductVo> selProductList(){
         return service.selProductList();
+    }
+
+    @GetMapping("/gpuSearch")
+    public List<GpuVo> selGpuList(GpuDto dto) {
+        System.out.println(dto);
+        return service.selGpuList(dto);
     }
 }
