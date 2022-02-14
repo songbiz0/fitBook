@@ -12,23 +12,35 @@
     <form method="post" th:action="@{/admin/gpu}">
         <div class="gpu-enrollment-container">
             <div class="gpu">
-                <div>
-                    <input type="text" placeholder="GPU명" class="nm">
+                <div class="ui right labeled input">
+                    <input type="text" class="nm">
+                    <div class="ui basic label">
+                        GPU 이름
+                    </div>
                 </div>
-                <div>
-                    <input type="text" placeholder="성능수치" class="performance">
+                <div class="ui right labeled input">
+                    <input type="text" class="performance">
+                    <div class="ui basic label">
+                        성능수치
+                    </div>
                 </div>
-                <div>
-                    <input type="text" placeholder="세대" class="seq">
+                <div class="ui right labeled input">
+                    <input type="text" class="seq">
+                    <div class="ui basic label">
+                        세대
+                    </div>
                 </div>
-                <div>
-                    <input type="text" placeholder="브랜드" class="brand">
+                <div class="ui right labeled input">
+                    <input type="text" class="brand">
+                    <div class="ui basic label">
+                        브랜드
+                    </div>
                 </div>
             </div>
         </div>
-        <div>
-            <input type="submit" value="등록" id="frmBtn">
-            <input type="button"  value="추가하기" id="addBtn">
+        <div class="utils-container">
+            <input type="submit" class="ui inverted secondary button" value="등록" id="frmBtn">
+            <input type="button" class="ui inverted blue button" value="추가하기" id="addBtn">
         </div>
     </form>
 </th:block>
