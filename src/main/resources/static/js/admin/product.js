@@ -1,13 +1,13 @@
 {
     // master
-    const nmRegex = /^([a-zA-Z가-힣ㄱ-ㅎ0-9]{1,100})$/;
+    const nmRegex = /^([a-zA-Z가-힣ㄱ-ㅎ0-9\s]{1,100})$/;
     const codeRegex = /^([a-zA-Z0-9\-]{1,100})$/;
     const rdtRegex = /^([0-9\-]{1,30})$/;
     const ramRegex = /^([0-9]{1,10})$/;
     const sizeRegex = /^[0-9]+(.[0-9]+)?$/;
     const weigthRegex = /^[0-9]+(.[0-9]+)?$/;
     const brandRegex = /^([a-zA-Z가-힣ㄱ-ㅎ0-9]{1,20})$/;
-    const osRegex = /^([a-zA-Z가-힣0-9]{1,20})$/;
+    const osRegex = /^([a-zA-Z가-힣0-9\s]{1,20})$/;
 
     // detail
     const colorRegex = /^([a-zA-Z가-힣0-9]{1,20})$/;
@@ -16,10 +16,6 @@
     const priceRegex = /^([0-9]{1,10})$/;
     const stockRegex = /^([0-9]{1,10})$/;
     const dc_rateRegex = /^([0-9]{1,10})$/;
-
-    const detailListNodes = document.querySelector('#detail-list-container').childNodes;
-    const detailList = document.querySelector('#detail-list-container');
-    const product_detail_list = document.querySelectorAll('.product-detail');
 
 
     const detailElem = document.querySelector('#detail-list-container');

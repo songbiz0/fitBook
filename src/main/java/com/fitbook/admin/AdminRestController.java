@@ -1,6 +1,8 @@
 package com.fitbook.admin;
 
 import com.fitbook.ResultVo;
+import com.fitbook.model.cpu.CpuDto;
+import com.fitbook.model.cpu.CpuVo;
 import com.fitbook.model.gpu.GpuDto;
 import com.fitbook.model.gpu.GpuVo;
 import com.fitbook.model.order.OrderDto;
@@ -52,5 +54,11 @@ public class AdminRestController {
     public List<GpuVo> selGpuList(GpuDto dto) {
         System.out.println(dto);
         return service.selGpuList(dto);
+    }
+
+    @GetMapping("/cpuSearch")
+    public List<CpuVo> selCpuList(CpuDto dto) {
+        System.out.println(dto);
+        return service.selCpuList(dto);
     }
 }

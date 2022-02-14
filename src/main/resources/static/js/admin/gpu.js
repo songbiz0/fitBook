@@ -143,11 +143,6 @@
             })
         }
 
-        const removeList = () => {
-            const tbody = document.querySelector('table tbody');
-            tbody.remove();
-        }
-
         getList(url);
 
     }
