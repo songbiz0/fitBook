@@ -82,6 +82,11 @@ public class AdminController {
     }
 
     // GPU
+    @GetMapping("/gpuList")
+    public void gpuList() {
+
+    }
+
     @GetMapping("/gpu")
     public void gpu() {
     }
