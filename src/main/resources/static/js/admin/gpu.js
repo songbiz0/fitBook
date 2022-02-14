@@ -63,9 +63,11 @@
             if(seqElem.classList.contains('fa-angle-up')) {
                 seqElem.classList.remove('fa-angle-up');
                 seqElem.classList.add('fa-angle-down');
+                //TODO 오름차순
             } else {
                 seqElem.classList.remove('fa-angle-down');
                 seqElem.classList.add('fa-angle-up');
+                // TODO 내림차순
             }
         })
 
