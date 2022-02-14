@@ -1,4 +1,22 @@
 {
+    // master
+    const nmRegex = /^([a-zA-Z가-힣ㄱ-ㅎ0-9]{1,100})$/;
+    const codeRegex = /^([a-zA-Z0-9\-]{1,100})$/;
+    const rdtRegex = /^([0-9\-]{1,30})$/;
+    const ramRegex = /^([0-9]{1,10})$/;
+    const sizeRegex = /^[0-9]+(.[0-9]+)?$/;
+    const weigthRegex = /^[0-9]+(.[0-9]+)?$/;
+    const brandRegex = /^([a-zA-Z가-힣ㄱ-ㅎ0-9]{1,20})$/;
+    const osRegex = /^([a-zA-Z가-힣0-9]{1,20})$/;
+
+    // detail
+    const colorRegex = /^([a-zA-Z가-힣0-9]{1,20})$/;
+    const hddRegex = /^([0-9]{1,10})$/;
+    const ssdRegex = /^([0-9]{1,10})$/;
+    const priceRegex = /^([0-9]{1,10})$/;
+    const stockRegex = /^([0-9]{1,10})$/;
+    const dc_rateRegex = /^([0-9]{1,10})$/;
+
     const detailListNodes = document.querySelector('#detail-list-container').childNodes;
     const detailList = document.querySelector('#detail-list-container');
     const product_detail_list = document.querySelectorAll('.product-detail');
@@ -25,42 +43,42 @@
                         <span>색상</span>
                         <span>:</span>
                     </div>
-                    <input type="text" id="color">
+                    <input type="text" class="color">
                 </div>
                 <div class="inv-box">
                     <div class="inv-name">
                         <span>하드디스크 용량</span>
                         <span>:</span>
                     </div>
-                    <input type="text" id="hdd">
+                    <input type="text" class="hdd">
                 </div>
                 <div class="inv-box">
                     <div class="inv-name">
                         <span>SSD 용량</span>
                         <span>:</span>
                     </div>
-                    <input type="text" id="ssd">
+                    <input type="text" class="ssd">
                 </div>
                 <div class="inv-box">
                     <div class="inv-name">
                         <span>가격</span>
                         <span>:</span>
                     </div>
-                    <input type="text" id="price">
+                    <input type="text" class="price">
                 </div>
                 <div class="inv-box">
                     <div class="inv-name">
                         <span>재고</span>
                         <span>:</span>
                     </div>
-                    <input type="text" id="stock">
+                    <input type="text" class="stock">
                 </div>
                 <div class="inv-box">
                     <div class="inv-name">
                         <span>할인</span>
                         <span>:</span>
                     </div>
-                    <input type="text" id="dc_rate">
+                    <input type="text" class="dc_rate">
                 </div>
                 <div id="repre-div">
                     <div class="inv-name">
@@ -69,7 +87,7 @@
                     </div>
                     <div class="inv-btm">
                         <div class="file-area">
-                            <input type="file" id="mfFile">
+                            <input type="file" class="mfFile">
                         </div>
                         <div class="file-set">
                             <input type="button" class="ui inverted red button file-remove-button" value="파일초기화">
@@ -110,7 +128,6 @@
 
                 beforeBtn.className = 'ui inverted blue button ml10 repre';
                 thisRepreBtn.className = 'dis-none repre';
-                console.log(thisRepreBtn);
 
 
                 detailListContainer.appendChild(repreElem);
@@ -134,7 +151,8 @@
                     repreBtn.className = 'dis-none repre';
                     insBeforeDivElem.appendChild(productDetailArr[0]);
                 }
-            }))
+                thisDivElem.remove();
+            }));
         });
     }
 
@@ -142,25 +160,139 @@
         'color', 'hdd', 'ssd', 'price', 'stock', 'dc_rate', 'mfFile'
     ];
 
+    const masterList = [
+        'nm', 'code', 'rdt', 'ram', 'icpu', 'igpu', 'size', 'weight', 'brand', 'os', 'img'
+    ]
+
+    const makeErrBox = (item, msg) => {
+        $('body')
+            .toast({
+                class: 'error',
+                position: 'bottom right',
+                message: msg
+            });
+        item.classList.add('err-red');
+        setTimeout(function() {
+            item.classList.remove('err-red');
+        }, 3000);
+    }
+
+    const frmChk = (type, item) => {
+        let result = 0;
+        let cnt = 0;
+        if(type === 'detail') {
+            for (let i in list) {
+                const elem = item.querySelector(`.${list[i]}`);
+                const val = elem.value;
+                const length = val.length;
+                if (list[i] === 'color' && !colorRegex.test(val)) {
+                    console.log('color');
+                    makeErrBox(elem, '색상: 한글/영문 조합으로 20글자 이내로 작성해 주세요.');
+                } else if (list[i] === 'hdd' && !hddRegex.test(val)) {
+                    console.log('hdd');
+                    makeErrBox(elem, 'HDD: 숫자 10자리 이내로 작성해 주세요.');
+                } else if (list[i] === 'ssd' && !ssdRegex.test(val)) {
+                    console.log('ssd');
+                    makeErrBox(elem, 'SSD: 숫자 10자리 이내로 작성해 주세요.');
+                } else if (list[i] === 'price' && !priceRegex.test(val)) {
+                    console.log('price');
+                    makeErrBox(elem, '가격: 숫자 10자리 이내로 작성해 주세요.');
+                } else if (list[i] === 'stock' && !stockRegex.test(val)) {
+                    console.log('stock');
+                    makeErrBox(elem, '재고: 숫자 10자리 이내로 작성해 주세요.');
+                } else if (list[i] === 'dc_rate' && !dc_rateRegex.test(val)) {
+                    makeErrBox(elem, '할인율: 0~100 (% 제외)로 작성해 주세요.');
+                    console.log('dc_rate');
+                } else if (list[i] === 'mfFile' && (length < 1)) {
+                    makeErrBox(elem, '이미지: 이미지를 추가해 주세요.');
+                    console.log('mfFile');
+                } else {
+                    cnt++;
+                }
+            }
+        } else if(type === 'master') {
+            for(let i in masterList) {
+                const elem = item.querySelector(`.${masterList[i]}`);
+                const val = elem.value;
+                const length = val.length;
+                if(masterList[i] === 'nm' && !nmRegex.test(val)) {
+                    console.log('nm');
+                    makeErrBox(elem, '이름: 영어/한글/숫자/특수문자를 조합해서 100자 이내로 작성해 주세요.');
+                } else if(masterList[i] === 'code' && !codeRegex.test(val)) {
+                    makeErrBox(elem, '상품코드: 영어/숫자를 조합해서 100자 이내로 작성해 주세요.')
+                    console.log('code');
+                } else if(masterList[i] === 'rdt' && !rdtRegex.test(val)) {
+                    makeErrBox(elem, '날짜: 날짜를 빠짐없이 입력해 주세요.');
+                    console.log('rdt');
+                } else if (masterList[i] === 'ram' && !ramRegex.test(val)) {
+                    makeErrBox(elem, 'RAM : 숫자 10자리 이하로 작성해 주세요.' );
+                    console.log('ram');
+                } else if(masterList[i] === 'icpu' && length < 1) {
+                    makeErrBox(elem, 'CPU : 숫자 10자리 이하로 작성해 주세요.' );
+                    console.log('icpu');
+                } else if (masterList[i] === 'igpu' && length < 1) {
+                    makeErrBox(elem, 'GPU : 숫자 10자리 이하로 작성해 주세요.' );
+                    console.log('igpu');
+                } else if(masterList[i] === 'size' && !sizeRegex.test(val)) {
+                    makeErrBox(elem, '사이즈 : 실수, 정수를 조합해서 10자리 이하로 작성해 주세요.' );
+                    console.log('size');
+                } else if (masterList[i] === 'weight' && !weigthRegex.test(val)) {
+                    makeErrBox(elem, '무게 : 실수, 정수를 조합해서 10자리 이하로 작성해 주세요.' );
+                    console.log('weight');
+                } else if (masterList[i] === 'brand' && !brandRegex.test(val)) {
+                    makeErrBox(elem, '브랜드 : 영문, 한글을 조합해서 20자 이하로 작성해 주세요.' );
+                    console.log('brand');
+                } else if (masterList[i] === 'os' && !osRegex.test(val)) {
+                    makeErrBox(elem, 'OS : 영문, 한글, 숫자를 조합해서 20자 이하로 작성해 주세요.');
+                    console.log('os');
+                } else if(masterList[i] === 'img') {
+                    cnt++;
+                } else {
+                    cnt++;
+                }
+            }
+        }
+        if(list.length === cnt || masterList.length === cnt) {
+            result++;
+        }
+        return result;
+
+    }
+
     const submitBtn = document.querySelector('#submitBtn');
     if(submitBtn) {
         submitBtn.addEventListener('click', (e) => {
             e.preventDefault();
             const submitBeforeList = document.querySelectorAll('.product-detail');
+            const frmDivElemList = document.querySelectorAll('.frmDiv');
+
+            let cnt = 0;
+            let result = submitBeforeList.length + frmDivElemList.length;
+
+            frmDivElemList.forEach(item => {
+                cnt += frmChk('master', item);
+            })
 
             let num = 0;
             submitBeforeList.forEach(item => {
+
+                cnt += frmChk('detail', item);
+
                 let forNo = 0;
                 for(let i in list) {
                     const dbName = list[forNo];
+
                     const result = 'productList[' + num + '].' + dbName;
-                    item.querySelector(`#${dbName}`).name = result;
+                    item.querySelector(`.${dbName}`).name = result;
                     forNo++;
                 }
                 num++;
             });
-            const frmElem = document.querySelector('#frm');
-            frmElem.submit();
+
+            if(result === cnt) {
+                const frmElem = document.querySelector('#frm');
+                frmElem.submit();
+            }
         });
     }
 }
