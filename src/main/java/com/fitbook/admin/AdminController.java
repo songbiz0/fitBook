@@ -54,9 +54,6 @@ public class AdminController {
 
     @PostMapping("/insproduct")
     public String insProductProc(ProductDetailListVo productList, ProductVo vo) {
-        System.out.println("vo : "+ vo.getRdt());
-//        System.out.println("list : " + productList.getMfFile());
-        System.out.println("list : " + productList.getColor());
         int result = service.insProduct(vo, productList);
         return "redirect:/admin/insproduct";
     }

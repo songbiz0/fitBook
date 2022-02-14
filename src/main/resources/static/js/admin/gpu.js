@@ -58,17 +58,38 @@
         const perf = document.querySelector('#perf');
         const searchBtn = document.querySelector('#searchBtn');
 
+        perf.addEventListener('click', () => {
+            const perfElem = document.querySelector('#perf');
+            const searchText = document.querySelector('#searchText').value;
+            const select = document.querySelector('#select').value;
+            let resultUrl= '';
+            if(perf.classList.contains('fa-angle-up')) {
+                perfElem.classList.remove('fa-angle-up');
+                perfElem.classList.add('fa-angle-down');
+                resultUrl = url + `?perf=2&search=${searchText}&select=${select}`;
+            } else {
+                perfElem.classList.remove('fa-angle-down');
+                perfElem.classList.add('fa-angle-up');
+                resultUrl = url + `?perf=1&search=${searchText}&select=${select}`;
+            }
+            getList(resultUrl);
+        })
+
         seq.addEventListener('click', () => {
             const seqElem = document.querySelector('#seq');
+            const searchText = document.querySelector('#searchText').value;
+            const select = document.querySelector('#select').value;
+            let resultUrl= '';
             if(seqElem.classList.contains('fa-angle-up')) {
                 seqElem.classList.remove('fa-angle-up');
                 seqElem.classList.add('fa-angle-down');
-                //TODO 오름차순
+                resultUrl = url + `?seq=2&search=${searchText}&select=${select}`;
             } else {
                 seqElem.classList.remove('fa-angle-down');
                 seqElem.classList.add('fa-angle-up');
-                // TODO 내림차순
+                resultUrl = url + `?seq=1&search=${searchText}&select=${select}`;
             }
+            getList(resultUrl);
         })
 
         searchBtn.addEventListener('click', () => {
