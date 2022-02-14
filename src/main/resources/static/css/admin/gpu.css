@@ -1,8 +1,11 @@
 /* gpu insert */
 .gpu {
+    display: flex;
+    flex-direction: column;
     margin-bottom: 20px;
     padding-bottom: 20px;
     border-bottom: 1px solid black;
+    gap: 20px;
 }
 
 /* gpuList */
@@ -14,4 +17,9 @@
 
 .frow > i {
     cursor: pointer;
+}
+
+.utils-container {
+    display: flex;
+    justify-content: space-between;
 }
