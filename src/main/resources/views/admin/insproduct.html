@@ -16,27 +16,27 @@
                     <span>상품명</span>
                     <span>:</span>
                 </div>
-                <input type="text" name="nm" placeholder="상품명">
+                <input type="text" name="nm" placeholder="상품명" class="nm">
             </div>
             <div class="inv-box">
                 <div class="inv-name">
                     <span>상품코드 : </span>
                 </div>
-                <input type="text" name="product_code" placeholder="상품코드">
+                <input type="text" name="product_code" placeholder="상품코드" class="code">
             </div>
             <div class="inv-box">
                 <div class="inv-name">
                     <span>출시일자</span>
                     <span>:</span>
                 </div>
-                <input type="date" name="rdt">
+                <input type="date" name="rdt" class="rdt">
             </div>
             <div class="inv-box">
                 <div class="inv-name">
                     <span>CPU</span>
                     <span>:</span>
                 </div>
-                <select name="icpu">
+                <select name="icpu" class="icpu">
                     <th:block th:each="cpu : ${cpuData}">
                         <option th:value="${cpu.icpu}" th:text="${cpu.nm}"></option>
                     </th:block>
@@ -47,7 +47,7 @@
                     <span>GPU</span>
                     <span>:</span>
                 </div>
-                <select name="igpu">
+                <select name="igpu" class="igpu">
                     <th:block th:each="gpu : ${gpuData}">
                         <option th:value="${gpu.igpu}" th:text="${gpu.nm}"></option>
                     </th:block>
@@ -58,35 +58,35 @@
                     <span>RAM 용량</span>
                     <span>:</span>
                 </div>
-                <input type="text" name="ram" placeholder="RAM 용량">
+                <input type="text" name="ram" placeholder="RAM 용량" class="ram">
             </div>
             <div class="inv-box">
                 <div class="inv-name">
                     <span>사이즈</span>
                     <span>:</span>
                 </div>
-                <input type="text" name="size" placeholder="사이즈">
+                <input type="text" name="size" placeholder="사이즈" class="size">
             </div>
             <div class="inv-box">
                 <div class="inv-name">
                     <span>무게</span>
                     <span>:</span>
                 </div>
-                <input type="text" name="weight" placeholder="무게">
+                <input type="text" name="weight" placeholder="무게" class="weight">
             </div>
             <div class="inv-box">
                 <div class="inv-name">
                     <span>브랜드</span>
                     <span>:</span>
                 </div>
-                <input type="text" name="brand" placeholder="브랜드">
+                <input type="text" name="brand" placeholder="브랜드" class="brand">
             </div>
             <div class="inv-box">
                 <div class="inv-name">
                     <span>OS</span>
                     <span>:</span>
                 </div>
-                <select name="os">
+                <select name="os" class="os">
                     <option value="1">Window 11</option>
                     <option value="2">Window 10</option>
                     <option value="3">Window 8</option>
@@ -99,7 +99,7 @@
                 </div>
                 <div class="inv-btm">
                     <div class="file-area">
-                        <input type="file" id="mfFile">
+                        <input type="file" id="mfFile" class="img">
                     </div>
                     <div class="file-set">
                         <input type="button" name="mfFile" class="ui inverted red button file-remove-button" value="파일초기화">

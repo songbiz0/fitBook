@@ -105,3 +105,9 @@
 .file-set input[type='button'] {
     margin: 0;
 }
+
+.err-red {
+    border: 1px solid red !important;
+    background-color: #fdc5c5;
+    color: red; !important;
+}
