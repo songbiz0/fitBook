@@ -8,6 +8,11 @@
     gap: 20px;
 }
 
+.utils-container {
+    display: flex;
+    justify-content: space-between;
+}
+
 /* gpuList */
 .searchDiv {
     display: flex;
@@ -17,9 +22,4 @@
 
 .frow > i {
     cursor: pointer;
-}
-
-.utils-container {
-    display: flex;
-    justify-content: space-between;
 }

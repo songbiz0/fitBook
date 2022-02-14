@@ -11,3 +11,14 @@
     display: flex;
     justify-content: space-between;
 }
+
+/* cpuList */
+.searchDiv {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+}
+
+.frow > i {
+    cursor: pointer;
+}

@@ -59,6 +59,11 @@ public class AdminController {
     }
 
     // CPU
+    @GetMapping("/cpuList")
+    public void cpuList() {
+
+    }
+
     @GetMapping("/cpu")
     public void cpu() {
 
