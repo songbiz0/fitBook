@@ -128,6 +128,7 @@
 
                 beforeBtn.className = 'ui inverted blue button ml10 repre';
                 thisRepreBtn.className = 'dis-none repre';
+                console.log(thisRepreBtn);
 
 
                 detailListContainer.appendChild(repreElem);
