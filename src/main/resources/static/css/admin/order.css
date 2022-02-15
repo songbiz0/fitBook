@@ -10,6 +10,9 @@
 
 .selectkinds{
     width: 100px;
+    display: flex;
+    flex-direction: column;
+    gap: 30px;
 }
 
 .list-day{
@@ -20,6 +23,6 @@
 
 .css2 {
     background-color: white !important;
-    width: 400px !important;
-    height: 36px !important;
+    width: 400px;
+    height: 36px;
 }
