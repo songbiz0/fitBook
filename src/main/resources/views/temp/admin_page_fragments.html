@@ -6,7 +6,7 @@
     <header th:with="url = ${#strings.substring(#httpServletRequest.requestURI, 7)}">
         <div class="fc">
             <div class="ui container h37">
-                <button class="tiny ui button bgwhite h100p">돌아가기</button>
+                <a th:href="@{/}"><button class="tiny ui button bgwhite h100p">돌아가기</button></a>
                 <a th:href="@{/admin/main}"><button class="tiny ui button bgwhite h100p" th:classappend="${url} == 'main' ? 'active' : ''">메인</button></a>
             </div>
         </div>
@@ -33,7 +33,7 @@
             <a class="item fs12 pl10" href="/admin/cpuList" th:classappend="${url} == 'cpuList' ? 'active' : ''">
                 - CPU 목록
             </a>
-            <a class="item fs12 pl10">
+            <a class="item fs12 pl10" href="/admin/programList" th:classappend="${url} == 'programList' ? 'active' : ''">
                 - 프로그램 목록
             </a>
         </div>
