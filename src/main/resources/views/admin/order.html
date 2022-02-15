@@ -3,25 +3,67 @@
       xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
       layout:decorate="temp/admin_page_layout">
 <head>
+    <link rel="stylesheet" th:href="@{/css/admin/order.css}">
     <script defer th:src="@{/js/admin/order.js}"></script>
     <title></title>
 </head>
 
 <th:block layout:fragment="content">
-    <table class="mytable w100p">
-        <thead>
-            <tr>
-                <th>상픔번호</th>
-                <th>상품이름</th>
-                <th>주문일시</th>
-                <th>이름/아이디</th>
-                <th>사용한 포인트</th>
-                <th>결제수단</th>
-                <th>주문상태</th>
-                <th>가격</th>
-            </tr>
-        </thead>
-        <tbody>
-        </tbody>
-    </table>
+    <div class="order-list w110p">
+        <div class="order-list-div">
+            <div class="selectkinds">
+                <h5>검색어</h5>
+                <h5>주문일자</h5>
+                <h5>주문상태</h5>
+            </div>
+            <div class="list-day">
+                <div>
+                    <select>
+                        <option value="1">전체</option>
+                        <option value="2">김통귤</option>
+                        <option value="3">김만줴</option>
+                        <option value="3">유억숙</option>
+                        <option value="3">김귝항</option>
+
+                    </select>
+                    <input type="text" name="text" placeholder="검색어 입력">
+                </div>
+                <div class="ui inverted segment css2">
+                    <button class="ui inverted red button">오늘</button>
+                    <button class="ui inverted red button">오늘</button>
+                    <button class="ui inverted red button">3일</button>
+                    <button class="ui inverted red button">1주일</button>
+                </div>
+                <div>
+                    <input type="checkbox" name="1">전체선택
+                    <input type="checkbox" name="1">입금대기
+                    <input type="checkbox" name="1">결제완료
+                    <input type="checkbox" name="1">상품준비중
+                    <input type="checkbox" name="1">배송중
+                    <input type="checkbox" name="1">배송완료
+                    <input type="checkbox" name="1">구매확정
+
+                </div>
+            </div>
+        </div>
+        <div>
+            <table class="mytable w110p">
+                <thead>
+                <tr>
+                    <th>상픔번호</th>
+                    <th>주문일시</th>
+                    <th>이름</th>
+                    <th>아이디</th>
+                    <th>사용한 포인트</th>
+                    <th>결제수단</th>
+                    <th>주문상태</th>
+                    <th>가격</th>
+                    <th>취소일시</th>
+                </tr>
+                </thead>
+                <tbody>
+                </tbody>
+            </table>
+        </div>
+    </div>
 </th:block>

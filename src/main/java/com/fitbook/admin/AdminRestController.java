@@ -8,6 +8,7 @@ import com.fitbook.model.gpu.GpuVo;
 import com.fitbook.model.order.OrderDto;
 import com.fitbook.model.order.OrderVo;
 import com.fitbook.model.orderproduct.OrderProductVo;
+import com.fitbook.model.product.ProductDto;
 import com.fitbook.model.product.ProductVo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -15,6 +16,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.awt.print.Pageable;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -40,16 +42,22 @@ public class AdminRestController {
         return service.selBrandDemandList();
     }
 
+    //주문목록
     @GetMapping("/order")
     public List<OrderVo> selOrderList() {
         return service.selOrderList();
     }
 
+    //상품목록
     @GetMapping("/product_master")
-    public List<ProductVo> selProductList(){
-        return service.selProductList();
+    public List<ProductVo>  selProductList(ProductDto dto){
+        return service.selProductList(dto);
     }
 
+    @GetMapping("/maxpage")
+    public ResultVo selMaxPageVal(ProductDto dto){
+        return service.selMaxPageVal(dto);
+    }
     @GetMapping("/gpuSearch")
     public List<GpuVo> selGpuList(GpuDto dto) {
         System.out.println(dto);

@@ -43,7 +43,7 @@ public class AdminController {
 
     //상품
     @GetMapping("/product_master")
-    public void productmaster(){
+    public void product_master(){
     }
 
     @GetMapping("/insproduct")
