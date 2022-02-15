@@ -10,6 +10,8 @@ import com.fitbook.model.order.OrderVo;
 import com.fitbook.model.orderproduct.OrderProductVo;
 import com.fitbook.model.product.ProductDto;
 import com.fitbook.model.product.ProductVo;
+import com.fitbook.model.program.ProgramDto;
+import com.fitbook.model.program.ProgramVo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -68,5 +70,10 @@ public class AdminRestController {
     public List<CpuVo> selCpuList(CpuDto dto) {
         System.out.println(dto);
         return service.selCpuList(dto);
+    }
+
+    @GetMapping("/programSearch")
+    public List<ProgramVo> programList(ProgramDto dto) {
+        return service.selProgramList(dto);
     }
 }

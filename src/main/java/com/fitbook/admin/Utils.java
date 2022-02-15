@@ -37,8 +37,12 @@ public class Utils {
         return result;
     }
 
+    public  static String uploadFile(MultipartFile file, String type) throws Exception {
+        return uploadFile(file, type, null);
+    }
+
     public static String uploadFile(MultipartFile file, String type, String code) throws Exception {
-        String projectPath =  System.getProperty("user.dir") + "\\src\\main\\resources\\static\\images\\products\\" + type +"\\" + code + "\\"; // + 상픔코드
+        String projectPath =  System.getProperty("user.dir") + "\\src\\main\\resources\\static\\images\\" + type +"\\" + code + "\\"; // + 상픔코드
         File folder = new File(projectPath);
         if(!folder.exists()) {
             folder.mkdirs();

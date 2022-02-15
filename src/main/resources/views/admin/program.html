@@ -12,29 +12,43 @@
 <body>
 <th:block layout:fragment="content">
     <form th:action="@{/admin/program}" method="post" enctype="multipart/form-data" id="frm">
-        <div class="program_enrollment_div">
+        <div class="program-enrollment-container">
             <div class="program">
-                <div>
+                <div class="ui right labeled input">
                     <input type="text" class="nm">
+                    <div class="ui basic label">
+                        프로그램 이름
+                    </div>
                 </div>
-                <div>
+                <div class="ui right labeled input">
                     <input type="text" class="required_cpu">
+                    <div class="ui basic label">
+                        권장 CPU
+                    </div>
                 </div>
-                <div>
+                <div class="ui right labeled input">
                     <input type="text" class="required_gpu">
+                    <div class="ui basic label">
+                        권장 GPU
+                    </div>
                 </div>
-                <div>
+                <div class="ui right labeled input">
                     <input type="text" class="required_ram">
+                    <div class="ui basic label">
+                        권장 RAM
+                    </div>
                 </div>
-                <div>
-                    <input type="file" class="img">
+                <div class="ui right labeled input">
+                    <input type="file" class="mfFile">
+                    <div class="ui basic label">
+                        프로그램 이미지
+                    </div>
                 </div>
             </div>
-
         </div>
-        <div>
-            <input type="submit" value="등록" id="frmSmBtn">
-            <input type="button" id="addBtn" value="추가하기">
+        <div class="utils-container">
+            <input type="submit" class="ui inverted secondary button" value="등록" id="frmBtn">
+            <input type="button" class="ui inverted blue button" value="추가하기" id="addBtn">
         </div>
     </form>
 </th:block>
