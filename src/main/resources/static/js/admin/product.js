@@ -2,14 +2,14 @@
 {
     const Productlist = document.querySelector('.product-master');
     if(Productlist) {
-        const recordCount = 10; //리스트 수
+        const recordCount = 1; //리스트 수
         let currentPage = 1; //현재 페이지
         let maxPage = 1;
         const pagingCount = 10; //페이징 수
         const searchParams = new URL(window.location.href).searchParams;
         const product_master = searchParams.get('product_master');
         const pageContainer = document.querySelector('.page-container');
-        const ulElem = pageContainer.querySelector('nav > ul')
+        const ulElem = pageContainer.querySelector('div')
 
         //리스트 정보 불러오기
         const myFetch = () => fetch(`/ajax/admin/product_master?currentPage=${currentPage}&recordCount=${recordCount}`)
@@ -61,7 +61,7 @@
         const makePagingItem = (val, cb) => {
             const liElem = document.createElement('li');
             liElem.className = 'active item'
-            liElem.innerHTML = val;
+            liElem.innerText = val;
             liElem.addEventListener('click', cb);
             ulElem.appendChild(liElem);
 
@@ -124,11 +124,6 @@
   
     const detailList= document.querySelector('#detail-list-container');
     if(detailList) {
-    const detailListNodes = detailList.querySelector('#detail-list-container').childNodes;
-        const detailList = document.querySelector('#detail-list-container');
-        const product_detail_list = document.querySelectorAll('.product-detail');
-
-
         const detailElem = document.querySelector('#detail-list-container');
         const addDetailBtn = document.querySelector('#add-detail-btn');
 
@@ -259,6 +254,7 @@
                         repreBtn.className = 'dis-none repre';
                         insBeforeDivElem.appendChild(productDetailArr[0]);
                     }
+                    thisDivElem.remove();
                 }))
             });
         }
@@ -304,7 +300,6 @@
                 }
                 thisDivElem.remove();
             }));
-        });
     }
 
     const list = [
