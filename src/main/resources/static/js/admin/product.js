@@ -111,7 +111,7 @@
     const ramRegex = /^([0-9]{1,10})$/;
     const sizeRegex = /^[0-9]+(.[0-9]+)?$/;
     const weigthRegex = /^[0-9]+(.[0-9]+)?$/;
-    const brandRegex = /^([a-zA-Z가-힣ㄱ-ㅎ0-9]{1,20})$/;
+    const brandRegex = /^([a-zA-Z가-힣ㄱ-ㅎ0-9\s]{1,20})$/;
     const osRegex = /^([a-zA-Z가-힣0-9\s]{1,20})$/;
 
     // detail

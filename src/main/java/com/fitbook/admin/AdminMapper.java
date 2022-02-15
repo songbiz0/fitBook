@@ -14,6 +14,8 @@ import com.fitbook.model.product.ProductDetailEntity;
 import com.fitbook.model.product.ProductDto;
 import com.fitbook.model.product.ProductEntity;
 import com.fitbook.model.product.ProductVo;
+import com.fitbook.model.program.ProgramDto;
+import com.fitbook.model.program.ProgramVo;
 import org.apache.ibatis.annotations.Mapper;
 
 import java.util.List;
@@ -45,4 +47,7 @@ public interface AdminMapper {
 
     ResultVo selMaxPageVal(ProductDto dto);
 
+    // Program
+    int insProgram(ProgramVo vo);
+    List<ProgramVo> selProgramList(ProgramDto dto);
 }

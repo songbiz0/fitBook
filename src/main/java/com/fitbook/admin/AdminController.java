@@ -7,6 +7,7 @@ import com.fitbook.model.gpu.GpuEntity;
 import com.fitbook.model.gpu.GpuListEntity;
 import com.fitbook.model.product.ProductDetailListVo;
 import com.fitbook.model.product.ProductVo;
+import com.fitbook.model.program.ProgramListVo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -105,8 +106,23 @@ public class AdminController {
     }
 
     // 프로그램
+    @GetMapping("/programList")
+    public void programList() {
+
+    }
+
     @GetMapping("/program")
     public void program() {
+    }
+
+    @PostMapping("/program")
+    public String programProc(ProgramListVo programList, Model model) throws Exception {
+        int programListLength = programList.getProgramList().size();
+        int result = service.insProgram(programList);
+        if(programListLength != result) {
+            model.addAttribute("msg", (programListLength - result) + "개의 파일이 업로드에 실패하였습니다.");
+        }
+        return "redirect:/admin/program";
     }
 
 }
