@@ -12,5 +12,12 @@ public class OrderDto {
     private String month_first_day;
     private String today;
 
-
+    // Mypage orderlist
+    private String fromDate;
+    private String toDate;
+    private int iorder;
+    private int iuser;
+    private int recordCount;
+    private int currentPage;
+    private int startIdx;
 }

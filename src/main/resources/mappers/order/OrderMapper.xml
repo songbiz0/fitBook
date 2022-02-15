@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.fitbook.order.OrderMapper">
+
+    <select id="selOrderList" resultType="OrderVo">
+        SELECT iorder, rdt, order_status
+        FROM t_order
+        WHERE rdt BETWEEN #{fromDate} AND date_add(#{toDate}, interval +1 day)
+        AND iuser = #{iuser}
+        ORDER BY iorder DESC
+        LIMIT ${startIdx}, ${recordCount}
+    </select>
+
+    <select id="selProductDetails" resultType="ProductDetailVo">
+        SELECT B.nm, B.product_code, C.color, C.hdd,
+               C.ssd, C.price, D.quantity, C.img
+        FROM t_order A
+                 INNER JOIN t_order_product D
+                            ON A.iorder = D.iorder
+                 INNER JOIN t_product_detail C
+                            ON D.idetail = C.idetail
+                 INNER JOIN t_product_master B
+                            ON C.iproduct = B.iproduct
+        WHERE A.iorder = #{iorder}
+    </select>
+
+    <select id="selMaxPageVal" resultType="ResultVo">
+        SELECT CEIL(COUNT(iorder) / ${recordCount}) AS result
+        FROM t_order
+        WHERE rdt BETWEEN #{fromDate} AND date_add(#{toDate}, interval +1 day)
+    </select>
+</mapper>
