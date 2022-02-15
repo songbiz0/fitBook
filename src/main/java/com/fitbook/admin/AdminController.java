@@ -53,13 +53,17 @@ public class AdminController {
     }
 
     @PostMapping("/insproduct")
-    public String insProductProc(@ModelAttribute(value="ProductDetailListVo") ProductDetailListVo productList, ProductVo vo) {
-        System.out.println("vo : "+ vo.getRdt());
+    public String insProductProc(ProductDetailListVo productList, ProductVo vo) {
         int result = service.insProduct(vo, productList);
         return "redirect:/admin/insproduct";
     }
 
     // CPU
+    @GetMapping("/cpuList")
+    public void cpuList() {
+
+    }
+
     @GetMapping("/cpu")
     public void cpu() {
 
@@ -80,6 +84,11 @@ public class AdminController {
     }
 
     // GPU
+    @GetMapping("/gpuList")
+    public void gpuList() {
+
+    }
+
     @GetMapping("/gpu")
     public void gpu() {
     }

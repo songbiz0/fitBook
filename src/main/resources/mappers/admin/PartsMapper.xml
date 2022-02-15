@@ -26,4 +26,50 @@
         FROM t_product_cpu
         ORDER BY seq DESC, brand
     </select>
+
+    <select id="selGpuList" resultType="GpuVo">
+        SELECT *
+        FROM t_product_gpu
+        <if test="select != null">
+        WHERE ${select} LIKE CONCAT('%', #{search}, '%')
+        </if>
+        <if test="seq == 1">
+            ORDER BY seq
+        </if>
+        <if test="seq == 2">
+            ORDER BY seq DESC
+        </if>
+        <if test="perf == 1">
+            ORDER BY performance
+        </if>
+        <if test="perf == 2">
+            ORDER BY performance DESC
+        </if>
+    </select>
+
+    <select id="selCpuList" resultType="CpuVo">
+        SELECT *
+        FROM t_product_cpu
+        <if test="select != null">
+            WHERE ${select} LIKE CONCAT('%', #{search}, '%')
+        </if>
+        <if test="seq == 1">
+            ORDER BY seq
+        </if>
+        <if test="seq == 2">
+            ORDER BY seq DESC
+        </if>
+        <if test="perf == 1">
+            ORDER BY performance
+        </if>
+        <if test="perf == 2">
+            ORDER BY performance DESC
+        </if>
+        <if test="inner_perf == 1">
+            ORDER BY inner_gpu
+        </if>
+        <if test="inner_perf == 2">
+            ORDER BY inner_gpu DESC
+        </if>
+    </select>
 </mapper>

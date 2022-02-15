@@ -1,9 +1,11 @@
 package com.fitbook.admin;
 
 import com.fitbook.ResultVo;
+import com.fitbook.model.cpu.CpuDto;
 import com.fitbook.model.cpu.CpuEntity;
 import com.fitbook.model.cpu.CpuListEntity;
 import com.fitbook.model.cpu.CpuVo;
+import com.fitbook.model.gpu.GpuDto;
 import com.fitbook.model.gpu.GpuEntity;
 import com.fitbook.model.gpu.GpuListEntity;
 import com.fitbook.model.gpu.GpuVo;
@@ -100,12 +102,19 @@ public class AdminService {
         return result;
     }
 
+
+
     public List<GpuVo> selGpu() {
         return mapper.selGpu();
     }
-
     public List<CpuVo> selCpu() {
         return mapper.selCpu();
+    }
+    public List<GpuVo> selGpuList(GpuDto dto) {
+        return mapper.selGpuList(dto);
+    }
+    public List<CpuVo> selCpuList(CpuDto dto) {
+        return mapper.selCpuList(dto);
     }
 
     // Product

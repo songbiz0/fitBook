@@ -1,0 +1,47 @@
+<html lang="ko"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="temp/admin_page_layout">
+<head>
+  <link rel="stylesheet" th:href="@{/css/admin/gpu.css}">
+  <script defer th:src="@{/js/admin/gpu.js}"></script>
+  <script src="https://kit.fontawesome.com/898372a0bd.js" crossorigin="anonymous"></script>
+  <title></title>
+</head>
+
+<th:block layout:fragment="content">
+  <div class="w100p">
+    <div class="gpuListFrm">
+      <div class="searchDiv">
+        <div>
+        <select id="select">
+          <option value="nm">GPU명</option>
+          <option value="brand">브랜드</option>
+        </select>
+        <input type="search" placeholder="검색" id="searchText">
+        <input type="button" value="검색" id="searchBtn">
+        </div>
+        <div class="frow gap10">
+          <i class="fa-solid fa-angle-up" id="seq">세대</i>
+          <i class="fa-solid fa-angle-down" id="perf">성능수치</i>
+        </div>
+      </div>
+    </div>
+
+    <div class="w100p">
+      <table class="mytable w100p">
+        <thead>
+        <tr>
+          <th>GPU명</th>
+          <th>성능수치</th>
+          <th>세대</th>
+          <th>브랜드</th>
+        </tr>
+        </thead>
+        <tbody>
+
+        </tbody>
+      </table>
+    </div>
+  </div>
+</th:block>

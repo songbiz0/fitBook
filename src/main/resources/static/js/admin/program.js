@@ -5,6 +5,7 @@
     const frmSmBtnElem = document.querySelector('#frmSmBtn');
     frmSmBtnElem.addEventListener('click', (e) => {
         e.preventDefault();
+
         const programArr = document.querySelectorAll('.program');
         const enrollmentDivElem = document.querySelector('.program_enrollment_div');
         const list = [

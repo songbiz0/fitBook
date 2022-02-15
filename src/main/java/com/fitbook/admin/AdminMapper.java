@@ -1,8 +1,10 @@
 package com.fitbook.admin;
 
 import com.fitbook.ResultVo;
+import com.fitbook.model.cpu.CpuDto;
 import com.fitbook.model.cpu.CpuEntity;
 import com.fitbook.model.cpu.CpuVo;
+import com.fitbook.model.gpu.GpuDto;
 import com.fitbook.model.gpu.GpuEntity;
 import com.fitbook.model.gpu.GpuVo;
 import com.fitbook.model.order.OrderDto;
@@ -29,6 +31,8 @@ public interface AdminMapper {
     // Partsz
     int insCpu(CpuEntity entity);
     int insGpu(GpuEntity entity);
+    List<GpuVo> selGpuList(GpuDto dto);
+    List<CpuVo> selCpuList(CpuDto dto);
 
     //product_master 상품목록
     List<ProductVo> selProductList(ProductDto dto);

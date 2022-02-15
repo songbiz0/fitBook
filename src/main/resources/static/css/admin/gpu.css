@@ -1,5 +1,25 @@
+/* gpu insert */
 .gpu {
+    display: flex;
+    flex-direction: column;
     margin-bottom: 20px;
     padding-bottom: 20px;
     border-bottom: 1px solid black;
+    gap: 20px;
+}
+
+.utils-container {
+    display: flex;
+    justify-content: space-between;
+}
+
+/* gpuList */
+.searchDiv {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+}
+
+.frow > i {
+    cursor: pointer;
 }
