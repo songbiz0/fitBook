@@ -1,0 +1,25 @@
+
+.order-list{
+    width: 100%;
+}
+
+.order-list-div{
+    display: flex;
+    padding-bottom: 30px;
+}
+
+.selectkinds{
+    width: 100px;
+}
+
+.list-day{
+    display: flex;
+    flex-direction: column;
+    gap: 30px;
+}
+
+.css2 {
+    background-color: white !important;
+    width: 400px !important;
+    height: 36px !important;
+}

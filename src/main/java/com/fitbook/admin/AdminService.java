@@ -1,5 +1,6 @@
 package com.fitbook.admin;
 
+import com.fitbook.ResultVo;
 import com.fitbook.model.cpu.CpuEntity;
 import com.fitbook.model.cpu.CpuListEntity;
 import com.fitbook.model.cpu.CpuVo;
@@ -153,7 +154,14 @@ public class AdminService {
         return 0;
     }
 
-    public List<ProductVo> selProductList(){
-        return mapper.selProductList();
+    public List<ProductVo> selProductList(ProductDto dto){
+        int startIdx = (dto.getCurrentPage() - 1)* dto.getRecordCount();
+        if(startIdx < 0) { startIdx = 0; }
+        dto.setStartIdx(startIdx);
+        return mapper.selProductList(dto);
+    }
+
+    public ResultVo selMaxPageVal(ProductDto dto){
+        return mapper.selMaxPageVal(dto);
     }
 }

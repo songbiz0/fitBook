@@ -10,6 +10,13 @@
         INNER JOIN t_product_detail B
         ON A.iproduct = B.iproduct
         WHERE B.isrep ='Y'
+        ORDER BY iproduct DESC
+        LIMIT ${startIdx}, ${recordCount}
+    </select>
+
+    <select id="selMaxPageVal" resultType="resultVo">
+        SELECT CEIL((count(iproduct)) / ${recordCount}) AS result
+        FROM t_product_master
     </select>
 
     <insert id="insProductMaster" useGeneratedKeys="true" keyProperty="iproduct" keyColumn="iproduct">
