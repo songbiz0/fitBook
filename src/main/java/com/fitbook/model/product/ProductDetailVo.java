@@ -9,5 +9,11 @@ import org.springframework.web.multipart.MultipartFile;
 @Setter
 @ToString
 public class ProductDetailVo extends ProductDetailEntity {
+
     private MultipartFile mfFile;
+
+    private String nm;
+    private String product_code;
+    private String option;
+    private int quantity;
 }

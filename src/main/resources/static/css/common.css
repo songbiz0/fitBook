@@ -65,6 +65,8 @@ table {
 .w110p {width: 110%;}
 .wfc { width: fit-content !important; }
 
+.minw130 { min-width: 130px; }
+
 .fs11 { font-size: 11px !important; }
 .fs12 { font-size: 12px !important; }
 .fs13 { font-size: 13px !important; }
