@@ -5,14 +5,14 @@
         const recordCount = 1; //리스트 수
         let currentPage = 1; //현재 페이지
         let maxPage = 1;
-        const pagingCount = 10; //페이징 수
+        const pagingCount = 3; //페이징 수
         const searchParams = new URL(window.location.href).searchParams;
         const product_master = searchParams.get('product_master');
         const pageContainer = document.querySelector('.page-container');
         const ulElem = pageContainer.querySelector('div')
 
         //리스트 정보 불러오기
-        const myFetch = () => fetch(`/ajax/admin/product_master?currentPage=${currentPage}&recordCount=${recordCount}`)
+        const getList = () => fetch(`/ajax/admin/product_master?currentPage=${currentPage}&recordCount=${recordCount}`)
             .then(res => res.json())
             .then(list => {
                 selProductList(list);
@@ -27,7 +27,7 @@
                 console.log(data.result);
                 maxPage = data.result;
                 makePaging();
-            })
+            });
 
         getMaxPageVal();
 
@@ -58,48 +58,55 @@
             });
         }
 
-        const makePagingItem = (val, cb) => {
-            const liElem = document.createElement('li');
-            liElem.className = 'active item'
-            liElem.innerText = val;
-            liElem.addEventListener('click', cb);
-            ulElem.appendChild(liElem);
-
-        }
-
         const makePaging = () => {
             ulElem.innerHTML = null;
             const calcPage = parseInt((currentPage - 1) / pagingCount);
             const startPage = (calcPage * pagingCount) + 1;
             const lastPage = (calcPage + 1) * pagingCount;
 
+
             if (startPage > 1) {
-                makePagingItem('&lt;', () => {
+                const liElem = document.createElement('li');
+                ulElem.appendChild(liElem);
+                liElem.className = 'item';
+                liElem.innerHTML = '&lt;';
+                liElem.addEventListener('click', e => {
                     currentPage = startPage - 1;
-                    myFetch();
+                    getList();
                     makePaging();
                 });
             }
 
             for (let i = startPage; i <= (lastPage > maxPage ? maxPage : lastPage); i++) {
-                makePagingItem(i, () => {
-                    if (currentPage !== i) {
-                        currentPage = i;
-                    }
+                const liElem = document.createElement('li');
+                if(currentPage === i) {
+                    liElem.className = 'active item';
+                }
+                ulElem.appendChild(liElem);
+                liElem.className = 'item';
+                liElem.innerText = i;
+                liElem.addEventListener('click' , e =>{
+                   if(currentPage !== i){
+                       currentPage = i;
+                       getList();
+                       makePaging();
+                   }
                 });
             }
 
             if (maxPage > lastPage) {
-                makePagingItem('&gt;', () => {
+                const liElem = document.createElement('li');
+                ulElem.appendChild(liElem);
+                liElem.className = 'item';
+                liElem.innerHTML = '&gt;';
+                liElem.addEventListener('click' , e => {
                     currentPage = lastPage + 1;
-                    myFetch();
+                    getList();
                     makePaging();
                 });
             }
-
-
         }
-        myFetch();
+        getList();
     }
 }
 // 상품등록--------------------------------------------------------------------------------------------------------------[start]

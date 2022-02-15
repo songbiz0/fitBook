@@ -3,8 +3,8 @@
     gap: 10px;
 }
 
-.product-ui {
-    margin-left: 400px !important;
+.page-container > nav{
+    text-align: center;
 }
 
 
