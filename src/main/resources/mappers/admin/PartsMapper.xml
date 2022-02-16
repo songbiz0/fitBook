@@ -1,6 +1,26 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.fitbook.admin.AdminMapper">
+    <sql id="selPartsList">
+        SELECT *
+        FROM (
+        SELECT *
+        FROM ${parts}
+        WHERE
+        <choose>
+            <when test="select != null">${select} LIKE CONCAT('%', #{search}, '%')</when>
+            <otherwise>
+                nm LIKE '%%'
+                OR brand LIKE '%%'
+            </otherwise>
+        </choose>
+        LIMIT ${startIdx}, ${rowCnt}) AS t
+        <choose>
+            <when test="typeNo == 1"> ORDER BY ${type} </when>
+            <when test="typeNo == 2"> ORDER BY ${type} DESC </when>
+        </choose>
+    </sql>
+    
     <insert id="insGpu">
         INSERT INTO t_product_gpu
         (nm, performance, seq, brand)
@@ -27,50 +47,21 @@
         ORDER BY seq DESC, brand
     </select>
 
-    <select id="selGpuList" resultType="GpuVo">
-        SELECT *
-        FROM t_product_gpu
-        <if test="select != null">
-        WHERE ${select} LIKE CONCAT('%', #{search}, '%')
+    <select id="selMaxPage" resultType="ResultVo">
+        SELECT CEIL(COUNT(nm) / ${rowCnt}) AS result
+        FROM ${parts}
+        <where>
+        <if test="search != null and search != '' or select != null and select != ''">
+            ${select} LIKE CONCAT('%', #{search}, '%')
         </if>
-        <if test="seq == 1">
-            ORDER BY seq
-        </if>
-        <if test="seq == 2">
-            ORDER BY seq DESC
-        </if>
-        <if test="perf == 1">
-            ORDER BY performance
-        </if>
-        <if test="perf == 2">
-            ORDER BY performance DESC
-        </if>
-
+        </where>
     </select>
 
     <select id="selCpuList" resultType="CpuVo">
-        SELECT *
-        FROM t_product_cpu
-        <if test="select != null">
-            WHERE ${select} LIKE CONCAT('%', #{search}, '%')
-        </if>
-        <if test="seq == 1">
-            ORDER BY seq
-        </if>
-        <if test="seq == 2">
-            ORDER BY seq DESC
-        </if>
-        <if test="perf == 1">
-            ORDER BY performance
-        </if>
-        <if test="perf == 2">
-            ORDER BY performance DESC
-        </if>
-        <if test="inner_perf == 1">
-            ORDER BY inner_gpu
-        </if>
-        <if test="inner_perf == 2">
-            ORDER BY inner_gpu DESC
-        </if>
+        <include refid="selPartsList"></include>
+    </select>
+
+    <select id="selGpuList" resultType="GpuVo">
+        <include refid="selPartsList"></include>
     </select>
 </mapper>

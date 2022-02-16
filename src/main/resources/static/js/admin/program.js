@@ -83,12 +83,17 @@
         let currentPage = 1;
         let startIdx = 0;
         let rowCnt = 3;
-        let url = `/ajax/admin/programSearch?rowCnt=${rowCnt}&startIdx=${startIdx}`;
+        let selectedSeq = '';
+        let url = `/ajax/admin/programSearch?`;
 
-        const getList = (url) => {
+        const getList = (makeUrl) => {
             console.log(startIdx);
-            console.log(url);
-            fetch(url)
+            let resultUrl = url + `rowCnt=${rowCnt}&startIdx=${startIdx}` + makeUrl;
+            if(makeUrl == undefined) {
+                resultUrl = url + `rowCnt=${rowCnt}&startIdx=${startIdx}`;
+            }
+            console.log(resultUrl);
+            fetch(resultUrl)
                 .then(res => res.json())
                 .then(data => {
                     console.log(data);
@@ -98,22 +103,19 @@
                     console.log(e);
                 });
         }
-
         const seqGetList = (type, elem) => {
             searchElem = frm.querySelector('#searchText');
             let searchText = searchElem.value;
-            let result;
+            let result = '';
             if(elem.classList.contains('fa-angle-up')) {
                 elem.classList.replace('fa-angle-up', 'fa-angle-down');
-                result = url + `&search=${searchText}&${type}=2`;
+                result = `&search=${searchText}&typeNo=2&type=${type}`;
             } else {
                 elem.classList.replace('fa-angle-down', 'fa-angle-up');
-                result = url + `&search=${searchText}&${type}=1`;
+                result = `&search=${searchText}&typeNo=1&type=${type}`;
             }
-            console.log(result);
             getList(result);
         }
-
         const setList = (list) => {
             const table = document.querySelector('table');
             const isTbody = table.querySelector('tbody');
@@ -134,43 +136,57 @@
                 table.appendChild(tbody);
             });
         }
-
         const makePage = (maxPage) => {
             searchPagination.innerHTML = '';
+
+            searchElem = frm.querySelector('#searchText');
+            let searchText = searchElem.value === undefined ? '' : searchElem.value;
+            let resultUrl = '&search=' + searchText;
             let pop = Math.ceil(currentPage / pageCnt);
             startIdx = (currentPage - 1) * rowCnt;
             let lastPage = pop * pageCnt;
             let startPage = lastPage - (pageCnt - 1);
 
-            const span1 = document.createElement('span');
-            span1.innerHTML = '&lt;';
+            const span1 = document.createElement('a');
+            let click_status1;
+            if(currentPage === 1) { click_status1 = 'disabled'; }
+            span1.classList.add(click_status1);
+            span1.classList.add('item');
+            span1.innerHTML = `<i class="angle left icon mr0"></i>`;
             span1.addEventListener('click', () => {
                 currentPage = currentPage === 1 ? 1 : (currentPage - 1);
                 makePage(maxPage);
-                getList(url);
+                getList(resultUrl);
             });
             searchPagination.appendChild(span1);
 
             for(let i=startPage; i<=(lastPage < maxPage ? lastPage : maxPage); i++) {
                 const aElem = document.createElement('a');
+                let click_status;
+                if(currentPage === i) { click_status = 'active'; }
+                aElem.classList.add(click_status);
+                aElem.classList.add('item');
                 aElem.innerText = i;
                 aElem.addEventListener('click', () => {
                     currentPage = i;
                     makePage(maxPage);
-                    getList(url);
+                    getList(resultUrl);
                 });
                 searchPagination.appendChild(aElem);
             }
-            const span2 = document.createElement('span');
-            span2.innerHTML = '&gt;';
+            const span2 = document.createElement('a');
+            let click_status2;
+            if(currentPage === maxPage) { click_status2 = 'disabled'; }
+            span2.classList.add(click_status2);
+            span2.classList.add('item');
+            span2.innerHTML = `<i class="angle right icon mr0"></i>`;
             span2.addEventListener('click', () => {
                 currentPage = currentPage === maxPage ? maxPage : (currentPage + 1);
                 makePage(maxPage);
-                getList(url);
+                getList(resultUrl);
             });
             searchPagination.appendChild(span2);
         }
-
         const getMaxPage = (search) => {
             let resultUrl = `/ajax/admin/programMaxPage?rowCnt=${rowCnt}`;
             if(search != undefined) {
@@ -189,25 +205,40 @@
         }
 
         searchElem.addEventListener('keyup', () => {
-            let searchVal = searchElem.value;
-            result = url + `&search=${searchVal}`;
+            let searchVal = document.querySelector('#searchText').value;
+            let result = `&search=${searchVal}`;
+            currentPage = 1;
+
+            if(selectedSeq === 'cpu') {
+                getList(`${result}&typeNo=1&type=required_cpu`);
+            } else if(selectedSeq === 'gpu') {
+                getList(`${result}&typeNo=1&type=required_gpu`);
+            } else if(selectedSeq === 'ram') {
+                getList(`${result}&typeNo=1&type=required_ram`);
+            } else {
+                getList(result);
+            }
             getMaxPage(searchVal);
-            getList(result);
+            console.log('selectedSeq : ' + selectedSeq);
+            console.log('currentPage : ' + currentPage );
         });
 
         cpuPerfElem.addEventListener('click', () => {
-            seqGetList('cpu', cpuPerfElem);
+            seqGetList('required_cpu', cpuPerfElem);
+            selectedSeq = 'cpu';
         });
 
         gpuPerfElem.addEventListener('click', () => {
-            seqGetList('gpu', gpuPerfElem);
+            seqGetList('required_gpu', gpuPerfElem);
+            selectedSeq = 'gpu';
         });
 
         ramPerfElem.addEventListener('click', () => {
-            seqGetList('ram', ramPerfElem);
+            seqGetList('required_ram', ramPerfElem);
+            selectedSeq = 'ram';
         });
 
-        getList(url);
+        getList();
         getMaxPage();
     }
 }

@@ -29,4 +29,20 @@
         GROUP BY A.iuser
         HAVING ${type} LIKE CONCAT('%', #{keyword}, '%');
     </select>
+
+    <select id="selOrderList" resultType="OrderVo">
+        SELECT A.iorder, A.rdt, B.nm, B.uid
+        , A.spent_point, A.payment_way, A.order_status
+        , A.result_price, C.idetail, E.nm AS detailNm, (count(E.nm) - 1) AS cnt
+        FROM t_order A
+        INNER JOIN t_user B
+        ON A.iuser = B.iuser
+        INNER JOIN t_order_product C
+        ON A.iorder = C.iorder
+        INNER JOIN t_product_detail D
+        ON C.idetail = D.idetail
+        INNER JOIN t_product_master E
+        ON E.iproduct = D.iproduct
+        GROUP BY B.iuser
+    </select>
 </mapper>
