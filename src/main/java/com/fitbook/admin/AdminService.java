@@ -16,12 +16,9 @@ import com.fitbook.model.product.ProductVo;
 import com.fitbook.model.program.ProgramDto;
 import com.fitbook.model.program.ProgramListVo;
 import com.fitbook.model.program.ProgramVo;
-import org.apache.tomcat.jni.Local;
 import com.fitbook.model.product.*;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
-import org.springframework.web.multipart.MultipartFile;
 
 import java.io.File;
 import java.time.LocalDate;
@@ -182,8 +179,11 @@ public class AdminService {
         }
         return result;
     }
-
     public List<ProgramVo> selProgramList(ProgramDto dto) {
         return mapper.selProgramList(dto);
     }
+    public ResultVo selProgramMaxPage(ProgramDto dto) {
+        return mapper.selProgramMaxPage(dto);
+    }
+    //
 }

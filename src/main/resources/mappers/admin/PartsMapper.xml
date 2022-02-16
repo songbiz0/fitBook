@@ -45,6 +45,7 @@
         <if test="perf == 2">
             ORDER BY performance DESC
         </if>
+
     </select>
 
     <select id="selCpuList" resultType="CpuVo">

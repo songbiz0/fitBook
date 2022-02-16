@@ -10,4 +10,7 @@ public class ProgramDto {
     private int cpu;
     private int gpu;
     private int ram;
+
+    private int rowCnt;
+    private int startIdx;
 }

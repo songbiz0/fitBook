@@ -50,4 +50,5 @@ public interface AdminMapper {
     // Program
     int insProgram(ProgramVo vo);
     List<ProgramVo> selProgramList(ProgramDto dto);
+    ResultVo selProgramMaxPage(ProgramDto dto);
 }
