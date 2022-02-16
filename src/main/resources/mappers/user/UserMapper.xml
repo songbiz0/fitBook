@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.fitbook.user.UserMapper">
+<mapper namespace="com.fitbook.admin.AdminMapper">
     <insert id="insUser">
         INSERT INTO t_user
             (uid, upw, nm ,email)
@@ -8,7 +8,7 @@
             (#{uid}, #{upw}, #{nm}, #{email})
     </insert>
 
-    <select id="selUser" resultType="UserEntity">
+    <select id="selUser" resultType="UserVo">
         SELECT * FROM t_user
         <where>
             <if test="uid != null and uid != ''">AND uid = #{uid}</if>

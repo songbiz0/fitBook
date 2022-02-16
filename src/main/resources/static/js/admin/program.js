@@ -83,9 +83,11 @@
         let currentPage = 1;
         let startIdx = 0;
         let rowCnt = 3;
-        const url = `/ajax/admin/programSearch?rowCnt=${rowCnt}&startIdx=${startIdx}`;
+        let url = `/ajax/admin/programSearch?rowCnt=${rowCnt}&startIdx=${startIdx}`;
 
         const getList = (url) => {
+            console.log(startIdx);
+            console.log(url);
             fetch(url)
                 .then(res => res.json())
                 .then(data => {
@@ -135,6 +137,10 @@
 
         const makePage = (maxPage) => {
             searchPagination.innerHTML = '';
+            let pop = Math.ceil(currentPage / pageCnt);
+            startIdx = (currentPage - 1) * rowCnt;
+            let lastPage = pop * pageCnt;
+            let startPage = lastPage - (pageCnt - 1);
 
             const span1 = document.createElement('span');
             span1.innerHTML = '&lt;';
@@ -144,12 +150,6 @@
                 getList(url);
             });
             searchPagination.appendChild(span1);
-
-
-            let pop = Math.ceil(currentPage / pageCnt);
-            startIdx = (currentPage - 1) * rowCnt;
-            let lastPage = pop * pageCnt;
-            let startPage = lastPage - (pageCnt - 1);
 
             for(let i=startPage; i<=(lastPage < maxPage ? lastPage : maxPage); i++) {
                 const aElem = document.createElement('a');

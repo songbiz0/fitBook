@@ -1,19 +1,32 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.fitbook.admin.AdminMapper">
-    <select id="selOrderList" resultType="OrderVo">
-        SELECT A.iorder, A.rdt, B.nm, B.uid
-             , A.spent_point, A.payment_way, A.order_status
-             , A.result_price, C.idetail, E.nm AS detailNm, (count(E.nm) - 1) AS cnt
-        FROM t_order A
-        INNER JOIN t_user B
+    <select id="selUserList" resultType="UserVo">
+        SELECT A.iuser, A.uid, A.nm, A.email, c.a AS recent_price, SUM(result_price) AS result_price, B.rdt , A.rdt, A.point
+        FROM t_user A
+        INNER JOIN t_order B
         ON A.iuser = B.iuser
-        INNER JOIN t_order_product C
-        ON A.iorder = C.iorder
-        INNER JOIN t_product_detail D
-        ON C.idetail = D.idetail
-        INNER JOIN t_product_master E
-        ON E.iproduct = D.iproduct
-        GROUP BY B.iuser
+        INNER JOIN (
+        SELECT SUM(if(rdt BETWEEN DATE_ADD(NOW(), INTERVAL -1 MONTH) AND NOW(), result_price, 0)) AS a, iuser
+        FROM t_order
+        GROUP BY iuser
+        ) C
+        ON A.iuser = C.iuser
+        GROUP BY A.iuser;
+    </select>
+
+    <select id="selectUserSearchList" resultType="UserVo">
+        SELECT A.iuser, A.uid, A.nm, A.email, c.a AS recent_price, SUM(result_price) AS result_price, B.rdt , A.rdt, A.point
+        FROM t_user A
+        INNER JOIN t_order B
+        ON A.iuser = B.iuser
+        INNER JOIN (
+        SELECT SUM(if(rdt BETWEEN DATE_ADD(NOW(), INTERVAL -1 MONTH) AND NOW(), result_price, 0)) AS a, iuser
+        FROM t_order
+        GROUP BY iuser
+        ) C
+        ON A.iuser = C.iuser
+        GROUP BY A.iuser
+        HAVING ${type} LIKE CONCAT('%', #{keyword}, '%');
     </select>
 </mapper>

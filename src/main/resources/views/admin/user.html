@@ -3,9 +3,44 @@
       xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
       layout:decorate="temp/admin_page_layout">
 <head>
-    <title></title>
+    <title>회원관리</title>
+    <script defer th:src="@{/js/admin/user.js}"></script>
 </head>
 
 <th:block layout:fragment="content">
-    <img th:src="@{/images/KakaoTalk_20211222_162931127.png}"/>
+    <div>
+        <form class="search_form">
+            <select name="type" id="searchSel">
+                <option selected value="aaa">검색내용선택</option>
+                <option value="nm">이름</option>
+                <option value="result_price">아이디</option>
+                <option value="recent_price">이메일</option>
+                <option value="rdt">가입일</option>
+                <option value="recent_rdt">최근결제일</option>
+            </select>
+            </select>
+            <input type="text" id="keyword" value="">
+            <input type="submit" value="검색">
+        </form>
+
+
+        <table class="mytable w100p" id="listTable">
+            <thead>
+
+            <tr>
+                <th>번호</th>
+                <th>아이디</th>
+                <th>이름</th>
+                <th>이메일</th>
+                <th>최근한달결제금액</th>
+                <th>누적결제금액</th>
+                <th>최근결제일</th>
+                <th>가입일</th>
+                <th>포인트</th>
+            </tr>
+            </thead>
+            <tbody>
+            </tbody>
+        </table>
+    </div>
 </th:block>
