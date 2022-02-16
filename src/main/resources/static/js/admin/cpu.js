@@ -70,111 +70,164 @@
 {
     const frmElem = document.querySelector('.cpuListFrm');
     if(frmElem) {
-        let url = '/ajax/admin/cpuSearch';
-        const seq = document.querySelector('#seq');
-        const perf = document.querySelector('#perf');
-        const inner_perf = document.querySelector('#inner_perf');
-        const searchBtn = document.querySelector('#searchBtn');
+        const baseUrl = '/ajax/admin/cpuSearch?';
+        const maxUrl = '/ajax/admin/cpuMaxPage?';
+
+        const paginationElem = document.querySelector('.pagination');
+        const selectElem = document.querySelector('#select');
         const searchElem = document.querySelector('#searchText');
-        searchElem.addEventListener('keyup', () => {
-            const searchElemValLength = document.querySelector('#searchText').value.length;
-            if(searchElemValLength === 0) {
-                getList(url);
-            }
-        });
+        const seqElem = document.querySelector('#seq');
+        const perfElem = document.querySelector('#perf');
+        const innerPerfElem = document.querySelector('#inner_perf');
+        const tbodyElem = document.querySelector('table tbody');
 
-        inner_perf.addEventListener('click', () => {
-            const inner_perfElem = document.querySelector('#inner_perf');
-            const searchText = document.querySelector('#searchText').value;
-            const select = document.querySelector('#select').value;
-            let resultUrl= '';
-            if(inner_perf.classList.contains('fa-angle-up')) {
-                inner_perfElem.classList.remove('fa-angle-up');
-                inner_perfElem.classList.add('fa-angle-down');
-                resultUrl = url + `?inner_perf=2&search=${searchText}&select=${select}`;
-            } else {
-                inner_perfElem.classList.remove('fa-angle-down');
-                inner_perfElem.classList.add('fa-angle-up');
-                resultUrl = url + `?inner_perf=1&search=${searchText}&select=${select}`;
-            }
-            getList(resultUrl);
-        });
+        const rowCnt = 3;
+        const pageCnt = 1;
+        let startIdx = 0;
+        let currentPage = 1;
 
-        perf.addEventListener('click', () => {
-            const perfElem = document.querySelector('#perf');
-            const searchText = document.querySelector('#searchText').value;
-            const select = document.querySelector('#select').value;
-            let resultUrl= '';
-            if(perf.classList.contains('fa-angle-up')) {
-                perfElem.classList.remove('fa-angle-up');
-                perfElem.classList.add('fa-angle-down');
-                resultUrl = url + `?perf=2&search=${searchText}&select=${select}`;
-            } else {
-                perfElem.classList.remove('fa-angle-down');
-                perfElem.classList.add('fa-angle-up');
-                resultUrl = url + `?perf=1&search=${searchText}&select=${select}`;
-            }
-            getList(resultUrl);
-        });
-
-        seq.addEventListener('click', () => {
-            const seqElem = document.querySelector('#seq');
-            const searchText = document.querySelector('#searchText').value;
-            const select = document.querySelector('#select').value;
-            let resultUrl= '';
-            if(seqElem.classList.contains('fa-angle-up')) {
-                seqElem.classList.remove('fa-angle-up');
-                seqElem.classList.add('fa-angle-down');
-                resultUrl = url + `?seq=2&search=${searchText}&select=${select}`;
-            } else {
-                seqElem.classList.remove('fa-angle-down');
-                seqElem.classList.add('fa-angle-up');
-                resultUrl = url + `?seq=1&search=${searchText}&select=${select}`;
-            }
-            getList(resultUrl);
-        });
-
-        searchElem.addEventListener('keyup', () => {
-            const searchText = document.querySelector('#searchText').value;
-            const select = document.querySelector('#select').value;
-            const searchUrl = url + `?search=${searchText}&select=${select}`;
-            getList(searchUrl);
-        });
-
-        const getList = (url) => {
+        const getList = (addUrl) => {
+            let url = baseUrl + `startIdx=${startIdx}&rowCnt=${rowCnt}`;
+            if(addUrl) { url = url + '&' + addUrl; }
+            console.log(url);
             fetch(url)
                 .then(res => res.json())
                 .then(data => {
-                    setList(data);
                     console.log(data);
+                    setList(data);
+                    getMaxPage(addUrl);
                 })
                 .catch(e => {
-                    console.log(e);
-                });
+                    console.error(e);
+                })
         }
-
-        const setList = (list) => {
-            const table = document.querySelector('table');
-            const isTbody = table.querySelector('tbody');
-            if(isTbody) {
-                isTbody.remove();
-            }
-            const tbody = document.createElement('tbody');
-            list.forEach(item => {
-                const tr = document.createElement('tr');
-                tr.innerHTML = `
+        const setList = (data) => {
+            tbodyElem.innerHTML = '';
+            data.forEach(item => {
+                const trElem = document.createElement('tr');
+                trElem.innerHTML = `
                     <td>${item.nm}</td>
                     <td>${item.performance}</td>
                     <td>${item.inner_gpu}</td>
                     <td>${item.seq}</td>
                     <td>${item.brand}</td>
                 `;
-                tbody.appendChild(tr);
-                table.appendChild(tbody);
-            })
+                tbodyElem.appendChild(trElem);
+            });
+        }
+        const getMaxPage = (addUrl) => {
+            let url = maxUrl + `startIdx=${startIdx}&rowCnt=${rowCnt}`;
+            if(addUrl) { url =  url + '&' + addUrl; }
+            console.log(url);
+            fetch(url)
+                .then(res => res.json())
+                .then(data => {
+                    console.log(data);
+                    makePage(data.result);
+                })
+                .catch(e => {
+                    console.error(e);
+
+                })
+        }
+        const makePage = (maxPage) => {
+            paginationElem.innerHTML = '';
+            console.log(paginationElem);
+            const aElem1 = document.createElement('a');
+            const aElem2 = document.createElement('a');
+
+            const pop = Math.ceil(currentPage / pageCnt);
+            const lastPage = pop * pageCnt;
+            const startPage = lastPage - (pageCnt - 1);
+
+            const searchVal = searchElem.value;
+            const selectVal = selectElem.value;
+
+            let url = `search=${searchVal}&select=${selectVal}`;
+            startIdx = (currentPage - 1) * rowCnt;
+
+
+            let status1;
+            if(currentPage === 1 || maxPage === 0) { status1 = 'disabled'; }
+            aElem1.classList.add(status1);
+            aElem1.classList.add('item');
+            aElem1.innerHTML = `<i class="angle left icon mr0"></i>`;
+            aElem1.addEventListener('click', () => {
+                currentPage = currentPage === 1 ? 1 : (currentPage - 1);
+                makePage(maxPage);
+                getList(url);
+            });
+            paginationElem.appendChild(aElem1);
+
+            for(let i=startPage; i<=(lastPage < maxPage ? lastPage : maxPage); i++){
+                let status;
+                const aElem3 = document.createElement('a');
+                if(currentPage === i) { status = 'active'; }
+                aElem3.innerText = i;
+                aElem3.classList.add('item');
+                aElem3.classList.add(status);
+                aElem3.addEventListener('click', () => {
+                    currentPage = i;
+                    makePage(maxPage);
+                    getList(url);
+                });
+                paginationElem.appendChild(aElem3);
+            }
+
+            let status2;
+            if(currentPage === maxPage) { status2 = 'disabled'; }
+            aElem2.classList.add('item');
+            aElem2.classList.add(status2);
+            aElem2.innerHTML = `<i class="angle right icon mr0"></i>`;
+            aElem2.addEventListener('click', () => {
+                currentPage = currentPage === maxPage ? maxPage : (currentPage + 1);
+                console.log(currentPage);
+                makePage(maxPage);
+                getList(url);
+            });
+            paginationElem.appendChild(aElem2);
+        }
+        const getListFromSortStatus = (elem, sortType) => {
+            let url = makeUrl(sortType);
+            if(elem.classList.contains('fa-angle-down')) {
+                elem.classList.replace('fa-angle-down', 'fa-angle-up');
+                url = url + 'typeNo=1';
+            } else {
+                elem.classList.replace('fa-angle-up', 'fa-angle-down');
+                url = url + 'typeNo=2';
+            }
+            getList(url);
+        }
+        const makeUrl = (sortType) => {
+            const searchVal = searchElem.value;
+            const selectVal = selectElem.value;
+            let url = `search=${searchVal}&select=${selectVal}`;
+            if(sortType) {
+                url = url + `&type=${sortType}&`;
+            }
+            return url;
         }
 
-        getList(url);
+        selectElem.addEventListener('change', () => {
+            getList(makeUrl());
+        });
 
+        searchElem.addEventListener('keyup', () => {
+            getList(makeUrl());
+        });
+
+        seqElem.addEventListener('click', () => {
+            getListFromSortStatus(seqElem, 'seq');
+        });
+
+        perfElem.addEventListener('click', () => {
+            getListFromSortStatus(perfElem, 'performance');
+        });
+
+        innerPerfElem.addEventListener('click', () => {
+            getListFromSortStatus(innerPerfElem, 'inner_gpu');
+        });
+
+        getList();
     }
 }
