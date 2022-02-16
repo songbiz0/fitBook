@@ -17,6 +17,8 @@ import com.fitbook.model.program.ProgramDto;
 import com.fitbook.model.program.ProgramListVo;
 import com.fitbook.model.program.ProgramVo;
 import com.fitbook.model.product.*;
+import com.fitbook.model.user.UserDto;
+import com.fitbook.model.user.UserVo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -185,5 +187,16 @@ public class AdminService {
     public ResultVo selProgramMaxPage(ProgramDto dto) {
         return mapper.selProgramMaxPage(dto);
     }
-    //
+
+    //User List
+    public List<UserVo> selUserList() {
+        List<UserVo> list = mapper.selUser();
+        return list;
+    }
+
+    //User Search List
+    public List<UserVo> selectUserSearchList(UserDto dto) throws Exception {
+        return mapper.selectUserSearchList(dto);
+
+    }
 }
