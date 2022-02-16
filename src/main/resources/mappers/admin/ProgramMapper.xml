@@ -8,18 +8,40 @@
         (#{nm}, ${required_cpu}, ${required_gpu}, ${required_ram}, #{img})
     </insert>
 
-    <select id="selProgramList" resultType="ProgramVo">
-        SELECT *
+    <select id="selProgramMaxPage" resultType="ResultVo">
+        SELECT CEIL(COUNT(iprogram) / ${rowCnt}) AS result
         FROM t_program
-        <if test="search != null and search != ''">
+        <if test="search != null">
             WHERE nm LIKE CONCAT('%', #{search}, '%')
         </if>
-        <if test="cpu == 1">
-            ORDER BY required_cpu
+    </select>
+
+    <select id="selProgramList" resultType="ProgramVo">
+        SELECT *
+        FROM
+        <if test="cpu != 0">
+            (
+            SELECT *
+            FROM
+            <if test="cpu == 1">
+                (
+                SELECT *
+                FROM t_program
+                LIMIT 0, 3) AS t ) t_program
+                ORDER BY required_cpu
+            </if>
+            <if test="cpu == 2">
+                (
+                SELECT *
+                FROM t_program
+                LIMIT 0, 3) AS t ) t_program
+                ORDER BY required_cpu DESC
+            </if>
         </if>
-        <if test="cpu == 2">
-            ORDER BY required_cpu DESC
+        <if test="cpu == 0">
+            t_program
         </if>
+
         <if test="gpu == 1">
             ORDER BY required_gpu
         </if>
@@ -32,5 +54,12 @@
         <if test="ram == 2">
             ORDER BY required_ram DESC
         </if>
+        <if test="search != null and search != ''">
+            WHERE nm LIKE CONCAT('%', #{search}, '%')
+        </if>
+        <if test="search == null">
+            WHERE nm LIKE '%%'
+        </if>
+        LIMIT ${startIdx}, ${rowCnt}
     </select>
 </mapper>

@@ -31,19 +31,19 @@
                     </div>
                 </div>
                 <div class="ui right labeled input">
-                    <input type="text" class="requred_cpu">
+                    <input type="text" class="required_cpu">
                     <div class="ui basic label">
                         권장 CPU
                     </div>
                 </div>
                 <div class="ui right labeled input">
-                    <input type="text" class="requred_gpu">
+                    <input type="text" class="required_gpu">
                     <div class="ui basic label">
                         권장 GPU
                     </div>
                 </div>
                 <div class="ui right labeled input">
-                    <input type="text" class="requred_ram">
+                    <input type="text" class="required_ram">
                     <div class="ui basic label">
                         권장 RAM
                     </div>
@@ -69,39 +69,145 @@
 
 // 프로그램 목록
 {
-    const url = '/ajax/admin/programSearch';
-    const getList = (url) => {
-        fetch(url)
-            .then(res => res.json())
-            .then(data => {
-                console.log(data);
-                setList(data);
-            })
-            .catch(e => {
-                console.log(e);
-            });
-    }
+    const frm = document.querySelector('.programListFrm');
+    if(frm) {
+        const cpuPerfElem = frm.querySelector('#required_cpu');
+        const gpuPerfElem = frm.querySelector('#required_gpu');
+        const ramPerfElem = frm.querySelector('#required_ram');
+        const searchPagination = document.querySelector('#searchPagination');
 
-    const setList = (list) => {
-        const table = document.querySelector('table');
-        const isTbody = table.querySelector('tbody');
-        if(isTbody) {
-            isTbody.remove();
+        let searchElem = document.querySelector('#searchText');
+        let result;
+        let maxPage;
+        let pageCnt = 3;
+        let currentPage = 1;
+        let startIdx = 0;
+        let rowCnt = 3;
+        const url = `/ajax/admin/programSearch?rowCnt=${rowCnt}&startIdx=${startIdx}`;
+
+        const getList = (url) => {
+            fetch(url)
+                .then(res => res.json())
+                .then(data => {
+                    console.log(data);
+                    setList(data);
+                })
+                .catch(e => {
+                    console.log(e);
+                });
         }
-        const tbody = document.createElement('tbody');
-        list.forEach(item => {
-            const tr = document.createElement('tr');
-            tr.innerHTML = `
+
+        const seqGetList = (type, elem) => {
+            searchElem = frm.querySelector('#searchText');
+            let searchText = searchElem.value;
+            let result;
+            if(elem.classList.contains('fa-angle-up')) {
+                elem.classList.replace('fa-angle-up', 'fa-angle-down');
+                result = url + `&search=${searchText}&${type}=2`;
+            } else {
+                elem.classList.replace('fa-angle-down', 'fa-angle-up');
+                result = url + `&search=${searchText}&${type}=1`;
+            }
+            console.log(result);
+            getList(result);
+        }
+
+        const setList = (list) => {
+            const table = document.querySelector('table');
+            const isTbody = table.querySelector('tbody');
+            if (isTbody) {
+                isTbody.remove();
+            }
+            const tbody = document.createElement('tbody');
+            list.forEach(item => {
+                const tr = document.createElement('tr');
+                tr.innerHTML = `
                 <td><img class="w70 h50" src="/images/program/${item.nm}/${item.img}"></td>
                 <td>${item.nm}</td>
                 <td>${item.required_cpu}</td>
                 <td>${item.required_gpu}</td>
                 <td>${item.required_ram}</td>
             `;
-            tbody.appendChild(tr);
-            table.appendChild(tbody);
-        });
-    }
+                tbody.appendChild(tr);
+                table.appendChild(tbody);
+            });
+        }
 
-    getList(url);
+        const makePage = (maxPage) => {
+            searchPagination.innerHTML = '';
+
+            const span1 = document.createElement('span');
+            span1.innerHTML = '&lt;';
+            span1.addEventListener('click', () => {
+                currentPage = currentPage === 1 ? 1 : (currentPage - 1);
+                makePage(maxPage);
+                getList(url);
+            });
+            searchPagination.appendChild(span1);
+
+
+            let pop = Math.ceil(currentPage / pageCnt);
+            startIdx = (currentPage - 1) * rowCnt;
+            let lastPage = pop * pageCnt;
+            let startPage = lastPage - (pageCnt - 1);
+
+            for(let i=startPage; i<=(lastPage < maxPage ? lastPage : maxPage); i++) {
+                const aElem = document.createElement('a');
+                aElem.innerText = i;
+                aElem.addEventListener('click', () => {
+                    currentPage = i;
+                    makePage(maxPage);
+                    getList(url);
+                });
+                searchPagination.appendChild(aElem);
+            }
+            const span2 = document.createElement('span');
+            span2.innerHTML = '&gt;';
+            span2.addEventListener('click', () => {
+                currentPage = currentPage === maxPage ? maxPage : (currentPage + 1);
+                makePage(maxPage);
+                getList(url);
+            });
+            searchPagination.appendChild(span2);
+        }
+
+        const getMaxPage = (search) => {
+            let resultUrl = `/ajax/admin/programMaxPage?rowCnt=${rowCnt}`;
+            if(search != undefined) {
+                resultUrl += `&search=${search}`;
+            }
+
+            fetch(resultUrl)
+                .then(res => res.json())
+                .then(data => {
+                    maxPage = data.result;
+                    makePage(maxPage);
+                })
+                .catch(e => {
+                    console.error(e);
+                });
+        }
+
+        searchElem.addEventListener('keyup', () => {
+            let searchVal = searchElem.value;
+            result = url + `&search=${searchVal}`;
+            getMaxPage(searchVal);
+            getList(result);
+        });
+
+        cpuPerfElem.addEventListener('click', () => {
+            seqGetList('cpu', cpuPerfElem);
+        });
+
+        gpuPerfElem.addEventListener('click', () => {
+            seqGetList('gpu', gpuPerfElem);
+        });
+
+        ramPerfElem.addEventListener('click', () => {
+            seqGetList('ram', ramPerfElem);
+        });
+
+        getList(url);
+        getMaxPage();
+    }
 }

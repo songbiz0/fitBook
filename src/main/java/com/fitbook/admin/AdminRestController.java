@@ -76,4 +76,9 @@ public class AdminRestController {
     public List<ProgramVo> programList(ProgramDto dto) {
         return service.selProgramList(dto);
     }
+
+    @GetMapping("/programMaxPage")
+    public ResultVo programMaxPage(ProgramDto dto) {
+        return service.selProgramMaxPage(dto);
+    }
 }

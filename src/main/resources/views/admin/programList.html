@@ -15,12 +15,11 @@
             <div class="searchDiv">
                 <div>
                     <input type="search" placeholder="검색" id="searchText">
-                    <input type="button" value="검색" id="searchBtn">
                 </div>
                 <div class="frow gap10">
-                    <i class="fa-solid fa-angle-down" id="required_cpu">CPU성능수치</i>
-                    <i class="fa-solid fa-angle-down" id="required_gpu">GPU성능수치</i>
-                    <i class="fa-solid fa-angle-down" id="required_ram">RAM성능수치</i>
+                    <i class="fa-solid fa-angle-up" id="required_cpu">CPU성능수치</i>
+                    <i class="fa-solid fa-angle-up" id="required_gpu">GPU성능수치</i>
+                    <i class="fa-solid fa-angle-up" id="required_ram">RAM성능수치</i>
                 </div>
             </div>
         </div>
@@ -41,5 +40,6 @@
                 </tbody>
             </table>
         </div>
+        <div id="searchPagination"></div>
     </div>
 </th:block>
