@@ -55,7 +55,7 @@ public interface AdminMapper {
     ResultVo selProgramMaxPage(ProgramDto dto);
 
     // Member List
-    List<UserVo> selUser();
+    List<UserVo> selUserList();
 
     // Member UserSearchList
     List<UserVo> selectUserSearchList(UserDto dto);

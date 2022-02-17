@@ -190,7 +190,7 @@ public class AdminService {
 
     //User List
     public List<UserVo> selUserList() {
-        List<UserVo> list = mapper.selUser();
+        List<UserVo> list = mapper.selUserList();
         return list;
     }
 
