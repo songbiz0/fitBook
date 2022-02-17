@@ -2,16 +2,22 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.fitbook.admin.AdminMapper">
     <select id="selProductList" resultType="ProductVo">
-        SELECT A.iproduct, A.nm, A.product_code
-             , A.icpu, A.igpu
-             , A.ram, A.size, A.weight
-             ,A.brand, A.os, B.img, B.stock
+        SELECT * FROM (
+        SELECT A.iproduct, A.nm, A.product_code,A.brand,
+               B.img, B.stock, B.price
         FROM t_product_master A
         INNER JOIN t_product_detail B
         ON A.iproduct = B.iproduct
-        WHERE B.isrep ='Y'
-        ORDER BY iproduct DESC
-        LIMIT ${startIdx}, ${recordCount}
+        <where>
+            <if test="select != null">
+                (B.isrep = 'Y' AND ${select} LIKE CONCAT('%',#{search},'%'))
+            </if>
+
+            <if test="total != null">
+                OR(B.isrep = 'Y' AND ${total} LIKE CONCAT('%',#{search},'%'))
+            </if>
+        </where>
+        LIMIT ${startIdx}, ${recordCount} ) AS t
     </select>
 
     <select id="selMaxPageVal" resultType="resultVo">

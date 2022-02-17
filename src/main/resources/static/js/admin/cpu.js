@@ -135,8 +135,8 @@
         });
 
         searchElem.addEventListener('keyup', () => {
-            const searchText = document.querySelector('#searchText').value;
-            const select = document.querySelector('#select').value;
+            const searchText = document.querySelector('#searchText').value; // i7
+            const select = document.querySelector('#select').value; // nm
             const searchUrl = url + `?search=${searchText}&select=${select}`;
             getList(searchUrl);
         });

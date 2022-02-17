@@ -53,6 +53,7 @@ public class AdminRestController {
     //상품목록
     @GetMapping("/product_master")
     public List<ProductVo>  selProductList(ProductDto dto){
+        System.out.println(dto);
         return service.selProductList(dto);
     }
 
