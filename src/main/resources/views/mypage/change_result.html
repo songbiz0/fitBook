@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security"
+      layout:decorate="temp/thymeleaf_layout">
+<head>
+    <meta charset="UTF-8">
+    <title>로그인</title>
+</head>
+<body>
+<th:block layout:fragment="content">
+    <main class="btgrey">
+        <div class="ui center aligned container mt50">
+            <h3 class="mb30">회원 정보 변경</h3>
+            <div class="fc gap20 mt50">
+                <div class="fs50"><i class="check icon"></i></div>
+                <div class="ui fs15">정보 변경이 완료되었습니다.</div>
+                <div>
+                    <a th:href="@{/}"><button class="ui basic tiny button">홈으로</button></a>
+                </div>
+            </div>
+        </div>
+    </main>
+</th:block>
+</body>
+</html>

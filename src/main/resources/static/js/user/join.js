@@ -104,6 +104,11 @@ let emailCode = '';
 
 emailConfBtnElem.addEventListener('click', e => {
     e.preventDefault();
+
+    if(emailOk) {
+        return;
+    }
+
     if(!emailRegex.test(emailInput.value)) {
         $('body').toast({
             class: 'error',
@@ -174,6 +179,7 @@ emailCodeBtnElem.addEventListener('click', e => {
         });
         confirmedEmail = emailInput.value;
         emailInput.classList.add('info');
+        emailconInput.setAttribute('disabled', '');
         emailOk = true;
     } else {
         $('body').toast({
@@ -190,12 +196,14 @@ joinFormElem.addEventListener('submit', e => {
             message: '올바른 정보를 입력해주세요.'
         });
         e.preventDefault();
+        return;
+    }
+    if(emailInput.value !== confirmedEmail) {
+        e.preventDefault();
+        return;
     }
     emailInput.setAttribute('readonly', '');
     emailInput.removeAttribute('disabled');
-    if(emailInput.value !== confirmedEmail) {
-        e.preventDefault();
-    }
 });
 
 joinCancelBtnElem.addEventListener('click', e => {
