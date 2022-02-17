@@ -43,6 +43,12 @@ public class AdminController {
     public void product_master(){
     }
 
+    //상품디테일
+    @GetMapping("/product_master_detail")
+    public void product_master_detail(){
+
+    }
+
     @GetMapping("/insproduct")
     public void insProduct(Model model) {
         model.addAttribute("gpuData", service.selGpu());
