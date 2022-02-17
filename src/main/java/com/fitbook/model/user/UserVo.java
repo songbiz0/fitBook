@@ -8,5 +8,8 @@ import lombok.Setter;
 public class UserVo extends UserEntity {
     private int result_price;
     private int recent_price;
-    private int recent_rdt;
+    private String recent_rdt;
+    private String join_rdt;
+
+
 }
