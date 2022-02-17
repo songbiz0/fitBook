@@ -3,6 +3,7 @@ package com.fitbook.user;
 import com.fitbook.ResultVo;
 import com.fitbook.model.email.EmailDto;
 import com.fitbook.model.user.UserEntity;
+import com.fitbook.mypage.MypageService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -13,6 +14,7 @@ import org.springframework.web.bind.annotation.*;
 public class UserController {
 
     @Autowired private UserService service;
+    @Autowired private MypageService mypageService;
 
     @GetMapping("/login")
     public void login(@ModelAttribute UserEntity userEntity) {}
@@ -33,6 +35,14 @@ public class UserController {
         UserEntity entity = new UserEntity();
         entity.setUid(uid);
         result.setResult(service.selUser(entity) == null ? 0 : 1);
+        return result;
+    }
+
+    @PostMapping("/pwChk")
+    @ResponseBody
+    public ResultVo pwChk(@RequestParam String upw) {
+        ResultVo result = new ResultVo();
+        result.setResult(mypageService.confirmPassword(upw) ? 1 : 0);
         return result;
     }
 
