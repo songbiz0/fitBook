@@ -1,9 +1,6 @@
 package com.fitbook.admin;
 
-import com.fitbook.Const;
-import com.fitbook.model.cpu.CpuEntity;
 import com.fitbook.model.cpu.CpuListEntity;
-import com.fitbook.model.gpu.GpuEntity;
 import com.fitbook.model.gpu.GpuListEntity;
 import com.fitbook.model.product.ProductDetailListVo;
 import com.fitbook.model.product.ProductVo;
@@ -12,7 +9,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 @Controller
 @RequestMapping("/admin")

@@ -13,4 +13,9 @@ public class CpuDto {
     private int inner_perf; // 내장그래픽
     private String search; // 검색 한 내용
     private String select; //  nm
+    private String type;
+    private int typeNo;
+    private String parts;
+    private int rowCnt;
+    private int startIdx;
 }
