@@ -108,10 +108,20 @@ public class AdminService {
         return mapper.selCpu();
     }
     public List<GpuVo> selGpuList(GpuDto dto) {
+        dto.setParts("t_product_gpu");
         return mapper.selGpuList(dto);
     }
     public List<CpuVo> selCpuList(CpuDto dto) {
+        dto.setParts("t_product_cpu");
         return mapper.selCpuList(dto);
+    }
+    public ResultVo gpuMaxPage(GpuDto dto) {
+        dto.setParts("t_product_gpu");
+        return mapper.selMaxPage(dto);
+    }
+    public ResultVo cpuMaxPage(CpuDto dto) {
+        dto.setParts("t_product_cpu");
+        return mapper.selMaxPage(dto);
     }
 
     // Product
@@ -182,6 +192,9 @@ public class AdminService {
         return result;
     }
     public List<ProgramVo> selProgramList(ProgramDto dto) {
+        if("".equals(dto.getSearch()) || dto.getSearch() == null) {
+            dto.setSearch("");
+        }
         return mapper.selProgramList(dto);
     }
     public ResultVo selProgramMaxPage(ProgramDto dto) {
