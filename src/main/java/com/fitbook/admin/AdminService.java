@@ -16,12 +16,11 @@ import com.fitbook.model.product.ProductVo;
 import com.fitbook.model.program.ProgramDto;
 import com.fitbook.model.program.ProgramListVo;
 import com.fitbook.model.program.ProgramVo;
-import org.apache.tomcat.jni.Local;
 import com.fitbook.model.product.*;
+import com.fitbook.model.user.UserDto;
+import com.fitbook.model.user.UserVo;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
-import org.springframework.web.multipart.MultipartFile;
 
 import java.io.File;
 import java.time.LocalDate;
@@ -109,10 +108,20 @@ public class AdminService {
         return mapper.selCpu();
     }
     public List<GpuVo> selGpuList(GpuDto dto) {
+        dto.setParts("t_product_gpu");
         return mapper.selGpuList(dto);
     }
     public List<CpuVo> selCpuList(CpuDto dto) {
+        dto.setParts("t_product_cpu");
         return mapper.selCpuList(dto);
+    }
+    public ResultVo gpuMaxPage(GpuDto dto) {
+        dto.setParts("t_product_gpu");
+        return mapper.selMaxPage(dto);
+    }
+    public ResultVo cpuMaxPage(CpuDto dto) {
+        dto.setParts("t_product_cpu");
+        return mapper.selMaxPage(dto);
     }
 
     // Product
@@ -192,8 +201,25 @@ public class AdminService {
         }
         return result;
     }
-
     public List<ProgramVo> selProgramList(ProgramDto dto) {
+        if("".equals(dto.getSearch()) || dto.getSearch() == null) {
+            dto.setSearch("");
+        }
         return mapper.selProgramList(dto);
+    }
+    public ResultVo selProgramMaxPage(ProgramDto dto) {
+        return mapper.selProgramMaxPage(dto);
+    }
+
+    //User List
+    public List<UserVo> selUserList() {
+        List<UserVo> list = mapper.selUserList();
+        return list;
+    }
+
+    //User Search List
+    public List<UserVo> selectUserSearchList(UserDto dto) throws Exception {
+        return mapper.selectUserSearchList(dto);
+
     }
 }

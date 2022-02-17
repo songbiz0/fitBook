@@ -8,7 +8,7 @@
             (#{uid}, #{upw}, #{nm}, #{email})
     </insert>
 
-    <select id="selUser" resultType="UserEntity">
+    <select id="selUser" resultType="UserVo">
         SELECT * FROM t_user
         <where>
             <if test="uid != null and uid != ''">AND uid = #{uid}</if>

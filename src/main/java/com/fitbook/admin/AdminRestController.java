@@ -61,12 +61,23 @@ public class AdminRestController {
     public ResultVo selMaxPageVal(ProductDto dto){
         return service.selMaxPageVal(dto);
     }
+
+    // Parts
+    @GetMapping("/gpuMaxPage")
+    public ResultVo selPartsMaxPage(GpuDto dto) {
+        return service.gpuMaxPage(dto);
+    }
     @GetMapping("/gpuSearch")
     public List<GpuVo> selGpuList(GpuDto dto) {
         System.out.println(dto);
         return service.selGpuList(dto);
     }
 
+    @GetMapping("/cpuMaxPage")
+    public ResultVo selPartsMaxPage(CpuDto dto) {
+        System.out.println("maxPage : " + dto);
+        return service.cpuMaxPage(dto);
+    }
     @GetMapping("/cpuSearch")
     public List<CpuVo> selCpuList(CpuDto dto) {
         System.out.println(dto);
@@ -76,5 +87,24 @@ public class AdminRestController {
     @GetMapping("/programSearch")
     public List<ProgramVo> programList(ProgramDto dto) {
         return service.selProgramList(dto);
+    }
+    @GetMapping("/programMaxPage")
+    public ResultVo programMaxPage(ProgramDto dto) {
+        return service.selProgramMaxPage(dto);
+    }
+
+    @GetMapping("/user")
+    public List<UserVo> selUserList() {
+        return service.selUserList();
+    }
+
+    @GetMapping("/selectUserSearchList")
+    private List<UserVo> selectUserSearchList(@RequestParam String type, @RequestParam String keyword) throws Exception {
+        System.out.println(type);
+        System.out.println(keyword);
+        UserDto dto = new UserDto();
+        dto.setType(type);
+        dto.setKeyword(keyword);
+        return service.selectUserSearchList(dto);
     }
 }

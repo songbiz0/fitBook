@@ -10,12 +10,11 @@ import com.fitbook.model.gpu.GpuVo;
 import com.fitbook.model.order.OrderDto;
 import com.fitbook.model.order.OrderVo;
 import com.fitbook.model.orderproduct.OrderProductVo;
-import com.fitbook.model.product.ProductDetailEntity;
-import com.fitbook.model.product.ProductDto;
-import com.fitbook.model.product.ProductEntity;
-import com.fitbook.model.product.ProductVo;
+import com.fitbook.model.product.*;
 import com.fitbook.model.program.ProgramDto;
 import com.fitbook.model.program.ProgramVo;
+import com.fitbook.model.user.UserDto;
+import com.fitbook.model.user.UserVo;
 import org.apache.ibatis.annotations.Mapper;
 
 import java.util.List;
@@ -30,11 +29,13 @@ public interface AdminMapper {
     // Order List
     List<OrderVo> selOrderList();
 
-    // Partsz
+    // Parts
     int insCpu(CpuEntity entity);
     int insGpu(GpuEntity entity);
     List<GpuVo> selGpuList(GpuDto dto);
     List<CpuVo> selCpuList(CpuDto dto);
+    ResultVo selMaxPage(GpuDto dto);
+    ResultVo selMaxPage(CpuDto dto);
 
     //product_master 상품목록
     List<ProductVo> selProductList(ProductDto dto);
@@ -50,4 +51,11 @@ public interface AdminMapper {
     // Program
     int insProgram(ProgramVo vo);
     List<ProgramVo> selProgramList(ProgramDto dto);
+    ResultVo selProgramMaxPage(ProgramDto dto);
+
+    // Member List
+    List<UserVo> selUserList();
+
+    // Member UserSearchList
+    List<UserVo> selectUserSearchList(UserDto dto);
 }
