@@ -22,3 +22,8 @@
 .frow > i {
     cursor: pointer;
 }
+
+.program-list-tr:hover {
+    cursor: pointer;
+    background-color: #e3e3e3;
+}

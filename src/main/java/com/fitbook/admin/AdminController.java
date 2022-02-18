@@ -126,7 +126,11 @@ public class AdminController {
         return "redirect:/admin/program";
     }
     @GetMapping("/programDetail")
-    public void programDetail() {
+    public void programDetail() {}
+
+    // QnA
+    @GetMapping("/qna")
+    public void qnaList() {
 
     }
 }

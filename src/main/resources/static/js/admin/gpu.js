@@ -80,6 +80,7 @@
         const getList = (addUrl) => {
             let resultUrl = url + `startIdx=${startIdx}&rowCnt=${rowCnt}`;
             if(addUrl) { resultUrl = resultUrl + `&` + addUrl; }
+            console.log(resultUrl);
             fetch(resultUrl)
                 .then(res => res.json())
                 .then(data => {
@@ -237,7 +238,7 @@
         })
 
         getMaxPage();
-        getList(url);
+        getList();
 
     }
 }

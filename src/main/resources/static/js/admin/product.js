@@ -40,7 +40,7 @@
                 tbodyElem.appendChild(trElem);
 
                 trElem.innerHTML = `
-            <td><img class="w70 h50" src="/images/products/detail/${item.iproduct}/${item.img}"></td>
+            <td><img class="w70 h50" src="/imgPath/products/detail/${item.iproduct}/${item.img}"></td>
             <td>${item.iproduct}</td>
             <td>${item.product_code}</td>
             <td>${item.nm}</td>
