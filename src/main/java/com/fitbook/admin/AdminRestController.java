@@ -12,6 +12,8 @@ import com.fitbook.model.product.ProductDto;
 import com.fitbook.model.product.ProductVo;
 import com.fitbook.model.program.ProgramDto;
 import com.fitbook.model.program.ProgramVo;
+import com.fitbook.model.user.UserDto;
+import com.fitbook.model.user.UserVo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -57,6 +59,7 @@ public class AdminRestController {
         return service.selProductList(dto);
     }
 
+
     @GetMapping("/maxpage")
     public ResultVo selMaxPageVal(ProductDto dto){
         return service.selMaxPageVal(dto);
@@ -80,7 +83,7 @@ public class AdminRestController {
     }
     @GetMapping("/cpuSearch")
     public List<CpuVo> selCpuList(CpuDto dto) {
-        System.out.println(dto);
+        System.out.println("search : " + dto);
         return service.selCpuList(dto);
     }
 
