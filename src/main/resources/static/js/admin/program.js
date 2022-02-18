@@ -126,7 +126,7 @@
             list.forEach(item => {
                 const tr = document.createElement('tr');
                 tr.innerHTML = `
-                <td><img class="w70 h50" src="/images/program/${item.nm}/${item.img}"></td>
+                <td><img class="w70 h50" src="/images/program/${item.iprogram}/${item.img}"></td>
                 <td>${item.nm}</td>
                 <td>${item.required_cpu}</td>
                 <td>${item.required_gpu}</td>
@@ -134,6 +134,9 @@
             `;
                 tbody.appendChild(tr);
                 table.appendChild(tbody);
+                tr.addEventListener('click', () => {
+                    location.href = `/admin/programDetail?iprogram=${item.iprogram}`;
+                })
             });
         }
         const makePage = (maxPage) => {
@@ -240,5 +243,101 @@
 
         getList();
         getMaxPage();
+    }
+}
+
+// Program Detail
+{
+    const programDetailContainer = document.querySelector('.program-detail');
+    if(programDetailContainer) {
+        const inputFileContainer = document.querySelector('.input-file');
+        const myTableElem = document.querySelector('.mytable');
+        const params = (new URL(document.location)).searchParams;
+        const iprogram = params.get('iprogram');
+        const idx = document.querySelector('.idx');
+        const imgContainerElem = document.querySelector('.img-container');
+        const modBtnElem = document.querySelector('#modBtn');
+        const delBtnElem = document.querySelector('#delBtn');
+        const baseUrl = `/ajax/admin/programDetail?iprogram=${iprogram}`;
+        const paramUrl = `/ajax/admin/programDetail`;
+        const getList = () => {
+            fetch(baseUrl)
+                .then(res => res.json())
+                .then(data => {
+                    setList(data);
+                })
+                .catch(e => {
+                    console.error(e);
+                });
+        }
+        const setList = (data) => {
+            const tbody = document.createElement('tbody');
+            imgContainerElem.innerHTML = `
+                <img class="w500 h300 img-file" src="/images/program/${data.iprogram}/${data.img}">
+            `;
+            tbody.innerHTML = '';
+            idx.innerText = data.iprogram;
+            tbody.innerHTML = `
+                <tr>
+                    <th>프로그램명</th>
+                    <td class="nm">${data.nm}</td>
+                </tr>
+                <tr>
+                    <th>CPU 요구사항</th>
+                    <td class="cpu">${data.required_cpu}</td>
+                </tr>
+                <tr>
+                    <th>GPU 요구사항</th>
+                    <td class="gpu">${data.required_gpu}</td>
+                </tr>
+                <tr>
+                    <th>RAM 요구사항</th>
+                    <td class="ram">${data.required_ram}</td>
+                </tr>
+            `;
+            myTableElem.appendChild(tbody);
+        }
+        const readImg = (input) => {
+            const reader = new FileReader();
+            reader.readAsDataURL(input.files[0]);
+            reader.onload = (e) => {
+                const previewImg = document.querySelector('.imgTest');
+                previewImg.src = e.target.result;
+            }
+        }
+
+        modBtnElem.addEventListener('click', () => {
+            if(modBtnElem.classList.contains('mod')) {
+                inputFileContainer.innerHTML = '';
+                modBtnElem.classList.replace('mod', 'chk');
+                const inputElem = document.createElement('input');
+                inputElem.type = 'file';
+                inputElem.classList.add('mfFile');
+                inputFileContainer.appendChild(inputElem);
+
+            } else {
+                modBtnElem.classList.replace('chk', 'mod');
+                const inputElem = document.querySelector('.mfFile');
+                var form = new FormData();
+                console.log(inputElem.files[0]);
+                //TODO 취소, 저장, 수정, 삭제 버튼 / input value 다 받아서 formdata에 append
+                form.append('mfFile', inputElem.files[0]);
+                form.append('nm', '배틀그라운드');
+                form.append('iprogram', iprogram);
+                fetch(paramUrl, {
+                    method : 'post',
+                    body : form
+                })
+                    .then(res => res.json())
+                    .then(data => {
+                        console.log(data);
+                    })
+                    .catch(e => {
+                        console.error(e);
+                    })
+            }
+        });
+
+        getList();
     }
 }

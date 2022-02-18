@@ -2,9 +2,11 @@ package com.fitbook.model.program;
 
 import lombok.Getter;
 import lombok.Setter;
+import lombok.ToString;
 
 @Getter
 @Setter
+@ToString
 public class ProgramEntity {
     private int iprogram;
     private String nm;

@@ -34,4 +34,18 @@
             </otherwise>
         </choose>
     </select>
+
+    <select id="selProgramDetail" resultType="ProgramVo">
+        SELECT *
+        FROM t_program
+        WHERE iprogram = ${iprogram}
+    </select>
+
+    <update id="updProgram">
+        UPDATE t_program
+        SET nm = #{nm}, required_cpu = ${required_cpu}, required_gpu = ${required_gpu}
+            , required_ram = ${required_ram}
+            ,  img = #{img}
+        WHERE iprogram = ${iprogram}
+    </update>
 </mapper>

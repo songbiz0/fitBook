@@ -8,6 +8,8 @@ import lombok.ToString;
 @Setter
 @ToString
 public class CpuDto {
+    private int icpu;
+
     private String type;
     private int typeNo;
     private String search;

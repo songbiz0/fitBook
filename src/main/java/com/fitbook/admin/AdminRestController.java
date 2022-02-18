@@ -2,8 +2,10 @@ package com.fitbook.admin;
 
 import com.fitbook.ResultVo;
 import com.fitbook.model.cpu.CpuDto;
+import com.fitbook.model.cpu.CpuEntity;
 import com.fitbook.model.cpu.CpuVo;
 import com.fitbook.model.gpu.GpuDto;
+import com.fitbook.model.gpu.GpuEntity;
 import com.fitbook.model.gpu.GpuVo;
 import com.fitbook.model.order.OrderDto;
 import com.fitbook.model.order.OrderVo;
@@ -11,11 +13,13 @@ import com.fitbook.model.orderproduct.OrderProductVo;
 import com.fitbook.model.product.ProductDto;
 import com.fitbook.model.product.ProductVo;
 import com.fitbook.model.program.ProgramDto;
+import com.fitbook.model.program.ProgramEntity;
 import com.fitbook.model.program.ProgramVo;
 import com.fitbook.model.user.UserDto;
 import com.fitbook.model.user.UserVo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.awt.print.Pageable;
 import java.util.HashMap;
@@ -61,14 +65,6 @@ public class AdminRestController {
     }
 
     // Parts
-    @GetMapping("/gpuMaxPage")
-    public ResultVo selPartsMaxPage(GpuDto dto) {
-        return service.gpuMaxPage(dto);
-    }
-    @GetMapping("/gpuSearch")
-    public List<GpuVo> selGpuList(GpuDto dto) {
-        return service.selGpuList(dto);
-    }
 
     @GetMapping("/cpuMaxPage")
     public ResultVo selPartsMaxPage(CpuDto dto) {
@@ -81,6 +77,43 @@ public class AdminRestController {
         return service.selCpuList(dto);
     }
 
+    @GetMapping("/cpuDetail")
+    public CpuVo selCpuDetail(CpuDto dto) {
+        return service.selCpuDetail(dto);
+    }
+    @DeleteMapping("/cpuDetail")
+    public int delCpu(CpuDto dto) {
+        return service.delCpu(dto);
+    }
+    @PutMapping("/cpuDetail")
+    public int updCpu(@RequestBody CpuEntity entity) {
+        return service.updCpu(entity);
+    }
+
+    @GetMapping("/gpuMaxPage")
+    public ResultVo selPartsMaxPage(GpuDto dto) {
+        return service.gpuMaxPage(dto);
+    }
+    @GetMapping("/gpuSearch")
+    public List<GpuVo> selGpuList(GpuDto dto) {
+        return service.selGpuList(dto);
+    }
+    @GetMapping("/gpuDetail")
+    public GpuVo selGpuDetail(GpuDto dto) {
+        return service.selGpuDetail(dto);
+    }
+    @DeleteMapping("/gpuDetail")
+    public ResultVo delGpu(GpuDto dto) {
+        System.out.println("dto : " + dto);
+        System.out.println(service.delGpu(dto));
+        return service.delGpu(dto);
+    }
+
+    @PutMapping("/gpuDetail")
+    public int updGpu(@RequestBody GpuEntity entity) {
+        return service.updGpu(entity);
+    }
+
     @GetMapping("/programSearch")
     public List<ProgramVo> programList(ProgramDto dto) {
         return service.selProgramList(dto);
@@ -88,6 +121,15 @@ public class AdminRestController {
     @GetMapping("/programMaxPage")
     public ResultVo programMaxPage(ProgramDto dto) {
         return service.selProgramMaxPage(dto);
+    }
+    @GetMapping("/programDetail")
+    public ProgramVo programDetail(ProgramDto dto) {
+        return service.selProgramDetail(dto);
+    }
+    @PostMapping("/programDetail")
+    public int updProgram(ProgramVo vo) throws Exception {
+        System.out.println(vo);
+        return service.updProgram(vo);
     }
 
     @GetMapping("/user")

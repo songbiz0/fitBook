@@ -8,6 +8,8 @@ import lombok.ToString;
 @Setter
 @ToString
 public class GpuDto {
+    private int igpu;
+
     private String type;
     private int typeNo;
     private String search;

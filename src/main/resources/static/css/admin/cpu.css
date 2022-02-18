@@ -22,3 +22,9 @@
 .frow > i {
     cursor: pointer;
 }
+
+/* Cpu Detail */
+.list-tr:hover {
+    cursor: pointer;
+    background-color: #e5e5e5;
+}

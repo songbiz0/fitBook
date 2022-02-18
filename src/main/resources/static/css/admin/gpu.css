@@ -1,4 +1,9 @@
 /* gpu insert */
+.list-tr:hover {
+    cursor: pointer;
+    background-color: #e5e5e5;
+}
+
 .gpu {
     display: flex;
     flex-direction: column;
@@ -22,4 +27,8 @@
 
 .frow > i {
     cursor: pointer;
+}
+
+.dis-none {
+    display: none;
 }
