@@ -22,8 +22,8 @@
                 <td>${item.email}</td>
                 <td>${item.recent_price}</td>
                 <td>${item.result_price}</td>
-                <td>${item.rdt}</td>
-                <td>${item.rdt}</td>
+                <td>${item.recent_rdt}</td>
+                <td>${item.join_rdt}</td>
                 <td>${item.point}</td>
             `;
             tbodyElem.appendChild(trElem);
@@ -55,8 +55,8 @@
                 <td>${item.email}</td>
                 <td>${item.recent_price}</td>
                 <td>${item.result_price}</td>
-                <td>${item.rdt}</td>
-                <td>${item.rdt}</td>
+                <td>${item.recent_rdt}</td>
+                <td>${item.join_rdt}</td>
                 <td>${item.point}</td>
             `;
                     tbodyElem.appendChild(trElem);

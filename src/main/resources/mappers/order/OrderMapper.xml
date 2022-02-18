@@ -28,5 +28,6 @@
         SELECT CEIL(COUNT(iorder) / ${recordCount}) AS result
         FROM t_order
         WHERE rdt BETWEEN #{fromDate} AND date_add(#{toDate}, interval +1 day)
+        AND iuser = #{iuser}
     </select>
 </mapper>

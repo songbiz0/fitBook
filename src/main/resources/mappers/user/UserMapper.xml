@@ -18,8 +18,11 @@
 
     <update id="updUser">
         UPDATE t_user
-        SET
-        <if test="upw != null and upw != ''">upw = #{upw}</if>
+            <set>
+                <if test="upw != null and upw != ''">upw = #{upw},</if>
+                <if test="nm != null and nm != ''">nm = #{nm},</if>
+                <if test="email != null and email != ''">email = #{email}</if>
+            </set>
         <where>
             <if test="iuser > 0">AND iuser = ${iuser}</if>
             <if test="uid != null and uid != ''">AND uid = #{uid}</if>

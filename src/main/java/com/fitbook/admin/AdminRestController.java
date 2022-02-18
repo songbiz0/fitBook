@@ -31,8 +31,7 @@ import java.util.Map;
 @RequestMapping("/ajax/admin")
 public class AdminRestController {
 
-    @Autowired
-    private AdminService service;
+    @Autowired private AdminService service;
 
     @GetMapping("/month")
     public Map<String, Integer> selMonth() {
@@ -127,7 +126,6 @@ public class AdminRestController {
     @PutMapping("/programDetail")
     public int updProgram(ProgramVo vo) throws Exception {
         System.out.println(vo);
-        System.out.println(vo.getIprogram());
         return service.updProgram(vo);
     }
     @DeleteMapping("/programDetail")

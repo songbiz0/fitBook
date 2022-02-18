@@ -81,6 +81,13 @@
         const innerPerfElem = document.querySelector('#inner_perf');
         const tbodyElem = document.querySelector('table tbody');
 
+        searchElem.addEventListener('keyup', () => {
+            const searchText = document.querySelector('#searchText').value; // i7
+            const select = document.querySelector('#select').value; // nm
+            const searchUrl = url + `?search=${searchText}&select=${select}`;
+            getList(searchUrl);
+        });
+      
         const rowCnt = 3;
         const pageCnt = 1;
         let startIdx = 0;

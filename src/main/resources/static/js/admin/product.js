@@ -2,15 +2,17 @@
 {
     const Productlist = document.querySelector('.product-master');
     if(Productlist) {
-        const recordCount = 1; //리스트 수
+        const recordCount = 3; //리스트 수
         let currentPage = 1; //현재 페이지
         let maxPage = 1;
-        const pagingCount = 3; //페이징 수
+        const pagingCount = 2; //페이징 수
         const searchParams = new URL(window.location.href).searchParams;
         console.log(searchParams);
         const product_master = searchParams.get('product_master');
         const pageContainer = document.querySelector('.page-container');
         const ulElem = pageContainer.querySelector('div')
+        let url = '/ajax/admin/product_master'; //search
+        const searchElem = document.querySelector('#searchText');
 
         //리스트 정보 불러오기
         const getList = () => fetch(`/ajax/admin/product_master?currentPage=${currentPage}&recordCount=${recordCount}`)
@@ -22,6 +24,17 @@
                 console.log(e);
             });
 
+        const searchList = (url) => fetch(url)
+            .then(res => res.json())
+            .then(data => {
+                selProductList(data);
+                console.log(data);
+                console.log(url);
+            })
+            .catch(e=>{
+                console.log(e);
+            });
+
         const getMaxPageVal = () => fetch(`/ajax/admin/maxpage?product_master=${product_master}&recordCount=${recordCount}`)
             .then(res => res.json())
             .then(data => {
@@ -29,6 +42,7 @@
                 maxPage = data.result;
                 makePaging();
             });
+
 
         getMaxPageVal();
 
@@ -43,22 +57,23 @@
             <td><img class="w70 h50" src="/imgPath/products/detail/${item.iproduct}/${item.img}"></td>
             <td>${item.iproduct}</td>
             <td>${item.product_code}</td>
-            <td>${item.nm}</td>
+            <td>${item.nm},<img class="w70 h50" src="/images/products/detail/${item.iproduct}/${item.img}"></td>
             <td>${item.brand}</td>
             <td>${item.stock}</td>
-            <td>${item.icpu}</td>
-            <td>${item.igpu}</td>
-            <td>${item.ram}</td>
-            <td>${item.size}</td>
-            <td>${item.weight}</td>
-            <td>${item.os}</td>
+            <td>${item.price}</td>
             `;
                 trElem.addEventListener('click', e => {
-                    location.href = `/admin/product_detail?iproduct=${item.iproduct}`
+                    location.href = `/admin/product_master_detail?iproduct=${item.iproduct}`
                 });
             });
         }
 
+        searchElem.addEventListener("keyup", () => {
+           const searchTeaxt = document.querySelector('#searchText').value;
+           const select = document.querySelector('#select').value;
+           const searchUrl = url + `?search=${searchTeaxt}&select=${select}&recordCount=${recordCount}`;
+           searchList(searchUrl);
+        });
         const makePaging = () => {
             ulElem.innerHTML = null;
             const calcPage = parseInt((currentPage - 1) / pagingCount);
@@ -66,17 +81,17 @@
             const lastPage = (calcPage + 1) * pagingCount;
 
 
-            if (startPage > 1) {
-                const liElem = document.createElement('li');
-                ulElem.appendChild(liElem);
-                liElem.className = 'item';
-                liElem.innerHTML = '&lt;';
-                liElem.addEventListener('click', e => {
-                    currentPage = startPage - 1;
-                    getList();
-                    makePaging();
-                });
-            }
+
+            const liElem1 = document.createElement('li');
+            ulElem.appendChild(liElem1);
+            liElem1.className = 'item';
+            liElem1.innerHTML = '&lt;';
+            liElem1.addEventListener('click', e => {
+                currentPage = (currentPage) === 1 ? 1 : (currentPage - 1);
+                getList();
+                makePaging();
+            });
+
 
             for (let i = startPage; i <= (lastPage > maxPage ? maxPage : lastPage); i++) {
                 const liElem = document.createElement('li');
@@ -95,17 +110,17 @@
                 });
             }
 
-            if (maxPage > lastPage) {
-                const liElem = document.createElement('li');
-                ulElem.appendChild(liElem);
-                liElem.className = 'item';
-                liElem.innerHTML = '&gt;';
-                liElem.addEventListener('click' , e => {
-                    currentPage = lastPage + 1;
-                    getList();
-                    makePaging();
-                });
-            }
+
+            const liElem2 = document.createElement('li');
+            ulElem.appendChild(liElem2);
+            liElem2.className = 'item';
+            liElem2.innerHTML = '&gt;';
+            liElem2.addEventListener('click' , e => {
+                currentPage = (currentPage) === maxPage ? maxPage : (currentPage + 1);
+                getList();
+                makePaging();
+            });
+
         }
         getList();
     }
