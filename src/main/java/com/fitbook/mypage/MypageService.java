@@ -5,8 +5,11 @@ import com.fitbook.auth.AuthenticationFacade;
 import com.fitbook.model.order.OrderDto;
 import com.fitbook.model.order.OrderVo;
 import com.fitbook.model.product.ProductDetailVo;
+import com.fitbook.model.user.UserEntity;
 import com.fitbook.order.OrderMapper;
+import com.fitbook.user.UserMapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -15,7 +18,9 @@ import java.util.List;
 public class MypageService {
 
     @Autowired private OrderMapper orderMapper;
+    @Autowired private UserMapper userMapper;
     @Autowired private AuthenticationFacade authenticationFacade;
+    @Autowired private PasswordEncoder passwordEncoder;
 
     public List<OrderVo> selOrderList(OrderDto dto) {
         dto.setIuser(authenticationFacade.getLoginUserPk());
@@ -53,5 +58,9 @@ public class MypageService {
     public ResultVo selMaxPageVal(OrderDto dto) {
         dto.setIuser(authenticationFacade.getLoginUserPk());
         return orderMapper.selMaxPageVal(dto);
+    }
+
+    public boolean confirmPassword(String upw) {
+        return passwordEncoder.matches(upw, authenticationFacade.getLoginUser().getUpw());
     }
 }

@@ -36,7 +36,7 @@
         (#{nm}, #{product_code}, #{rdt}, ${icpu}, ${igpu}, ${ram}, ${size}, ${weight}, #{brand}, #{os}, #{img})
     </insert>
 
-    <insert id="insProductDetail">
+    <insert id="insProductDetail" useGeneratedKeys="true" keyProperty="idetail" keyColumn="idetail">
         INSERT INTO t_product_detail
         (iproduct, color, hdd, ssd, price, stock, isrep, dc_rate, img)
         VALUES

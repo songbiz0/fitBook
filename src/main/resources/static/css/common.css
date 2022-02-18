@@ -41,8 +41,10 @@ table {
 .h37 { height: 37px; }
 .h42 { height: 42px; }
 .h50 { height: 50px }
+.h100 { height: 100px; }
 .h122 { height: 122px; }
 .h100p { height: 100% !important; }
+.h300 { height: 300px !important; }
 .h500 { height: 500px !important; }
 .inh { height: inherit; }
 
@@ -59,7 +61,9 @@ table {
 .w260 { width: 260px; }
 .w362 { width: 362px !important; }
 .w500 { width: 500px !important; }
+.w50p { width: 50%; }
 .w60p { width: 60%; }
+.w70p { width: 70%; }
 .w80p { width: 80%; }
 .w100p { width: 100%; }
 .w110p {width: 110%;}
@@ -190,7 +194,7 @@ table {
 
 .hidden { visibility: hidden; }
 .visible { visibility: visible; }
-.disnone { display: none; }
+.disnone { display: none !important; }
 
 .mytable { border-top: 1px solid #999999; border-collapse: collapse; font-size: 12px; }
 .mytable th { background-color: #f7f7f7; text-align: center; padding: 10px; }

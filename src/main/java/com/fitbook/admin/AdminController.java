@@ -67,6 +67,11 @@ public class AdminController {
 
     }
 
+    @GetMapping("/cpuDetail")
+    public void cpuDetail() {
+
+    }
+
     @GetMapping("/cpu")
     public void cpu() {
 
@@ -92,9 +97,11 @@ public class AdminController {
 
     }
 
+    @GetMapping("/gpuDetail")
+    public void gpuDetail() {}
+
     @GetMapping("/gpu")
-    public void gpu() {
-    }
+    public void gpu() {}
 
     @PostMapping("/gpu")
     public String gpuProc(GpuListEntity gpuList, Model model) {
@@ -112,11 +119,9 @@ public class AdminController {
     public void programList() {
 
     }
-
     @GetMapping("/program")
     public void program() {
     }
-
     @PostMapping("/program")
     public String programProc(ProgramListVo programList, Model model) throws Exception {
         int programListLength = programList.getProgramList().size();
@@ -126,5 +131,8 @@ public class AdminController {
         }
         return "redirect:/admin/program";
     }
+    @GetMapping("/programDetail")
+    public void programDetail() {
 
+    }
 }

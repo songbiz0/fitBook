@@ -12,6 +12,7 @@ import com.fitbook.model.order.OrderVo;
 import com.fitbook.model.orderproduct.OrderProductVo;
 import com.fitbook.model.product.*;
 import com.fitbook.model.program.ProgramDto;
+import com.fitbook.model.program.ProgramEntity;
 import com.fitbook.model.program.ProgramVo;
 import com.fitbook.model.user.UserDto;
 import com.fitbook.model.user.UserVo;
@@ -31,11 +32,19 @@ public interface AdminMapper {
 
     // Parts
     int insCpu(CpuEntity entity);
+    List<CpuVo> selCpuList(CpuDto dto);
+    CpuVo selCpuDetail(CpuDto dto);
+    ResultVo selMaxPage(CpuDto dto);
+    int updCpu(CpuEntity entity);
+    int delCpu(CpuDto dto);
+
     int insGpu(GpuEntity entity);
     List<GpuVo> selGpuList(GpuDto dto);
-    List<CpuVo> selCpuList(CpuDto dto);
+    GpuVo selGpuDetail(GpuDto dto);
     ResultVo selMaxPage(GpuDto dto);
-    ResultVo selMaxPage(CpuDto dto);
+    int updGpu(GpuEntity entity);
+    int delGpu(GpuDto dto);
+
 
     //product_master 상품목록
     List<ProductVo> selProductList(ProductDto dto);
@@ -45,13 +54,14 @@ public interface AdminMapper {
     // Product
     int insProductMaster(ProductEntity entity);
     int insProductDetail(ProductDetailEntity entity);
-
     ResultVo selMaxPageVal(ProductDto dto);
 
     // Program
     int insProgram(ProgramVo vo);
     List<ProgramVo> selProgramList(ProgramDto dto);
+    ProgramVo selProgramDetail(ProgramDto dto);
     ResultVo selProgramMaxPage(ProgramDto dto);
+    int updProgram(ProgramVo vo);
 
     // Member List
     List<UserVo> selUserList();

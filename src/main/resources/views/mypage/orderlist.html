@@ -6,6 +6,7 @@
       layout:decorate="mypage/temp/mypage_layout">
 <head>
     <meta charset="UTF-8">
+    <script defer th:src="@{/js/mypage/list.js}"></script>
     <title></title>
 </head>
 <body>
@@ -15,7 +16,7 @@
             <div class="fr1">
                 <h3>주문목록</h3>
                 <div class="mybox">
-                    <div class="ui mini compact menu ib mr10">
+                    <div class="ui mini compact menu ib mr10" id="dateBtns">
                         <a class="link item" id="todayBtn">
                             오늘
                         </a>

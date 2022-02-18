@@ -112,6 +112,7 @@
             tbodyElem.innerHTML = '';
             data.forEach(item => {
                 const trElem = document.createElement('tr');
+                trElem.classList.add('list-tr');
                 trElem.innerHTML = `
                     <td>${item.nm}</td>
                     <td>${item.performance}</td>
@@ -119,6 +120,9 @@
                     <td>${item.seq}</td>
                     <td>${item.brand}</td>
                 `;
+                trElem.addEventListener('click', () => {
+                    location.href = `/admin/cpuDetail?icpu=${item.icpu}`;
+                });
                 tbodyElem.appendChild(trElem);
             });
         }
@@ -182,7 +186,7 @@
             }
 
             let status2;
-            if(currentPage === maxPage) { status2 = 'disabled'; }
+            if(currentPage === maxPage || maxPage === 0) { status2 = 'disabled'; }
             aElem2.classList.add('item');
             aElem2.classList.add(status2);
             aElem2.innerHTML = `<i class="angle right icon mr0"></i>`;
@@ -233,6 +237,156 @@
 
         innerPerfElem.addEventListener('click', () => {
             getListFromSortStatus(innerPerfElem, 'inner_gpu');
+        });
+
+        getList();
+    }
+}
+
+// Cpu Detail
+{
+    const tableContainerElem = document.querySelector('#table-container');
+    if(tableContainerElem) {
+        let params = (new URL(document.location)).searchParams;
+        const icpu = params.get('icpu');
+        const baseUrl = `/ajax/admin/cpuDetail?icpu=${icpu}`;
+        const paramUrl = '/ajax/admin/cpuDetail';
+        const tableElem = document.querySelector('.mytable');
+        const idxElem = document.querySelector('#idx');
+        const modBtnElem = document.querySelector('#modBtn');
+        const delBtnElem = document.querySelector('#delBtn');
+
+        const updFetch = (param) => {
+            fetch(paramUrl, {
+                method : 'put',
+                headers : {'Content-Type' : 'application/json'},
+                body : JSON.stringify(param)
+            })
+                .then(res => res.json())
+                .then(data => {
+                    console.log(data);
+                });
+        }
+
+        const getList = () => {
+            fetch(baseUrl)
+                .then(res => res.json())
+                .then(data => {
+                    setList(data);
+                })
+                .catch(e => {
+                    console.error(e);
+                });
+        }
+
+        const delList = () => {
+            fetch(baseUrl, {
+                method : 'delete'
+            })
+                .then(res => res.json())
+                .then(data => {
+                    location.href = '/admin/cpuList';
+                })
+                .catch(e => {
+                    console.error(e);
+                });
+        }
+
+        const setList = (data) => {
+            const tbodyElem = document.createElement('tbody');
+            tbodyElem.innerHTML = `
+                <tr>
+                    <th>CPU 명</th>
+                    <td class="tnm">${data.nm}</td>
+                </tr>
+                <tr>
+                    <th>성능수치</th>
+                    <td class="tperf">${data.performance}</td>
+                </tr>
+                <tr>
+                    <th>내장그래픽 성능수치</th>
+                    <td class="tinner">${data.inner_gpu}</td>
+                </tr>
+                <tr>
+                    <th>세대</th>
+                    <td class="tseq">${data.seq}</td>
+                </tr>
+                <tr>
+                    <th>브랜드</th>
+                    <td class="tbrand">${data.brand}</td>
+                </tr>
+            `;
+            tableElem.appendChild(tbodyElem);
+            idxElem.innerText = data.icpu;
+        }
+        const makeInput = (elem, className) => {
+            const inputElem = document.createElement('input');
+            inputElem.type = 'text';
+            inputElem.classList.add(className);
+            inputElem.value = elem.innerText;
+            elem.innerText = '';
+            elem.appendChild(inputElem);
+            return inputElem.value;
+        }
+
+        delBtnElem.addEventListener('click', () => {
+            if(delBtnElem.innerText === '삭제') {
+                if (!confirm(`${icpu}번 글을 삭제하시겠어요?`)) {
+                    return;
+                }
+                delList();
+            } else {
+                tableElem.innerHTML = '';
+                modBtnElem.innerText = '수정';
+                modBtnElem.classList.replace('chk', 'mod');
+                delBtnElem.innerText = '삭제';
+                getList(baseUrl);
+            }
+        });
+
+        modBtnElem.addEventListener('click', () => {
+            const nmElem = document.querySelector('.tnm');
+            const perfElem = document.querySelector('.tperf');
+            const innerElem = document.querySelector('.tinner');
+            const seqElem = document.querySelector('.tseq');
+            const brandElem = document.querySelector('.tbrand');
+
+            if(modBtnElem.classList.contains('mod')) {
+                makeInput(nmElem, 'nm');
+                makeInput(perfElem, 'performance');
+                makeInput(innerElem, 'inner_gpu');
+                makeInput(seqElem, 'seq');
+                makeInput(brandElem, 'brand');
+                modBtnElem.classList.replace('mod', 'chk');
+                modBtnElem.innerText = '확인';
+                delBtnElem.innerText = '취소';
+            } else if(modBtnElem.classList.contains('chk')) {
+                let nmVal = document.querySelector('.nm').value;
+                let perfVal = document.querySelector('.performance').value;
+                let innerVal = document.querySelector('.inner_gpu').value;
+                let seqVal = document.querySelector('.seq').value;
+                let brandVal = document.querySelector('.brand').value;
+                delBtnElem.innerText = '삭제';
+
+                let param = {
+                    'icpu': icpu,
+                    'nm' : nmVal,
+                    'performance' : perfVal,
+                    'inner_gpu' : innerVal,
+                    'seq' : seqVal,
+                    'brand' : brandVal
+                };
+
+                nmElem.innerText = nmVal;
+                perfElem.innerText = perfVal;
+                innerElem.innerText = innerVal;
+                seqElem.innerText = seqVal;
+                brandElem.innerText = brandVal;
+                modBtnElem.classList.add('chk', 'mod');
+                modBtnElem.innerText =  '수정';
+                updFetch(param);
+            }
+
         });
 
         getList();
