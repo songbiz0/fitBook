@@ -1,5 +1,6 @@
 package com.fitbook.user;
 
+import com.fitbook.auth.AuthenticationFacade;
 import com.fitbook.model.user.UserEntity;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -10,6 +11,7 @@ public class UserService {
 
     @Autowired private UserMapper mapper;
     @Autowired private PasswordEncoder passwordEncoder;
+    @Autowired private AuthenticationFacade authenticationFacade;
 
     public int join(UserEntity entity) {
         System.out.println("upw : " + entity.getUpw());
@@ -28,7 +30,8 @@ public class UserService {
     }
 
     public int updUser(UserEntity entity) {
-        if(entity.getUpw() != null) {
+        entity.setIuser(authenticationFacade.getLoginUserPk());
+        if(entity.getUpw() != null && !entity.getUpw().equals("")) {
             entity.setUpw(passwordEncoder.encode(entity.getUpw()));
         }
         return mapper.updUser(entity);
