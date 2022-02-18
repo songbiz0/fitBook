@@ -12,6 +12,7 @@ import com.fitbook.model.order.OrderVo;
 import com.fitbook.model.orderproduct.OrderProductVo;
 import com.fitbook.model.product.ProductDto;
 import com.fitbook.model.product.ProductVo;
+import com.fitbook.model.productquestion.ProductQuestionVo;
 import com.fitbook.model.program.ProgramDto;
 import com.fitbook.model.program.ProgramEntity;
 import com.fitbook.model.program.ProgramVo;
@@ -36,12 +37,10 @@ public class AdminRestController {
     public Map<String, Integer> selMonth() {
         return service.selCurrentMonthList();
     }
-
     @GetMapping("/daily")
     public Map<String, Integer> selDaily() {
         return service.selThisMonthList();
     }
-
     @GetMapping("/brand")
     public Map<String, Integer> selBrandDemand() {
         return service.selBrandDemandList();
@@ -55,31 +54,17 @@ public class AdminRestController {
 
     //상품목록
     @GetMapping("/product_master")
-
-    public List<ProductVo>  selProductList(ProductDto dto){
-        System.out.println("controller : " + dto);
+    public List<ProductVo> selProductList(ProductDto dto) {
         return service.selProductList(dto);
     }
-
     @GetMapping("/maxpage")
-    public ResultVo selMaxPageVal(ProductDto dto){
+    public ResultVo selMaxPageVal(ProductDto dto) {
         return service.selMaxPageVal(dto);
     }
 
     // Parts
-    @GetMapping("/gpuMaxPage")
-    public ResultVo selPartsMaxPage(GpuDto dto) {
-        return service.gpuMaxPage(dto);
-    }
-    @GetMapping("/gpuSearch")
-    public List<GpuVo> selGpuList(GpuDto dto) {
-        System.out.println(dto);
-        return service.selGpuList(dto);
-    }
-
-
     @GetMapping("/cpuMaxPage")
-    public ResultVo selPartsMaxPage(CpuDto dto) {
+    public ResultVo selCpuMaxPage(CpuDto dto) {
         System.out.println("maxPage : " + dto);
         return service.cpuMaxPage(dto);
     }
@@ -103,7 +88,7 @@ public class AdminRestController {
     }
 
     @GetMapping("/gpuMaxPage")
-    public ResultVo selPartsMaxPage(GpuDto dto) {
+    public ResultVo selGpuMaxPage(GpuDto dto) {
         return service.gpuMaxPage(dto);
     }
     @GetMapping("/gpuSearch")
@@ -138,10 +123,14 @@ public class AdminRestController {
     public ProgramVo programDetail(ProgramDto dto) {
         return service.selProgramDetail(dto);
     }
-    @PostMapping("/programDetail")
+    @PutMapping("/programDetail")
     public int updProgram(ProgramVo vo) throws Exception {
         System.out.println(vo);
         return service.updProgram(vo);
+    }
+    @DeleteMapping("/programDetail")
+    public int delProgram(ProgramDto dto) {
+        return service.delProgram(dto);
     }
 
     @GetMapping("/user")
@@ -157,5 +146,10 @@ public class AdminRestController {
         dto.setType(type);
         dto.setKeyword(keyword);
         return service.selectUserSearchList(dto);
+    }
+
+    @GetMapping("qnaList")
+    public List<ProductQuestionVo> selQuestionList() {
+        return service.selQuestionList();
     }
 }

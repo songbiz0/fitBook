@@ -43,9 +43,17 @@
 
     <update id="updProgram">
         UPDATE t_program
-        SET nm = #{nm}, required_cpu = ${required_cpu}, required_gpu = ${required_gpu}
+        SET
+            nm = #{nm}, required_cpu = ${required_cpu}, required_gpu = ${required_gpu}
             , required_ram = ${required_ram}
+          <if test="img != null and img != ''">
             ,  img = #{img}
+          </if>
         WHERE iprogram = ${iprogram}
     </update>
+
+    <delete id="delProgram">
+        DELETE FROM t_program
+        WHERE iprogram = ${iprogram}
+    </delete>
 </mapper>

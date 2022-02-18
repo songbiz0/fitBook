@@ -13,6 +13,7 @@ import com.fitbook.model.order.OrderDto;
 import com.fitbook.model.order.OrderVo;
 import com.fitbook.model.orderproduct.OrderProductVo;
 import com.fitbook.model.product.ProductVo;
+import com.fitbook.model.productquestion.ProductQuestionVo;
 import com.fitbook.model.program.ProgramDto;
 import com.fitbook.model.program.ProgramEntity;
 import com.fitbook.model.program.ProgramListVo;
@@ -31,11 +32,13 @@ import java.util.*;
 public class AdminService {
     @Autowired private AdminMapper mapper;
 
+    @Autowired private Utils utils;
+
     // Main Chart
     public Map<String, Integer> selCurrentMonthList() {
         OrderDto dto = new OrderDto();
-        String yearResult = Utils.getDate("year");
-        String monthResult = Utils.getDate("month");
+        String yearResult = utils.getDate("year");
+        String monthResult = utils.getDate("month");
         dto.setLast_year(yearResult);
         dto.setLast_month(monthResult);
 
@@ -51,7 +54,7 @@ public class AdminService {
     public Map<String, Integer> selThisMonthList() {
         OrderDto dto = new OrderDto();
         LocalDate now = LocalDate.now();
-        dto.setMonth_first_day(Utils.getDate("day"));
+        dto.setMonth_first_day(utils.getDate("day"));
         dto.setToday(now.toString());
 
         List<OrderVo> list = mapper.selThisMonthList(dto);
@@ -150,14 +153,19 @@ public class AdminService {
     // Product
     public int insProduct(ProductVo vo, ProductDetailListVo listEntity) {
         // Insert Master
-        try {
-            vo.setImg(Utils.uploadFile(vo.getMfFile(), "products\\master", vo.getProduct_code()));
-        } catch (Exception e) {
-            e.printStackTrace();
+        if(vo.getMfFile() != null) {
+            UUID uuid = UUID.randomUUID();
+            String fileNm = uuid + ".jpg";
+            vo.setImg(fileNm);
         }
         int result1 = mapper.insProductMaster(vo);
         int iproduct = vo.getIproduct();
         System.out.println(iproduct);
+        try {
+            vo.setImg(utils.uploadFile(vo.getMfFile(), "products\\master", String.valueOf(iproduct)));
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
 
         // Insert Detail
         int result2 = 0;
@@ -171,12 +179,12 @@ public class AdminService {
         for (ProductDetailVo item : listEntity.getProductList()) {
             item.setIproduct(iproduct);
             UUID uuid = UUID.randomUUID();
-            String fileNm = uuid + "_" + item.getMfFile().getOriginalFilename();
+            String fileNm = uuid + ".jpg";
             item.setImg(fileNm);
             item.setDc_rate(item.getDc_rate() / 100);
             result2 = mapper.insProductDetail(item);
             try {
-                Utils.uploadFile(item.getMfFile(), fileNm, "products\\detail", String.valueOf(item.getIdetail()));
+                utils.uploadFileUUID(item.getMfFile(), fileNm, "products\\detail", String.valueOf(item.getIdetail()));
             } catch (Exception e) {
                 e.printStackTrace();
             }
@@ -220,10 +228,10 @@ public class AdminService {
         int result = 0;
         for(ProgramVo item : list.getProgramList()) {
             UUID uuid = UUID.randomUUID();
-            String fileNm = uuid + "_" + item.getMfFile().getOriginalFilename();
+            String fileNm = uuid + utils.getExt(item.getMfFile().getOriginalFilename());
             item.setImg(fileNm);
             result += mapper.insProgram(item);
-            String img = Utils.uploadFile(item.getMfFile(), fileNm, "program", String.valueOf(item.getIprogram()));
+            utils.uploadFileUUID(item.getMfFile(), fileNm, "program", String.valueOf(item.getIprogram()));
         }
         if(result != length) {
             result = 0;
@@ -244,10 +252,14 @@ public class AdminService {
     }
     public int updProgram(ProgramVo vo) throws Exception {
         if(vo.getMfFile() != null || "".equals(vo.getMfFile())) {
-            String uuid = Utils.uploadFile(vo.getMfFile(), "program", String.valueOf(vo.getIprogram()));
+            String uuid = utils.uploadFile(vo.getMfFile(), "program", String.valueOf(vo.getIprogram()));
             vo.setImg(uuid);
         }
         return mapper.updProgram(vo);
+    }
+    public int delProgram(ProgramDto dto) {
+        utils.delFile("program", String.valueOf(dto.getIprogram()));
+        return mapper.delProgram(dto);
     }
 
     //User List
@@ -260,5 +272,14 @@ public class AdminService {
     public List<UserVo> selectUserSearchList(UserDto dto) throws Exception {
         return mapper.selectUserSearchList(dto);
 
+    }
+
+    // QnA
+    public List<ProductQuestionVo> selQuestionList() {
+        ProductQuestionVo vo = mapper.questionCnt();
+        List<ProductQuestionVo> list = mapper.selQuestionList();
+        list.get(0).setCnt(vo.getCnt());
+
+        return list;
     }
 }
