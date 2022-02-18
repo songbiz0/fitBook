@@ -30,8 +30,7 @@ import java.util.Map;
 @RequestMapping("/ajax/admin")
 public class AdminRestController {
 
-    @Autowired
-    private AdminService service;
+    @Autowired private AdminService service;
 
     @GetMapping("/month")
     public Map<String, Integer> selMonth() {
@@ -56,17 +55,28 @@ public class AdminRestController {
 
     //상품목록
     @GetMapping("/product_master")
-    public List<ProductVo>  selProductList(ProductDto dto) {
-        System.out.println(dto);
+
+    public List<ProductVo>  selProductList(ProductDto dto){
+        System.out.println("controller : " + dto);
         return service.selProductList(dto);
     }
-    
+
     @GetMapping("/maxpage")
-    public ResultVo selMaxPageVal(ProductDto dto) {
+    public ResultVo selMaxPageVal(ProductDto dto){
         return service.selMaxPageVal(dto);
     }
 
     // Parts
+    @GetMapping("/gpuMaxPage")
+    public ResultVo selPartsMaxPage(GpuDto dto) {
+        return service.gpuMaxPage(dto);
+    }
+    @GetMapping("/gpuSearch")
+    public List<GpuVo> selGpuList(GpuDto dto) {
+        System.out.println(dto);
+        return service.selGpuList(dto);
+    }
+
 
     @GetMapping("/cpuMaxPage")
     public ResultVo selPartsMaxPage(CpuDto dto) {

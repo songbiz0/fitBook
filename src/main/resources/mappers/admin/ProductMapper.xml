@@ -4,41 +4,42 @@
     <select id="selProductList" resultType="ProductVo">
         SELECT * FROM (
         SELECT A.iproduct, A.nm, A.product_code,A.brand,
-               B.img, B.stock, B.price
+        B.img, B.stock, B.price
         FROM t_product_master A
         INNER JOIN t_product_detail B
         ON A.iproduct = B.iproduct
-        <where>
-            <if test="select != null">
-                (B.isrep = 'Y' AND ${select} LIKE CONCAT('%',#{search},'%'))
-            </if>
+          <where>
+              B.isrep = 'Y'
+              <if test="select != null">
+                  AND (B.isrep = 'Y' AND ${select} LIKE CONCAT('%',#{search},'%'))
+              </if>
+              <if test="total != null">
+                  OR(B.isrep = 'Y' AND ${total} LIKE CONCAT('%',#{search},'%'))
+              </if>
+          </where>
 
-            <if test="total != null">
-                OR(B.isrep = 'Y' AND ${total} LIKE CONCAT('%',#{search},'%'))
-            </if>
-        </where>
         LIMIT ${startIdx}, ${recordCount} ) AS t
     </select>
 
     <select id="selMaxPageVal" resultType="resultVo">
         SELECT CEIL((count(A.iproduct)) / ${recordCount}) AS result
         FROM t_product_master A
-                 INNER JOIN t_product_detail B
-                            ON A.iproduct = B.iproduct
+        INNER JOIN t_product_detail B
+        ON A.iproduct = B.iproduct
         WHERE B.isrep = 'Y'
     </select>
 
     <insert id="insProductMaster" useGeneratedKeys="true" keyProperty="iproduct" keyColumn="iproduct">
         INSERT INTO t_product_master
-            (nm, product_code, rdt, icpu, igpu, ram, size, weight, brand, os, img)
+        (nm, product_code, rdt, icpu, igpu, ram, size, weight, brand, os, img)
         VALUES
-            (#{nm}, #{product_code}, #{rdt}, ${icpu}, ${igpu}, ${ram}, ${size}, ${weight}, #{brand}, #{os}, #{img})
+        (#{nm}, #{product_code}, #{rdt}, ${icpu}, ${igpu}, ${ram}, ${size}, ${weight}, #{brand}, #{os}, #{img})
     </insert>
 
     <insert id="insProductDetail" useGeneratedKeys="true" keyProperty="idetail" keyColumn="idetail">
         INSERT INTO t_product_detail
-            (iproduct, color, hdd, ssd, price, stock, isrep, dc_rate, img)
+        (iproduct, color, hdd, ssd, price, stock, isrep, dc_rate, img)
         VALUES
-            (${iproduct}, #{color}, ${hdd}, ${ssd}, ${price}, ${stock}, #{isrep}, ${dc_rate}, #{img})
+        (${iproduct}, #{color}, ${hdd}, ${ssd}, ${price}, ${stock}, #{isrep}, ${dc_rate}, #{img})
     </insert>
 </mapper>
