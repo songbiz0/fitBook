@@ -168,12 +168,11 @@ public class AdminService {
         return 0;
     }
     public List<ProductVo> selProductList(ProductDto dto){
-        if("nm,product_code".equals(dto.getSelect())) {
+        if("nm,product_code".equals(dto.getSelect())){
             String data[] = dto.getSelect().split(",");
             dto.setSelect(data[0]);
             dto.setTotal(data[1]);
         }
-
         int startIdx = (dto.getCurrentPage() - 1)* dto.getRecordCount();
         if(startIdx < 0) { startIdx = 0; }
         dto.setStartIdx(startIdx);
@@ -182,6 +181,8 @@ public class AdminService {
         }
         System.out.println("service : " + dto);
         return mapper.selProductList(dto);
+
+
     }
     public ResultVo selMaxPageVal(ProductDto dto){
         return mapper.selMaxPageVal(dto);

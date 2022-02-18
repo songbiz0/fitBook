@@ -15,10 +15,7 @@ import com.fitbook.model.program.ProgramVo;
 import com.fitbook.model.user.UserDto;
 import com.fitbook.model.user.UserVo;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.awt.print.Pageable;
 import java.util.HashMap;
@@ -55,7 +52,7 @@ public class AdminRestController {
     //상품목록
     @GetMapping("/product_master")
     public List<ProductVo>  selProductList(ProductDto dto){
-        System.out.println(dto);
+        System.out.println("controller : " + dto);
         return service.selProductList(dto);
     }
 
