@@ -37,14 +37,36 @@ public class Utils {
         return result;
     }
 
-    public  static String uploadFile(MultipartFile file, String type) throws Exception {
-        return uploadFile(file, type, null);
-    }
-
-    public static String uploadFile(MultipartFile file, String type, String code) throws Exception {
+    public static String uploadFile(MultipartFile file, String uuid, String type, String code) throws Exception {
         String projectPath =  System.getProperty("user.dir") + "\\src\\main\\resources\\static\\images\\" + type +"\\" + code + "\\"; // + 상픔코드
         File folder = new File(projectPath);
         if(!folder.exists()) {
+            folder.mkdirs();
+        }
+
+        File saveFile = new File(projectPath, uuid);
+        file.transferTo(saveFile);
+
+        return uuid;
+    }
+
+    // 수정할때 쓰는 업로드 메소드
+    public static String uploadFile(MultipartFile file, String type, String code) throws Exception {
+        String projectPath =  System.getProperty("user.dir") + "\\src\\main\\resources\\static\\images\\" + type +"\\" + code + "\\"; // + 상픔코드
+        File folder = new File(projectPath);
+
+        if(folder.exists()) {
+            if(folder.isDirectory()) {
+                File[] files = folder.listFiles();
+                for(int i=0; i< files.length; i++) {
+                    if(files[i].delete()) {
+                        System.out.println("삭제성공");
+                    } else {
+                        System.out.println("삭제실패");
+                    }
+                }
+            }
+        } else {
             folder.mkdirs();
         }
 
@@ -55,5 +77,16 @@ public class Utils {
         file.transferTo(saveFile);
 
         return fileNm;
+    }
+
+    public static String productImgUpdate(MultipartFile mf, String type, String code) throws Exception {
+        // type => master 인지 detail 인지
+        String projectPath =  System.getProperty("user.dir") + "\\src\\main\\resources\\static\\images\\products\\" + type + "\\" + code + "\\"; // + 상픔코드
+        File file = new File(projectPath);
+        //TODO pk 값으로 조회해서 같은 폴더에 있는 이미지 삭제 후 다시 삽입
+        if(!file.exists()) {
+            return null;
+        }
+        return null;
     }
 }

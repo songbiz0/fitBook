@@ -61,7 +61,42 @@
         <include refid="selPartsList"></include>
     </select>
 
+    <select id="selCpuDetail" resultType="CpuVo">
+        SELECT *
+        FROM t_product_cpu
+        WHERE icpu = ${icpu}
+    </select>
+
+    <update id="updCpu">
+        UPDATE t_product_cpu
+        SET nm = #{nm}, performance = ${performance}, seq = ${seq}, inner_gpu = ${inner_gpu}, brand = #{brand}
+        WHERE icpu = ${icpu}
+    </update>
+
+    <delete id="delCpu">
+        DELETE FROM t_product_cpu
+        WHERE icpu = ${icpu}
+    </delete>
+
     <select id="selGpuList" resultType="GpuVo">
         <include refid="selPartsList"></include>
     </select>
+
+    <select id="selGpuDetail" resultType="GpuVo">
+        SELECT *
+        FROM t_product_gpu
+        WHERE igpu = ${igpu}
+    </select>
+
+    <update id="updGpu">
+        UPDATE t_product_gpu
+        SET nm = #{nm}, performance = ${performance}, seq = ${seq}, brand = #{brand}
+        WHERE igpu = ${igpu}
+    </update>
+
+    <delete id="delGpu">
+        DELETE FROM t_product_gpu
+        WHERE igpu = ${igpu}
+    </delete>
+
 </mapper>

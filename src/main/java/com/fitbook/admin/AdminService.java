@@ -14,6 +14,7 @@ import com.fitbook.model.order.OrderVo;
 import com.fitbook.model.orderproduct.OrderProductVo;
 import com.fitbook.model.product.ProductVo;
 import com.fitbook.model.program.ProgramDto;
+import com.fitbook.model.program.ProgramEntity;
 import com.fitbook.model.program.ProgramListVo;
 import com.fitbook.model.program.ProgramVo;
 import com.fitbook.model.product.*;
@@ -91,6 +92,27 @@ public class AdminService {
         }
         return result;
     }
+    public List<CpuVo> selCpu() {
+        return mapper.selCpu();
+    }
+    public List<CpuVo> selCpuList(CpuDto dto) {
+        dto.setParts("t_product_cpu");
+        return mapper.selCpuList(dto);
+    }
+    public CpuVo selCpuDetail(CpuDto dto) {
+        return mapper.selCpuDetail(dto);
+    }
+    public ResultVo cpuMaxPage(CpuDto dto) {
+        dto.setParts("t_product_cpu");
+        return mapper.selMaxPage(dto);
+    }
+    public int updCpu(CpuEntity entity) {
+        return mapper.updCpu(entity);
+    }
+    public int delCpu(CpuDto dto) {
+        return mapper.delCpu(dto);
+    }
+
     public int insGpu(GpuListEntity gpuList) {
         int result = 0;
         for(GpuEntity list : gpuList.getGpuList()) {
@@ -104,24 +126,25 @@ public class AdminService {
     public List<GpuVo> selGpu() {
         return mapper.selGpu();
     }
-    public List<CpuVo> selCpu() {
-        return mapper.selCpu();
-    }
     public List<GpuVo> selGpuList(GpuDto dto) {
         dto.setParts("t_product_gpu");
         return mapper.selGpuList(dto);
     }
-    public List<CpuVo> selCpuList(CpuDto dto) {
-        dto.setParts("t_product_cpu");
-        return mapper.selCpuList(dto);
+    public GpuVo selGpuDetail(GpuDto dto) {
+        return mapper.selGpuDetail(dto);
     }
     public ResultVo gpuMaxPage(GpuDto dto) {
         dto.setParts("t_product_gpu");
         return mapper.selMaxPage(dto);
     }
-    public ResultVo cpuMaxPage(CpuDto dto) {
-        dto.setParts("t_product_cpu");
-        return mapper.selMaxPage(dto);
+    public int updGpu(GpuEntity entity) {
+        return mapper.updGpu(entity);
+    }
+    public ResultVo delGpu(GpuDto dto) {
+        ResultVo vo = new ResultVo();
+        vo.setResult(mapper.delGpu(dto));
+        System.out.println(mapper.delGpu(dto));
+        return vo;
     }
 
     // Product
@@ -147,13 +170,16 @@ public class AdminService {
         }
         for (ProductDetailVo item : listEntity.getProductList()) {
             item.setIproduct(iproduct);
+            UUID uuid = UUID.randomUUID();
+            String fileNm = uuid + "_" + item.getMfFile().getOriginalFilename();
+            item.setImg(fileNm);
+            item.setDc_rate(item.getDc_rate() / 100);
+            result2 = mapper.insProductDetail(item);
             try {
-                item.setImg(Utils.uploadFile(item.getMfFile(), "products\\detail", String.valueOf(item.getIproduct())));
+                Utils.uploadFile(item.getMfFile(), fileNm, "products\\detail", String.valueOf(item.getIdetail()));
             } catch (Exception e) {
                 e.printStackTrace();
             }
-            item.setDc_rate(item.getDc_rate() / 100);
-            result2 = mapper.insProductDetail(item);
         }
         if(result2 < 3) {
             result2 = 0;
@@ -192,9 +218,11 @@ public class AdminService {
         int length = list.getProgramList().size();
         int result = 0;
         for(ProgramVo item : list.getProgramList()) {
-            String img = Utils.uploadFile(item.getMfFile(), "program", item.getNm());
-            item.setImg(img);
+            UUID uuid = UUID.randomUUID();
+            String fileNm = uuid + "_" + item.getMfFile().getOriginalFilename();
+            item.setImg(fileNm);
             result += mapper.insProgram(item);
+            String img = Utils.uploadFile(item.getMfFile(), fileNm, "program", String.valueOf(item.getIprogram()));
         }
         if(result != length) {
             result = 0;
@@ -207,8 +235,18 @@ public class AdminService {
         }
         return mapper.selProgramList(dto);
     }
+    public ProgramVo selProgramDetail(ProgramDto dto) {
+        return mapper.selProgramDetail(dto);
+    }
     public ResultVo selProgramMaxPage(ProgramDto dto) {
         return mapper.selProgramMaxPage(dto);
+    }
+    public int updProgram(ProgramVo vo) throws Exception {
+        if(vo.getMfFile() != null || "".equals(vo.getMfFile())) {
+            String uuid = Utils.uploadFile(vo.getMfFile(), "program", String.valueOf(vo.getIprogram()));
+            vo.setImg(uuid);
+        }
+        return mapper.updProgram(vo);
     }
 
     //User List

@@ -8,12 +8,11 @@ import lombok.ToString;
 @Setter
 @ToString
 public class ProgramDto {
+    private int iprogram;
+
     private String search;
     private String type;
     private int typeNo;
-//    private int cpu;
-//    private int gpu;
-//    private int ram;
 
     private int rowCnt;
     private int startIdx;

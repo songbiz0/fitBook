@@ -7,6 +7,7 @@
         let maxPage = 1;
         const pagingCount = 2; //페이징 수
         const searchParams = new URL(window.location.href).searchParams;
+        console.log(searchParams);
         const product_master = searchParams.get('product_master');
         const pageContainer = document.querySelector('.page-container');
         const ulElem = pageContainer.querySelector('div')
