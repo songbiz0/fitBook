@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="temp/admin_page_layout">
+<head>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" th:href="@{/css/admin/qna.css}">
+    <script defer th:src="@{/js/admin/qna.js}"></script>
+    <title>fitBook</title>
+</head>
+<body>
+<th:block layout:fragment="content">
+    <div class="w100p">
+        <div class="bctitle w100p">
+
+        </div>
+        <div class="w100p title-con">
+            <div class="mb5">
+                <h5 th:text="${data.nm}"></h5>
+            </div>
+            <div>
+                <span th:text="${data.uid}"></span>
+                <span class="cgray">|</span>
+                <span th:text="${data.rdt}"></span>
+            </div>
+        </div>
+        <div>
+            <div class="img-div">
+                <img class="img-size" th:src="@{/imgPath/products/detail/{path}/{img}(path=${data.idetail}, img=${data.img})}">
+            </div>
+        </div>
+        <div class="qna-content">
+            <span th:text="${data.ctnt}"></span>
+        </div>
+        <div class="cmt-container">
+            <form method="post" th:action="@{/admin/qna}">
+                <textarea class="min-text" name="ctnt"></textarea>
+                <input type="hidden" th:value="${data.iquestion}" name="iquestion">
+                <input type="hidden" th:value="${data.idetail}" name="idetail">
+                <input type="hidden" th:value="${userPk}" name="iuser">
+                <div>
+                    <input type="submit" value="댓글달기">
+                </div>
+            </form>
+        </div>
+    </div>
+</th:block>
+</body>
+</html>

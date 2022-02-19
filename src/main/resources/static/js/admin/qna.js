@@ -29,6 +29,9 @@
             tbodyElem.innerHTML = '';
             data.forEach(item => {
                 const trElem = document.createElement('tr');
+                trElem.addEventListener('click', () => {
+                    location.href = '/admin/qnaDetail?iquestion=' + item.iquestion;
+                });
                 trElem.innerHTML = `
                     <td>${item.iquestion}</td>
                     <td>${item.idetail}</td>
@@ -115,4 +118,9 @@
 
         getList(makePagingUrl());
     }
+}
+
+// QnA Detail
+{
+
 }

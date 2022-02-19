@@ -2,6 +2,24 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.fitbook.admin.AdminMapper">
 
+    <insert id="insQuestion">
+        INSERT INTO t_product_question
+        (idetail, ctnt, iuser, parent)
+        VALUES (${idetail}, #{ctnt}, ${iuser}, ${iquestion})
+    </insert>
+
+    <select id="selQuestionDetail" resultType="ProductQuestionVo">
+        SELECT A.iquestion, A.ctnt, A.rdt, B.img, B.idetail, C.nm, D.uid
+        FROM t_product_question A
+        INNER JOIN t_product_detail B
+        ON A.idetail = B.idetail
+        INNER JOIN t_product_master C
+        ON B.iproduct = C.iproduct
+        INNER JOIN t_user D
+        ON A.iuser = D.iuser
+        WHERE iquestion = ${iquestion}
+    </select>
+
     <select id="selQuestionList" resultType="ProductQuestionVo">
         SELECT *
         FROM
