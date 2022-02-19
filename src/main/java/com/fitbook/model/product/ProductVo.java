@@ -14,4 +14,5 @@ public class ProductVo extends ProductEntity{
 
     // 상품목록
     private int stock;
+    private int idetail;
 }

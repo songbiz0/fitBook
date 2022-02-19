@@ -12,4 +12,5 @@ public class ProductQuestionVo extends ProductQuestionEntity {
     private String uid;
     private String rdt;
     private int cnt;
+    private String color;
 }

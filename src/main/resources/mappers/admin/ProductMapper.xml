@@ -4,7 +4,7 @@
     <select id="selProductList" resultType="ProductVo">
         SELECT * FROM (
         SELECT A.iproduct, A.nm, A.product_code,A.brand,
-        B.img, B.stock, B.price
+        B.img, B.stock, B.price, B.idetail
         FROM t_product_master A
         INNER JOIN t_product_detail B
         ON A.iproduct = B.iproduct

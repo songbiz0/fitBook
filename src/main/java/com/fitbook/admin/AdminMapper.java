@@ -11,6 +11,7 @@ import com.fitbook.model.order.OrderDto;
 import com.fitbook.model.order.OrderVo;
 import com.fitbook.model.orderproduct.OrderProductVo;
 import com.fitbook.model.product.*;
+import com.fitbook.model.productquestion.ProductQuestionDto;
 import com.fitbook.model.productquestion.ProductQuestionVo;
 import com.fitbook.model.program.ProgramDto;
 import com.fitbook.model.program.ProgramEntity;
@@ -72,6 +73,6 @@ public interface AdminMapper {
     List<UserVo> selectUserSearchList(UserDto dto);
 
     // QnA
-    List<ProductQuestionVo> selQuestionList();
+    List<ProductQuestionVo> selQuestionList(ProductQuestionDto dto);
     ProductQuestionVo questionCnt();
 }

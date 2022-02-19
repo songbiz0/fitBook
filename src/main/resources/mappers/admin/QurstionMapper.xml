@@ -1,9 +1,35 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.fitbook.admin.AdminMapper">
+
     <select id="selQuestionList" resultType="ProductQuestionVo">
-        SELECT A.iquestion, D.nm, C.idetail, C.img
-             , B.uid, A.rdt
+        SELECT *
+        FROM
+        (
+            SELECT A.iquestion, D.nm, C.idetail, C.img
+            , B.uid, A.rdt, C.color
+            FROM t_product_question A
+            INNER JOIN t_user B
+            ON A.iuser = B.iuser
+            INNER JOIN t_product_detail C
+            ON C.idetail = A.idetail
+            INNER JOIN t_product_master D
+            ON C.iproduct = D.iproduct
+            WHERE iquestion NOT IN
+            (
+                SELECT parent
+                FROM t_product_question A
+                WHERE parent > 0
+            )
+            AND parent = 0
+            LIMIT ${startIdx}, ${rowCnt}
+        ) AS t
+        <if test="type != null and type != ''">ORDER BY ${type} </if>
+        <if test="typeNo == 2">DESC</if>
+    </select>
+
+    <select id="questionCnt" resultType="ProductQuestionVo">
+        SELECT COUNT(A.iquestion) AS cnt
         FROM t_product_question A
         INNER JOIN t_user B
         ON A.iuser = B.iuser
@@ -15,21 +41,20 @@
         SELECT parent
         FROM t_product_question
         WHERE parent > 0) AND parent = 0
-        ORDER BY A.rdt
     </select>
 
-    <select id="questionCnt" resultType="ProductQuestionVo">
-        SELECT COUNT(A.iquestion) AS cnt
+    <select id="qnaMaxPage" resultType="ResultVo">
+        SELECT CEIL(COUNT(A.iquestion) / ${rowCnt}) AS result
         FROM t_product_question A
-                 INNER JOIN t_user B
-                            ON A.iuser = B.iuser
-                 INNER JOIN t_product_detail C
-                            ON C.idetail = A.idetail
-                 INNER JOIN t_product_master D
-                            ON C.iproduct = D.iproduct
+        INNER JOIN t_user B
+        ON A.iuser = B.iuser
+        INNER JOIN t_product_detail C
+        ON C.idetail = A.idetail
+        INNER JOIN t_product_master D
+        ON C.iproduct = D.iproduct
         WHERE iquestion NOT IN (
-            SELECT parent
-            FROM t_product_question
-            WHERE parent > 0) AND parent = 0
+        SELECT parent
+        FROM t_product_question
+        WHERE parent > 0) AND parent = 0
     </select>
 </mapper>
