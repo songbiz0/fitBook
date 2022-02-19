@@ -13,6 +13,7 @@ import com.fitbook.model.order.OrderDto;
 import com.fitbook.model.order.OrderVo;
 import com.fitbook.model.orderproduct.OrderProductVo;
 import com.fitbook.model.product.ProductVo;
+import com.fitbook.model.productquestion.ProductQuestionDto;
 import com.fitbook.model.productquestion.ProductQuestionVo;
 import com.fitbook.model.program.ProgramDto;
 import com.fitbook.model.program.ProgramEntity;
@@ -258,7 +259,6 @@ public class AdminService {
         return mapper.updProgram(vo);
     }
     public int delProgram(ProgramDto dto) {
-        utils.delFile("program", String.valueOf(dto.getIprogram()));
         return mapper.delProgram(dto);
     }
 
@@ -275,9 +275,9 @@ public class AdminService {
     }
 
     // QnA
-    public List<ProductQuestionVo> selQuestionList() {
+    public List<ProductQuestionVo> selQuestionList(ProductQuestionDto dto) {
         ProductQuestionVo vo = mapper.questionCnt();
-        List<ProductQuestionVo> list = mapper.selQuestionList();
+        List<ProductQuestionVo> list = mapper.selQuestionList(dto);
         list.get(0).setCnt(vo.getCnt());
 
         return list;

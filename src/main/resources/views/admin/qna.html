@@ -7,35 +7,42 @@
     <meta charset="UTF-8">
     <link rel="stylesheet" th:href="@{/css/admin/qna.css}">
     <script defer th:src="@{/js/admin/qna.js}"></script>
+    <script src="https://kit.fontawesome.com/898372a0bd.js" crossorigin="anonymous"></script>
     <title>fitBook</title>
 </head>
 <body>
 <th:block layout:fragment="content">
     <div class="w100p qna-list">
         <div class="w100p">
-            <div class="mb10 frow jcright gap30">
-                <a class="cspointer">
-                    날짜순
-                </a>
+            <div class="mb10 frow jcright gap30 seq">
+                <button class="btn-none">
+                    <i class="cspointer fa-solid fa-angle-down hvcgray" id="rdt">날짜순</i>
+                </button>
+<!--                <button class="btn-none"> (%%% 다른것도 컬럼명 id랑 맞추면 추가 가능 함 %%%-->
+<!--                    <i class="cspointer fa-solid fa-angle-down hvcgray" id="iquestion">테스트</i>-->
+<!--                </button> -->
                 <span id="cnt-con"></span>
             </div>
-            <table class="mytable w100p">
-                <thead>
-                <tr>
-                    <th>질문번호</th>
-                    <th>상품코드</th>
-                    <th>상품명/이미지</th>
-                    <th>회원아이디</th>
-                    <th>작성날짜</th>
-                </tr>
-                </thead>
-                <tbody>
+            <div class="minh400">
+                <table class="mytable w100p">
+                    <thead>
+                    <tr>
+                        <th>질문번호</th>
+                        <th>상품코드</th>
+                        <th>상품명/이미지</th>
+                        <th>색상</th>
+                        <th>회원아이디</th>
+                        <th>작성날짜</th>
+                    </tr>
+                    </thead>
+                    <tbody>
 
-                </tbody>
-            </table>
+                    </tbody>
+                </table>
+            </div>
         </div>
-        <div>
-            <div class="pagination"></div>
+        <div class="tact w100p">
+            <div class="ui pagination tiny menu mt50"></div>
         </div>
     </div>
 </th:block>

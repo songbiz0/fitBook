@@ -15,6 +15,9 @@ a {
 a:hover {
     color: rgba(0,0,0);
 }
+
+.btn-none { background: none; border: none; }
+
 table {
     border-spacing: 0;
 }
@@ -30,6 +33,7 @@ table {
 .jccenter { justify-content: center; }
 .jcright { justify-content: right; }
 .block { display: block !important; }
+.minh400 { min-height: 400px; }
 
 .gap5 { gap: 5px; }
 .gap10 { gap: 10px; }
@@ -50,6 +54,7 @@ table {
 .h300 { height: 300px !important; }
 .h500 { height: 500px !important; }
 .inh { height: inherit; }
+.hvcgray:hover { color: gray; }
 
 .w10 { width: 10px; }
 .w12_73 { width: 12.73px !important; }

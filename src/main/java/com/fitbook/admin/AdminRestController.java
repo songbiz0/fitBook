@@ -12,6 +12,7 @@ import com.fitbook.model.order.OrderVo;
 import com.fitbook.model.orderproduct.OrderProductVo;
 import com.fitbook.model.product.ProductDto;
 import com.fitbook.model.product.ProductVo;
+import com.fitbook.model.productquestion.ProductQuestionDto;
 import com.fitbook.model.productquestion.ProductQuestionVo;
 import com.fitbook.model.program.ProgramDto;
 import com.fitbook.model.program.ProgramEntity;
@@ -65,12 +66,10 @@ public class AdminRestController {
     // Parts
     @GetMapping("/cpuMaxPage")
     public ResultVo selCpuMaxPage(CpuDto dto) {
-        System.out.println("maxPage : " + dto);
         return service.cpuMaxPage(dto);
     }
     @GetMapping("/cpuSearch")
     public List<CpuVo> selCpuList(CpuDto dto) {
-        System.out.println("search : " + dto);
         return service.selCpuList(dto);
     }
 
@@ -101,8 +100,6 @@ public class AdminRestController {
     }
     @DeleteMapping("/gpuDetail")
     public ResultVo delGpu(GpuDto dto) {
-        System.out.println("dto : " + dto);
-        System.out.println(service.delGpu(dto));
         return service.delGpu(dto);
     }
 
@@ -125,7 +122,6 @@ public class AdminRestController {
     }
     @PutMapping("/programDetail")
     public int updProgram(ProgramVo vo) throws Exception {
-        System.out.println(vo);
         return service.updProgram(vo);
     }
     @DeleteMapping("/programDetail")
@@ -148,8 +144,8 @@ public class AdminRestController {
         return service.selectUserSearchList(dto);
     }
 
-    @GetMapping("qnaList")
-    public List<ProductQuestionVo> selQuestionList() {
-        return service.selQuestionList();
+    @GetMapping("/qnaList")
+    public List<ProductQuestionVo> selQuestionList(ProductQuestionDto dto) {
+        return service.selQuestionList(dto);
     }
 }
