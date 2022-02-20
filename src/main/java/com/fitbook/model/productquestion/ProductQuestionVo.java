@@ -13,4 +13,6 @@ public class ProductQuestionVo extends ProductQuestionEntity {
     private String rdt;
     private int cnt;
     private String color;
+    private String ctnt;
+
 }

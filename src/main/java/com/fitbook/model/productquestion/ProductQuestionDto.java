@@ -6,6 +6,7 @@ import lombok.Setter;
 @Getter
 @Setter
 public class ProductQuestionDto {
+    private int iquestion;
     private String rowCnt;
     private String startIdx;
     private String type;
