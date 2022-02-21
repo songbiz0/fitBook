@@ -33,6 +33,9 @@ public class MyPageController {
     @GetMapping("/cancellist")
     public void cancellist() {}
 
+    @GetMapping("/pointhistory")
+    public void pointhistory() {}
+
     @GetMapping("/changeinfo/conf")
     public String changeinfoconf(Model model) {
         model.addAttribute("uid", authenticationFacade.getLoginUser().getUid());
