@@ -70,6 +70,11 @@
 {
     const frmElem = document.querySelector('.cpuListFrm');
     if(frmElem) {
+        const rowCnt = 10;
+        const pageCnt = 10;
+        let startIdx = 0;
+        let currentPage = 1;
+
         const baseUrl = '/ajax/admin/cpuSearch?';
         const maxUrl = '/ajax/admin/cpuMaxPage?';
 
@@ -87,11 +92,7 @@
             const searchUrl = url + `?search=${searchText}&select=${select}`;
             getList(searchUrl);
         });
-      
-        const rowCnt = 3;
-        const pageCnt = 1;
-        let startIdx = 0;
-        let currentPage = 1;
+
 
         const getList = (addUrl) => {
             let url = baseUrl + `startIdx=${startIdx}&rowCnt=${rowCnt}`;

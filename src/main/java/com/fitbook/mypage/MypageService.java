@@ -2,11 +2,14 @@ package com.fitbook.mypage;
 
 import com.fitbook.ResultVo;
 import com.fitbook.auth.AuthenticationFacade;
+import com.fitbook.model.PageDto;
 import com.fitbook.model.order.OrderDto;
 import com.fitbook.model.order.OrderVo;
+import com.fitbook.model.point.PointEntity;
 import com.fitbook.model.product.ProductDetailVo;
 import com.fitbook.model.user.UserEntity;
 import com.fitbook.order.OrderMapper;
+import com.fitbook.user.PointMapper;
 import com.fitbook.user.UserMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -18,7 +21,7 @@ import java.util.List;
 public class MypageService {
 
     @Autowired private OrderMapper orderMapper;
-    @Autowired private UserMapper userMapper;
+    @Autowired private PointMapper pointMapper;
     @Autowired private AuthenticationFacade authenticationFacade;
     @Autowired private PasswordEncoder passwordEncoder;
 
@@ -62,5 +65,26 @@ public class MypageService {
 
     public boolean confirmPassword(String upw) {
         return passwordEncoder.matches(upw, authenticationFacade.getLoginUser().getUpw());
+    }
+
+    public ResultVo updOrder(OrderDto dto) {
+        dto.setIuser(authenticationFacade.getLoginUserPk());
+        ResultVo result = new ResultVo();
+        result.setResult(orderMapper.updOrder(dto));
+        return result;
+    }
+
+    public ResultVo selMaxPageVal(PageDto dto) {
+        dto.setIuser(authenticationFacade.getLoginUserPk());
+        return pointMapper.selMaxPageVal(dto);
+    }
+
+    public List<PointEntity> selPointHistoryList(PageDto dto) {
+        dto.setIuser(authenticationFacade.getLoginUserPk());
+        int startIdx = (dto.getCurrentPage() - 1) * dto.getRecordCount();
+        if(startIdx < 0) { startIdx = 0; }
+        dto.setStartIdx(startIdx);
+
+        return pointMapper.selPointHistoryList(dto);
     }
 }

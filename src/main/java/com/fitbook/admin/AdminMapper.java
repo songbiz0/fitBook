@@ -11,6 +11,9 @@ import com.fitbook.model.order.OrderDto;
 import com.fitbook.model.order.OrderVo;
 import com.fitbook.model.orderproduct.OrderProductVo;
 import com.fitbook.model.product.*;
+import com.fitbook.model.productquestion.ProductQuestionDto;
+import com.fitbook.model.productquestion.ProductQuestionEntity;
+import com.fitbook.model.productquestion.ProductQuestionVo;
 import com.fitbook.model.program.ProgramDto;
 import com.fitbook.model.program.ProgramEntity;
 import com.fitbook.model.program.ProgramVo;
@@ -62,10 +65,17 @@ public interface AdminMapper {
     ProgramVo selProgramDetail(ProgramDto dto);
     ResultVo selProgramMaxPage(ProgramDto dto);
     int updProgram(ProgramVo vo);
+    int delProgram(ProgramDto dto);
 
     // Member List
     List<UserVo> selUserList();
 
     // Member UserSearchList
     List<UserVo> selectUserSearchList(UserDto dto);
+
+    // QnA
+    int insQuestion(ProductQuestionEntity entity);
+    List<ProductQuestionVo> selQuestionList(ProductQuestionDto dto);
+    ProductQuestionVo questionCnt();
+    ProductQuestionVo selQuestionDetail(ProductQuestionDto dto);
 }

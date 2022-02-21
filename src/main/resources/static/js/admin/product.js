@@ -53,9 +53,10 @@
                 tbodyElem.appendChild(trElem);
 
                 trElem.innerHTML = `
+            <td><img class="w70 h50" src="/imgPath/products/detail/${item.idetail}/${item.img}"></td>
             <td>${item.iproduct}</td>
             <td>${item.product_code}</td>
-            <td>${item.nm},<img class="w70 h50" src="/images/products/detail/${item.iproduct}/${item.img}"></td>
+            <td>${item.nm},<img class="w70 h50" src="/imgPath/products/detail/${item.idetail}/${item.img}"></td>
             <td>${item.brand}</td>
             <td>${item.stock}</td>
             <td>${item.price}</td>

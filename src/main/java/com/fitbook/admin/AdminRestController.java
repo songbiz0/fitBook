@@ -12,6 +12,8 @@ import com.fitbook.model.order.OrderVo;
 import com.fitbook.model.orderproduct.OrderProductVo;
 import com.fitbook.model.product.ProductDto;
 import com.fitbook.model.product.ProductVo;
+import com.fitbook.model.productquestion.ProductQuestionDto;
+import com.fitbook.model.productquestion.ProductQuestionVo;
 import com.fitbook.model.program.ProgramDto;
 import com.fitbook.model.program.ProgramEntity;
 import com.fitbook.model.program.ProgramVo;
@@ -68,7 +70,7 @@ public class AdminRestController {
 
     // Parts
     @GetMapping("/gpuMaxPage")
-    public ResultVo selGpuMaxPage(GpuDto dto) {
+    public ResultVo selPartsMaxPage(GpuDto dto) {
         return service.gpuMaxPage(dto);
     }
     @GetMapping("/gpuSearch")
@@ -80,7 +82,6 @@ public class AdminRestController {
 
     @GetMapping("/cpuMaxPage")
     public ResultVo selCpuMaxPage(CpuDto dto) {
-        System.out.println("maxPage : " + dto);
         return service.cpuMaxPage(dto);
     }
     @GetMapping("/cpuSearch")
@@ -108,8 +109,6 @@ public class AdminRestController {
     }
     @DeleteMapping("/gpuDetail")
     public ResultVo delGpu(GpuDto dto) {
-        System.out.println("dto : " + dto);
-        System.out.println(service.delGpu(dto));
         return service.delGpu(dto);
     }
 
@@ -130,10 +129,13 @@ public class AdminRestController {
     public ProgramVo programDetail(ProgramDto dto) {
         return service.selProgramDetail(dto);
     }
-    @PostMapping("/programDetail")
+    @PutMapping("/programDetail")
     public int updProgram(ProgramVo vo) throws Exception {
-        System.out.println(vo);
         return service.updProgram(vo);
+    }
+    @DeleteMapping("/programDetail")
+    public int delProgram(ProgramDto dto) {
+        return service.delProgram(dto);
     }
 
     @GetMapping("/user")
@@ -149,5 +151,10 @@ public class AdminRestController {
         dto.setType(type);
         dto.setKeyword(keyword);
         return service.selectUserSearchList(dto);
+    }
+
+    @GetMapping("/qnaList")
+    public List<ProductQuestionVo> selQuestionList(ProductQuestionDto dto) {
+        return service.selQuestionList(dto);
     }
 }

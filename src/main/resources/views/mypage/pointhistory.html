@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security"
+      layout:decorate="mypage/temp/mypage_layout">
+<head>
+    <meta charset="UTF-8">
+    <script defer th:src="@{/js/mypage/pointhistory.js}"></script>
+    <title></title>
+</head>
+<body>
+<th:block layout:fragment="content">
+        <div class="fr1">
+            <div class="fr1">
+                <h3>적립금 내역</h3>
+                <table class="mytable w100p mt50">
+                    <colgroup>
+                        <col width="50%">
+                        <col width="20%">
+                        <col width="30%">
+                    </colgroup>
+                    <tr>
+                        <th>변동 사유</th>
+                        <th>금액</th>
+                        <th>일자</th>
+                    </tr>
+                    <tbody id="pointHistoryTbody"></tbody>
+                </table>
+                <div class="w100p tact">
+                    <div class="ui pagination tiny menu mt50" id="searchPagination">
+                    </div>
+                </div>
+            </div>
+        </div>
+        </div>
+</th:block>
+</body>
+</html>

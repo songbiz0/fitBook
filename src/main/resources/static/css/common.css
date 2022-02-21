@@ -15,6 +15,9 @@ a {
 a:hover {
     color: rgba(0,0,0);
 }
+
+.btn-none { background: none; border: none; }
+
 table {
     border-spacing: 0;
 }
@@ -28,14 +31,18 @@ table {
 .inline { display: inline; }
 .fr1 { flex: 1 !important; }
 .jccenter { justify-content: center; }
+.jcright { justify-content: right; }
 .block { display: block !important; }
+.minh400 { min-height: 400px; }
 
 .gap5 { gap: 5px; }
 .gap10 { gap: 10px; }
 .gap15 { gap: 15px; }
 .gap20 { gap: 20px; }
+.gap30 { gap: 30px; }
 .gap50 { gap: 50px; }
 
+.h10 { height: 10px ;}
 .h12 { height: 12px ;}
 .h30_84 {height: 30.84px !important; }
 .h37 { height: 37px; }
@@ -47,11 +54,13 @@ table {
 .h300 { height: 300px !important; }
 .h500 { height: 500px !important; }
 .inh { height: inherit; }
+.hvcgray:hover { color: gray; }
 
 .w10 { width: 10px; }
 .w12_73 { width: 12.73px !important; }
 .w13 { width: 10px; }
 .w40 { width: 40px !important; }
+.w50 { width: 50px }
 .w70 { width: 70px; }
 .w100 { width: 100px !important; }
 .w150 { width: 150px !important; }
@@ -118,6 +127,7 @@ table {
 .mlr5 { margin-left: 5px !important; margin-right: 5px !important; }
 .mlr10 { margin-left: 10px !important; margin-right: 10px !important; }
 .mr100 { margin-right: 100px; }
+.mt3 { margin-top: 3px !important; }
 .mt5 { margin-top: 5px !important; }
 .mt10 { margin-top: 10px !important; }
 .mt15 { margin-top: 15px !important; }
@@ -212,3 +222,5 @@ table {
 
 .searchselect { width: 79.22px !important;}
 .headerSearch { position: absolute !important; top: 80px !important; right: 420px !important; }
+
+.cspointer:hover { cursor: pointer; }

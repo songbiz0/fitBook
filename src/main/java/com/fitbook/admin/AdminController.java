@@ -1,9 +1,13 @@
 package com.fitbook.admin;
 
+import com.fitbook.auth.AuthenticationFacade;
 import com.fitbook.model.cpu.CpuListEntity;
 import com.fitbook.model.gpu.GpuListEntity;
 import com.fitbook.model.product.ProductDetailListVo;
 import com.fitbook.model.product.ProductVo;
+import com.fitbook.model.productquestion.ProductQuestionDto;
+import com.fitbook.model.productquestion.ProductQuestionEntity;
+import com.fitbook.model.productquestion.ProductQuestionVo;
 import com.fitbook.model.program.ProgramListVo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -15,6 +19,7 @@ import org.springframework.web.bind.annotation.*;
 public class AdminController {
 
     @Autowired private AdminService service;
+    @Autowired private AuthenticationFacade authenticationFacade;
 
     // 메인
     @GetMapping("")
@@ -132,7 +137,24 @@ public class AdminController {
         return "redirect:/admin/program";
     }
     @GetMapping("/programDetail")
-    public void programDetail() {
+    public void programDetail() {}
 
+    // QnA
+    @GetMapping("/qna")
+    public void qnaList() {
+
+    }
+    @GetMapping("/qnaDetail")
+    public void qnaDetail(Model model, ProductQuestionDto dto){
+        ProductQuestionVo vo = service.selQuestionDetail(dto);
+        model.addAttribute("data", vo);
+        model.addAttribute("userPk", authenticationFacade.getLoginUserPk());
+    }
+    @PostMapping("/qna")
+    public String writeQna(ProductQuestionEntity entity) {
+        System.out.println(entity);
+        int result = service.insQuestion(entity);
+        System.out.println(result);
+        return "redirect:/admin/qnaDetail?iquestion=" + entity.getIquestion();
     }
 }

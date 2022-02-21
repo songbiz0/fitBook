@@ -16,4 +16,5 @@ public class ProductDetailVo extends ProductDetailEntity {
     private String product_code;
     private String option;
     private int quantity;
+    private String brand;
 }
