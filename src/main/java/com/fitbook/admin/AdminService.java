@@ -276,17 +276,29 @@ public class AdminService {
     }
 
     // QnA
-    int insQuestion(ProductQuestionEntity entity) {
-        return mapper.insQuestion(entity);
-    }
+//    int insQuestion(ProductQuestionEntity entity) {
+//        return mapper.insQuestion(entity);
+//    }
     public List<ProductQuestionVo> selQuestionList(ProductQuestionDto dto) {
-        ProductQuestionVo vo = mapper.questionCnt();
-        List<ProductQuestionVo> list = mapper.selQuestionList(dto);
-        list.get(0).setCnt(vo.getCnt());
+        List<ProductQuestionVo> list = mapper.selQuestionAllList(dto);
+        ResultVo vo = mapper.qnaAllMaxPage(dto);
+        if(dto.getSelect() == 2) {
+            list = mapper.selQuestionList(dto);
+            vo = mapper.qnaMustMaxPage(dto);
+        }
+        list.get(0).setMaxPage(vo.getResult());
+
+        for(ProductQuestionVo item : list) {
+            try {
+                item.setCnt(mapper.selCmtCount(item.getIquestion()).getCnt());
+                System.out.println(item.getIquestion());
+                System.out.println(mapper.selCmtCount(item.getIquestion()).getCnt());
+            } catch (Exception e) {
+                e.printStackTrace();
+                item.setCnt(0);
+            }
+        }
 
         return list;
-    }
-    public ProductQuestionVo selQuestionDetail(ProductQuestionDto dto) {
-        return mapper.selQuestionDetail(dto);
     }
 }

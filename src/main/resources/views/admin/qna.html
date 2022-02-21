@@ -14,25 +14,33 @@
 <th:block layout:fragment="content">
     <div class="w100p qna-list">
         <div class="w100p">
-            <div class="mb10 frow jcright gap30 seq">
-                <button class="btn-none">
-                    <i class="cspointer fa-solid fa-angle-down hvcgray" id="rdt">날짜순</i>
-                </button>
-<!--                <button class="btn-none"> (%%% 다른것도 컬럼명 id랑 맞추면 추가 가능 함 %%%-->
-<!--                    <i class="cspointer fa-solid fa-angle-down hvcgray" id="iquestion">테스트</i>-->
-<!--                </button> -->
-                <span id="cnt-con"></span>
+            <div class="mb10 frow jcright gap30 seq ">
+                <div>
+                    <select id="select" name="select" class="ui selection dropdown">
+                        <option checked value="1">전체</option>
+                        <option value="2">리뷰 작성해야 함</option>
+                    </select>
+                </div>
+                <div>
+                    <button class="btn-none">
+                        <i class="cspointer fa-solid fa-angle-down hvcgray" id="rdt">날짜순</i>
+                    </button>
+    <!--                <button class="btn-none"> (%%% 다른것도 컬럼명 id랑 맞추면 추가 가능 함 %%%-->
+    <!--                    <i class="cspointer fa-solid fa-angle-down hvcgray" id="iquestion">테스트</i>-->
+    <!--                </button> -->
+                    <span class="pr10 pl10">|</span>
+                    <span id="cnt-con"></span>
+                </div>
             </div>
             <div class="minh400">
                 <table class="mytable w100p">
                     <thead>
                     <tr>
-                        <th>질문번호</th>
-                        <th>상품코드</th>
-                        <th>상품명/이미지</th>
-                        <th>색상</th>
-                        <th>회원아이디</th>
+                        <th>상품명/상품코드/이미지</th>
+                        <th class="">내용</th>
+                        <th>회원</th>
                         <th>작성날짜</th>
+                        <th>댓글갯수</th>
                     </tr>
                     </thead>
                     <tbody>
