@@ -20,4 +20,7 @@ public class OrderDto {
     private int recordCount;
     private int currentPage;
     private int startIdx;
+    private String param;
+    private String order_status;
+    private String pre_order_status;
 }

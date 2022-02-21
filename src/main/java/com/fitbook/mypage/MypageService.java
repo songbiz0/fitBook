@@ -63,4 +63,11 @@ public class MypageService {
     public boolean confirmPassword(String upw) {
         return passwordEncoder.matches(upw, authenticationFacade.getLoginUser().getUpw());
     }
+
+    public ResultVo updOrder(OrderDto dto) {
+        dto.setIuser(authenticationFacade.getLoginUserPk());
+        ResultVo result = new ResultVo();
+        result.setResult(orderMapper.updOrder(dto));
+        return result;
+    }
 }

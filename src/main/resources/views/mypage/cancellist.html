@@ -11,10 +11,10 @@
 </head>
 <body>
 <th:block layout:fragment="content">
+        <div class="fr1">
+            <div th:data-datatype="cancel" id="dataSet"></div>
             <div class="fr1">
-                <div th:data-datatype="order" id="dataSet"></div>
-                <div class="fr1">
-                <h3>주문목록</h3>
+                <h3>취소/반품 내역</h3>
                 <div class="mybox">
                     <div class="ui mini compact menu ib mr10" id="dateBtns">
                         <a class="link item" id="todayBtn">
@@ -64,18 +64,16 @@
                 </div>
                 <table class="mytablenoline w100p mt50">
                     <colgroup>
-                        <col width="15%">
-                        <col width="40%">
-                        <col width="15%">
-                        <col width="15%">
-                        <col width="15%">
+                        <col width="19%">
+                        <col width="43%">
+                        <col width="19%">
+                        <col width="19%">
                     </colgroup>
                     <tr>
                         <th>날짜/주문번호</th>
                         <th>상품명</th>
                         <th>금액/수량</th>
                         <th>주문상태</th>
-                        <th>확인/후기</th>
                     </tr>
                     <tbody id="orderListTbody">
                     </tbody>
@@ -85,7 +83,7 @@
                     </div>
             </div>
         </div>
-    </div>
+        </div>
 </th:block>
 </body>
 </html>

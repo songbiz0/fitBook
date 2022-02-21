@@ -30,6 +30,9 @@ public class MyPageController {
     @GetMapping("/orderlist")
     public void orderlist() {}
 
+    @GetMapping("/cancellist")
+    public void cancellist() {}
+
     @GetMapping("/changeinfo/conf")
     public String changeinfoconf(Model model) {
         model.addAttribute("uid", authenticationFacade.getLoginUser().getUid());
