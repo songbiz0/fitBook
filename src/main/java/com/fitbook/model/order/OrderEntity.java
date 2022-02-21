@@ -14,4 +14,5 @@ public class OrderEntity {
     private String order_status;
     private String rdt;
     private String cdt;
+    private String pre_order_status;
 }

@@ -14,4 +14,5 @@ public interface OrderMapper {
     List<OrderVo> selOrderList(OrderDto dto);
     List<ProductDetailVo> selProductDetails(OrderDto dto);
     ResultVo selMaxPageVal(OrderDto dto);
+    int updOrder(OrderDto dto);
 }
