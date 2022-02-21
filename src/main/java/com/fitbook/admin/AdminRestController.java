@@ -68,7 +68,7 @@ public class AdminRestController {
 
     // Parts
     @GetMapping("/gpuMaxPage")
-    public ResultVo selPartsMaxPage(GpuDto dto) {
+    public ResultVo selGpuMaxPage(GpuDto dto) {
         return service.gpuMaxPage(dto);
     }
     @GetMapping("/gpuSearch")
@@ -79,7 +79,7 @@ public class AdminRestController {
 
 
     @GetMapping("/cpuMaxPage")
-    public ResultVo selPartsMaxPage(CpuDto dto) {
+    public ResultVo selCpuMaxPage(CpuDto dto) {
         System.out.println("maxPage : " + dto);
         return service.cpuMaxPage(dto);
     }
@@ -102,14 +102,6 @@ public class AdminRestController {
         return service.updCpu(entity);
     }
 
-    @GetMapping("/gpuMaxPage")
-    public ResultVo selPartsMaxPage(GpuDto dto) {
-        return service.gpuMaxPage(dto);
-    }
-    @GetMapping("/gpuSearch")
-    public List<GpuVo> selGpuList(GpuDto dto) {
-        return service.selGpuList(dto);
-    }
     @GetMapping("/gpuDetail")
     public GpuVo selGpuDetail(GpuDto dto) {
         return service.selGpuDetail(dto);

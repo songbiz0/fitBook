@@ -5,9 +5,8 @@
         const recordCount = 3; //리스트 수
         let currentPage = 1; //현재 페이지
         let maxPage = 1;
-        const pagingCount = 2; //페이징 수
+        const pagingCount = 10; //페이징 수
         const searchParams = new URL(window.location.href).searchParams;
-        console.log(searchParams);
         const product_master = searchParams.get('product_master');
         const pageContainer = document.querySelector('.page-container');
         const ulElem = pageContainer.querySelector('div')
@@ -35,14 +34,14 @@
                 console.log(e);
             });
 
-        const getMaxPageVal = () => fetch(`/ajax/admin/maxpage?product_master=${product_master}&recordCount=${recordCount}`)
+        const getMaxPageVal = () =>
+            fetch(`/ajax/admin/maxpage?recordCount=${recordCount}`)
             .then(res => res.json())
             .then(data => {
                 console.log(data.result);
                 maxPage = data.result;
-                makePaging();
+                makePaging(maxPage);
             });
-
 
         getMaxPageVal();
 
@@ -71,8 +70,9 @@
            const searchTeaxt = document.querySelector('#searchText').value;
            const select = document.querySelector('#select').value;
            const searchUrl = url + `?search=${searchTeaxt}&select=${select}&recordCount=${recordCount}`;
-           searchList(searchUrl);
+
         });
+
         const makePaging = () => {
             ulElem.innerHTML = null;
             const calcPage = parseInt((currentPage - 1) / pagingCount);

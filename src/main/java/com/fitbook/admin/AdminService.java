@@ -211,6 +211,12 @@ public class AdminService {
 
     }
     public ResultVo selMaxPageVal(ProductDto dto){
+        if("nm,product_code".equals(dto.getSelect())){
+            String data[] = dto.getSelect().split(",");
+            dto.setSelect(data[0]);
+            dto.setTotal(data[1]);
+        }
+        System.out.println("maxpage : " + dto);
         return mapper.selMaxPageVal(dto);
     }
 
