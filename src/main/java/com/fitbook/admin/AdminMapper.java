@@ -76,6 +76,8 @@ public interface AdminMapper {
     // QnA
     int insQuestion(ProductQuestionEntity entity);
     List<ProductQuestionVo> selQuestionList(ProductQuestionDto dto);
-    ProductQuestionVo questionCnt();
-    ProductQuestionVo selQuestionDetail(ProductQuestionDto dto);
+    List<ProductQuestionVo> selQuestionAllList(ProductQuestionDto dto);
+    ResultVo qnaAllMaxPage(ProductQuestionDto dto);
+    ResultVo qnaMustMaxPage(ProductQuestionDto dto);
+    ProductQuestionVo selCmtCount(int iquestion);
 }

@@ -102,7 +102,6 @@ public class AdminRestController {
     public ResultVo delGpu(GpuDto dto) {
         return service.delGpu(dto);
     }
-
     @PutMapping("/gpuDetail")
     public int updGpu(@RequestBody GpuEntity entity) {
         return service.updGpu(entity);

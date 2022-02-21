@@ -3,15 +3,21 @@
     const qnaListConainer = document.querySelector('.qna-list');
     if(qnaListConainer) {
         const tbodyElem = qnaListConainer.querySelector('table tbody');
+        const selectElem = qnaListConainer.querySelector('#select');
         const cntContainer = qnaListConainer.querySelector('#cnt-con');
         const paginationElem = qnaListConainer.querySelector('.pagination');
         const seqElemList = qnaListConainer.querySelectorAll('.fa-solid');
         const url = '/ajax/admin/qnaList?';
+        let selectVal = selectElem.value;
+        let param;
         let currentPage = 1;
         let startIdx = 0;
         let rowCnt = 2;
         let pageCnt = 2;
         let maxPage = 1;
+        let typeNo = 0;
+        let type;
+        let seq;
 
         const getList = (url) => {
             fetch(url)
@@ -25,30 +31,37 @@
                     console.error(e);
                 });
         }
+        const subString = (txt) => {
+            let result = txt;
+            if(result.length > 70) {
+                result = result.substr(0, 70) + ' …';
+            }
+            return result;
+        }
         const setList = (data) => {
             tbodyElem.innerHTML = '';
+            cntContainer.innerText = ('(총 : ' + data[0].maxPage + '개)');
+            maxPage = Math.ceil(data[0].maxPage / rowCnt);
             data.forEach(item => {
+                const ctnt = subString(item.ctnt);
+                console.log(item);
                 const trElem = document.createElement('tr');
-                trElem.addEventListener('click', () => {
-                    location.href = '/admin/qnaDetail?iquestion=' + item.iquestion;
-                });
                 trElem.innerHTML = `
-                    <td>${item.iquestion}</td>
-                    <td>${item.idetail}</td>
-                    <td>${item.nm}/
-                    <img class="w50 h50" src="/imgPath/products/detail/${item.idetail}/${item.img}"></td>
-                    <td>${item.color}</td>
-                    <td>${item.uid}</td>
+                    <td>${item.productNm}/${item.product_code}/<img class="w50 h50" src="/imgPath/products/detail/${item.idetail}/${item.img}"></td>
+                    <td class="min-w400 max-w400">${ctnt}</td>
+                    <td>${item.nm}(${item.uid})</td>
                     <td>${item.rdt}</td>
                 `;
+                const tdElem = document.createElement('td');
+                tdElem.innerText = item.cnt;
+                trElem.appendChild(tdElem);
                 tbodyElem.appendChild(trElem);
-                cntContainer.innerText = "( 총 : " + data[0].cnt + '개 )';
-                maxPage = Math.ceil((data[0].cnt / rowCnt));
+
             });
         }
         const makePagingUrl = (param) => {
             makePage(maxPage);
-            let resultUrl = url + 'startIdx=' + startIdx + '&rowCnt=' + rowCnt;
+            let resultUrl = url + 'startIdx=' + startIdx + '&rowCnt=' + rowCnt +'&select=' + selectVal;
             if(param) {
                 for(let i=0; i<Object.keys(param).length; i++) {
                     resultUrl = resultUrl + '&' + Object.keys(param)[i] + '=' + param[Object.keys(param)[i]];
@@ -101,20 +114,29 @@
             paginationElem.appendChild(rightElem);
         }
 
+        selectElem.addEventListener('change', () => {
+            selectVal = selectElem.value;
+            currentPage = 1;
+            getList(makePagingUrl());
+        });
+
         seqElemList.forEach(item => {
             item.addEventListener('click', (e) => {
-                const seq = e.target;
-                let param = { type: seq.id, typeNo: 0 };
+                seq = e.target;
+                param = { type: seq.id, typeNo: 0 };
                 if(seq.classList.contains('fa-angle-down')) {
                     seq.classList.replace('fa-angle-down', 'fa-angle-up');
-                    param.typeNo = 1;
+                    typeNo = 1;
+                    param.typeNo = typeNo;
                 } else {
                     seq.classList.replace('fa-angle-up', 'fa-angle-down');
-                    param.typeNo = 2;
+                    typeNo = 2;
+                    param.typeNo = typeNo;
                 }
                 getList(makePagingUrl(param));
             });
         });
+
 
         getList(makePagingUrl());
     }

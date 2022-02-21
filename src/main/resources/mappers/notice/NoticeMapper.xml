@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.fitbook.notice.NoticeMapper">
+
+    <select id="selNoticeList" resultType="NoticeVo">
+        SELECT *
+        FROM (
+             SELECT A.inotice, A.title, A.rdt, A.hits, A.ctnt
+                  , B.uid, B.nm AS writerNm, B.role
+             FROM t_notice A
+             INNER JOIN t_user B
+             ON A.iuser = B.iuser
+            <where>
+                <if test="select == 1">
+                    A.title
+                </if>
+                <if test="select == 2">
+                    A.ctnt
+                </if>
+                <if test="select == 3">
+                    B.nm
+                </if>
+                LIKE CONCAT('%', #{search}, '%')
+            </where>
+             LIMIT ${startIdx}, ${rowCnt}
+             ) as t
+    </select>
+
+    <select id="noticeMaxPage" resultType="ResultVo">
+        SELECT CEIL(COUNT(inotice) / ${rowCnt}) AS result
+        FROM t_notice A
+        INNER JOIN t_user B
+        ON A.iuser = B.iuser
+        <where>
+            <if test="select == 1">
+                A.title
+            </if>
+            <if test="select == 2">
+                A.ctnt
+            </if>
+            <if test="select == 3">
+                B.nm
+            </if>
+            LIKE CONCAT('%', #{search}, '%')
+        </where>
+    </select>
+</mapper>
