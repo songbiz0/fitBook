@@ -78,4 +78,7 @@ public class MyPageController {
 
     @GetMapping("/changeinfo/result")
     public String changeInfoResult() { return "/mypage/change_result"; }
+
+    @GetMapping("/favoritelist")
+    public void favoritelist() {}
 }

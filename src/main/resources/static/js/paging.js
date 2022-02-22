@@ -1,4 +1,13 @@
-const pointHistoryTbodyElem = document.querySelector('#pointHistoryTbody');
+const maxPageUrl = '';
+const getListUrl = '';
+const nullMessage = '';
+
+const recordCount = 10;
+let currentPage = 1;
+let maxPage = 1;
+
+const searchPaginationElem = document.querySelector('#searchPagination');
+const tbodyElem = document.querySelector('#tbody');
 
 const makeActive = item => {
     item.classList.remove('link');
@@ -10,12 +19,8 @@ const makeLink = item => {
     item.classList.add('link');
 }
 
-const recordCount = 10;
-let currentPage = 1;
-let maxPage = 1;
-
 const getMaxPage = () => {
-    fetch('/mypage/api/maxpagepoint', {
+    fetch(maxPageUrl, {
         method: 'post',
         headers: {'Content-Type': 'application/json'},
         body: JSON.stringify({
@@ -30,8 +35,6 @@ const getMaxPage = () => {
             console.error(err);
         });
 }
-
-const searchPaginationElem = document.querySelector('#searchPagination');
 
 const makePage = () => {
     searchPaginationElem.innerHTML = '';
@@ -48,7 +51,7 @@ const makePage = () => {
             return;
         }
         currentPage = currentPage - (currentPage % 10 === 0 ? 10 : currentPage % 10);
-        loadPointHistory();
+        loadList();
     });
 
     searchPaginationElem.appendChild(a1);
@@ -69,7 +72,7 @@ const makePage = () => {
                 return;
             }
             currentPage = Number(a2.innerText);
-            loadPointHistory();
+            loadList();
         });
 
         searchPaginationElem.appendChild(a2);
@@ -87,14 +90,14 @@ const makePage = () => {
             return;
         }
         currentPage = currentPage - (currentPage % 10 === 0 ? 10 : currentPage % 10) + 11;
-        loadPointHistory();
+        loadList();
     });
 
     searchPaginationElem.appendChild(a3);
 }
 
-const loadPointHistory = () => {
-    fetch('/mypage/api/pointhistory', {
+const loadList = () => {
+    fetch(getListUrl, {
         method: 'post',
         headers: {"Content-Type": "application/json"},
         body: JSON.stringify({
@@ -113,13 +116,13 @@ const loadPointHistory = () => {
 }
 
 const makeList = list => {
-    pointHistoryTbodyElem.innerHTML = '';
+    tbodyElem.innerHTML = '';
 
     if (list.length === 0) {
         const tr = document.createElement('tr');
         tr.innerHTML =
-            `<td rowspan="1" colspan="3" class="btline h100">포인트 변동 내역이 없습니다.</td>`
-        pointHistoryTbodyElem.appendChild(tr);
+            `<td rowspan="1" colspan="3" class="btline h100">${nullMessage}</td>`
+        tbodyElem.appendChild(tr);
     }
 
     list.forEach(item => {
@@ -134,8 +137,8 @@ const makeList = list => {
             <td>            
                 <div>${item.rdt.toString().substring(0, 10)}</div>
             </td>`
-        pointHistoryTbodyElem.appendChild(tr);
+        tbodyElem.appendChild(tr);
     });
 }
 
-loadPointHistory();
+loadList();

@@ -382,7 +382,7 @@ const makeProductDetailList = (trElem, productDetailItem, orderItem, orderConfir
     const td2 = document.createElement('td');
     td2.innerHTML =
         `<div>
-                    <div class="mb5"><b>${productDetailItem.price}원</b></div>
+                    <div class="mb5"><b>${productDetailItem.price.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}원</b></div>
                     <div>(${productDetailItem.quantity})</div>
                 </div>`
     trElem.appendChild(td2);
