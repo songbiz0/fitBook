@@ -1,77 +1,33 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="temp/thymeleaf_layout">
 
 <head>
     <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <script src="https://cdn.jsdelivr.net/npm/jquery@3.3.1/dist/jquery.min.js"></script>
-    <link rel="stylesheet" type="text/css" href="semantic/dist/semantic.min.css">
-    <link rel="stylesheet" href="common.css">
-    <link rel="stylesheet" href="main.css">
+    <script defer th:src="@{/js/notice/notice.js}"></script>
     <title>aocument</title>
 </head>
 
 <body>
-    <head>
-        <div class="ui tiny action input headerSearch">
-            <input type="text" placeholder="제품 검색" class="w200">
-            <button class="ui tiny secondary icon button">
-              <i class="search icon"></i>
-            </button>
-          </div>
-        <div class="fc">
-            <div class="ui right aligned container h37">
-                <button class="tiny ui button bgwhite h100p">로그인</button>
-                <button class="tiny ui button bgwhite">회원가입</button>
-                <button class="tiny ui button bgwhite">장바구니</button>
-                <button class="tiny ui button bgwhite">마이페이지</button>
+<th:block layout:fragment="content">
+    <div class="ui left aligned container mt50 detail-page">
+        <a class="mb30" th:href="@{/notice/list}"><h3>공지사항</h3></a>
+        <div class="article mt30">
+            <div class="title fs14" th:text="${data.title}"></div>
+            <div class="info">
+                <div class="fs12"><b th:text="${data.writerNm}"></b></div>
+                <div class="fs11 fr1">2022.02.04 15:27:55</div>
+                <div class="fs12"><b>조회수</b> <span th:text="${data.hits}"></span></div>
             </div>
-            <div class="ct h122 btgrey">
-                <h1>fitBook</h1>
-            </div>
-            <div class="ui center aligned container h42">
-                <button class="medium ui button bgwhite mlr30 h100p">HOME</button>
-                <button class="medium ui button bgwhite mlr30">NEW</button>
-                <button class="medium ui button bgwhite mlr30">BEST</button>
-                <button class="medium ui button bgwhite mlr30">SHOP</button>
-                <button class="medium ui button bgwhite mlr30">FIT!</button>
-                <button class="medium ui button bgwhite mlr30">NOTICE</button>
+            <div class="fs12 content" th:utext="${data.ctnt}"></div>
+            <div class="fr">
+                <a th:href="@{/notice/list}"><button class="ui basic mini button mt15">목록</button></a>
             </div>
         </div>
-    </head>
-    <main class="btgrey">
-        <div class="ui left aligned container mt50">
-            <h3 class="mb30">공지사항</h3>
-            <div class="article">
-                <div class="title fs14">
-                    테스트입니다. (제목)
-                </div>
-                <div class="info">
-                    <div class="fs12"><b>관리자</b></div>
-                    <div class="fs11 fr1">2022.02.04 15:27:55</div>
-                    <div class="fs12"><b>조회수</b> 3</div>
-                </div>
-                <div class="fs12 content">
-                    테스트입니다. (내용)
-                </div>
-                <div class="fr">
-                    <button class="ui basic mini button mt15">목록</button>
-            </div>
-            </div>
-        </div>
-    </main>
-    <footer class="btgrey mt100">
-        <div class="ui vertical footer padded segment">
-            <div class="ui left aligned container fs12">
-                <p>fitBook</p>
-                <p>Kim Min-jae, Kim Gyu-Hyeongm Kim Dong-gyu, Yu Eon-su</p>
-            </div>
-        </div>
-    </footer>
-</div>
+    </div>
+</th:block>
 </body>
 
 </html>
-<script src="semantic/dist/semantic.min.js"></script>
-<script src="main.js"></script>

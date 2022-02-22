@@ -224,3 +224,8 @@ table {
 .headerSearch { position: absolute !important; top: 80px !important; right: 420px !important; }
 
 .cspointer:hover { cursor: pointer; }
+
+.justibetween {
+    display: flex;
+    justify-content: space-between;
+}

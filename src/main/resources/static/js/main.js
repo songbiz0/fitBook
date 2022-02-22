@@ -52,3 +52,10 @@ if(reviewWriteBtn) {
         $('.ui.modal').modal('show');
     });
 }
+
+const noticeBtn = document.querySelector('#noticeBtn');
+if(noticeBtn) {
+    noticeBtn.addEventListener('click', () => {
+        location.replace('/notice/list');
+    })
+}

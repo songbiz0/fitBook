@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="temp/thymeleaf_layout">
+
+<head>
+    <meta charset="UTF-8">
+    <script src="https://code.jquery.com/jquery-3.4.1.slim.min.js" integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n" crossorigin="anonymous"></script>
+    <link href="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote-lite.min.css" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote-lite.min.js"></script>
+    <title>aocument</title>
+</head>
+
+<body>
+<th:block layout:fragment="content">
+    <div>
+        <form method="post" th:action="@{/notice/writenotice}" enctype="application/x-www-form-urlencoded">
+            <input type="text" name="title">
+            <textarea id="summernote" name="ctnt"></textarea>
+            <input type="submit" id="sm" th:value="sm">
+        </form>
+    </div>
+    <script>
+
+            //여기 아래 부분
+        $('#summernote').summernote({
+            height: 300,
+            minHeight: null,
+            maxHeight: null,
+            focus: true,
+            lang: "ko-KR",
+            placeholder: '최대 2048자까지 쓸 수 있습니다',
+            toolbar: [
+                ['fontname', ['fontname']],
+                ['fontsize', ['fontsize']],
+                ['style', ['bold', 'italic', 'underline','strikethrough', 'clear']],
+                ['color', ['forecolor','color']],
+                ['table', ['table']],
+                ['para', ['ul', 'ol', 'paragraph']],
+                ['height', ['height']],
+                ['insert',['picture','link','video']],
+                ['view', ['fullscreen', 'help']]
+            ],
+            fontNames: ['Arial', 'Arial Black', 'Comic Sans MS', 'Courier New','맑은 고딕','궁서','굴림체','굴림','돋움체','바탕체'],
+            fontSizes: ['8','9','10','11','12','14','16','18','20','22','24','28','30','36','50','72']
+        });
+
+
+        var markupStr = $('#summernote').summernote('code');
+        const sm = document.querySelector('#sm');
+    </script>
+</th:block>
+</body>
+
+</html>
