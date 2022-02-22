@@ -14,7 +14,14 @@
 <th:block layout:fragment="content">
     <main id="notice-list" class="btgrey">
         <div class="ui left aligned container mt50">
-            <h3 class="mb30">공지사항</h3>
+            <div class="mb30 justibetween">
+                <div>
+                    <h3>공지사항</h3>
+                </div>
+                <div>
+                    <a th:href="@{/notice/writenotice}"><h5>글쓰기</h5></a>
+                </div>
+            </div>
             <table class="mytable w100p">
                 <colgroup>
                     <col width="10%">
@@ -33,13 +40,6 @@
                     </tr>
                 </thead>
                 <tbody>
-                    <tr>
-                        <td>1</td>
-                        <td>테스트입니다.</td>
-                        <td>2022.01.27</td>
-                        <td>관리자</td>
-                        <td>17</td>
-                    </tr>
                 </tbody>
             </table>
             <div class="tact">
@@ -55,7 +55,7 @@
                     <option value="3">작성자</option>
                   </select>
                 <input id="search" type="text" class="radiusnone w200">
-                <div class="ui secondary mini button">검색</div>
+                <div id="searchBtn" class="ui secondary mini button">검색</div>
               </div>
             </div>
         </div>

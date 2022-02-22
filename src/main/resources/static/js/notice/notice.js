@@ -6,23 +6,35 @@
         const paginationElem = noticeList.querySelector('.pagination');
         const selectElem = noticeList.querySelector('#select');
         const searchElem = noticeList.querySelector('#search');
-        const searchBtnElem = noticeList.querySelector('.mini');
+        const searchBtnElem = noticeList.querySelector('#searchBtn');
 
         let selectVal = selectElem.value;
         let searchVal = searchElem.value;
         let maxPage = 1;
-        let startIdx = 0;
-        let rowCnt = 10;
-        let pageCnt = 10;
         let currentPage = 1;
+        if(history.state) {
+            if (history.state['currentPage']) {
+                currentPage = history.state['currentPage'];
+            }
+            if (history.state['search']) {
+                searchVal = history.state['search'];
+                searchElem.value = searchVal;
+            }
+            if (history.state['select']) {
+                selectVal = history.state['select'];
+            }
+        }
+        let rowCnt = 3;
+        let startIdx = (currentPage - 1) * rowCnt;
+        let pageCnt = 3;
         let url = `/ajax/notice/list?`;
 
         const getList = (result) => {
-            console.log(startIdx);
             result = result + `startIdx=${startIdx}&rowCnt=${rowCnt}&select=${selectVal}&search=${searchVal}`;
             fetch(result)
                 .then(res => res.json())
                 .then(data => {
+                    console.log(data);
                     getMaxPage();
                     setList(data);
                 })
@@ -33,16 +45,22 @@
         const setList = (list) => {
             noticeBody.innerHTML = '';
             list.forEach(item => {
-                let role = item.role;
-                if(role === 'ROLE_ADMIN') {
-                    role = '관리자';
-                }
                 const trElem = document.createElement('tr');
+                trElem.addEventListener('click', () => {
+                    let param = {
+                        currentPage : currentPage,
+                        select : selectVal,
+                        search : searchVal
+                    }
+                    history.pushState(param, 'list', '/notice/list');
+                    location.href = '/notice/detail?inotice=' + item.inotice;
+                });
+                const rdt = item.rdt.substr(0, item.rdt.indexOf('.'));
                 trElem.innerHTML = `
                     <td>${item.inotice}</td>
                     <td>${item.title}</td>
-                    <td>${item.rdt}</td>
-                    <td>${role}</td>
+                    <td>${rdt}</td>
+                    <td>${item.writerNm}</td>
                     <td>${item.hits}</td>
                 `;
                 noticeBody.appendChild(trElem);
@@ -62,7 +80,6 @@
         }
         const makePage = (maxPage) => {
             paginationElem.innerHTML = '';
-            console.log(paginationElem);
             const aElem1 = document.createElement('a');
             const aElem2 = document.createElement('a');
 
@@ -72,23 +89,22 @@
 
             startIdx = (currentPage - 1) * rowCnt;
 
-
-            let status1;
-            if(currentPage === 1 || maxPage === 0) { status1 = 'disabled'; }
-            aElem1.classList.add(status1);
-            aElem1.classList.add('item');
-            aElem1.innerHTML = `<i class="angle left icon mr0"></i>`;
-            aElem1.addEventListener('click', () => {
-                currentPage = ((currentPage - rowCnt) < rowCnt) ? 1 : (currentPage - rowCnt);
-                makePage(maxPage);
-                getList(url);
-            });
-            paginationElem.appendChild(aElem1);
+            if(startPage !== 1 || maxPage === 0) {
+                aElem1.classList.add('item');
+                aElem1.innerHTML = `<i class="angle left icon mr0"></i>`;
+                if(maxPage === 0) { aElem1.classList.add('disabled'); }
+                aElem1.addEventListener('click', () => {
+                    currentPage = ((currentPage - pageCnt) < pageCnt) ? 1 : (currentPage - pageCnt);
+                    makePage(maxPage);
+                    getList(url);
+                });
+                paginationElem.appendChild(aElem1);
+            }
 
             for(let i=startPage; i<=(lastPage < maxPage ? lastPage : maxPage); i++){
                 let status;
                 const aElem3 = document.createElement('a');
-                if(currentPage === i) { status = 'active'; }
+                if(parseInt(currentPage) === i) { status = 'active'; }
                 aElem3.innerText = i;
                 aElem3.classList.add('item');
                 aElem3.classList.add(status);
@@ -100,25 +116,32 @@
                 paginationElem.appendChild(aElem3);
             }
 
-            let status2;
-            if(currentPage === maxPage || maxPage === 0) { status2 = 'disabled'; }
-            aElem2.classList.add('item');
-            aElem2.classList.add(status2);
-            aElem2.innerHTML = `<i class="angle right icon mr0"></i>`;
-            aElem2.addEventListener('click', () => {
-                currentPage = ((currentPage + rowCnt) > maxPage) ? maxPage : currentPage + rowCnt;
-                makePage(maxPage);
-                getList(url);
-            });
-            paginationElem.appendChild(aElem2);
+            if(lastPage < maxPage || maxPage === 0) {
+                aElem2.classList.add('item');
+                aElem2.innerHTML = `<i class="angle right icon mr0"></i>`;
+                if(maxPage === 0) { aElem2.classList.add('disabled'); }
+                aElem2.addEventListener('click', () => {
+                    currentPage = ((currentPage + pageCnt) > maxPage) ? maxPage : currentPage + pageCnt;
+                    makePage(maxPage);
+                    getList(url);
+                    console.log(maxPage);
+                });
+                paginationElem.appendChild(aElem2);
+            }
         }
 
-        selectElem.addEventListener('change', () => {
-            selectVal = selectElem.value;
-            searchVal = searchElem.value;
-            getList(url);
-        });
+        window.onbeforeunload = () => {
+            let param = {
+                currentPage : currentPage,
+                select : selectVal,
+                search : searchVal
+            }
+            history.pushState(param, 'list', '/notice/list');
+        }
+
         searchBtnElem.addEventListener('click', () => {
+            currentPage = 1;
+            startIdx = 0;
             selectVal = selectElem.value;
             searchVal = searchElem.value;
             getList(url);

@@ -2,6 +2,22 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.fitbook.notice.NoticeMapper">
 
+    <insert id="insNotice">
+        INSERT INTO t_notice
+        (title, iuser, ctnt)
+        VALUES
+        (#{title}, ${iuser}, #{ctnt})
+    </insert>
+
+    <select id="selNotice" resultType="NoticeVo">
+        SELECT A.title, A.ctnt, A.rdt, A.hits
+             , B.nm AS writerNm
+        FROM t_notice A
+        INNER JOIN t_user B
+        ON A.iuser = B.iuser
+        WHERE A.inotice = ${inotice}
+    </select>
+
     <select id="selNoticeList" resultType="NoticeVo">
         SELECT *
         FROM (
@@ -44,4 +60,10 @@
             LIKE CONCAT('%', #{search}, '%')
         </where>
     </select>
+
+    <update id="favNotice">
+        UPDATE t_notice
+        SET hits = hits + 1
+        WHERE inotice = ${inotice}
+    </update>
 </mapper>

@@ -12,4 +12,5 @@ public class NoticeDto {
     private int rowCnt;
     private int select;
     private String search;
+    private int inotice;
 }
