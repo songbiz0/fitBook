@@ -1,5 +1,6 @@
 package com.fitbook.notice;
 
+import com.fitbook.Const;
 import com.fitbook.model.notice.NoticeDto;
 import com.fitbook.model.notice.NoticeEntity;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -34,5 +35,17 @@ public class NoticeController {
     public String insNoticeProc(NoticeEntity entity) {
         service.insNotice(entity);
         return "redirect:/notice/list";
+    }
+    @GetMapping("/modify")
+    public String modNotice(@RequestParam int inotice, Model model) {
+        NoticeDto dto = new NoticeDto();
+        dto.setInotice(inotice);
+        model.addAttribute(Const.DATA, service.selNotice(dto));
+        return "/notice/modnotice";
+    }
+    @PostMapping("/modify")
+    public String modNoticeProc(NoticeEntity entity) {
+        service.updNotice(entity);
+        return "redirect:/notice/detail?inotice=" + entity.getInotice();
     }
 }

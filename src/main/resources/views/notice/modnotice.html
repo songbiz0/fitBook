@@ -16,8 +16,9 @@
 
 <body>
 <th:block layout:fragment="content">
-    <div class="data">
-        <form class="summernote-form" method="post" th:action="@{/notice/writenotice}" enctype="application/x-www-form-urlencoded">
+    <div class="ctntData" th:with="ctnt=${data.ctnt}" th:data-ctnt="${ctnt}"></div>
+    <div class="titleData" th:with="title=${data.title}" th:data-title="${title}">
+        <form class="summernote-form" method="post" th:action="@{/notice/modify(inotice=${data.inotice})}" enctype="application/x-www-form-urlencoded">
             <div class="form-div mb30">
                 <div class="ui labeled input notice-tit frow">
                     <div class="ui label">
@@ -35,9 +36,12 @@
     </div>
     <script>
 
-        const dataElem = document.querySelector('.data');
-        const titleVal = dataElem.dataset.ititle;
-        $("#summernote").summernote('code',  titleVal);
+        const titleElem = document.querySelector('#title');
+        const title = document.querySelector('.titleData').dataset.title;
+        titleElem.value = title;
+
+        const ctnt = document.querySelector('.ctntData').dataset.ctnt;
+        $("#summernote").summernote('code',  ctnt);
 
 
 

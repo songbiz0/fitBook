@@ -43,4 +43,12 @@ public class NoticeService {
     public int favNotice(NoticeDto dto) {
         return mapper.favNotice(dto);
     }
+    public int updNotice(NoticeEntity entity) {
+        entity.setIuser(authenticationFacade.getLoginUserPk());
+        return mapper.updNotice(entity);
+    }
+    public int delNotice(NoticeDto dto) {
+        dto.setIuser(authenticationFacade.getLoginUserPk());
+        return mapper.delNotice(dto);
+    }
 }
