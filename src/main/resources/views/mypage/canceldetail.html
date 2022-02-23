@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="en"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security"
+      layout:decorate="mypage/temp/mypage_layout">
+<head>
+    <meta charset="UTF-8">
+    <script defer th:src="@{/js/mypage/orderdetail.js}"></script>
+    <title></title>
+</head>
+<body>
+<th:block layout:fragment="content">
+    <div class="fr1">
+        <div class="fr1">
+            <h3>주문 상세 내역</h3>
+            <table class="mytablenoline w100p mt50">
+                <colgroup>
+                    <col width="19%">
+                    <col width="43%">
+                    <col width="19%">
+                    <col width="19%">
+                </colgroup>
+                <tr>
+                    <th>날짜/주문번호</th>
+                    <th>상품명</th>
+                    <th>금액/수량</th>
+                    <th>주문상태</th>
+                </tr>
+                <tr th:classappend="${#lists.size(data.productDetails)} == 1 ? 'btline' : ''">
+                    <td th:rowspan="${#lists.size(data.productDetails)}" class="btline">
+                        <div>
+                            <div th:text="${data.iorder}"></div>
+                            <div th:text="${#strings.substring(data.cdt, 0, 10)}"></div>
+                        </div>
+                    </td>
+                    <td>
+                        <div class="frow w100p ct gap20">
+                            <img src="http://img.danawa.com/prod_img/500000/474/706/img/13706474_1.jpg?shrink=330:330&_v=20211210141001"
+                                 width="100px" height="100px">
+                            <div class="taleft minw130">
+                                <div class="mb5" th:text="${data.productDetails[0].brand} + ' ' + ${data.productDetails[0].nm}"></div>
+                                <div class="mb5" th:text="${data.productDetails[0].product_code}"></div>
+                                <div class="c777777" th:text="'옵션 : ' + ${data.productDetails[0].option}"></div>
+                            </div>
+                        </div>
+                    </td>
+                    <td>
+                        <div>
+                            <div class="mb5"><b th:text="${#numbers.formatInteger(data.productDetails[0].result_price * data.productDetails[0].quantity, 0, 'COMMA')} + '원'"></b></div>
+                            <div th:text="'(' + ${data.productDetails[0].quantity} + ')'"></div>
+                        </div>
+                    </td>
+                    <td th:rowspan="${#lists.size(data.productDetails)}">
+                        <div th:text="${data.order_status}"></div>
+                    </td>
+                </tr>
+                <tr th:each="num : ${#numbers.sequence(1, #lists.size(data.productDetails) - 1)}"
+                    th:classappend="${numStat.last} ? 'btline' : ''">
+                    <td>
+                        <div class="frow w100p ct gap20">
+                            <img src="http://img.danawa.com/prod_img/500000/474/706/img/13706474_1.jpg?shrink=330:330&_v=20211210141001"
+                                 width="100px" height="100px">
+                            <div class="taleft minw130">
+                                <div class="mb5" th:text="${data.productDetails[num].brand} + ' ' + ${data.productDetails[num].nm}"></div>
+                                <div class="mb5" th:text="${data.productDetails[num].product_code}"></div>
+                                <div class="c777777" th:text="'옵션 : ' + ${data.productDetails[num].option}"></div>
+                            </div>
+                        </div>
+                    </td>
+                    <td>
+                        <div>
+                            <div class="mb5"><b th:text="${#numbers.formatInteger(data.productDetails[num].result_price * data.productDetails[num].quantity, 0, 'COMMA')} + '원'"></b></div>
+                            <div th:text="'(' + ${data.productDetails[num].quantity} + ')'">(1)</div>
+                        </div>
+                    </td>
+                </tr>
+            </table>
+            <div class="frow gap50 mt50">
+                <div class="fc fr1">
+                    <h5>배송지 정보</h5>
+                    <table class="mytable">
+                        <tr>
+                            <td>이름</td>
+                            <td th:text="${data.receiver_nm}"></td>
+                        </tr>
+                        <tr>
+                            <td>연락처</td>
+                            <td th:text="${data.receiver_phone}"></td>
+                        </tr>
+                        <tr>
+                            <td>배송지 주소</td>
+                            <td>
+                                <div th:text="'(' + ${data.receiver_post} + ') ' + ${data.receiver_addr}"></div>
+                                <div th:text="${data.receiver_addr_detail}"></div>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>배송 메시지</td>
+                            <td th:text="${data.shipment_message}"></td>
+                        </tr>
+                    </table>
+                </div>
+                <div class="fc fr1">
+                    <h5>결제 정보</h5>
+                    <table class="mytable">
+                        <tr>
+                            <td>상품 합계</td>
+                            <td th:text="${#numbers.formatInteger(#aggregates.sum(data.productDetails.![result_price * quantity]), 0, 'COMMA')} + '원'"></td>
+                        </tr>
+                        <tr>
+                            <td>적립금 할인</td>
+                            <td th:text="'-' + ${#numbers.formatInteger(data.spent_point, 0, 'COMMA')} + '원'" class="cinfo"></td>
+                        </tr>
+                        <tr>
+                            <td>결제 수단</td>
+                            <td>
+                                <div th:text="${data.payment_way}"></div>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>최종 결제 금액</td>
+                            <td><strong th:text="${#numbers.formatInteger(data.result_price, 0, 'COMMA')} + '원'"></strong></td>
+                        </tr>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</th:block>
+</body>
+</html>
