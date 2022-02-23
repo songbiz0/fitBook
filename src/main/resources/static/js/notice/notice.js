@@ -127,6 +127,7 @@
                 paginationElem.appendChild(aElem3);
             }
 
+
             if(lastPage < maxPage) {
                 history.pushState(null, 'list', '/notice/list');
                 aElem2.classList.add('item');
@@ -141,6 +142,7 @@
                 paginationElem.appendChild(aElem2);
             }
         }
+
         searchBtnElem.addEventListener('click', () => {
             currentPage = 1;
             startIdx = 0;
