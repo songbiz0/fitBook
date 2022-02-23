@@ -2,6 +2,7 @@
 <html lang="en"
       xmlns:th="http://www.thymeleaf.org"
       xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security"
       layout:decorate="temp/thymeleaf_layout">
 
 <head>
@@ -13,8 +14,8 @@
 <body>
 <th:block layout:fragment="content">
     <div class="ui left aligned container mt50 detail-page">
-        <a class="mb30" th:href="@{/notice/list/#}"><h3>공지사항</h3></a>
-        <div class="article mt30">
+        <h3 id="back-list-h3">공지사항</h3>
+        <div class="article mt30" id="data" th:with="inotice=${data.inotice}" th:data-inotice="${inotice}">
             <div class="title fs14" th:text="${data.title}"></div>
             <div class="info">
                 <div class="fs12"><b th:text="${data.writerNm}"></b></div>
@@ -22,8 +23,17 @@
                 <div class="fs12"><b>조회수</b> <span th:text="${data.hits}"></span></div>
             </div>
             <div class="fs12 content" th:utext="${data.ctnt}"></div>
-            <div class="fr">
-                <a th:href="@{/notice/list/#}"><button class="ui basic mini button mt15">목록</button></a>
+
+            <div class="frow justibetween">
+                <div>
+                    <th:block sec:authorize="hasRole('ROLE_ADMIN')">
+                        <button id="delNotice" class="ui red mini button mt15">삭제</button>
+                        <a th:href="@{/notice/modify(inotice=${inotice})}"><button class="ui secondary mini button mt15">수정</button></a>
+                    </th:block>
+                </div>
+                <div>
+                    <button id="back-list" class="ui basic mini button mt15">목록</button>
+                </div>
             </div>
         </div>
     </div>

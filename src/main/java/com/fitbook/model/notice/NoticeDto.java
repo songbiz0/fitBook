@@ -13,4 +13,5 @@ public class NoticeDto {
     private int select;
     private String search;
     private int inotice;
+    private int iuser;
 }
