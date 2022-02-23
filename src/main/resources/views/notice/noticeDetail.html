@@ -13,7 +13,7 @@
 <body>
 <th:block layout:fragment="content">
     <div class="ui left aligned container mt50 detail-page">
-        <a class="mb30" th:href="@{/notice/list}"><h3>공지사항</h3></a>
+        <a class="mb30" th:href="@{/notice/list/#}"><h3>공지사항</h3></a>
         <div class="article mt30">
             <div class="title fs14" th:text="${data.title}"></div>
             <div class="info">
@@ -23,7 +23,7 @@
             </div>
             <div class="fs12 content" th:utext="${data.ctnt}"></div>
             <div class="fr">
-                <a th:href="@{/notice/list}"><button class="ui basic mini button mt15">목록</button></a>
+                <a th:href="@{/notice/list/#}"><button class="ui basic mini button mt15">목록</button></a>
             </div>
         </div>
     </div>

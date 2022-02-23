@@ -38,6 +38,7 @@
                 </if>
                 LIKE CONCAT('%', #{search}, '%')
             </where>
+             ORDER BY inotice DESC
              LIMIT ${startIdx}, ${rowCnt}
              ) as t
     </select>

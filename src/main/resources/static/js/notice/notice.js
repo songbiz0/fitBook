@@ -7,6 +7,7 @@
         const selectElem = noticeList.querySelector('#select');
         const searchElem = noticeList.querySelector('#search');
         const searchBtnElem = noticeList.querySelector('#searchBtn');
+        const form = new FormData();
 
         let selectVal = selectElem.value;
         let searchVal = searchElem.value;
@@ -24,9 +25,9 @@
                 selectVal = history.state['select'];
             }
         }
-        let rowCnt = 3;
+        let rowCnt = 10;
         let startIdx = (currentPage - 1) * rowCnt;
-        let pageCnt = 3;
+        let pageCnt = 10;
         let url = `/ajax/notice/list?`;
 
         const getList = (result) => {
@@ -52,7 +53,7 @@
                         select : selectVal,
                         search : searchVal
                     }
-                    history.pushState(param, 'list', '/notice/list');
+                    history.pushState(param, 'list', '/notice/list/#');
                     location.href = '/notice/detail?inotice=' + item.inotice;
                 });
                 const rdt = item.rdt.substr(0, item.rdt.indexOf('.'));
@@ -89,12 +90,13 @@
 
             startIdx = (currentPage - 1) * rowCnt;
 
-            if(startPage !== 1 || maxPage === 0) {
+            if(startPage !== 1) {
                 aElem1.classList.add('item');
                 aElem1.innerHTML = `<i class="angle left icon mr0"></i>`;
                 if(maxPage === 0) { aElem1.classList.add('disabled'); }
                 aElem1.addEventListener('click', () => {
                     currentPage = ((currentPage - pageCnt) < pageCnt) ? 1 : (currentPage - pageCnt);
+                    history.pushState(null, 'list', '/notice/list');
                     makePage(maxPage);
                     getList(url);
                 });
@@ -110,13 +112,23 @@
                 aElem3.classList.add(status);
                 aElem3.addEventListener('click', () => {
                     currentPage = i;
+
+                    let param = {
+                        currentPage : currentPage,
+                        select : selectVal,
+                        search : searchVal
+                    }
+
+                    form.append('currentPage', param['currentPage']);
+                    history.pushState(param, 'list', '/notice/list/#');
                     makePage(maxPage);
                     getList(url);
                 });
                 paginationElem.appendChild(aElem3);
             }
 
-            if(lastPage < maxPage || maxPage === 0) {
+            if(lastPage < maxPage) {
+                history.pushState(null, 'list', '/notice/list');
                 aElem2.classList.add('item');
                 aElem2.innerHTML = `<i class="angle right icon mr0"></i>`;
                 if(maxPage === 0) { aElem2.classList.add('disabled'); }
@@ -129,16 +141,6 @@
                 paginationElem.appendChild(aElem2);
             }
         }
-
-        window.onbeforeunload = () => {
-            let param = {
-                currentPage : currentPage,
-                select : selectVal,
-                search : searchVal
-            }
-            history.pushState(param, 'list', '/notice/list');
-        }
-
         searchBtnElem.addEventListener('click', () => {
             currentPage = 1;
             startIdx = 0;
@@ -147,5 +149,22 @@
             getList(url);
         });
         getList(url);
+    }
+}
+
+// notice write
+{
+    const toolbar = document.querySelector('.note-toolbar');
+    if(toolbar) {
+        const divElem = document.createElement('div');
+        divElem.id = 'asd';
+        toolbar.appendChild(divElem);
+
+        const titleRegex = /^([a-zA-Z가-힣ㄱ-ㅎ0-9!@#$%^&*()_\-+=?/<>'";:,.\/~\`]{4,15})$/;
+
+        const formElem = document.querySelector('.summernote-form');
+        const titleElem = document.querySelector('#title');
+        const ctntElem = document.querySelector('#summernote');
+
     }
 }
