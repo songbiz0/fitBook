@@ -33,6 +33,6 @@ public class NoticeController {
     @PostMapping("/writenotice")
     public String insNoticeProc(NoticeEntity entity) {
         service.insNotice(entity);
-        return "/notice/writenotice";
+        return "redirect:/notice/list";
     }
 }

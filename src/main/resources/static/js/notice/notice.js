@@ -90,7 +90,7 @@
 
             startIdx = (currentPage - 1) * rowCnt;
 
-            if(startPage !== 1 || maxPage === 0) {
+            if(startPage !== 1) {
                 aElem1.classList.add('item');
                 aElem1.innerHTML = `<i class="angle left icon mr0"></i>`;
                 if(maxPage === 0) { aElem1.classList.add('disabled'); }
@@ -127,7 +127,8 @@
                 paginationElem.appendChild(aElem3);
             }
 
-            if(lastPage < maxPage || maxPage === 0) {
+
+            if(lastPage < maxPage) {
                 history.pushState(null, 'list', '/notice/list');
                 aElem2.classList.add('item');
                 aElem2.innerHTML = `<i class="angle right icon mr0"></i>`;
@@ -142,10 +143,6 @@
             }
         }
 
-        window.onbeforeunload = () => {
-            currentPage = history.state['currentPage'];
-        }
-
         searchBtnElem.addEventListener('click', () => {
             currentPage = 1;
             startIdx = 0;
@@ -154,5 +151,22 @@
             getList(url);
         });
         getList(url);
+    }
+}
+
+// notice write
+{
+    const toolbar = document.querySelector('.note-toolbar');
+    if(toolbar) {
+        const divElem = document.createElement('div');
+        divElem.id = 'asd';
+        toolbar.appendChild(divElem);
+
+        const titleRegex = /^([a-zA-Z가-힣ㄱ-ㅎ0-9!@#$%^&*()_\-+=?/<>'";:,.\/~\`]{4,15})$/;
+
+        const formElem = document.querySelector('.summernote-form');
+        const titleElem = document.querySelector('#title');
+        const ctntElem = document.querySelector('#summernote');
+
     }
 }

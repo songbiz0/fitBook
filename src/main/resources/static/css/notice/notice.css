@@ -1,0 +1,13 @@
+.summernote-form {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+.notice-tit {
+    width: 800px;
+    margin-top: 50px;
+    margin-bottom: 20px;
+}
+.form-div{
+    /*max-height: 600px;*/
+}

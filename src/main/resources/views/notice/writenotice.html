@@ -9,25 +9,47 @@
     <script src="https://code.jquery.com/jquery-3.4.1.slim.min.js" integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n" crossorigin="anonymous"></script>
     <link href="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote-lite.min.css" rel="stylesheet">
     <script src="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote-lite.min.js"></script>
+    <script defer th:src="@{/js/notice/notice.js}"></script>
+    <link rel="stylesheet" th:href="@{/css/notice/notice.css}">
     <title>aocument</title>
 </head>
 
 <body>
 <th:block layout:fragment="content">
-    <div>
-        <form method="post" th:action="@{/notice/writenotice}" enctype="application/x-www-form-urlencoded">
-            <input type="text" name="title">
-            <textarea id="summernote" name="ctnt"></textarea>
-            <input type="submit" id="sm" th:value="sm">
+    <div class="">
+        <form class="summernote-form" method="post" th:action="@{/notice/writenotice}" enctype="application/x-www-form-urlencoded">
+            <div class="form-div">
+                <div class="ui labeled input notice-tit">
+                    <div class="ui label">
+                        제목
+                    </div>
+                    <input id="title" type="text" name="title" placeholder="">
+                </div>
+                <textarea id="summernote" name="ctnt"></textarea>
+            </div>
+            <input type="submit" id="save" th:value="저장">
         </form>
     </div>
     <script>
 
             //여기 아래 부분
+        const plainTextElem = document.querySelector('.note-editable');
         $('#summernote').summernote({
-            height: 300,
-            minHeight: null,
-            maxHeight: null,
+            height: 450,
+            callbacks: {
+
+                onKeyup: function(e) {
+                    var caracteres = $(".note-editable").text();
+                    var totalCaracteres = caracteres.length;
+
+                    //Update value
+                    $("#asd").text(totalCaracteres);
+                }
+
+            },
+            width: 800,
+            minHeight: 450,
+            maxHeight: 450,
             focus: true,
             lang: "ko-KR",
             placeholder: '최대 2048자까지 쓸 수 있습니다',
@@ -45,10 +67,6 @@
             fontNames: ['Arial', 'Arial Black', 'Comic Sans MS', 'Courier New','맑은 고딕','궁서','굴림체','굴림','돋움체','바탕체'],
             fontSizes: ['8','9','10','11','12','14','16','18','20','22','24','28','30','36','50','72']
         });
-
-
-        var markupStr = $('#summernote').summernote('code');
-        const sm = document.querySelector('#sm');
     </script>
 </th:block>
 </body>

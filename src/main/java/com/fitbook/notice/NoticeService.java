@@ -17,6 +17,9 @@ public class NoticeService {
 
     int insNotice(NoticeEntity entity) {
         entity.setIuser(authenticationFacade.getLoginUserPk());
+        String plainTitle = entity.getTitle();
+        String title =  plainTitle.replaceAll("<", "&lt;").replaceAll(">", "&gt;");
+        entity.setTitle(title);
         return mapper.insNotice(entity);
     }
 
