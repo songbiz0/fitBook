@@ -7,7 +7,6 @@
         const selectElem = noticeList.querySelector('#select');
         const searchElem = noticeList.querySelector('#search');
         const searchBtnElem = noticeList.querySelector('#searchBtn');
-        const form = new FormData();
 
         let selectVal = selectElem.value;
         let searchVal = searchElem.value;

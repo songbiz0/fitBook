@@ -1,6 +1,7 @@
 package com.fitbook.order;
 
 import com.fitbook.ResultVo;
+import com.fitbook.model.order.OrderDetailVo;
 import com.fitbook.model.order.OrderDto;
 import com.fitbook.model.order.OrderVo;
 import com.fitbook.model.product.ProductDetailVo;
@@ -15,4 +16,5 @@ public interface OrderMapper {
     List<ProductDetailVo> selProductDetails(OrderDto dto);
     ResultVo selMaxPageVal(OrderDto dto);
     int updOrder(OrderDto dto);
+    OrderDetailVo selOrderDetail(OrderDto dto);
 }
