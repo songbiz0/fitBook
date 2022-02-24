@@ -66,9 +66,9 @@
     const frmElem = document.querySelector('.gpuListFrm');
     if(frmElem) {
         let startIdx = 0;
-        let rowCnt = 2;
+        let rowCnt = 10;
         let currentPage = 1;
-        let pageCnt = 1;
+        let pageCnt = 10;
         let paginationElem = document.querySelector('.pagination');
 
         const url = '/ajax/admin/gpuSearch?';
@@ -137,7 +137,6 @@
                 getList(url);
             });
             paginationElem.appendChild(aElem1);
-
             for(let i=startPage; i<=(lastPage < maxPage ? lastPage : maxPage); i++) {
                 const aElem2 = document.createElement('a');
                 aElem2.innerText = i;
@@ -239,7 +238,6 @@
 
         getMaxPage();
         getList();
-
     }
 }
 

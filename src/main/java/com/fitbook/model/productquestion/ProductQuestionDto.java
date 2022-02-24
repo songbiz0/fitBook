@@ -11,4 +11,5 @@ public class ProductQuestionDto {
     private String startIdx;
     private String type;
     private int typeNo;
+    private int select;
 }

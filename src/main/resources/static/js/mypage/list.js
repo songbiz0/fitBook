@@ -239,7 +239,7 @@ const makeOrderList = list => {
         tr.innerHTML =
             `<td rowspan=${item.productDetails.length} class="btline">
                 <div>
-                    <div>${item.iorder}</div>
+                    <a href="/mypage/orderlist/detail?iorder=${item.iorder}" class="cb"><div>${item.iorder}</div></a>
                     <div>${item.rdt}</div>
                 </div>
             </td>`
@@ -283,7 +283,7 @@ const makeOrderList = list => {
             } else if (item.order_status === '배송완료') {
                 refundBtnEvent(item, td);
                 const btn = document.createElement('button');
-                btn.className = 'ui secondary mini button';
+                btn.className = 'ui secondary mini button mt3';
                 btn.innerText = '구매 확정';
                 btn.addEventListener('click', () => {
                     if(confirm('상품을 구매 확정하시겠습니까?')) {
@@ -382,7 +382,7 @@ const makeProductDetailList = (trElem, productDetailItem, orderItem, orderConfir
     const td2 = document.createElement('td');
     td2.innerHTML =
         `<div>
-                    <div class="mb5"><b>${productDetailItem.price}원</b></div>
+                    <div class="mb5"><b>${productDetailItem.result_price.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}원</b></div>
                     <div>(${productDetailItem.quantity})</div>
                 </div>`
     trElem.appendChild(td2);

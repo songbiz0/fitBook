@@ -171,6 +171,7 @@ table {
 .fl { float: left; }
 .fr { float: right; }
 
+
 .bbgrey { border-bottom: 1px solid #DDDDDD !important; }
 .btgrey { border-top: 1px solid #DDDDDD; }
 .blnone { border: none !important; }
@@ -224,3 +225,8 @@ table {
 .headerSearch { position: absolute !important; top: 80px !important; right: 420px !important; }
 
 .cspointer:hover { cursor: pointer; }
+
+.justibetween {
+    display: flex;
+    justify-content: space-between;
+}

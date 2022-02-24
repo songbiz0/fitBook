@@ -1,6 +1,8 @@
 package com.fitbook.mypage;
 
 import com.fitbook.auth.AuthenticationFacade;
+import com.fitbook.model.order.OrderDetailVo;
+import com.fitbook.model.order.OrderDto;
 import com.fitbook.model.user.UserEntity;
 import com.fitbook.user.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -78,4 +80,20 @@ public class MyPageController {
 
     @GetMapping("/changeinfo/result")
     public String changeInfoResult() { return "/mypage/change_result"; }
+
+    @GetMapping("/favoritelist")
+    public void favoritelist() {}
+
+    @GetMapping("/orderlist/detail")
+    public String orderDetail(@RequestParam int iorder, Model model) {
+        OrderDto dto = new OrderDto();
+        dto.setIorder(iorder);
+        OrderDetailVo vo = service.selOrderDetail(dto);
+        model.addAttribute("data", vo);
+        if(vo.getOrder_status().equals("취소완료")) {
+            return "/mypage/canceldetail";
+        } else {
+            return "/mypage/orderdetail";
+        }
+    }
 }
