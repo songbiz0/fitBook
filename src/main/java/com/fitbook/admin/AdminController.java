@@ -157,17 +157,4 @@ public class AdminController {
     public void qnaList() {
 
     }
-    @GetMapping("/qnaDetail")
-    public void qnaDetail(Model model, ProductQuestionDto dto){
-        ProductQuestionVo vo = service.selQuestionDetail(dto);
-        model.addAttribute("data", vo);
-        model.addAttribute("userPk", authenticationFacade.getLoginUserPk());
-    }
-    @PostMapping("/qna")
-    public String writeQna(ProductQuestionEntity entity) {
-        System.out.println(entity);
-        int result = service.insQuestion(entity);
-        System.out.println(result);
-        return "redirect:/admin/qnaDetail?iquestion=" + entity.getIquestion();
-    }
 }

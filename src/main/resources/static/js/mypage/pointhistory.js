@@ -126,15 +126,14 @@ const makeList = list => {
         const tr = document.createElement('tr');
         tr.innerHTML =
             `<td>
-                    <div>${item.reason}</div>
+                <div>${item.reason}</div>
             </td>
-<td>
-<div>${item.changed_point}</div>
-</td>
-<td>
-
-                    <div>${item.rdt.toString().substring(0, 10)}</div>
-</td>`
+            <td>
+                <div>${item.changed_point.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}</div>
+            </td>
+            <td>            
+                <div>${item.rdt.toString().substring(0, 10)}</div>
+            </td>`
         pointHistoryTbodyElem.appendChild(tr);
     });
 }

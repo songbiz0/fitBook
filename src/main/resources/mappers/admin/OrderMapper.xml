@@ -12,7 +12,8 @@
         GROUP BY iuser
         ) C
         ON A.iuser = C.iuser
-        GROUP BY A.iuser;
+        GROUP BY A.iuser
+        LIMIT ${startIdx}, ${recordCount}
     </select>
 
     <select id="selectUserSearchList" resultType="UserVo">
@@ -27,7 +28,8 @@
         ) C
         ON A.iuser = C.iuser
         GROUP BY A.iuser
-        HAVING ${type} LIKE CONCAT('%', #{keyword}, '%');
+        HAVING ${type} LIKE CONCAT('%', #{keyword}, '%')
+        LIMIT ${startIdx}, ${recordCount}
     </select>
 
     <select id="selOrderList" resultType="OrderVo">
@@ -44,5 +46,19 @@
         INNER JOIN t_product_master E
         ON E.iproduct = D.iproduct
         GROUP BY B.iuser
+    </select>
+
+    <select id="selUserMaxPageVal" resultType="resultVo">
+        SELECT CEIL(count(*) / ${recordCount}) AS result
+        FROM t_user C
+                 LEFT JOIN (
+            SELECT A.iuser
+            FROM t_user A
+                     LEFT JOIN t_order B
+                               ON A.iuser = B.iuser
+            group by A.iuser
+        ) D
+                           on C.iuser = D.iuser
+        where ${type} like concat('%', #{keyword}, '%')
     </select>
 </mapper>

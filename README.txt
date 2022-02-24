@@ -13,3 +13,7 @@ t_user role varchar(10) not null default 'ROLE_USER' 추가
 t_address post(int) -> post(varchar)
 t_product_master : rdt(datetime) -> rdt(date)
 t_product_master : weight, size -> float
+
+2022-02-21
+t_order : pre_order_status (order_status 랑 동일, NULL 허용)
+t_notice : alert table t_notice add title varchar(30) not null;

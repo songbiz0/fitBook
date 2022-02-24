@@ -3,6 +3,7 @@
     const Productlist = document.querySelector('.product-master');
     if(Productlist) {
         const recordCount = 4; //리스트 수
+        const recordCount = 10; //리스트 수
         let currentPage = 1; //현재 페이지
         let maxPage = 1;
         const pagingCount = 10; //페이징 수
