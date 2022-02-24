@@ -78,12 +78,18 @@ public class AdminService {
     }
 
     // Order List
-    public List<OrderVo> selOrderList() {
-        List<OrderVo> list = mapper.selOrderList();
-        for(OrderVo data: list) {
-            data.setRdt(data.getRdt().substring(0, 16));
-        }
+    public List<OrderVo> selOrderList(OrderDto dto) {
+        String[] statusArr = dto.getStatus().split("-");
+        dto.setStatus(statusArr[0]);
+        dto.setStatusNo(Integer.parseInt(statusArr[1]));
+        List<OrderVo> list = mapper.selOrderList(dto);
         return list;
+    }
+    public ResultVo getOrderMaxPage(OrderDto dto) {
+        String[] statusArr = dto.getStatus().split("-");
+        dto.setStatus(statusArr[0]);
+        dto.setStatusNo(Integer.parseInt(statusArr[1]));
+        return mapper.getOrderMaxPage(dto);
     }
 
     // Parts

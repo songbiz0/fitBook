@@ -49,8 +49,12 @@ public class AdminRestController {
 
     //주문목록
     @GetMapping("/order")
-    public List<OrderVo> selOrderList() {
-        return service.selOrderList();
+    public List<OrderVo> selOrderList(OrderDto dto) {
+        return service.selOrderList(dto);
+    }
+    @GetMapping("/orderMaxPage")
+    public ResultVo getOrderMaxPage(OrderDto dto) {
+        return service.getOrderMaxPage(dto);
     }
 
     //상품목록
