@@ -31,7 +31,8 @@ public interface AdminMapper {
     List<OrderProductVo> selBrandDemandList();
 
     // Order List
-    List<OrderVo> selOrderList();
+    List<OrderVo> selOrderList(OrderDto dto);
+    ResultVo getOrderMaxPage(OrderDto dto);
 
     // Parts
     int insCpu(CpuEntity entity);

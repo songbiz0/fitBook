@@ -22,4 +22,11 @@ public class OrderVo extends OrderEntity{
     private int cnt;
 
     private List<ProductDetailVo> productDetails;
+
+    // Admin - 주문목록
+    private String productNm;
+    private String userNm;
+    private int iuser;
+    private int quantity;
+    private int result_price;
 }
