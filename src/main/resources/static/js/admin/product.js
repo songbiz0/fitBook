@@ -43,7 +43,6 @@
                 makePaging();
             });
 
-
         getMaxPageVal();
 
         const selProductList = list => {
@@ -54,7 +53,6 @@
                 tbodyElem.appendChild(trElem);
 
                 trElem.innerHTML = `
-            <td><img class="w70 h50" src="/imgPath/products/detail/${item.idetail}/${item.img}"></td>
             <td>${item.iproduct}</td>
             <td>${item.product_code}</td>
             <td>${item.nm},<img class="w70 h50" src="/imgPath/products/detail/${item.idetail}/${item.img}"></td>
