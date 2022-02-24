@@ -137,7 +137,6 @@
                 getList(url);
             });
             paginationElem.appendChild(aElem1);
-
             for(let i=startPage; i<=(lastPage < maxPage ? lastPage : maxPage); i++) {
                 const aElem2 = document.createElement('a');
                 aElem2.innerText = i;
@@ -239,7 +238,6 @@
 
         getMaxPage();
         getList();
-
     }
 }
 

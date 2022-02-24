@@ -8,9 +8,9 @@
 </head>
 
 <th:block layout:fragment="content">
-    <div>
+    <div class="user w110p">
         <form class="search_form">
-            <select name="type" id="searchSel">
+            <select name="type" id="type">
                 <option value="aaa">검색내용선택</option>
                 <option value="nm">이름</option>
                 <option value="uid">아이디</option>
@@ -19,8 +19,7 @@
                 <option value="recent_rdt">최근결제일</option>
             </select>
             </select>
-            <input type="text" id="keyword" value="">
-            <input type="submit" value="검색">
+            <input type="text" id="keyword" value="" placeholder="검색">
         </form>
 
 
@@ -42,5 +41,11 @@
             <tbody>
             </tbody>
         </table>
+        <div class="page-container">
+            <div class="tact w100p">
+                <div class="ui pagination tiny menu mt50">
+                </div>
+            </div>
+        </div>
     </div>
 </th:block>
