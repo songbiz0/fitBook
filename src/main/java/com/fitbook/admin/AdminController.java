@@ -1,9 +1,12 @@
 package com.fitbook.admin;
 
+import com.fitbook.Const;
 import com.fitbook.auth.AuthenticationFacade;
 import com.fitbook.model.cpu.CpuListEntity;
 import com.fitbook.model.gpu.GpuListEntity;
 import com.fitbook.model.product.ProductDetailListVo;
+import com.fitbook.model.product.ProductDto;
+import com.fitbook.model.product.ProductEntity;
 import com.fitbook.model.product.ProductVo;
 import com.fitbook.model.productquestion.ProductQuestionDto;
 import com.fitbook.model.productquestion.ProductQuestionEntity;
@@ -13,6 +16,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @Controller
 @RequestMapping("/admin")
@@ -50,8 +55,16 @@ public class AdminController {
 
     //상품디테일
     @GetMapping("/product_master_detail")
-    public void product_master_detail(){
-
+    public void product_master_detail(Model model, ProductDto dto){
+        List<ProductVo> list = service.selProductDetail(dto);
+        int total = 0;
+        for(ProductVo item : list) {
+            total += item.getStock();
+        }
+        model.addAttribute("total", total);
+        model.addAttribute(Const.DATA,list);
+        System.out.println(list);
+        model.addAttribute(Const.DETAIL,service.selProductDetail2(dto));
     }
 
     @GetMapping("/insproduct")

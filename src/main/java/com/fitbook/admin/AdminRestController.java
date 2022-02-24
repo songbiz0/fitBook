@@ -1,5 +1,6 @@
 package com.fitbook.admin;
 
+import com.fitbook.Const;
 import com.fitbook.ResultVo;
 import com.fitbook.model.cpu.CpuDto;
 import com.fitbook.model.cpu.CpuEntity;
@@ -20,6 +21,7 @@ import com.fitbook.model.program.ProgramVo;
 import com.fitbook.model.user.UserDto;
 import com.fitbook.model.user.UserVo;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -57,11 +59,15 @@ public class AdminRestController {
 
     //상품목록
     @GetMapping("/product_master")
-
     public List<ProductVo>  selProductList(ProductDto dto){
         System.out.println("controller : " + dto);
         return service.selProductList(dto);
     }
+
+    @GetMapping("/product_master_detail")
+    public void selProductDetail(){
+    }
+
 
     @GetMapping("/maxpage")
     public ResultVo selMaxPageVal(ProductDto dto){

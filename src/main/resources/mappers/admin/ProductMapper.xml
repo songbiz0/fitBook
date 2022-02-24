@@ -23,6 +23,7 @@
          <include refid="searchIf">
 
          </include>
+        ORDER BY A.iproduct = ${iproduct} DESC
         LIMIT ${startIdx}, ${recordCount} ) AS t
     </select>
 
@@ -31,9 +32,30 @@
         FROM t_product_master A
         INNER JOIN t_product_detail B
         ON A.iproduct = B.iproduct
-        <include refid="searchIf">
+        WHERE isrep = 'Y'
+    </select>
 
-        </include>
+    <select id="selProductDetail" resultType="ProductVo">
+        SELECT B.price, C.nm as cpu, D.nm as gpu, A.ram, B.ssd, B.hdd,
+               A.size, A.weight, A.os, B.color, A.rdt, B.stock
+        FROM t_product_master A
+                 INNER JOIN t_product_detail B
+                            ON A.iproduct = B.iproduct
+                 INNER JOIN t_product_cpu C
+                            ON A.icpu = C.icpu
+                 INNER JOIN t_product_gpu D
+                            ON A.igpu = D.igpu
+        WHERE A.iproduct = ${iproduct}
+        ORDER BY isrep DESC;
+    </select>
+
+    <select id="selProductDetail2" resultType="ProductVo">
+        SELECT A.product_code, A.nm, A.rdt, B.img, A.brand, B.idetail
+        FROM t_product_master A
+        INNER JOIN t_product_detail B
+        ON A.iproduct = B.iproduct
+        WHERE B.isrep = 'Y'
+        AND A.iproduct = ${iproduct};
     </select>
 
     <insert id="insProductMaster" useGeneratedKeys="true" keyProperty="iproduct" keyColumn="iproduct">

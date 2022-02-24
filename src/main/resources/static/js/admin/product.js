@@ -2,7 +2,7 @@
 {
     const Productlist = document.querySelector('.product-master');
     if(Productlist) {
-        const recordCount = 3; //리스트 수
+        const recordCount = 4; //리스트 수
         let currentPage = 1; //현재 페이지
         let maxPage = 1;
         const pagingCount = 10; //페이징 수
@@ -40,7 +40,7 @@
             .then(data => {
                 console.log(data.result);
                 maxPage = data.result;
-                makePaging(maxPage);
+                makePaging();
             });
 
         getMaxPageVal();
@@ -53,13 +53,16 @@
                 tbodyElem.appendChild(trElem);
 
                 trElem.innerHTML = `
-            <td><img class="w70 h50" src="/imgPath/products/detail/${item.idetail}/${item.img}"></td>
             <td>${item.iproduct}</td>
             <td>${item.product_code}</td>
             <td>${item.nm},<img class="w70 h50" src="/imgPath/products/detail/${item.idetail}/${item.img}"></td>
             <td>${item.brand}</td>
             <td>${item.stock}</td>
             <td>${item.price}</td>
+            <td>${item.price}</td>
+            <td>${item.rating}</td>
+            
+            
             `;
                 trElem.addEventListener('click', e => {
                     location.href = `/admin/product_master_detail?iproduct=${item.iproduct}`
@@ -71,6 +74,8 @@
            const searchTeaxt = document.querySelector('#searchText').value;
            const select = document.querySelector('#select').value;
            const searchUrl = url + `?search=${searchTeaxt}&select=${select}&recordCount=${recordCount}`;
+           searchList(searchUrl);
+           getMaxPageVal();
 
         });
 
@@ -84,7 +89,7 @@
 
             const liElem1 = document.createElement('li');
             ulElem.appendChild(liElem1);
-            liElem1.className = 'item';
+            liElem1.classList.add('item');
             liElem1.innerHTML = '&lt;';
             liElem1.addEventListener('click', e => {
                 currentPage = (currentPage) === 1 ? 1 : (currentPage - 1);
@@ -96,10 +101,10 @@
             for (let i = startPage; i <= (lastPage > maxPage ? maxPage : lastPage); i++) {
                 const liElem = document.createElement('li');
                 if(currentPage === i) {
-                    liElem.className = 'active item';
+                    liElem.classList.add('active');
                 }
                 ulElem.appendChild(liElem);
-                liElem.className = 'item';
+                liElem.classList.add('item');
                 liElem.innerText = i;
                 liElem.addEventListener('click' , e =>{
                    if(currentPage !== i){
@@ -110,10 +115,9 @@
                 });
             }
 
-
             const liElem2 = document.createElement('li');
             ulElem.appendChild(liElem2);
-            liElem2.className = 'item';
+            liElem2.classList.add('item');
             liElem2.innerHTML = '&gt;';
             liElem2.addEventListener('click' , e => {
                 currentPage = (currentPage) === maxPage ? maxPage : (currentPage + 1);

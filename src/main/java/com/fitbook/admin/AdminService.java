@@ -217,9 +217,15 @@ public class AdminService {
         }
         System.out.println("service : " + dto);
         return mapper.selProductList(dto);
-
-
     }
+
+    public List<ProductVo> selProductDetail(ProductDto dto){
+        return mapper.selProductDetail(dto);
+    }
+    public ProductVo selProductDetail2(ProductDto dto){
+        return mapper.selProductDetail2(dto);
+    }
+
     public ResultVo selMaxPageVal(ProductDto dto){
         if("nm,product_code".equals(dto.getSelect())){
             String data[] = dto.getSelect().split(",");

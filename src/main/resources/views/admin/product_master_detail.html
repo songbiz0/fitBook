@@ -3,7 +3,7 @@
       xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
       layout:decorate="temp/admin_page_layout">
 <head>
-    <link rel="stylesheet" th:href="@{/css/admin/product_master.css}">
+    <link rel="stylesheet" th:href="@{/css/admin/product_master_detail.css}">
     <script defer th:src="@{/js/admin/product_master_detail.js}"></script>
     <title></title>
 </head>
@@ -11,27 +11,78 @@
 <th:block layout:fragment="content">
     <div class="product-master w110p">
         <div>
-            <table class="mytable w110p">
-                <thead>
-                <tr>
-                    <th>상품번호</th>
+            <div class="button-list">
+                <button class="mini ui basic button" >
+                    <a href="/admin/product_master">목록으로</a>
+                </button>
+                <button class="mini ui secondary button" >
+                    수정하기
+                </button>
+            </div>
+            <table class="mytable-detail w110p">
+                <tr class="table-nm">
                     <th>상품코드</th>
-                    <th>상품명/이미지</th>
-                    <th>브랜드</th>
-                    <th>재고수량</th>
-                    <th>30일 기준 최근 판매
-                        (금액/수량)</th>
-                    <th>누적판매금액</th>
-                    <th>평점</th>
-
+                    <td colspan="2" th:text="${detail.product_code}"></td>
+                    <th>상품명</th>
+                    <td colspan="3" th:text="|${detail.brand} ${detail.nm}|"></td>
+                    <th>제조일자</th>
+                    <td colspan="2" th:text="${detail.rdt}"></td>
                 </tr>
-                </thead>
-                <tbody>
-                </tbody>
+                <tr>
+                    <th rowspan="2">이미지</th>
+                </tr>
+                <tr class="tr-img">
+                    <td colspan="9"><img th:src="@{/imgPath/products/detail/{no}/{img} (no=${detail.idetail}, img=${detail.img})}" width="400" height="400"></td>
+                </tr>
+                <tr class="table-kind">
+                    <th rowspan="3">제품사양</th>
+                    <th>컬러</th>
+                    <th>제품가격</th>
+                    <th>CPU</th>
+                    <th>GPU</th>
+                    <th>RAM</th>
+                    <th>SSD</th>
+                    <th>HDD</th>
+                    <th>화면크기</th>
+                    <th>무게</th>
+                    <th>OS</th>
+                </tr>
+                <tr th:each=" item : ${data}">
+                    <td th:text="${item.color}"></td>
+                    <td th:text="|${item.price}원|"></td>
+                    <td th:text="${item.cpu}"></td>
+                    <td th:text="${item.gpu}"></td>
+                    <td th:text="|${item.ram}GB|"></td>
+                    <td th:text="|${item.ssd}GB|"></td>
+                    <td th:text="${item.hdd}"></td>
+                    <td th:text="|${item.size}인치|"></td>
+                    <td th:text="${item.weight}"></td>
+                    <td th:text="${item.os}"></td>
+                </tr>
+            </table>
+            <table class="mytable-detail w110p detail-price">
+                <tr class="table-price">
+                    <th class="borderR1" colspan="2">옵션별 매출표</th>
+                    <th>총 매출</th>
+                    <th>최근 매출</th>
+                    <th>재고 수량</th>
+                    <th>평 점</th>
+                </tr>
+                <tr class="tr-price-color" th:each="item : ${data}">
+                    <td th:text="${item.color}"></td>
+                    <td class="borderR2" th:text="${item.ssd}+GB"></td>
+                    <td>0</td>
+                    <td>0</td>
+                    <td th:text="${item.stock}+개"></td>
+                    <td>☆☆☆☆☆</td>
+                </tr>
+                <tr class="tr-price-total">
+                    <th class="borderR1" colspan="2" >TOTAL 매출</th>
+                    <td>0</td>
+                    <td>0</td>
+                    <td th:text="${total}"></td>
+                </tr>
             </table>
         </div>
-
-
-
     </div>
 </th:block>

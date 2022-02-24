@@ -1,0 +1,27 @@
+
+
+
+
+.tr-img{
+    height: 300px;
+}
+
+.mytable-detail { border-top: 1px solid #999999; border-bottom: 1px solid #999999; border-collapse: collapse; font-size: 12px;}
+.mytable-detail th { background-color: #f7f7f7; text-align: center; padding: 10px; }
+.mytable-detail td { text-align: center; padding: 10px; }
+.mytable { vertical-align: middle  !important; }
+.detail-price { margin-top: 10px}
+
+.table-nm { border-top: 1px solid #999999; border-bottom: 1px solid #dbdbdb; }
+.table-kind { border-top: 1px solid #dbdbdb; border-bottom: 1px solid #dbdbdb; }
+.table-price { border-top: 1px solid #999999; border-bottom: 1px solid #dbdbdb; }
+.tr-price-color { border-top: 1px solid #dbdbdb; border-bottom: 1px solid #dbdbdb; }
+.tr-price-total { border-top: 1px solid #dbdbdb; border-bottom: 1px solid #999999;}
+.borderR1 { border-right: 1px solid #dbdbdb; }
+.borderR2 { border-right: 1px solid #dbdbdb; border-left: 1px solid #dbdbdb; }
+
+.button-list{
+    width: 110%;
+    text-align: right;
+    margin-bottom: 10px;
+}
