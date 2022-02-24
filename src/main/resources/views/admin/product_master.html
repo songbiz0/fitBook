@@ -12,34 +12,32 @@
     <div class="product-master w110p">
         <div class="product-searchArea">
             <form>
-                <select>
-                    <option value="1">상품분류</option>
-                    <option value="2">상품명</option>
-                    <option value="3">상품번호</option>
+                <select id="select">
+                    <option value="nm,product_code">전체검색</option>
+                    <option value="nm">상품이름</option>
+                    <option value="product_code">상품코드</option>
                 </select>
                 <div>
-                    <input type="text" placeholder="Check This Out 나는 유언수" style="width: 200px">
+                    <input id="searchText" type="search" placeholder="Check This Out 나는 유언수" style="width: 200px">
                     <span>검색</span>
                 </div>
             </form>
         </div>
-        <div>
+        <div class="minh400">
             <table class="mytable w110p">
                 <thead>
-                <tr>
-                    <th>상품이미지</th>
-                    <th>상품번호</th>
-                    <th>상품코드</th>
-                    <th>상품명</th>
-                    <th>브랜드</th>
-                    <th>재고수량</th>
-                    <th>CPU</th>
-                    <th>그래픽카드</th>
-                    <th>RAM</th>
-                    <th>화면크기</th>
-                    <th>무게</th>
-                    <th>OS</th>
-                </tr>
+                    <tr>
+                        <th>상품번호</th>
+                        <th>상품코드</th>
+                        <th>상품명/이미지</th>
+                        <th>브랜드</th>
+                        <th>재고수량</th>
+                        <th>30일 기준 최근 판매
+                            (금액/수량)</th>
+                        <th>누적판매금액</th>
+                        <th>평점</th>
+
+                    </tr>
                 </thead>
                 <tbody>
                 </tbody>

@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="temp/thymeleaf_layout">
+
+<head>
+    <meta charset="UTF-8">
+    <script defer th:src="@{/js/notice/notice.js}"></script>
+    <title>aocument</title>
+</head>
+
+<body>
+<th:block layout:fragment="content">
+    <main id="notice-list" class="btgrey">
+        <div class="ui left aligned container mt50">
+            <div class="mb30 justibetween">
+                <div>
+                    <h3>공지사항</h3>
+                </div>
+                <div>
+                    <a th:href="@{/notice/writenotice}"><button class="ui basic tiny button"><h5>글쓰기</h5></button></a>
+                </div>
+            </div>
+            <table class="mytable w100p">
+                <colgroup>
+                    <col width="10%">
+                    <col width="50%">
+                    <col width="15%">
+                    <col width="15%">
+                    <col width="10%">
+                </colgroup>
+                <thead>
+                    <tr>
+                        <th>번호</th>
+                        <th>제목</th>
+                        <th>날짜</th>
+                        <th>작성자</th>
+                        <th>조회수</th>
+                    </tr>
+                </thead>
+                <tbody>
+                </tbody>
+            </table>
+            <div class="tact">
+                <div class="ui pagination tiny menu mt50">
+
+                </div>
+            </div>
+            <div class="tact">
+            <div class="ui mini action input mt30">
+                <select id="select" class="ui mini compact selection dropdown searchselect">
+                    <option selected="" value="1">제목</option>
+                    <option value="2">내용</option>
+                    <option value="3">작성자</option>
+                  </select>
+                <input id="search" type="text" class="radiusnone w200">
+                <div id="searchBtn" class="ui secondary mini button">검색</div>
+              </div>
+            </div>
+        </div>
+    </main>
+</div>
+</th:block>
+</body>
+
+</html>

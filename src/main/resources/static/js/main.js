@@ -39,11 +39,17 @@ if(cartBtn) {
 }
 
 const getReview = document.querySelector('#goToProductReview');
-getReview.addEventListener('click', () => {
-    window.scrollTo({top: document.querySelector('#productReview').offsetTop});
-});
+if(getReview) {
+    getReview.addEventListener('click', () => {
+        window.scrollTo({top: document.querySelector('#productReview').offsetTop});
+    });
+}
+
 
 const reviewWriteBtn = document.querySelector('#reviewWriteBtn');
-reviewWriteBtn.addEventListener('click', () => {
-    $('.ui.modal').modal('show');
-});
+if(reviewWriteBtn) {
+    reviewWriteBtn.addEventListener('click', () => {
+        $('.ui.modal').modal('show');
+    });
+}
+

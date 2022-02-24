@@ -13,5 +13,7 @@ public class ProductVo extends ProductEntity{
     private MultipartFile mfFile;
 
     // 상품목록
-    private String stock;
+    private int stock;
+    private int idetail;
+    private float dc_rate;
 }

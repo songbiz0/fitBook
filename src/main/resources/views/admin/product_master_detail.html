@@ -1,0 +1,37 @@
+<html lang="ko"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="temp/admin_page_layout">
+<head>
+    <link rel="stylesheet" th:href="@{/css/admin/product_master.css}">
+    <script defer th:src="@{/js/admin/product_master_detail.js}"></script>
+    <title></title>
+</head>
+
+<th:block layout:fragment="content">
+    <div class="product-master w110p">
+        <div>
+            <table class="mytable w110p">
+                <thead>
+                <tr>
+                    <th>상품번호</th>
+                    <th>상품코드</th>
+                    <th>상품명/이미지</th>
+                    <th>브랜드</th>
+                    <th>재고수량</th>
+                    <th>30일 기준 최근 판매
+                        (금액/수량)</th>
+                    <th>누적판매금액</th>
+                    <th>평점</th>
+
+                </tr>
+                </thead>
+                <tbody>
+                </tbody>
+            </table>
+        </div>
+
+
+
+    </div>
+</th:block>

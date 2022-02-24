@@ -1,9 +1,13 @@
 package com.fitbook.admin;
 
+import com.fitbook.auth.AuthenticationFacade;
 import com.fitbook.model.cpu.CpuListEntity;
 import com.fitbook.model.gpu.GpuListEntity;
 import com.fitbook.model.product.ProductDetailListVo;
 import com.fitbook.model.product.ProductVo;
+import com.fitbook.model.productquestion.ProductQuestionDto;
+import com.fitbook.model.productquestion.ProductQuestionEntity;
+import com.fitbook.model.productquestion.ProductQuestionVo;
 import com.fitbook.model.program.ProgramListVo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -15,6 +19,7 @@ import org.springframework.web.bind.annotation.*;
 public class AdminController {
 
     @Autowired private AdminService service;
+    @Autowired private AuthenticationFacade authenticationFacade;
 
     // 메인
     @GetMapping("")
@@ -43,6 +48,12 @@ public class AdminController {
     public void product_master(){
     }
 
+    //상품디테일
+    @GetMapping("/product_master_detail")
+    public void product_master_detail(){
+
+    }
+
     @GetMapping("/insproduct")
     public void insProduct(Model model) {
         model.addAttribute("gpuData", service.selGpu());
@@ -58,6 +69,11 @@ public class AdminController {
     // CPU
     @GetMapping("/cpuList")
     public void cpuList() {
+
+    }
+
+    @GetMapping("/cpuDetail")
+    public void cpuDetail() {
 
     }
 
@@ -86,9 +102,11 @@ public class AdminController {
 
     }
 
+    @GetMapping("/gpuDetail")
+    public void gpuDetail() {}
+
     @GetMapping("/gpu")
-    public void gpu() {
-    }
+    public void gpu() {}
 
     @PostMapping("/gpu")
     public String gpuProc(GpuListEntity gpuList, Model model) {
@@ -106,11 +124,9 @@ public class AdminController {
     public void programList() {
 
     }
-
     @GetMapping("/program")
     public void program() {
     }
-
     @PostMapping("/program")
     public String programProc(ProgramListVo programList, Model model) throws Exception {
         int programListLength = programList.getProgramList().size();
@@ -120,5 +136,12 @@ public class AdminController {
         }
         return "redirect:/admin/program";
     }
+    @GetMapping("/programDetail")
+    public void programDetail() {}
 
+    // QnA
+    @GetMapping("/qna")
+    public void qnaList() {
+
+    }
 }

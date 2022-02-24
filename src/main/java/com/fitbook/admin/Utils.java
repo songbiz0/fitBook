@@ -1,13 +1,20 @@
 package com.fitbook.admin;
 
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.context.annotation.Configuration;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.File;
 import java.time.LocalDate;
 import java.util.UUID;
 
+@Configuration
 public class Utils {
-    public static String getDate(String type) {
+
+    @Value("${spring.servlet.multipart.location}")
+    private String path;
+
+    public String getDate(String type) {
         LocalDate now = LocalDate.now();
         String date = now.toString();
         date = date.replace("-", "");
@@ -37,23 +44,81 @@ public class Utils {
         return result;
     }
 
-    public  static String uploadFile(MultipartFile file, String type) throws Exception {
-        return uploadFile(file, type, null);
+    public void delFile(String type, String code) {
+        String projectPath = path + "/" + type +"/" + code + "/"; // + 상픔코드
+        File file = new File(projectPath);
+        if(file.exists()) {
+            if(file.isDirectory()) {
+                File[] list = file.listFiles();
+                for(int i=0; i<list.length; i++) {
+                    if(list[i].delete()) {
+                        System.out.println("delFile - 삭제성공");
+                    } else {
+                        System.out.println("delFile - 삭제실패");
+                    }
+                }
+            }
+            file.delete();
+        }
     }
 
-    public static String uploadFile(MultipartFile file, String type, String code) throws Exception {
-        String projectPath =  System.getProperty("user.dir") + "\\src\\main\\resources\\static\\images\\" + type +"\\" + code + "\\"; // + 상픔코드
-        File folder = new File(projectPath);
+    public String getExt(String fileNm) {
+        int lastIdx = fileNm.lastIndexOf(".");
+        return fileNm.substring(lastIdx);
+    }
+
+    public String uploadFileUUID(MultipartFile file, String uuid, String type, String code) throws Exception {
+        String outPath = path + "/" + type + "/" + code + "/";
+        File folder = new File(outPath);
         if(!folder.exists()) {
             folder.mkdirs();
         }
 
-        UUID uuid = UUID.randomUUID();
-        String fileNm = uuid + "_" + file.getOriginalFilename();
+        File saveFile = new File(outPath, uuid);
+        file.transferTo(saveFile);
 
-        File saveFile = new File(projectPath, fileNm);
+        return uuid;
+    }
+
+    // 수정할때 쓰는 업로드 메소드
+    public String uploadFile(MultipartFile file, String type, String code) throws Exception {
+        String outPath = path + "/" + type + "/" + code + "/";
+        File folder = new File(outPath);
+
+        if(folder.exists()) {
+            if(folder.isDirectory()) {
+                File[] files = folder.listFiles();
+                for(int i=0; i< files.length; i++) {
+                    if(files[i].delete()) {
+                        System.out.println("삭제성공");
+                    } else {
+                        System.out.println("삭제실패");
+                    }
+                }
+            }
+        } else {
+            folder.mkdirs();
+        }
+
+        String extVal = getExt(file.getOriginalFilename());
+
+        UUID uuid = UUID.randomUUID();
+        String fileNm = uuid + extVal;
+
+        File saveFile = new File(outPath, fileNm);
         file.transferTo(saveFile);
 
         return fileNm;
+    }
+
+    public String productImgUpdate(MultipartFile mf, String type, String code) throws Exception {
+        // type => master 인지 detail 인지
+        String projectPath =  System.getProperty("user.dir") + "\\src\\main\\resources\\static\\images\\products\\" + type + "\\" + code + "\\"; // + 상픔코드
+        File file = new File(projectPath);
+        //TODO pk 값으로 조회해서 같은 폴더에 있는 이미지 삭제 후 다시 삽입
+        if(!file.exists()) {
+            return null;
+        }
+        return null;
     }
 }

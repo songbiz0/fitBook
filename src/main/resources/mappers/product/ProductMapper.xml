@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.fitbook.product.ProductMapper">
+    <select id="selFavMaxPageVal" resultType="ResultVo">
+        SELECT CEIL(COUNT(A.iproduct) / ${recordCount}) AS result
+        FROM t_product_master A
+        INNER JOIN t_fav_mapping B
+        ON A.iproduct = B.iproduct
+        INNER JOIN t_user C
+        ON B.iuser = C.iuser
+        WHERE C.iuser = #{iuser}
+    </select>
+    <select id="selFavList" resultType="ProductVo">
+        SELECT A.nm, A.product_code, D.price, D.dc_rate, D.img,
+               A.brand, A.iproduct
+        FROM t_product_master A
+        INNER JOIN t_fav_mapping B
+        ON A.iproduct = B.iproduct
+        INNER JOIN t_user C
+        ON B.iuser = C.iuser
+        INNER JOIN t_product_detail D
+        ON B.iproduct = D.iproduct
+        WHERE C.iuser = #{iuser}
+        AND D.isrep = 'Y'
+        ORDER BY B.rdt DESC
+        LIMIT ${startIdx}, ${recordCount}
+    </select>
+
+    <delete id="delFav">
+        DELETE FROM t_fav_mapping
+        WHERE iuser = #{iuser}
+        AND
+        <foreach collection="list" item="item" separator="or" open="(" close=")">
+            iproduct = #{item}
+        </foreach>
+    </delete>
+
+    <insert id="insCart">
+        INSERT INTO t_cart
+            (iuser, idetail, quantity)
+        VALUES
+            <foreach collection="list" item="item" separator=",">
+                (#{iuser}, (
+                SELECT A.idetail
+                FROM t_product_detail A
+                INNER JOIN t_product_master B
+                ON A.iproduct = B.iproduct
+                WHERE B.iproduct = #{item}
+                AND A.isrep = 'Y'
+                ), 1)
+            </foreach>
+        ON DUPLICATE KEY
+        UPDATE quantity = quantity + 1
+    </insert>
+</mapper>

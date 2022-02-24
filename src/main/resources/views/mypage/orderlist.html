@@ -6,16 +6,17 @@
       layout:decorate="mypage/temp/mypage_layout">
 <head>
     <meta charset="UTF-8">
+    <script defer th:src="@{/js/mypage/list.js}"></script>
     <title></title>
 </head>
 <body>
 <th:block layout:fragment="content">
-    <div class="ui left aligned container mt50">
-        <div class="frow gap50">
             <div class="fr1">
+                <div th:data-datatype="order" id="dataSet"></div>
+                <div class="fr1">
                 <h3>주문목록</h3>
                 <div class="mybox">
-                    <div class="ui mini compact menu ib mr10">
+                    <div class="ui mini compact menu ib mr10" id="dateBtns">
                         <a class="link item" id="todayBtn">
                             오늘
                         </a>
@@ -79,11 +80,10 @@
                     <tbody id="orderListTbody">
                     </tbody>
                 </table>
+                <div class="w100p tact">
+                    <div class="ui pagination tiny menu mt50" id="searchPagination">
+                    </div>
             </div>
-        </div>
-        <div class="w100p tact">
-        <div class="ui pagination tiny menu mt50" id="searchPagination">
-        </div>
         </div>
     </div>
 </th:block>

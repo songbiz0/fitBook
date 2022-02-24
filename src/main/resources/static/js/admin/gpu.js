@@ -66,9 +66,9 @@
     const frmElem = document.querySelector('.gpuListFrm');
     if(frmElem) {
         let startIdx = 0;
-        let rowCnt = 2;
+        let rowCnt = 10;
         let currentPage = 1;
-        let pageCnt = 1;
+        let pageCnt = 10;
         let paginationElem = document.querySelector('.pagination');
 
         const url = '/ajax/admin/gpuSearch?';
@@ -80,6 +80,7 @@
         const getList = (addUrl) => {
             let resultUrl = url + `startIdx=${startIdx}&rowCnt=${rowCnt}`;
             if(addUrl) { resultUrl = resultUrl + `&` + addUrl; }
+            console.log(resultUrl);
             fetch(resultUrl)
                 .then(res => res.json())
                 .then(data => {
@@ -98,6 +99,7 @@
             const tbody = document.createElement('tbody');
             list.forEach(item => {
                 const tr = document.createElement('tr');
+                tr.classList.add('list-tr');
                 tr.innerHTML = `
                     <td>${item.nm}</td>
                     <td>${item.performance}</td>
@@ -106,7 +108,10 @@
                 `;
                 tbody.appendChild(tr);
                 table.appendChild(tbody);
-            })
+                tr.addEventListener('click', () => {
+                    location.href = `/admin/gpuDetail?igpu=${item.igpu}`;
+                });
+            });
         }
         const makePage = (maxPage) => {
             paginationElem = document.querySelector('.pagination');
@@ -233,6 +238,136 @@
 
         getMaxPage();
         getList();
+    }
+}
 
+// gpu Detail
+{
+    const tableContainerElem = document.querySelector('#table-container');
+    if(tableContainerElem) {
+        const idx = document.querySelector('#idx');
+        const tableElem = tableContainerElem.querySelector('.mytable');
+        const modBtnElem = document.querySelector('#modBtn');
+        const delBtnElem = document.querySelector('#delBtn');
+        let params = (new URL(document.location)).searchParams;
+        const igpu = params.get('igpu');
+        const baseUrl = `/ajax/admin/gpuDetail?igpu=${igpu}`;
+
+        const updFetch = (param) => {
+            const updUrl = `/ajax/admin/gpuDetail`;
+            console.log(param);
+            fetch(updUrl, {
+                method: 'put',
+                headers: {'Content-Type': 'application/json'},
+                body: JSON.stringify(param)
+            })
+                .then(res => res.json())
+                .then(data => {
+                    console.log(data);
+                })
+                .catch(e => {
+                    console.error(e);
+                })
+
+        }
+
+        const setList = (data) => {
+            const tBody = document.createElement('tbody');
+            idx.innerText = (data.igpu);
+            tBody.innerHTML = `
+                <tr>
+                    <th>GPU명</th>
+                    <td colspan="3" class="tnm">${data.nm}</td>
+                </tr>
+                <tr>
+                    <th>성능수치</th>
+                    <td colspan="3" class="tperf">${data.performance}</td>
+                </tr>
+                <tr>
+                    <th>세대</th>
+                    <td colspan="3" class="tseq">${data.seq}</td>
+                </tr>
+                <tr>
+                    <th>브랜드</th>
+                    <td colspan="3" class="tbrand">${data.brand}</td>
+                </tr>
+            `;
+            tableElem.appendChild(tBody);
+        }
+
+        fetch(baseUrl)
+            .then(res => res.json())
+            .then(data => {
+                setList(data);
+            })
+            .catch(e => {
+                console.error(e);
+            });
+
+        const makeInput = (elem, className) => {
+            const inputElem = document.createElement('input');
+            inputElem.type = 'text';
+            inputElem.classList.add(className);
+            inputElem.value = elem.innerText;
+            elem.innerText = '';
+            elem.appendChild(inputElem);
+            return inputElem.value;
+        }
+
+        modBtnElem.addEventListener('click', () => {
+            const nmElem = document.querySelector('.tnm');
+            const perfElem = document.querySelector('.tperf');
+            const seqElem = document.querySelector('.tseq');
+            const brandElem = document.querySelector('.tbrand');
+
+            if(modBtnElem.classList.contains('mod')) {
+                makeInput(nmElem, 'nm');
+                makeInput(perfElem, 'performance');
+                makeInput(seqElem, 'seq');
+                makeInput(brandElem, 'brand');
+                modBtnElem.classList.replace('mod', 'chk');
+                modBtnElem.innerText = '확인';
+            } else if(modBtnElem.classList.contains('chk')) {
+                let nmVal = document.querySelector('.nm').value;
+                let perfVal = document.querySelector('.performance').value;
+                let seqVal = document.querySelector('.seq').value;
+                let brandVal = document.querySelector('.brand').value;
+
+                console.log(nmVal);
+
+                let param = {
+                    'igpu': igpu,
+                    'nm' : nmVal,
+                    'performance' : perfVal,
+                    'seq' : seqVal,
+                    'brand' : brandVal
+                };
+
+                nmElem.innerText = nmVal;
+                perfElem.innerText = perfVal;
+                seqElem.innerText = seqVal;
+                brandElem.innerText = brandVal;
+                modBtnElem.classList.add('chk', 'mod');
+                modBtnElem.innerText =  '수정';
+                updFetch(param);
+            }
+
+        });
+
+        delBtnElem.addEventListener('click', () => {
+            if(!confirm(`${igpu}번 글을 삭제하시겠어요?`)) {
+                return;
+            }
+            fetch(baseUrl, {
+                method: 'delete'
+            })
+                .then(res => res.json())
+                .then(data => {
+                    location.href = '/admin/gpuList';
+                })
+                .catch(e => {
+                    console.error(e);
+                });
+        });
     }
 }

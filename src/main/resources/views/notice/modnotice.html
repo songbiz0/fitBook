@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="temp/thymeleaf_layout">
+
+<head>
+    <meta charset="UTF-8">
+    <script src="https://code.jquery.com/jquery-3.4.1.slim.min.js" integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n" crossorigin="anonymous"></script>
+    <link href="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote-lite.min.css" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote-lite.min.js"></script>
+    <script defer th:src="@{/js/notice/notice.js}"></script>
+    <link rel="stylesheet" th:href="@{/css/notice/notice.css}">
+    <title>aocument</title>
+</head>
+
+<body>
+<th:block layout:fragment="content">
+    <div class="ctntData" th:with="ctnt=${data.ctnt}" th:data-ctnt="${ctnt}"></div>
+    <div class="titleData" th:with="title=${data.title}" th:data-title="${title}">
+        <form class="summernote-form" method="post" th:action="@{/notice/modify(inotice=${data.inotice})}" enctype="application/x-www-form-urlencoded">
+            <div class="form-div mb30">
+                <div class="ui labeled input notice-tit frow">
+                    <div class="ui label">
+                        제목
+                    </div>
+                    <input id="title" type="text" name="title" placeholder="">
+                </div>
+                <div id="tit" class="msg hidden">
+                    <span>메시지</span>
+                </div>
+                <textarea id="summernote" name="ctnt"></textarea>
+            </div>
+            <input type="submit" class="ui secondary medium button" id="save" th:value="저장">
+        </form>
+    </div>
+    <script>
+
+        const titleElem = document.querySelector('#title');
+        const title = document.querySelector('.titleData').dataset.title;
+        titleElem.value = title;
+
+        const ctnt = document.querySelector('.ctntData').dataset.ctnt;
+        $("#summernote").summernote('code',  ctnt);
+
+
+
+            //여기 아래 부분
+        const plainTextElem = document.querySelector('.note-editable');
+        $('#summernote').summernote({
+            height: 450,
+            callbacks: {
+                onKeyup: function(e) {
+                    var caracteres = $(".note-editable").text();
+                    var totalCaracteres = caracteres.length + ' 문자';
+
+                    //Update value
+                    $("#asd").text(totalCaracteres);
+                }
+            },
+            width: 800,
+            minHeight: 450,
+            maxHeight: 450,
+            focus: true,
+            lang: "ko-KR",
+            toolbar: [
+                ['fontname', ['fontname']],
+                ['fontsize', ['fontsize']],
+                ['style', ['bold', 'italic', 'underline','strikethrough', 'clear']],
+                ['color', ['forecolor','color']],
+                ['table', ['table']],
+                ['para', ['ul', 'ol', 'paragraph']],
+                ['height', ['height']],
+                ['insert',['picture','link','video']],
+                ['view', ['fullscreen', 'help']]
+            ],
+            fontNames: ['Arial', 'Arial Black', 'Comic Sans MS', 'Courier New','맑은 고딕','궁서','굴림체','굴림','돋움체','바탕체'],
+            fontSizes: ['8','9','10','11','12','14','16','18','20','22','24','28','30','36','50','72']
+        });
+    </script>
+</th:block>
+</body>
+
+</html>

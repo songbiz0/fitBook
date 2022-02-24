@@ -125,8 +125,9 @@
             const tbody = document.createElement('tbody');
             list.forEach(item => {
                 const tr = document.createElement('tr');
+                tr.classList.add('program-list-tr');
                 tr.innerHTML = `
-                <td><img class="w70 h50" src="/images/program/${item.nm}/${item.img}"></td>
+                <td><img class="w70 h50" src="/imgPath/program/${item.iprogram}/${item.img}"></td>
                 <td>${item.nm}</td>
                 <td>${item.required_cpu}</td>
                 <td>${item.required_gpu}</td>
@@ -134,6 +135,9 @@
             `;
                 tbody.appendChild(tr);
                 table.appendChild(tbody);
+                tr.addEventListener('click', () => {
+                    location.href = `/admin/programDetail?iprogram=${item.iprogram}`;
+                })
             });
         }
         const makePage = (maxPage) => {
@@ -149,7 +153,7 @@
 
             const span1 = document.createElement('a');
             let click_status1;
-            if(currentPage === 1) { click_status1 = 'disabled'; }
+            if(currentPage === 1 || maxPage === 0) { click_status1 = 'disabled'; }
             span1.classList.add(click_status1);
             span1.classList.add('item');
             span1.innerHTML = `<i class="angle left icon mr0"></i>`;
@@ -176,7 +180,7 @@
             }
             const span2 = document.createElement('a');
             let click_status2;
-            if(currentPage === maxPage) { click_status2 = 'disabled'; }
+            if(currentPage === maxPage || maxPage === 0) { click_status2 = 'disabled'; }
             span2.classList.add(click_status2);
             span2.classList.add('item');
             span2.innerHTML = `<i class="angle right icon mr0"></i>`;
@@ -240,5 +244,206 @@
 
         getList();
         getMaxPage();
+    }
+}
+
+// Program Detail
+{
+    const programDetailContainer = document.querySelector('.program-detail');
+    if(programDetailContainer) {
+        var form = new FormData();
+        let imgSrc;
+        const inputFileContainer = document.querySelector('.input-file');
+        const myTableElem = document.querySelector('.mytable');
+        const params = (new URL(document.location)).searchParams;
+        const iprogram = params.get('iprogram');
+        const idx = document.querySelector('.idx');
+        const imgContainerElem = document.querySelector('.img-container');
+        const modBtnElem = document.querySelector('#modBtn');
+        const delBtnElem = document.querySelector('#delBtn');
+        const baseUrl = `/ajax/admin/programDetail?iprogram=${iprogram}`;
+        const paramUrl = `/ajax/admin/programDetail`;
+        const getList = () => {
+            fetch(baseUrl)
+                .then(res => res.json())
+                .then(data => {
+                    setList(data);
+                })
+                .catch(e => {
+                    console.error(e);
+                });
+        }
+        const setList = (data) => {
+            const tbody = document.createElement('tbody');
+            imgSrc = data.img;
+            imgContainerElem.innerHTML = `
+                <img class="w500 h300 img-file" src="/imgPath/program/${data.iprogram}/${data.img}">
+            `;
+            tbody.innerHTML = '';
+            idx.innerText = data.iprogram;
+            tbody.innerHTML = `
+                <tr>
+                    <th>프로그램명</th>
+                    <td class="tnm">${data.nm}</td>
+                </tr>
+                <tr>
+                    <th>CPU 요구사항</th>
+                    <td class="tcpu">${data.required_cpu}</td>
+                </tr>
+                <tr>
+                    <th>GPU 요구사항</th>
+                    <td class="tgpu">${data.required_gpu}</td>
+                </tr>
+                <tr>
+                    <th>RAM 요구사항</th>
+                    <td class="tram">${data.required_ram}</td>
+                </tr>
+            `;
+            myTableElem.appendChild(tbody);
+        }
+        const readImg = (input, imgElem) => {
+            const reader = new FileReader();
+            reader.readAsDataURL(input.files[0]);
+            reader.onload = (e) => {
+                imgElem.src = e.target.result;
+            }
+        }
+        const delInput = (elem, className) => {
+            let val = elem.querySelector(`.${className}`).value;
+            elem.innerHTML = '';
+            elem.innerText = val;
+
+        }
+        const delFetch = () => {
+            fetch(baseUrl, {
+                method : 'delete'
+            })
+                .then(res => res.json())
+                .then(data => {
+                    location.href = '/admin/programList';
+                })
+                .catch(e => {
+                    console.error(e);
+                });
+        }
+        const delBtnChk = (elem) => {
+            const nmElem = document.querySelector('.tnm');
+            const cpuElem = document.querySelector('.tcpu');
+            const gpuElem = document.querySelector('.tgpu');
+            const ramElem = document.querySelector('.tram');
+            if(elem.classList.contains('del')) {
+                if(confirm(`${iprogram}번 글을 삭제하시겠습니까?`)) {
+                    delFetch();
+                }
+            } else {
+                const inputFileElem = document.querySelector('.mfFile');
+                inputFileElem.remove();
+                delInput(nmElem, 'nm');
+                delInput(cpuElem, 'cpu');
+                delInput(gpuElem, 'gpu');
+                delInput(ramElem, 'ram');
+
+                elem.classList.replace('cancel', 'del');
+                elem.innerText = '삭제';
+                modBtnElem.innerText = '수정';
+                modBtnElem.classList.replace('save', 'mod');
+            }
+        }
+        const makeChangeFile = () => {
+            inputFileContainer.innerHTML = '';
+            const inputElem = document.createElement('input');
+            inputElem.type = 'file';
+            inputElem.classList.add('mfFile');
+            inputFileContainer.appendChild(inputElem);
+            inputElem.addEventListener('change', () => {
+                const imgFile = document.querySelector('.img-file');
+                readImg(inputElem, imgFile);
+            });
+        }
+        const changeInputToTd = (className, tdName) => {
+            const inputElem = document.querySelector(`.${className}`);
+            const tdElem = document.querySelector(`.${tdName}`);
+            const val = inputElem.value;
+            tdElem.innerText = val;
+            return val;
+        }
+
+        const modBtnChk = (elem) => {
+            const nmElem = document.querySelector('.tnm');
+            const cpuElem = document.querySelector('.tcpu');
+            const gpuElem = document.querySelector('.tgpu');
+            const ramElem = document.querySelector('.tram');
+            if(elem.classList.contains('mod')) {
+                delBtnElem.classList.replace('del', 'cancel');
+                delBtnElem.innerText = '취소';
+                elem.classList.replace('mod', 'save');
+                elem.innerText = '저장';
+                makeChangeFile();
+
+                makeInput(nmElem, 'nm');
+                makeInput(cpuElem, 'cpu');
+                makeInput(gpuElem, 'gpu');
+                makeInput(ramElem, 'ram');
+            } else {
+                elem.classList.replace('save', 'mod');
+                elem.innerText = '수정';
+                delBtnElem.innerText = '삭제';
+                delBtnElem.classList.replace('cancel', 'del');
+
+                let nm = changeInputToTd('nm', 'tnm');
+                let cpu = changeInputToTd('cpu', 'tcpu');
+                let gpu = changeInputToTd('gpu', 'tgpu');
+                let ram = changeInputToTd('ram', 'tram');
+                const inputElem = document.querySelector('.mfFile');
+                let mfFile = inputElem.files[0];
+                let fetchParam = {
+                    method : 'put',
+                    header : {'Content-Type' : 'application/json'},
+                    body:form
+                }
+                if(mfFile !== undefined) {
+                    console.log('asd');
+                    delete fetchParam.header;
+                    form.append('mfFile', mfFile);
+                }
+                form.append('nm', nm);
+                form.append('required_cpu', cpu);
+                form.append('required_gpu', gpu);
+                form.append('required_ram', ram);
+                form.append('iprogram', iprogram);
+                inputFileContainer.innerHTML = '';
+
+                updFetch(form, fetchParam);
+            }
+        }
+        const makeInput = (elem, className) => {
+            const inputElem = document.createElement('input');
+            const val = elem.innerText;
+            inputElem.type = 'text';
+            inputElem.value = val;
+            inputElem.classList.add(className);
+            elem.innerHTML = '';
+            elem.appendChild(inputElem);
+        }
+        const updFetch = (param, fetchParam) => {
+            fetch(paramUrl, fetchParam)
+                .then(res => res.json())
+                .then(data => {
+                    console.log('data : ' + data);
+                })
+                .catch(e => {
+                    console.error(e);
+                });
+        }
+
+        modBtnElem.addEventListener('click', () => {
+            modBtnChk(modBtnElem);
+        });
+
+        delBtnElem.addEventListener('click', () => {
+            delBtnChk(delBtnElem);
+        })
+
+        getList();
     }
 }

@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security"
+      layout:decorate="mypage/temp/mypage_layout">
+<head>
+    <meta charset="UTF-8">
+    <script defer th:src="@{/js/mypage/list.js}"></script>
+    <title></title>
+</head>
+<body>
+<th:block layout:fragment="content">
+        <div class="fr1">
+            <div th:data-datatype="cancel" id="dataSet"></div>
+            <div class="fr1">
+                <h3>취소/반품 내역</h3>
+                <div class="mybox">
+                    <div class="ui mini compact menu ib mr10" id="dateBtns">
+                        <a class="link item" id="todayBtn">
+                            오늘
+                        </a>
+                        <a class="item active" id="weekBtn">
+                            7일
+                        </a>
+                        <a class="link item" id="fifteenDayBtn">
+                            15일
+                        </a>
+                        <a class="link item" id="monthBtn">
+                            1개월
+                        </a>
+                        <a class="link item" id="threeMonthBtn">
+                            3개월
+                        </a>
+                        <a class="link item" id="yearBtn">
+                            1년
+                        </a>
+                    </div>
+                    <div class="ui tiny form ib w250">
+                        <div class="two fields">
+                            <div class="field">
+                                <div class="ui calendar" id="rangestart">
+                                    <div class="ui input left icon">
+                                        <i class="calendar icon"></i>
+                                        <input type="text" name="date" value="">
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="mct fs12">~</div>
+                            <div class="field">
+                                <div class="ui calendar" id="rangeend">
+                                    <div class="ui input left icon">
+                                        <i class="calendar icon"></i>
+                                        <input type="text" name="date" value="">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <button class="ui secondary tiny button ml10" id="orderSearchBtn">
+                        조회
+                        <i class="ml5 mr0 search icon"></i>
+                    </button>
+                </div>
+                <table class="mytablenoline w100p mt50">
+                    <colgroup>
+                        <col width="19%">
+                        <col width="43%">
+                        <col width="19%">
+                        <col width="19%">
+                    </colgroup>
+                    <tr>
+                        <th>날짜/주문번호</th>
+                        <th>상품명</th>
+                        <th>금액/수량</th>
+                        <th>주문상태</th>
+                    </tr>
+                    <tbody id="orderListTbody">
+                    </tbody>
+                </table>
+                <div class="w100p tact">
+                    <div class="ui pagination tiny menu mt50" id="searchPagination">
+                    </div>
+            </div>
+        </div>
+        </div>
+</th:block>
+</body>
+</html>

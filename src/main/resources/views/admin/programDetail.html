@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="temp/admin_page_layout">
+<head>
+  <meta charset="UTF-8">
+  <link rel="stylesheet" th:href="@{/css/admin/program.css}">
+  <script defer th:src="@{/js/admin/program.js}"></script>
+  <title>fitBook</title>
+</head>
+<body>
+<th:block layout:fragment="content">
+  <div class="w100p program-detail">
+    <div class="img-container tact"></div>
+    <div class="input-file"></div>
+    <div>
+      <span>번호: </span>
+      <span class="idx"></span>
+    </div>
+    <table class="mytable w100p"></table>
+    <div class="taright mt20">
+      <button class="ui inverted red button del" id="delBtn">삭제</button>
+      <button class="ui inverted blue button mod" id="modBtn">수정</button>
+    </div>
+  </div>
+</th:block>
+</body>
+</html>
