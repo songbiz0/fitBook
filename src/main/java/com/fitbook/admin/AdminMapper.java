@@ -73,6 +73,8 @@ public interface AdminMapper {
 
     // Member UserSearchList
     List<UserVo> selectUserSearchList(UserDto dto);
+    ResultVo selUserMaxPageVal(UserDto dto);
+
 
     // QnA
     int insQuestion(ProductQuestionEntity entity);

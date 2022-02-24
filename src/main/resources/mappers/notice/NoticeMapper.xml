@@ -10,7 +10,7 @@
     </insert>
 
     <select id="selNotice" resultType="NoticeVo">
-        SELECT A.title, A.ctnt, A.rdt, A.hits
+        SELECT A.title, A.ctnt, A.rdt, A.hits, A.inotice
              , B.nm AS writerNm
         FROM t_notice A
         INNER JOIN t_user B
@@ -67,4 +67,15 @@
         SET hits = hits + 1
         WHERE inotice = ${inotice}
     </update>
+
+    <update id="updNotice">
+        UPDATE t_notice
+        SET title = #{title}, ctnt = #{ctnt}
+        WHERE inotice = ${inotice} AND iuser = ${iuser}
+    </update>
+
+    <delete id="delNotice">
+        DELETE FROM t_notice
+        WHERE inotice = ${inotice} AND iuser = ${iuser}
+    </delete>
 </mapper>

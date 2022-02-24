@@ -16,4 +16,6 @@ public interface NoticeMapper {
     List<NoticeVo> selNoticeList(NoticeDto dto);
     ResultVo noticeMaxPage(NoticeDto dto);
     int favNotice(NoticeDto dto);
+    int updNotice(NoticeEntity entity);
+    int delNotice(NoticeDto dto);
 }

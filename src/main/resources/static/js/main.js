@@ -52,3 +52,4 @@ if(reviewWriteBtn) {
         $('.ui.modal').modal('show');
     });
 }
+

@@ -138,14 +138,17 @@ public class AdminRestController {
     }
 
     @GetMapping("/selectUserSearchList")
-    private List<UserVo> selectUserSearchList(@RequestParam String type, @RequestParam String keyword) throws Exception {
-        System.out.println(type);
-        System.out.println(keyword);
-        UserDto dto = new UserDto();
-        dto.setType(type);
-        dto.setKeyword(keyword);
+    private List<UserVo> selectUserSearchList(UserDto dto) throws Exception {
+        System.out.println(dto);
         return service.selectUserSearchList(dto);
     }
+
+    @GetMapping("/userMaxPage")
+    public ResultVo userMaxPage(UserDto dto) {
+        return service.selUserMaxPage(dto);
+    }
+
+
 
     @GetMapping("/qnaList")
     public List<ProductQuestionVo> selQuestionList(ProductQuestionDto dto) {

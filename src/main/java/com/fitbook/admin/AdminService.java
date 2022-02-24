@@ -277,8 +277,14 @@ public class AdminService {
 
     //User Search List
     public List<UserVo> selectUserSearchList(UserDto dto) throws Exception {
+        if("".equals(dto.getKeyword()) || dto.getKeyword() == null) {
+            dto.setKeyword("");
+        }
         return mapper.selectUserSearchList(dto);
+    }
 
+    public ResultVo selUserMaxPage(UserDto dto) {
+        return mapper.selUserMaxPageVal(dto);
     }
 
     // QnA
