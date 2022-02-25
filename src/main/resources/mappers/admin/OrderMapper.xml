@@ -58,7 +58,7 @@
         SELECT A.rdt, A.iorder, E.nm AS productNm
              , C.quantity, B.uid, B.nm AS userNm
              , A.spent_point, A.payment_way, A.order_status
-             , C.result_price, A.cdt, B.iuser
+             , C.result_price, A.cdt, B.iuser <if test="statusNo != 1">, (count(A.iorder)-1) AS cnt</if>
         FROM t_order A
         inner JOIN t_user B
         ON A.iuser = B.iuser
@@ -69,7 +69,9 @@
         inner JOIN t_product_master E
         ON E.iproduct = D.iproduct
         <include refid="searchSql"></include>
-        GROUP BY A.iorder AND B.iuser
+        <if test="statusNo != 1">
+            GROUP BY A.iorder AND B.iuser
+        </if>
     </select>
 
     <select id="getOrderMaxPage" resultType="ResultVo">
