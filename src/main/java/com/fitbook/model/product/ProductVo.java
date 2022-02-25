@@ -16,4 +16,5 @@ public class ProductVo extends ProductEntity{
     private int stock;
     private int idetail;
     private float dc_rate;
+    private int price;
 }

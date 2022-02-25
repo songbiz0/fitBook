@@ -55,6 +55,16 @@
             </div>
             <div class="inv-box">
                 <div class="inv-name">
+                    <span>내장그래픽</span>
+                    <span>:</span>
+                </div>
+                <div class="ui toggle checkbox">
+                    <input type="checkbox" name="is_inner_gpu" class="is_inner_gpu" value="Y">
+                    <label></label>
+                </div>
+            </div>
+            <div class="inv-box">
+                <div class="inv-name">
                     <span>RAM 용량</span>
                     <span>:</span>
                 </div>
@@ -76,6 +86,16 @@
             </div>
             <div class="inv-box">
                 <div class="inv-name">
+                    <span>맥북</span>
+                    <span>:</span>
+                </div>
+                <div class="ui toggle checkbox" id="macDiv">
+                    <input type="checkbox" id="mac">
+                    <label></label>
+                </div>
+            </div>
+            <div class="inv-box">
+                <div class="inv-name">
                     <span>브랜드</span>
                     <span>:</span>
                 </div>
@@ -89,9 +109,55 @@
                 <select name="os" class="os">
                     <option value="Window 11">Window 11</option>
                     <option value="Window 10">Window 10</option>
-                    <option value="Window 8">Window 8</option>
+                    <option value="FreeDOS">FreeDOS</option>
                 </select>
             </div>
+<!--     =========================================       -->
+            <div class="inv-box">
+                <div class="inv-name">
+                    <span>배터리</span>
+                    <span>:</span>
+                </div>
+                <input type="text" name="battery" class="battery" placeholder="배터리">
+            </div>
+            <div class="inv-box">
+                <div class="inv-name">
+                    <span>360도</span>
+                    <span>:</span>
+                </div>
+                <div class="ui toggle checkbox">
+                    <input type="checkbox" name="istwoinone" class="istwoinone" value="Y">
+                    <label></label>
+                </div>
+            </div>
+            <div class="inv-box">
+                <div class="inv-name">
+                    <span>주사율</span>
+                    <span>:</span>
+                </div>
+                <select name="hz" class="hz">
+                    <option value="60">60hz</option>
+                    <option value="120">120hz</option>
+                    <option value="144">144hz</option>
+                    <option value="165">165hz</option>
+                    <option value="240">240hz</option>
+                </select>
+            </div>
+            <div class="inv-box">
+                <div class="inv-name">
+                    <span>해상도</span>
+                    <span>:</span>
+                </div>
+                <select name="resolution" class="resolution">
+                    <option value="1366x768">1366x768</option>
+                    <option value="1920x1080(FHD)">1920x1080(FHD)</option>
+                    <option value="1920x1200(WUXGA)">1920x1200(WUXGA)</option>
+                    <option value="2560x1440(QHD)">2560x1440(QHD)</option>
+                    <option value="2560x1600(WQXGA)">2560x1600(WQXGA)</option>
+                    <option value="3840x2160(4K UHD)">3840x2160(4K UHD)</option>
+                </select>
+            </div>
+<!--       ==============================================================     -->
             <div id="repre-div">
                 <div class="inv-name">
                     <span>이미지</span>
@@ -109,7 +175,9 @@
         </div>
         <div id="detail-list-container">
             <h3>대표상품섹션</h3>
-            <div id="ins-before-div"></div>
+            <div id="ins-before-div">
+
+            </div>
         </div>
         <div class="utils-container">
             <input type="submit" class="ui inverted secondary button" value="등록" id="submitBtn">

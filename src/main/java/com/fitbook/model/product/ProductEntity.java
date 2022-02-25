@@ -19,6 +19,9 @@ public class ProductEntity {
     private float weight;
     private String brand;
     private String os;
+    private int battery;
+    private String istwoinone;
+    private int hz;
+    private String resolution;
     private String img;
-    private int price;
 }

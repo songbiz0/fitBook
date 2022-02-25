@@ -25,7 +25,13 @@
                     </div>
                 </div>
                 <div class="ui right labeled input">
-                    <input type="text" class="inner_gpu">
+                    <select id="gpuOption" class="inner_gpu">
+                        <option value="0">선택</option>
+                        <th:block th:each="item : ${data}">
+                            <option th:value="${item.igpu}" th:text="${item.nm}"></option>
+                        </th:block>
+                    </select>
+                    <input type="text" id="top-innergpu">
                     <div class="ui basic label">
                         내장그래픽 성능수치
                     </div>

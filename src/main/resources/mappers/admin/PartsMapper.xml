@@ -23,9 +23,9 @@
     
     <insert id="insGpu">
         INSERT INTO t_product_gpu
-        (nm, performance, seq, brand)
+        (nm, performance, seq, brand, is_inner_gpu)
         VALUES
-        (#{nm}, ${performance}, ${seq}, #{brand})
+        (#{nm}, ${performance}, ${seq}, #{brand}, #{is_inner_gpu})
     </insert>
 
     <insert id="insCpu">
@@ -35,10 +35,44 @@
         (#{nm}, ${performance}, ${inner_gpu}, ${seq}, #{brand})
     </insert>
 
-    <select id="selGpu" resultType="GpuVo">
+    <select id="selGpuAll" resultType="GpuVo">
         SELECT *
         FROM t_product_gpu
         ORDER BY seq DESC, brand
+    </select>
+
+    <select id="selGpu" resultType="GpuVo">
+        SELECT *
+        FROM t_product_gpu
+        WHERE is_inner_gpu = 'N'
+        ORDER BY seq DESC, brand
+    </select>
+
+    <select id="selInnerGpu" resultType="GpuVo">
+        SELECT *
+        FROM t_product_gpu
+        WHERE is_inner_gpu = 'Y'
+        ORDER BY seq DESC, brand
+    </select>
+    
+    <select id="selInnerGpuFromCpu" resultType="CpuVo">
+        SELECT B.nm AS gpuNm, igpu
+        FROM t_product_cpu A
+        INNER JOIN t_product_gpu B
+        ON A.inner_gpu = B.igpu
+        WHERE icpu = ${icpu}
+    </select>
+
+    <select id="selInnerGpuPerformance" resultType="GpuVo">
+        SELECT performance
+        FROM t_product_gpu
+        WHERE igpu = ${igpu}
+    </select>
+
+    <select id="getCpuPerformanceInCpu" resultType="CpuVo">
+        SELECT performance
+        FROM t_product_cpu
+        WHERE icpu = ${icpu}
     </select>
 
     <select id="selCpu" resultType="CpuVo">

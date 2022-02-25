@@ -76,7 +76,10 @@ public class AdminRestController {
     public List<CpuVo> selCpuList(CpuDto dto) {
         return service.selCpuList(dto);
     }
-
+    @GetMapping("/selCpu")
+    public List<CpuVo> selCpu() {
+        return service.selCpu();
+    }
     @GetMapping("/cpuDetail")
     public CpuVo selCpuDetail(CpuDto dto) {
         return service.selCpuDetail(dto);
@@ -89,7 +92,28 @@ public class AdminRestController {
     public int updCpu(@RequestBody CpuEntity entity) {
         return service.updCpu(entity);
     }
+    @GetMapping("/getMasterInnerGpu")
+    public CpuVo selInnerGpuFromCpu(CpuDto dto) {
+        return service.selInnerGpuFromCpu(dto);
+    }
+    @GetMapping("/getCpuPerformance")
+    public CpuVo getCpuPerformance(CpuDto dto) {
+        return service.getCpuPerformanceInCpu(dto);
+    }
 
+
+    @GetMapping("/selGpu")
+    public List<GpuVo> selGpu() {
+        return service.selGpu();
+    }
+    @GetMapping("/selGpuAll")
+    public List<GpuVo> selGpuAll() {
+        return service.selGpuAll();
+    }
+    @GetMapping("selInnerGpu")
+    public List<GpuVo> selInnerGpu() {
+        return service.selInnerGpu();
+    }
     @GetMapping("/gpuMaxPage")
     public ResultVo selGpuMaxPage(GpuDto dto) {
         return service.gpuMaxPage(dto);
@@ -109,6 +133,10 @@ public class AdminRestController {
     @PutMapping("/gpuDetail")
     public int updGpu(@RequestBody GpuEntity entity) {
         return service.updGpu(entity);
+    }
+    @GetMapping("/gpuPerformance")
+    public GpuVo gpuPerformance(GpuDto dto) {
+        return service.selInnerGpuPerformance(dto);
     }
 
     @GetMapping("/programSearch")
