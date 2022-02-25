@@ -83,6 +83,9 @@ public class AdminService {
         dto.setStatus(statusArr[0]);
         dto.setStatusNo(Integer.parseInt(statusArr[1]));
         List<OrderVo> list = mapper.selOrderList(dto);
+        for(OrderVo item : list) {
+            item.setRdt(item.getRdt().substring(0, 19));
+        }
         return list;
     }
     public ResultVo getOrderMaxPage(OrderDto dto) {
@@ -179,6 +182,9 @@ public class AdminService {
     // Product
     public int insProduct(ProductVo vo, ProductDetailListVo listEntity) {
         // Insert Master
+        if(vo.getIstwoinone() == null || "".equals(vo.getIstwoinone())) {
+            vo.setIstwoinone("N");
+        }
         if(vo.getMfFile() != null) {
             UUID uuid = UUID.randomUUID();
             String fileNm = uuid + ".jpg";

@@ -201,9 +201,13 @@
         tBodyElem.innerHTML = '';
         list.forEach(item => {
             const trElem = document.createElement('tr');
+            let cnt = '';
+            if(item.cnt != 0) {
+                cnt = '외 ' + item.cnt + '건'
+            }
             trElem.innerHTML = `
                 <td>${item.rdt}/${item.iorder}</td>
-                <td>${item.productNm}</td>
+                <td>${item.productNm} ${cnt}</td>
                 <td>${item.quantity}</td>
                 <td>${item.uid}/${item.userNm}</td>
                 <td>${item.spent_point}</td>

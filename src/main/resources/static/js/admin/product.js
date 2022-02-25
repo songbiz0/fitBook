@@ -307,11 +307,11 @@
                     detailElem.appendChild(divElem);
                 }
 
-                const fileRemoveBtnArr = document.querySelectorAll('.file-remove-button');
-                if (fileRemoveBtnArr) {
-                    fileRemoveBtnArr.forEach((item) => item.addEventListener('click', (e) => {
-                        e.target.closest('.inv-btm').querySelector('#mfFile').value = '';
-                    }));
+                const fileRemoveBtn = divElem.querySelector('.file-remove-button');
+                if (fileRemoveBtn) {
+                    fileRemoveBtn.addEventListener('click', (e) => {
+                        e.target.closest('.inv-btm').querySelector('.mfFile').value = '';
+                    });
                 }
 
                 const detail_list = document.querySelectorAll('.repre');

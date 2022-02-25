@@ -115,9 +115,13 @@
         }
 
         selectElem.addEventListener('change', () => {
+            let param = {
+                type : 'rdt',
+                typeNo : 2
+            }
             selectVal = selectElem.value;
             currentPage = 1;
-            getList(makePagingUrl());
+            getList(makePagingUrl(param));
         });
 
         seqElemList.forEach(item => {
@@ -137,8 +141,11 @@
             });
         });
 
-
-        getList(makePagingUrl());
+        let initParam = {
+            type : 'rdt',
+            typeNo : 2
+        }
+        getList(makePagingUrl(initParam));
     }
 }
 
