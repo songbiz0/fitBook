@@ -1,8 +1,11 @@
 package com.fitbook.mypage;
 
 import com.fitbook.ResultVo;
+import com.fitbook.address.AddressMapper;
 import com.fitbook.auth.AuthenticationFacade;
 import com.fitbook.model.PageDto;
+import com.fitbook.model.address.AddressDto;
+import com.fitbook.model.address.AddressEntity;
 import com.fitbook.model.order.OrderDetailVo;
 import com.fitbook.model.order.OrderDto;
 import com.fitbook.model.order.OrderVo;
@@ -34,6 +37,8 @@ public class MypageService {
     private AuthenticationFacade authenticationFacade;
     @Autowired
     private PasswordEncoder passwordEncoder;
+    @Autowired
+    private AddressMapper addressMapper;
 
     public List<OrderVo> selOrderList(OrderDto dto) {
         dto.setIuser(authenticationFacade.getLoginUserPk());
@@ -155,5 +160,41 @@ public class MypageService {
     public String phone_format(String number) {
         String regEx = "(\\d{3})(\\d{3,4})(\\d{4})";
         return number.replaceAll(regEx, "$1-$2-$3");
+    }
+
+    public List<AddressEntity> selAddrList() {
+        return addressMapper.selAddrList(authenticationFacade.getLoginUserPk());
+    }
+
+    public ResultVo insAddr(AddressDto dto) {
+        dto.setIuser(authenticationFacade.getLoginUserPk());
+
+        if(dto.getIsrep().equals("Y")) {
+            addressMapper.updIsrep(dto);
+        }
+
+        ResultVo result = new ResultVo();
+        result.setResult(addressMapper.insAddr(dto));
+        return result;
+    }
+
+    public ResultVo delAddr(AddressDto dto) {
+        dto.setIuser(authenticationFacade.getLoginUserPk());
+
+        ResultVo result = new ResultVo();
+        result.setResult(addressMapper.delAddr(dto));
+        return result;
+    }
+
+    public ResultVo updAddr(AddressDto dto) {
+        dto.setIuser(authenticationFacade.getLoginUserPk());
+
+        if(dto.getIsrep().equals("Y")) {
+            addressMapper.updIsrep(dto);
+        }
+
+        ResultVo result = new ResultVo();
+        result.setResult(addressMapper.updAddr(dto));
+        return result;
     }
 }

@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security"
+      layout:decorate="mypage/temp/mypage_layout">
+<head>
+    <meta charset="UTF-8">
+    <script defer th:src="@{/js/mypage/addr.js}"></script>
+    <script defer src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
+    <title></title>
+</head>
+<body>
+<th:block layout:fragment="content">
+    <div class="fr1">
+        <div class="fr1">
+            <h3>배송지 관리</h3>
+            <table class="mytable w100p">
+                <colgroup>
+                    <col width="13%">
+                    <col width="13%">
+                    <col width="34%">
+                    <col width="20%">
+                    <col width="20%">
+                </colgroup>
+                <tr>
+                    <th>배송지명</th>
+                    <th>받으실 분</th>
+                    <th>주소</th>
+                    <th>연락처</th>
+                    <th>수정/삭제</th>
+                </tr>
+                <tbody id="addrTbody">
+                </tbody>
+            </table>
+            <button class="ui secondary mini button mt10 fr" id="addShipBtn">새 배송지 추가</button>
+        </div>
+    </div>
+
+    <div class="ui modal">
+        <i class="close icon"></i>
+        <div class="header fs18">
+            배송지 등록
+        </div>
+        <div class="content">
+            <form class="ui mini form">
+                <div id="addrNmField" class="six wide field ml50">
+                    <label>배송지명</label>
+                    <input type="text" id="addrNmInput" placeholder="배송지명">
+                </div>
+                <div id="userNmField" class="six wide field ml50">
+                    <label>받으실 분</label>
+                    <input type="text" id="userNmInput" placeholder="받으실 분">
+                </div>
+                <div class="two fields">
+                    <div id="addrField" class="six wide field ml50">
+                        <label>받으실 곳</label>
+                        <input type="text" readonly id="addrInput" placeholder="주소">
+                    </div>
+                    <div class="field">
+                        <label class="hidden">.</label>
+                        <button id="searchPostBtn" class="ui basic mini button">우편번호 검색</button>
+                    </div>
+                </div>
+                <div class="two fields ml45">
+                    <div id="addrDetailField" class="seven wide field">
+                        <input type="text" placeholder="상세 주소" id="addrDetailInput">
+                    </div>
+                    <div class="four wide field">
+                        <input type="text" readonly class="hidden" id="addrExtraInput">
+                    </div>
+                </div>
+                <div id="phoneField" class="six wide field ml50">
+                    <label>연락처</label>
+                    <input type="text" id="phoneInput" placeholder="연락처 (- 없이)">
+                </div>
+                <div class="field ml50">
+                    <div id="isRepChk" class="ui checkbox"><input type="checkbox" id="repChk"><label for="repChk" class="hp">기본 배송지로 설정합니다.</label></div>
+                </div>
+            </form>
+        </div>
+        <div class="actions tact">
+            <div class="tact">
+                <div id="addrCancelBtn" class="ui basic tiny button bgwhite">취소</div>
+                <div id="addrSubmitBtn" class="ui secondary tiny button">등록</div>
+            </div>
+        </div>
+    </div>
+</th:block>
+</body>
+</html>

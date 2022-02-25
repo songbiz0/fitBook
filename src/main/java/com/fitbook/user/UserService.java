@@ -4,6 +4,7 @@ import com.fitbook.ResultVo;
 import com.fitbook.auth.AuthenticationFacade;
 import com.fitbook.model.PageDto;
 import com.fitbook.model.user.UserEntity;
+import com.fitbook.mypage.MypageService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -14,6 +15,7 @@ public class UserService {
     @Autowired private UserMapper mapper;
     @Autowired private PasswordEncoder passwordEncoder;
     @Autowired private AuthenticationFacade authenticationFacade;
+    @Autowired private MypageService mypageService;
 
     public int join(UserEntity entity) {
         System.out.println("upw : " + entity.getUpw());
@@ -37,5 +39,15 @@ public class UserService {
             entity.setUpw(passwordEncoder.encode(entity.getUpw()));
         }
         return mapper.updUser(entity);
+    }
+
+    public int delUser(UserEntity entity) {
+        int result = 0;
+        if(mypageService.confirmPassword(entity.getUpw())) {
+            entity.setIuser(authenticationFacade.getLoginUserPk());
+            entity.setUid(authenticationFacade.getLoginUser().getUid());
+            result = mapper.delUser(entity);
+        }
+        return result;
     }
 }

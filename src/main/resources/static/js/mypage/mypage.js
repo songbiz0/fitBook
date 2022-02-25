@@ -34,15 +34,6 @@ $('#rangeend').calendar({
 
 $('.ui.accordion').accordion();
 
-const addShipBtnElem = document.querySelector('#addShipBtn');
-if (addShipBtnElem) {
-    addShipBtnElem.addEventListener('click', () => {
-        $('.ui.modal')
-            .modal('show')
-        ;
-    })
-}
-
 $('.coupled.modal')
     .modal({
         allowMultiple: true
@@ -50,7 +41,7 @@ $('.coupled.modal')
 ;
 
 const shipManageBtnElem = document.querySelector('#shipManageBtn');
-if (shipManageBtnElem) {
+if(shipManageBtnElem) {
     shipManageBtnElem.addEventListener('click', e => {
         e.preventDefault();
         $('.first.modal')

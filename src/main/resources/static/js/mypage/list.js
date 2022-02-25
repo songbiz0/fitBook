@@ -239,7 +239,7 @@ const makeOrderList = list => {
         tr.innerHTML =
             `<td rowspan=${item.productDetails.length} class="btline">
                 <div>
-                    <a href="/mypage/orderlist/detail?iorder=${item.iorder}" class="cb"><div>${item.iorder}</div></a>
+                    <a href="/mypage/order/detail?iorder=${item.iorder}" class="cb"><div>${item.iorder}</div></a>
                     <div>${item.rdt}</div>
                 </div>
             </td>`

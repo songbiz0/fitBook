@@ -25,10 +25,10 @@
             <a class="item fs12 pl10" th:href="@{/mypage/changeinfo/conf}" th:classappend="${url[1]} == 'changeinfo' ? 'active' : ''">
                 - 회원정보 변경
             </a>
-            <a class="item fs12 pl10">
+            <a class="item fs12 pl10" th:href="@{/mypage/leave}" th:classappend="${url[1]} == 'leave' ? 'active' : ''">
                 - 회원 탈퇴
             </a>
-            <a class="item fs12 pl10">
+            <a class="item fs12 pl10" th:href="@{/mypage/addr}" th:classappend="${url[1]} == 'addr' ? 'active' : ''">
                 - 배송지 관리
             </a>
         </div>
