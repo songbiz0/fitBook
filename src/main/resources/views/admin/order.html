@@ -11,39 +11,33 @@
 <th:block layout:fragment="content">
             <div class="selectkinds">
                 <div class="frow gap30 mb30">
-                    <h5>검색어</h5>
-                    <div>
-                        <select id="select">
-                            <option value="total">전체</option>
-                            <option value="E.nm">상품명</option>
-                            <option value="B.nm">회원명</option>
-                            <option value="B.uid">아이디</option>
-                        </select>
-                        <input type="text" id="search" name="text" placeholder="검색어 입력">
+                    <div class="frow gap50">
+                        <div class="frow gap30">
+                            <h5>검색어</h5>
+                            <select id="select">
+                                <option value="total">전체</option>
+                                <option value="E.nm">상품명</option>
+                                <option value="B.nm">회원명</option>
+                                <option value="B.uid">아이디</option>
+                            </select>
+                            <input type="text" id="search" name="text" placeholder="검색어 입력">
+                        </div>
+                        <div class="frow gap30">
+                            <h5>주문상태</h5>
+                            <select id="status">
+                                <option value="전체선택-1" checked>전체선택</option>
+                                <option value="입금대기-2">입금대기</option>
+                                <option value="배송중-3">배송중</option>
+                                <option value="배송완료-4">배송완료</option>
+                                <option value="구매확정-5">구매확정</option>
+                                <option value="취소완료-6">취소완료</option>
+                                <option value="환불신청-7">환불신청</option>
+                                <option value="환불완료-8">환불완료</option>
+                            </select>
+                        </div>
                     </div>
                 </div>
-                <div class="frow gap30 mb30">
-                    <h5>주문상태</h5>
-<!--          TODO 배송중, 배송준비 등등 뿌려지는 우선순위  /  cnt 출력         -->
-                    <label id="status">
-                        <input type="radio" name="status" id="s1" value="전체선택-1" checked>
-                        <label for="s1">전체선택</label>
-                        <input type="radio" name="status" id="s2" value="입금대기-2">
-                        <label for="s2">입금대기</label>
-                        <input type="radio" name="status" id="s3" value="결제완료-3">
-                        <label for="s3">결제완료</label>
-                        <input type="radio" name="status" id="s4" value="상품준비중-4">
-                        <label for="s4">상품준비중</label>
-                        <input type="radio" name="status" id="s5" value="배송준비-5">
-                        <label for="s5">배송준비</label>
-                        <input type="radio" name="status" id="s6" value="배송중-6">
-                        <label for="s6">배송중</label>
-                        <input type="radio" name="status" id="s7" value="배송완료-7">
-                        <label for="s7">배송완료</label>
-                        <input type="radio" name="status" id="s8" value="구매확정-8">
-                        <label for="s8">구매확정</label>
-                    </label>
-                </div>
+
                 <div class="mybox">
                     <div class="ui mini compact menu ib mr10" id="dateBtns">
                         <a class="link item" id="todayBtn">
