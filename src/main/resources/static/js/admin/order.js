@@ -234,13 +234,13 @@
     }
 
     const changeStatus = () => {
-        let statusArr = document.getElementsByName('status');
-        let result;
-        statusArr.forEach(item => {
-            if(item.checked == true) {
-                result = item.value;
-            }
-        });
+        let statusArr = document.querySelector('#status');
+        let result = statusArr.value;
+        // statusArr.forEach(item => {
+        //     if(item.checked == true) {
+        //         result = item.value;
+        //     }
+        // });
         return result;
     }
 
