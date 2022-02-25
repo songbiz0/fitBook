@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.fitbook.address.AddressMapper">
+    <select id="selAddrList" resultType="AddressEntity">
+        SELECT iaddress, addr_nm, user_nm, post, addr, addr_detail, phone, isrep
+        FROM t_address
+        WHERE iuser = #{iuser}
+        ORDER BY isrep DESC, iaddress
+    </select>
+
+    <insert id="insAddr">
+        INSERT INTO t_address
+            (iuser, post, addr, addr_detail, phone, addr_nm, user_nm, isrep)
+        VALUES
+            (#{iuser}, #{post}, #{addr}, #{addr_detail}, #{phone}, #{addr_nm}, #{user_nm}, #{isrep})
+    </insert>
+
+    <update id="updIsrep">
+        UPDATE t_address
+        SET isrep = 'N'
+        WHERE iuser = #{iuser}
+    </update>
+
+    <update id="updAddr">
+        UPDATE t_address
+        SET post = #{post},
+            addr = #{addr},
+            addr_detail = #{addr_detail},
+            phone = #{phone},
+            addr_nm = #{addr_nm},
+            user_nm = #{user_nm},
+            isrep = #{isrep}
+        WHERE iuser = #{iuser}
+        AND iaddress = #{iaddress}
+    </update>
+
+    <delete id="delAddr">
+        DELETE FROM t_address
+        WHERE iuser = #{iuser}
+        AND iaddress = #{iaddress}
+        AND isrep = 'N'
+    </delete>
+</mapper>

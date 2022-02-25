@@ -2,10 +2,14 @@ package com.fitbook.mypage;
 
 import com.fitbook.ResultVo;
 import com.fitbook.model.PageDto;
+import com.fitbook.model.address.AddressDto;
+import com.fitbook.model.address.AddressEntity;
 import com.fitbook.model.order.OrderDto;
 import com.fitbook.model.order.OrderVo;
 import com.fitbook.model.point.PointEntity;
 import com.fitbook.model.product.ProductVo;
+import com.fitbook.model.user.UserEntity;
+import com.fitbook.user.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
@@ -45,4 +49,25 @@ public class MyPageRestController {
     @PostMapping("/inscart")
     public ResultVo inscart(@RequestBody List<Integer> list) { return service.insCart(list); }
 
+    @PostMapping("/pwchk")
+    public ResultVo pwchk(@RequestBody UserEntity entity) {
+        ResultVo result = new ResultVo();
+        result.setResult(service.confirmPassword(entity.getUpw()) ? 1 : 0);
+        return result;
+    }
+
+    @PostMapping("/addr")
+    public ResultVo addr(@RequestBody AddressDto dto) { return dto.getParam().equals("ins") ? service.insAddr(dto) : service.updAddr(dto); }
+
+    @GetMapping("/addrlist")
+    public List<AddressEntity> addrlist() {
+        return service.selAddrList();
+    }
+
+    @DeleteMapping("/addr")
+    public ResultVo delAddr(@RequestParam int iaddress) {
+        AddressDto dto = new AddressDto();
+        dto.setIaddress(iaddress);
+        return service.delAddr(dto);
+    }
 }
