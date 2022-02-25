@@ -7,6 +7,43 @@
             'nm', 'performance', 'inner_gpu', 'seq', 'brand'
         ];
 
+        const gpuOption = document.querySelector('#gpuOption');
+        gpuOption.addEventListener('change', ()=>{
+            const value = gpuOption.value;
+            const innerGpuInputElem = document.querySelector('#top-innergpu');
+            fetch(`/ajax/admin/gpuPerformance?igpu=${value}`)
+                .then(res => res.json())
+                .then(data => {
+                    innerGpuInputElem.value = data.performance;
+                })
+                .catch(e => {
+                    innerGpuInputElem.value = '';
+                    console.error(e);
+                });
+        });
+
+        const selCpu = (elem) => {
+            fetch('/ajax/admin/selInnerGpu')
+                .then(res => res.json())
+                .then(data => {
+                    console.log(data);
+                    elem.innerHTML = '';
+                    const option = document.createElement('option');
+                    option.innerText = '선택';
+                    option.value = 0;
+                    elem.appendChild(option);
+                    data.forEach(item => {
+                        const option = document.createElement('option');
+                        option.value = item.igpu;
+                        option.innerText = item.nm;
+                        elem.appendChild(option);
+                    });
+                })
+                .catch(e => {
+                    console.error(e);
+                });
+        }
+
         frmBtn.addEventListener('click', (e) => {
             const cpuArr = document.querySelectorAll('.cpu');
             let forNo = 0;
@@ -37,7 +74,10 @@
                     </div>
                 </div>
                 <div class="ui right labeled input">
-                    <input type="text" class="inner_gpu">
+                    <select class="inner_gpu">
+                        <option>선택</option>
+                    </select>
+                    <input type="text" class="innerGpu">
                     <div class="ui basic label">
                         내장그래픽 성능수치
                     </div>
@@ -54,16 +94,38 @@
                         브랜드
                     </div>
                 </div>
+                
                 <input type="button" value="삭제하기" class="delBtn ui inverted red button">
         `;
             const cpuContainer = document.querySelector('.cpu-enrollment-container');
             cpuContainer.appendChild(cpuElem);
+            const innerGpu = cpuElem.querySelector('.inner_gpu');
+            selCpu(innerGpu);
+            const innerGpuInputElem = cpuElem.querySelector('.innerGpu');
+            const gpuPerform = () => {
+                const value = innerGpu.value;
+                fetch(`/ajax/admin/gpuPerformance?igpu=${value}`)
+                    .then(res => res.json())
+                    .then(data => {
+                        innerGpuInputElem.value = data.performance;
+                    })
+                    .catch(e => {
+                        innerGpuInputElem.value = '';
+                        console.error(e);
+                    });
+            }
+            innerGpu.addEventListener('change', () => {
+                gpuPerform();
+            });
+
 
             const delBtn = document.querySelectorAll('.delBtn');
             delBtn.forEach((item) => item.addEventListener('click', (e) => {
                 e.target.closest('.cpu').remove();
             }));
         });
+
+
     }
 }
 // cpuList

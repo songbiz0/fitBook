@@ -123,10 +123,19 @@ public class AdminService {
     public int delCpu(CpuDto dto) {
         return mapper.delCpu(dto);
     }
+    public CpuVo selInnerGpuFromCpu(CpuDto dto) {
+        return mapper.selInnerGpuFromCpu(dto);
+    }
+    public CpuVo getCpuPerformanceInCpu(CpuDto dto){
+        return mapper.getCpuPerformanceInCpu(dto);
+    }
 
     public int insGpu(GpuListEntity gpuList) {
         int result = 0;
         for(GpuEntity list : gpuList.getGpuList()) {
+            if(list.getIs_inner_gpu() == null) {
+                list.setIs_inner_gpu("N");
+            }
             result += mapper.insGpu(list);
         }
         if(result < gpuList.getGpuList().size()) {
@@ -136,6 +145,12 @@ public class AdminService {
     }
     public List<GpuVo> selGpu() {
         return mapper.selGpu();
+    }
+    public List<GpuVo> selGpuAll() {
+        return mapper.selGpuAll();
+    }
+    public List<GpuVo> selInnerGpu() {
+        return mapper.selInnerGpu();
     }
     public List<GpuVo> selGpuList(GpuDto dto) {
         dto.setParts("t_product_gpu");
@@ -157,6 +172,9 @@ public class AdminService {
         System.out.println(mapper.delGpu(dto));
         return vo;
     }
+    public GpuVo selInnerGpuPerformance(GpuDto dto) {
+        return mapper.selInnerGpuPerformance(dto);
+    };
 
     // Product
     public int insProduct(ProductVo vo, ProductDetailListVo listEntity) {

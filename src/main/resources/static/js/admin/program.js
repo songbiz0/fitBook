@@ -3,9 +3,101 @@
     const addBtn = document.querySelector('#addBtn');
     if(addBtn) {
         const frmBtn = document.querySelector('#frmBtn');
+        const selectCpuElem = document.querySelector('#cpuOption');
+        const inputCpuElem = document.querySelector('.input-cpu');
+        const selectGpuElem =document.querySelector('#gpuOption');
+        const inputGpuElem = document.querySelector('.input-gpu');
+
         const list = [
             'nm', 'required_cpu', 'required_gpu', 'required_ram', "mfFile"
         ];
+
+        const setCpuList = (list, elem) => {
+            elem.innerHTML = `
+                <option value="0">선택</option>
+            `;
+            list.forEach(item => {
+                const cpuOption = document.createElement('option');
+                cpuOption.innerText = item.nm;
+                cpuOption.value = item.icpu;
+                elem.appendChild(cpuOption);
+            });
+        }
+
+        const setGpuList = (list, elem) => {
+            elem.innerHTML = `
+                <option value="0">선택</option>
+            `;
+            list.forEach(item => {
+                const cpuOption = document.createElement('option');
+                cpuOption.innerText = item.nm;
+                cpuOption.value = item.igpu;
+                elem.appendChild(cpuOption);
+            });
+        }
+
+
+
+        const getCpuList = (selectCpuElem) => {
+            fetch(`/ajax/admin/selCpu`)
+                .then(res => res.json())
+                .then(data => {
+                    console.log(data);
+                    setCpuList(data, selectCpuElem);
+                })
+                .catch(e => {
+                    console.error(e);
+                });
+        }
+
+        const getGpuList = (selectGpuElem) => {
+            fetch('/ajax/admin/selGpuAll')
+                .then(res => res.json())
+                .then(data => {
+                    console.log(data);
+                    setGpuList(data, selectGpuElem);
+                })
+                .catch(e => {
+                    console.error(e);
+                });
+        }
+        getCpuList(selectCpuElem);
+        getGpuList(selectGpuElem);
+
+        const getCpuPerformance = (selectCpuElem, inputCpuElem) => {
+            const value = selectCpuElem.value;
+            fetch(`/ajax/admin/getCpuPerformance?icpu=${value}`)
+                .then(res => res.json())
+                .then(data => {
+                    console.log(data.performance);
+                    inputCpuElem.value = data.performance;
+                })
+                .catch(e => {
+                    console.error(e);
+                    inputCpuElem.value = '';
+                });
+        }
+
+        const getGpuPerformance = (selectGpuElem, inputGpuElem) => {
+            const value = selectGpuElem.value;
+            fetch(`/ajax/admin/gpuDetail?igpu=${value}`)
+                .then(res => res.json())
+                .then(data => {
+                    inputGpuElem.value = data.performance;
+                })
+                .catch(e => {
+                    console.error(e);
+                    inputGpuElem.value = '';
+                });
+        }
+
+        selectCpuElem.addEventListener('change', () => {
+            getCpuPerformance(selectCpuElem, inputCpuElem);
+        });
+
+        selectGpuElem.addEventListener('change', () => {
+            getGpuPerformance(selectGpuElem, inputGpuElem);
+        });
 
         frmBtn.addEventListener('click', (e) => {
             const programArr = document.querySelectorAll('.program');
@@ -31,13 +123,19 @@
                     </div>
                 </div>
                 <div class="ui right labeled input">
-                    <input type="text" class="required_cpu">
+                    <select id="cpuOption" class="required_cpu">
+                        <option value="0">선택</option>
+                    </select>
+                    <input type="text" class="input-cpu">
                     <div class="ui basic label">
                         권장 CPU
                     </div>
                 </div>
                 <div class="ui right labeled input">
-                    <input type="text" class="required_gpu">
+                <select id="gpuOption" class="required_gpu">
+                        <option value="0">선택</option>
+                    </select>
+                    <input type="text" class="input-gpu">
                     <div class="ui basic label">
                         권장 GPU
                     </div>
@@ -58,6 +156,24 @@
         `;
             const programContainer = document.querySelector('.program-enrollment-container');
             programContainer.appendChild(programElem);
+
+            const selectCpuElem = programElem.querySelector('#cpuOption');
+            const inputCpuElem = programElem.querySelector('.input-cpu');
+            const selectGpuElem =programElem.querySelector('#gpuOption');
+            const inputGpuElem = programElem.querySelector('.input-gpu');
+
+            getCpuList(selectCpuElem);
+            getGpuList(selectGpuElem);
+
+            selectCpuElem.addEventListener('change', () => {
+                console.log(selectCpuElem.value);
+                getCpuPerformance(selectCpuElem, inputCpuElem);
+            });
+
+            selectGpuElem.addEventListener('change', () => {
+                getGpuPerformance(selectGpuElem, inputGpuElem);
+            });
+
 
             const delBtn = document.querySelectorAll('.delBtn');
             delBtn.forEach((item) => item.addEventListener('click', (e) => {
