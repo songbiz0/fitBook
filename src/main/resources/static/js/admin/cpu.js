@@ -11,7 +11,7 @@
 
     const nmRegex = /^([a-zA-Z가-힣0-9-_=+]{1,20})$/;
     const perfRegex = /^([0-9]{1,10})$/;
-    const innerGpuRegex = /^([0-9]{1,10})$/;
+    const innerGpuRegex = /^([1-9]{1,10})$/;
     const seqRegex = /^([0-9]{1,10})$/;
     const brandRegex = /^([a-zA-Z가-힣0-9-_=+]{1,20})$/;
 
@@ -59,9 +59,59 @@
                 });
         }
 
+        const makeErrBox = (item, msg) => {
+            $('body')
+                .toast({
+                    class: 'error',
+                    position: 'bottom right',
+                    message: msg
+                });
+            item.classList.add('err-red');
+            setTimeout(function() {
+                item.classList.remove('err-red');
+            }, 3000);
+        }
+
+
         const chkRegex = (elem, e) => {
-            elem.parentNode.classList.add('error');
-            e.preventDefault();
+            const classNm = elem.classList.value;
+            const val = elem.value;
+            const parentElem = elem.parentNode;
+            if(elem.parentNode.classList.contains('error')) {
+                elem.parentNode.classList.remove('error');
+            }
+            switch (classNm) {
+                case 'nm' :
+                    if(!nmRegex.test(val)) {
+                        e.preventDefault();
+                        parentElem.classList.add('error');
+                    }
+                    break;
+                case 'performance' :
+                    if(!perfRegex.test(val)) {
+                        e.preventDefault();
+                        parentElem.classList.add('error');
+                    }
+                    break;
+                case 'inner_gpu' :
+                    if(!innerGpuRegex.test(val)) {
+                        e.preventDefault();
+                        parentElem.classList.add('error');
+                    }
+                    break;
+                case 'seq':
+                    if(!seqRegex.test(val)) {
+                        e.preventDefault();
+                        parentElem.classList.add('error');
+                    }
+                    break;
+                case 'brand' :
+                    if(!brandRegex.test(val)) {
+                        e.preventDefault();
+                        parentElem.classList.add('error');
+                    }
+                    break;
+            }
         }
 
         frmBtn.addEventListener('click', (e) => {
