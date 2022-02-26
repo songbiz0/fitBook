@@ -29,4 +29,9 @@ public class OrderVo extends OrderEntity{
     private int iuser;
     private int quantity;
     private int result_price;
+    private String img;
+    private String product_code;
+    private String color;
+    private int ssd;
+    private int hdd;
 }

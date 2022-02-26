@@ -9,6 +9,7 @@ import com.fitbook.model.gpu.GpuDto;
 import com.fitbook.model.gpu.GpuEntity;
 import com.fitbook.model.gpu.GpuListEntity;
 import com.fitbook.model.gpu.GpuVo;
+import com.fitbook.model.order.OrderDetailVo;
 import com.fitbook.model.order.OrderDto;
 import com.fitbook.model.order.OrderVo;
 import com.fitbook.model.orderproduct.OrderProductVo;
@@ -84,7 +85,13 @@ public class AdminService {
         dto.setStatusNo(Integer.parseInt(statusArr[1]));
         List<OrderVo> list = mapper.selOrderList(dto);
         for(OrderVo item : list) {
-            item.setRdt(item.getRdt().substring(0, 19));
+            item.setRdt(item.getRdt().substring(0, 11));
+            if(item.getCdt() != null) {
+                item.setCdt(item.getCdt().substring(0, 11));
+            }
+            String cdt = item.getCdt();
+            cdt = cdt == null ? "-" : item.getCdt();
+            item.setCdt(cdt);
         }
         return list;
     }
@@ -93,6 +100,21 @@ public class AdminService {
         dto.setStatus(statusArr[0]);
         dto.setStatusNo(Integer.parseInt(statusArr[1]));
         return mapper.getOrderMaxPage(dto);
+    }
+    // Order Detail
+    public OrderDetailVo selProductDetail(OrderDto dto) {
+        OrderDetailVo orderVo = mapper.selOrderDetail(dto);
+        // 전화번호
+        orderVo.setReceiver_phone(utils.phoneRegex(orderVo.getReceiver_phone()));
+        List<ProductDetailVo> list = mapper.selProductDetail(dto);
+        for(ProductDetailVo item : list) {
+            // 옵션
+            StringBuilder option = new StringBuilder(item.getColor());
+            option.append(" / HDD ").append(item.getHdd()).append("GB / SSD ").append(item.getSsd()).append("GB");
+            item.setOption(option.toString());
+        }
+        orderVo.setProductDetails(list);
+        return orderVo;
     }
 
     // Parts

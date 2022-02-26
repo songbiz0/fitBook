@@ -164,11 +164,15 @@
             aElem.classList.add(click_status);
             aElem.classList.add('item');
             aElem.innerText = i;
-            aElem.addEventListener('click', () => {
-                currentPage = i;
-                makePage();
-                getList();
-            });
+            if(currentPage != i) {
+                aElem.addEventListener('click', () => {
+
+                    currentPage = i;
+
+                    makePage();
+                    getList();
+                });
+            }
             searchPagination.appendChild(aElem);
         }
         const span2 = document.createElement('a');
@@ -189,6 +193,7 @@
         fetch(makeUrl(true))
             .then(res => res.json())
             .then(data => {
+                console.log(data.result);
                 makePage(data.result);
             })
             .catch(e => {
@@ -201,15 +206,35 @@
         tBodyElem.innerHTML = '';
         list.forEach(item => {
             const trElem = document.createElement('tr');
+            trElem.addEventListener('click', () => {
+                location.href = '/admin/orderdetail?iorder=' + item.iorder;
+            });
+            trElem.classList.add('cspointer');
             let cnt = '';
             if(item.cnt != 0) {
                 cnt = '외 ' + item.cnt + '건'
             }
             trElem.innerHTML = `
-                <td>${item.rdt}/${item.iorder}</td>
-                <td>${item.productNm} ${cnt}</td>
-                <td>${item.quantity}</td>
-                <td>${item.uid}/${item.userNm}</td>
+                <td>
+                    <p class="mb5">${item.rdt}</p>
+                    <p>${item.iorder}</p>
+                </td>
+                <td class="frow w100p ct gap20">
+                    <div><img class="custom-img" src="/imgPath/products/detail/${item.idetail}/${item.img}"></div>
+                    <div class="taleft minw130">
+                        <p class="mb5">${item.productNm} ${cnt}</p>
+                        <p class="mb5">${item.product_code}</p>
+                        <div>
+                            <span class="c777777">
+                                옵션 : ${item.color} / HDD ${item.hdd} GB / SSD ${item.ssd} GB
+                            </span>
+                        </div>
+                    </div>
+                </td>
+                <td>
+                    <p class="mb5">${item.uid}</p>
+                    <p>${item.userNm}</p>
+                </td>
                 <td>${item.spent_point}</td>
                 <td>${item.payment_way}</td>
                 <td>${item.order_status}</td>
