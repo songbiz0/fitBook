@@ -17,7 +17,7 @@
                 B.uid LIKE CONCAT('%', #{search}, '%'))
             </if>
             <if test="fstDate != null and fstDate != '' and secDate != null and secDate != ''">
-                <![CDATA[ AND (#{fstDate} <= A.rdt AND #{secDate} >= A.rdt) ]]>
+                <![CDATA[ AND (#{fstDate} <= A.rdt AND DATE_ADD(#{secDate}, interval +1 day) >= A.rdt) ]]>
             </if>
         </where>
 
