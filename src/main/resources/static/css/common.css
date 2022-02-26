@@ -99,7 +99,7 @@ table {
 
 .ct { display: flex; justify-content: center; align-items: center; }
 .cth100 { display: flex; justify-content: center; align-items: center; height: 100% !important; }
-.mct { margin: auto; }
+.mct { margin: auto !important; }
 .tact { text-align: center !important; }
 .taleft { text-align: left; }
 .taright { text-align: right; }
@@ -187,7 +187,7 @@ table {
 .corange { color: orange; }
 .cb0_5 { color: rgba(0,0,0,.5) }
 .cb0_7 { color: rgba(0,0,0,.7) }
-.cb { color: black; }
+.cb { color: black !important; }
 .cgold { color: gold; }
 .cinfo { color: #35C5F0; }
 .cerror { color: #FF7777; }
@@ -206,6 +206,8 @@ table {
 .hidden { visibility: hidden; }
 .visible { visibility: visible; }
 .disnone { display: none !important; }
+.disnoneNotInportant { display: none; }
+.ofhidden { overflow: hidden; }
 
 .mytable { border-top: 1px solid #999999; border-collapse: collapse; font-size: 12px; }
 .mytable th { background-color: #f7f7f7; text-align: center; padding: 10px; }

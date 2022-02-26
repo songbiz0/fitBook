@@ -76,7 +76,7 @@
                         </div>
                     </td>
                 </tr>
-                <tr th:each="num : ${#numbers.sequence(1, #lists.size(data.productDetails) - 1)}"
+                <tr th:if="${#lists.size(data.productDetails)} > 1" th:each="num : ${#numbers.sequence(1, #lists.size(data.productDetails) - 1)}"
                     th:classappend="${numStat.last} ? 'btline' : ''">
                     <td>
                         <div class="frow w100p ct gap20">

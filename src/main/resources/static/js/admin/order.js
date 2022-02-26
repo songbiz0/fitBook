@@ -225,6 +225,7 @@
         fetch(makeUrl())
             .then(res => res.json())
             .then(data => {
+                console.log(data);
                 getMaxPage();
                 setList(data);
             })

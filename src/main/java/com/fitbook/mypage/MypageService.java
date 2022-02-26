@@ -167,6 +167,12 @@ public class MypageService {
     }
 
     public ResultVo insAddr(AddressDto dto) {
+        if(selAddrList().size() >= 5) {
+            ResultVo result = new ResultVo();
+            result.setResult(0);
+            return result;
+        }
+
         dto.setIuser(authenticationFacade.getLoginUserPk());
 
         if(dto.getIsrep().equals("Y")) {
