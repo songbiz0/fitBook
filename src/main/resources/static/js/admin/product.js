@@ -12,6 +12,7 @@
         const ulElem = pageContainer.querySelector('div')
         let url = '/ajax/admin/product_master'; //search
         const searchElem = document.querySelector('#searchText');
+        const searchBth = document.querySelector("#searchEvent");
 
         //리스트 정보 불러오기
         const getList = () => fetch(`/ajax/admin/product_master?currentPage=${currentPage}&recordCount=${recordCount}`)
@@ -51,15 +52,16 @@
             list.forEach(item => {
                 const trElem = document.createElement('tr')
                 tbodyElem.appendChild(trElem);
+                const nmclcik =
 
                 trElem.innerHTML = `
-            <td>${item.iproduct}</td>
+            <td>${item.num}</td>
             <td>${item.product_code}</td>
             <td>${item.nm},<img class="w70 h50" src="/imgPath/products/detail/${item.idetail}/${item.img}"></td>
             <td>${item.brand}</td>
             <td>${item.stock}</td>
             <td>${item.price}</td>
-            <td>${item.price}</td>
+            <td>${item.master_total}</td>
             <td>${item.rating}</td>
             
             
@@ -67,16 +69,22 @@
                 trElem.addEventListener('click', e => {
                     location.href = `/admin/product_master_detail?iproduct=${item.iproduct}`
                 });
+
             });
+        };
+
+        const selectSearch = () => {
+            searchBth.addEventListener('click',resultSearch);
         }
 
-        searchElem.addEventListener("keyup", () => {
-           const searchTeaxt = document.querySelector('#searchText').value;
-           const select = document.querySelector('#select').value;
-           const searchUrl = url + `?search=${searchTeaxt}&select=${select}&recordCount=${recordCount}`;
-           searchList(searchUrl);
-           getMaxPageVal();
-        });
+        const resultSearch = () => {
+            const searchTeaxt = document.querySelector('#searchText').value;
+            const select = document.querySelector('#select').value;
+            const searchUrl = url + `?search=${searchTeaxt}&select=${select}&recordCount=${recordCount}`;
+            searchList(searchUrl);
+            getMaxPageVal();
+        }
+        selectSearch();
 
         const makePaging = () => {
             ulElem.innerHTML = null;

@@ -22,11 +22,11 @@
             <table class="mytable-detail w110p">
                 <tr class="table-nm">
                     <th>상품코드</th>
-                    <td colspan="2" th:text="${detail.product_code}"></td>
+                    <td colspan="1" th:text="${detail.product_code}"></td>
                     <th>상품명</th>
                     <td colspan="3" th:text="|${detail.brand} ${detail.nm}|"></td>
                     <th>제조일자</th>
-                    <td colspan="2" th:text="${detail.rdt}"></td>
+                    <td colspan="3" th:text="${detail.rdt}"></td>
                 </tr>
                 <tr>
                     <th rowspan="2">이미지</th>
@@ -36,33 +36,33 @@
                 </tr>
                 <tr class="table-kind">
                     <th rowspan="3">제품사양</th>
-                    <th>컬러</th>
-                    <th>제품가격</th>
                     <th>CPU</th>
                     <th>GPU</th>
                     <th>RAM</th>
-                    <th>SSD</th>
-                    <th>HDD</th>
                     <th>화면크기</th>
+                    <th>해상도</th>
+                    <th>주사율</th>
+                    <th>배터리</th>
+                    <th>360도</th>
                     <th>무게</th>
                     <th>OS</th>
                 </tr>
-                <tr th:each=" item : ${data}">
-                    <td th:text="${item.color}"></td>
-                    <td th:text="|${item.price}원|"></td>
-                    <td th:text="${item.cpu}"></td>
-                    <td th:text="${item.gpu}"></td>
-                    <td th:text="|${item.ram}GB|"></td>
-                    <td th:text="|${item.ssd}GB|"></td>
-                    <td th:text="${item.hdd}"></td>
-                    <td th:text="|${item.size}인치|"></td>
-                    <td th:text="${item.weight}"></td>
-                    <td th:text="${item.os}"></td>
+                <tr>
+                    <td th:text="|${detail.cpu}|"></td>
+                    <td th:text="|${detail.gpu}|"></td>
+                    <td th:text="|${detail.ram}GB|"></td>
+                    <td th:text="|${detail.size}인치|"></td>
+                    <td th:text="|${detail.resolution}|"></td>
+                    <td th:text="|${detail.hz}|"></td>
+                    <td th:text="|${detail.battery}|"></td>
+                    <td th:text="|${detail.istwoinone}|"></td>
+                    <td th:text="|${detail.weight}|"></td>
+                    <td th:text="|${detail.os}|"></td>
                 </tr>
             </table>
             <table class="mytable-detail w110p detail-price">
                 <tr class="table-price">
-                    <th class="borderR1" colspan="2">옵션별 매출표</th>
+                    <th class="borderR1" colspan="4">옵션별 매출표</th>
                     <th>총 매출</th>
                     <th>최근 매출</th>
                     <th>재고 수량</th>
@@ -71,16 +71,18 @@
                 <tr class="tr-price-color" th:each="item : ${data}">
                     <td th:text="${item.color}"></td>
                     <td class="borderR2" th:text="${item.ssd}+GB"></td>
+                    <td class="borderR2" th:text="${item.hdd}+GB"></td>
+                    <td class="borderR2" th:text="${item.price}+원"></td>
                     <td>0</td>
                     <td>0</td>
-                    <td th:text="${item.stock}+개"></td>
+                    <td th:text="|${item.stock} EA|"></td>
                     <td>☆☆☆☆☆</td>
                 </tr>
                 <tr class="tr-price-total">
-                    <th class="borderR1" colspan="2" >TOTAL 매출</th>
+                    <th class="borderR1" colspan="4" >TOTAL 매출</th>
                     <td>0</td>
                     <td>0</td>
-                    <td th:text="${total}"></td>
+                    <td th:text="|${total} EA|"></td>
                 </tr>
             </table>
         </div>

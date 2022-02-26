@@ -23,4 +23,5 @@ public class ProductVo extends ProductEntity{
     private String color;
     private String total;
     private float dc_rate;
+    private int master_total;
 }

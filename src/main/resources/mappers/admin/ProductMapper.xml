@@ -15,15 +15,30 @@
 
     <select id="selProductList" resultType="ProductVo">
         SELECT * FROM (
-        SELECT A.iproduct, A.nm, A.product_code,A.brand,
-        B.img, B.stock, B.price, B.idetail
+        SELECT ROW_NUMBER() OVER(ORDER BY B.rdt) AS num , A.iproduct, A.nm, A.product_code,A.brand,
+        B.img, B.price, B.idetail, C.stock, F.master_total
         FROM t_product_master A
         INNER JOIN t_product_detail B
         ON A.iproduct = B.iproduct
+        INNER JOIN (
+            SELECT SUM(stock) AS stock,iproduct
+            FROM t_product_detail
+            GROUP BY iproduct
+            )C
+         ON C.iproduct = A.iproduct
+        INNER JOIN (
+        SELECT ifnull(SUM(result_price), 0) AS master_total, D.iproduct
+        FROM t_product_detail D
+        LEFT JOIN t_order_product E
+        ON D.idetail = E.idetail
+        WHERE D.iproduct
+        GROUP BY D.iproduct
+        ) F
+        ON F.iproduct = A.iproduct
          <include refid="searchIf">
 
          </include>
-        ORDER BY A.iproduct = ${iproduct} DESC
+        ORDER BY num DESC
         LIMIT ${startIdx}, ${recordCount} ) AS t
     </select>
 
@@ -36,8 +51,7 @@
     </select>
 
     <select id="selProductDetail" resultType="ProductVo">
-        SELECT B.price, C.nm as cpu, D.nm as gpu, A.ram, B.ssd, B.hdd,
-               A.size, A.weight, A.os, B.color, A.rdt, B.stock
+        SELECT B.price, B.ssd, B.hdd, B.color, A.rdt, B.stock
         FROM t_product_master A
                  INNER JOIN t_product_detail B
                             ON A.iproduct = B.iproduct
@@ -50,12 +64,17 @@
     </select>
 
     <select id="selProductDetail2" resultType="ProductVo">
-        SELECT A.product_code, A.nm, A.rdt, B.img, A.brand, B.idetail
+        SELECT A.product_code, A.nm, A.rdt, A.brand, A.ram, A.size, A.weight, A.os,
+               B.idetail, C.nm AS cpu, D.nm AS gpu,  B.img
         FROM t_product_master A
         INNER JOIN t_product_detail B
-        ON A.iproduct = B.iproduct
+            ON A.iproduct = B.iproduct
+        INNER JOIN t_product_cpu C
+            ON A.icpu = C.icpu
+        INNER JOIN t_product_gpu D
+            ON A.igpu = D.igpu
         WHERE B.isrep = 'Y'
-        AND A.iproduct = ${iproduct};
+            AND A.iproduct = ${iproduct};
     </select>
 
     <insert id="insProductMaster" useGeneratedKeys="true" keyProperty="iproduct" keyColumn="iproduct">

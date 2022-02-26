@@ -12,17 +12,17 @@
 <th:block layout:fragment="content">
     <div class="product-master w110p">
         <div class="product-searchArea">
-            <form>
                 <select id="select" class="ui selection dropdown">
                     <option value="nm,product_code">전체검색</option>
                     <option value="nm">상품이름</option>
                     <option value="product_code">상품코드</option>
                 </select>
-                <div>
-                    <input id="searchText" type="search" placeholder="Check This Out 나는 유언수" style="width: 200px">
-                    <span>검색</span>
+                <div class="ui action input">
+                    <input id="searchText"  type="text" placeholder="영덕대표 : 유언수" style="width: 200px">
+                    <button id="searchEvent" class="ui icon secondary button">
+                        <i class="search icon"></i>
+                    </button>
                 </div>
-            </form>
         </div>
         <div class="minh400">
             <table class="mytable w110p">
