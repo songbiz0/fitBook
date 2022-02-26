@@ -47,7 +47,11 @@
                 console.log(item);
                 const trElem = document.createElement('tr');
                 trElem.innerHTML = `
-                    <td>${item.productNm}/${item.product_code}/<img class="w50 h50" src="/imgPath/products/detail/${item.idetail}/${item.img}"></td>
+                    <td><img class="w50 h50" src="/imgPath/products/detail/${item.idetail}/${item.img}/"></td>
+                    <td>
+                        <p>${item.productNm}</p>
+                        <p>${item.product_code}</p>
+                    </td>
                     <td class="min-w400 max-w400">${ctnt}</td>
                     <td>${item.nm}(${item.uid})</td>
                     <td>${item.rdt}</td>
