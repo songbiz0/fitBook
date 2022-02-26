@@ -1,5 +1,20 @@
 {
     // cpu insert
+
+    /*
+        nm - String 20
+        perf - int 10
+        inner_gpu - int 10
+        seq - int 11
+        brand - String 20
+     */
+
+    const nmRegex = /^([a-zA-Z가-힣0-9-_=+]{1,20})$/;
+    const perfRegex = /^([0-9]{1,10})$/;
+    const innerGpuRegex = /^([0-9]{1,10})$/;
+    const seqRegex = /^([0-9]{1,10})$/;
+    const brandRegex = /^([a-zA-Z가-힣0-9-_=+]{1,20})$/;
+
     const addBtn = document.querySelector('#addBtn');
     if(addBtn) {
         const frmBtn = document.querySelector('#frmBtn');
@@ -44,6 +59,11 @@
                 });
         }
 
+        const chkRegex = (elem, e) => {
+            elem.parentNode.classList.add('error');
+            e.preventDefault();
+        }
+
         frmBtn.addEventListener('click', (e) => {
             const cpuArr = document.querySelectorAll('.cpu');
             let forNo = 0;
@@ -51,7 +71,9 @@
                 for (let i in list) {
                     const searchId = list[i];
                     const result = 'cpuList[' + forNo + '].' + searchId;
-                    item.querySelector(`.${searchId}`).name = result;
+                    const elem = item.querySelector(`.${searchId}`);
+                    elem.name = result;
+                    chkRegex(elem, e);
                 }
                 forNo++;
             });
