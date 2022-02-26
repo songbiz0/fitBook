@@ -155,9 +155,82 @@
     const priceRegex = /^([0-9]{1,10})$/;
     const stockRegex = /^([0-9]{1,10})$/;
     const dc_rateRegex = /^([0-9]{1,10})$/;
+
+    const getMasterInnerGpuFromCpu = () => {
+        const iCpuVal = document.querySelector('.icpu').value;
+        const selectIgpuElem = document.querySelector('.igpu');
+        const igpuOption = document.createElement('option');
+        fetch(`/ajax/admin/getMasterInnerGpu?icpu=${iCpuVal}`)
+            .then(res => res.json())
+            .then(data => {
+                selectIgpuElem.innerHTML = '';
+                igpuOption.value = data.igpu;
+                igpuOption.innerText = data.gpuNm;
+                selectIgpuElem.appendChild(igpuOption);
+            });
+    }
+    const selGpu = () => {
+        fetch('/ajax/admin/selGpu')
+            .then(res => res.json())
+            .then(data => {
+                const selectIgpuElem = document.querySelector('.igpu');
+                data.forEach(item => {
+                    const gpuOption = document.createElement('option');
+                    gpuOption.value = item.igpu;
+                    gpuOption.innerText = item.nm;
+                    selectIgpuElem.appendChild(gpuOption);
+                })
+            })
+    }
   
     const detailList= document.querySelector('#detail-list-container');
     if(detailList) {
+        const isInnerGpuBtnElem = document.querySelector('.is_inner_gpu');
+        const selectGpuElem = document.querySelector('.igpu');
+        const selectCpuElem = document.querySelector('.icpu');
+
+        selectCpuElem.addEventListener('change', () => {
+            if(isInnerGpuBtnElem.checked) {
+                getMasterInnerGpuFromCpu();
+            }
+        });
+
+        isInnerGpuBtnElem.addEventListener('change', () => {
+            selectGpuElem.innerHTML = '';
+            if(isInnerGpuBtnElem.checked) {
+                getMasterInnerGpuFromCpu();
+            } else {
+                selGpu();
+            }
+        });
+
+        const isMacBook = document.querySelector('#mac');
+        isMacBook.addEventListener('change', () => {
+            const osList = ['Window 11', 'Window 10', 'FreeDOS'];
+            const brand = document.querySelector('.brand');
+            const os = document.querySelector('.os');
+            const osOption = document.createElement('option');
+            if(isMacBook.checked) {
+                brand.value = 'APPLE';
+                brand.readOnly = true;
+                os.innerHTML = '';
+                osOption.value = 'Mac OS';
+                osOption.innerText = 'Mac OS';
+                os.appendChild(osOption);
+            }else {
+                brand.value = '';
+                brand.readOnly = false;
+                os.innerHTML = '';
+                for(let i=0; i<osList.length; i++) {
+                    const osOption = document.createElement('option');
+                    const val = osList[i];
+                    osOption.value = val;
+                    osOption.innerText = val;
+                    os.appendChild(osOption);
+                }
+            }
+        });
+
         const detailElem = document.querySelector('#detail-list-container');
         const addDetailBtn = document.querySelector('#add-detail-btn');
 
@@ -167,6 +240,7 @@
                 e.target.closest('.inv-btm').querySelector('#mfFile').value = '';
             }));
         }
+
 
         if (addDetailBtn) {
             addDetailBtn.addEventListener('click', (e) => {
@@ -244,11 +318,11 @@
                     detailElem.appendChild(divElem);
                 }
 
-                const fileRemoveBtnArr = document.querySelectorAll('.file-remove-button');
-                if (fileRemoveBtnArr) {
-                    fileRemoveBtnArr.forEach((item) => item.addEventListener('click', (e) => {
-                        e.target.closest('.inv-btm').querySelector('#mfFile').value = '';
-                    }));
+                const fileRemoveBtn = divElem.querySelector('.file-remove-button');
+                if (fileRemoveBtn) {
+                    fileRemoveBtn.addEventListener('click', (e) => {
+                        e.target.closest('.inv-btm').querySelector('.mfFile').value = '';
+                    });
                 }
 
                 const detail_list = document.querySelectorAll('.repre');
@@ -276,11 +350,13 @@
 
                 const delBtnElemArr = document.querySelectorAll('.delBtn');
                 delBtnElemArr.forEach((item) => item.addEventListener('click', (e) => {
+
                     const insBeforeDivElem = document.querySelector('#ins-before-div');
                     const repreDivElem = insBeforeDivElem.querySelector('.product-detail');
                     const thisDivElem = e.target.closest('.product-detail');
 
-                    if (thisDivElem === repreDivElem) {
+
+                    if (thisDivElem === repreDivElem || (detailElem.children.length === 2)) {
                         thisDivElem.remove();
                         const productDetailArr = document.querySelectorAll('.product-detail');
                         const toBeRepreDivElem = productDetailArr[0];
@@ -291,6 +367,8 @@
                     thisDivElem.remove();
                 }))
             });
+            addDetailBtn.click();
+
         }
 
         const list = [
@@ -318,22 +396,6 @@
                 frmElem.submit();
             });
         }
-            const delBtnElemArr = document.querySelectorAll('.delBtn');
-            delBtnElemArr.forEach((item) => item.addEventListener('click', (e) => {
-                const insBeforeDivElem = document.querySelector('#ins-before-div');
-                const repreDivElem = insBeforeDivElem.querySelector('.product-detail');
-                const thisDivElem = e.target.closest('.product-detail');
-
-                if(thisDivElem === repreDivElem) {
-                    thisDivElem.remove();
-                    const productDetailArr = document.querySelectorAll('.product-detail');
-                    const toBeRepreDivElem = productDetailArr[0];
-                    const repreBtn = toBeRepreDivElem.querySelector('.repre');
-                    repreBtn.className = 'dis-none repre';
-                    insBeforeDivElem.appendChild(productDetailArr[0]);
-                }
-                thisDivElem.remove();
-            }));
     }
 
     const list = [
@@ -438,6 +500,15 @@
         return result;
 
     }
+
+    const isInnerGpuBtnElem = document.querySelector('.is_inner_gpu');
+    isInnerGpuBtnElem.addEventListener('click', () => {
+        if(isInnerGpuBtnElem.checked) {
+
+        } else {
+
+        }
+    });
 
     const submitBtn = document.querySelector('#submitBtn');
     if(submitBtn) {

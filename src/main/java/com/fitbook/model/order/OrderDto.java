@@ -23,4 +23,14 @@ public class OrderDto {
     private String param;
     private String order_status;
     private String pre_order_status;
+
+    // Admin-Order List
+    private String fstDate;
+    private String secDate;
+    private String status;
+    private String search;
+    private String select;
+    private int statusNo;
+
+    private int rowCnt;
 }

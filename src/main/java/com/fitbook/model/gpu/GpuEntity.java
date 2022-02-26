@@ -13,4 +13,5 @@ public class GpuEntity {
     private int performance;
     private int seq;
     private String brand;
+    private String is_inner_gpu;
 }

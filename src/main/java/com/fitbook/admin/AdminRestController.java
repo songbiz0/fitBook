@@ -1,6 +1,5 @@
 package com.fitbook.admin;
 
-import com.fitbook.Const;
 import com.fitbook.ResultVo;
 import com.fitbook.model.cpu.CpuDto;
 import com.fitbook.model.cpu.CpuEntity;
@@ -21,7 +20,6 @@ import com.fitbook.model.program.ProgramVo;
 import com.fitbook.model.user.UserDto;
 import com.fitbook.model.user.UserVo;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -40,12 +38,10 @@ public class AdminRestController {
     public Map<String, Integer> selMonth() {
         return service.selCurrentMonthList();
     }
-
     @GetMapping("/daily")
     public Map<String, Integer> selDaily() {
         return service.selThisMonthList();
     }
-
     @GetMapping("/brand")
     public Map<String, Integer> selBrandDemand() {
         return service.selBrandDemandList();
@@ -53,8 +49,12 @@ public class AdminRestController {
 
     //주문목록
     @GetMapping("/order")
-    public List<OrderVo> selOrderList() {
-        return service.selOrderList();
+    public List<OrderVo> selOrderList(OrderDto dto) {
+        return service.selOrderList(dto);
+    }
+    @GetMapping("/orderMaxPage")
+    public ResultVo getOrderMaxPage(OrderDto dto) {
+        return service.getOrderMaxPage(dto);
     }
 
     //상품목록
@@ -91,10 +91,12 @@ public class AdminRestController {
     }
     @GetMapping("/cpuSearch")
     public List<CpuVo> selCpuList(CpuDto dto) {
-        System.out.println("search : " + dto);
         return service.selCpuList(dto);
     }
-
+    @GetMapping("/selCpu")
+    public List<CpuVo> selCpu() {
+        return service.selCpu();
+    }
     @GetMapping("/cpuDetail")
     public CpuVo selCpuDetail(CpuDto dto) {
         return service.selCpuDetail(dto);
@@ -107,7 +109,36 @@ public class AdminRestController {
     public int updCpu(@RequestBody CpuEntity entity) {
         return service.updCpu(entity);
     }
+    @GetMapping("/getMasterInnerGpu")
+    public CpuVo selInnerGpuFromCpu(CpuDto dto) {
+        return service.selInnerGpuFromCpu(dto);
+    }
+    @GetMapping("/getCpuPerformance")
+    public CpuVo getCpuPerformance(CpuDto dto) {
+        return service.getCpuPerformanceInCpu(dto);
+    }
 
+
+    @GetMapping("/selGpu")
+    public List<GpuVo> selGpu() {
+        return service.selGpu();
+    }
+    @GetMapping("/selGpuAll")
+    public List<GpuVo> selGpuAll() {
+        return service.selGpuAll();
+    }
+    @GetMapping("selInnerGpu")
+    public List<GpuVo> selInnerGpu() {
+        return service.selInnerGpu();
+    }
+    @GetMapping("/gpuMaxPage")
+    public ResultVo selGpuMaxPage(GpuDto dto) {
+        return service.gpuMaxPage(dto);
+    }
+    @GetMapping("/gpuSearch")
+    public List<GpuVo> selGpuList(GpuDto dto) {
+        return service.selGpuList(dto);
+    }
     @GetMapping("/gpuDetail")
     public GpuVo selGpuDetail(GpuDto dto) {
         return service.selGpuDetail(dto);
@@ -119,6 +150,10 @@ public class AdminRestController {
     @PutMapping("/gpuDetail")
     public int updGpu(@RequestBody GpuEntity entity) {
         return service.updGpu(entity);
+    }
+    @GetMapping("/gpuPerformance")
+    public GpuVo gpuPerformance(GpuDto dto) {
+        return service.selInnerGpuPerformance(dto);
     }
 
     @GetMapping("/programSearch")

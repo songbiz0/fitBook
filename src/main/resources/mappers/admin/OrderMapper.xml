@@ -1,6 +1,28 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.fitbook.admin.AdminMapper">
+
+    <sql id="searchSql">
+
+        <where>
+            <if test="statusNo != 1">
+                order_status = #{status}
+            </if>
+            <if test="select != 'total'">
+                AND ${select} LIKE CONCAT('%', #{search}, '%')
+            </if>
+            <if test="select == 'total'">
+                AND (E.nm LIKE CONCAT('%', #{search}, '%') OR
+                B.nm LIKE CONCAT('%', #{search}, '%') OR
+                B.uid LIKE CONCAT('%', #{search}, '%'))
+            </if>
+            <if test="fstDate != null and fstDate != '' and secDate != null and secDate != ''">
+                <![CDATA[ AND (#{fstDate} <= A.rdt AND #{secDate} >= A.rdt) ]]>
+            </if>
+        </where>
+
+    </sql>
+
     <select id="selUserList" resultType="UserVo">
         SELECT A.iuser, A.uid, A.nm, A.email, c.a AS recent_price, SUM(result_price) AS result_price, B.rdt AS recent_rdt , A.rdt AS join_rdt, A.point
         FROM t_user A
@@ -33,19 +55,41 @@
     </select>
 
     <select id="selOrderList" resultType="OrderVo">
-        SELECT A.iorder, A.rdt, B.nm, B.uid
-        , A.spent_point, A.payment_way, A.order_status
-        , A.result_price, C.idetail, E.nm AS detailNm, (count(E.nm) - 1) AS cnt
+        SELECT A.rdt, A.iorder, E.nm AS productNm
+             , C.quantity, B.uid, B.nm AS userNm
+             , A.spent_point, A.payment_way, A.order_status
+             , C.result_price, A.cdt, B.iuser <if test="statusNo != 1">, (count(A.iorder)-1) AS cnt</if>
         FROM t_order A
-        INNER JOIN t_user B
+        inner JOIN t_user B
         ON A.iuser = B.iuser
-        INNER JOIN t_order_product C
+        inner JOIN t_order_product C
         ON A.iorder = C.iorder
-        INNER JOIN t_product_detail D
+        inner JOIN t_product_detail D
         ON C.idetail = D.idetail
-        INNER JOIN t_product_master E
+        inner JOIN t_product_master E
         ON E.iproduct = D.iproduct
-        GROUP BY B.iuser
+        <include refid="searchSql"></include>
+        <if test="statusNo != 1">
+            GROUP BY A.iorder AND B.iuser
+        </if>
+    </select>
+
+    <select id="getOrderMaxPage" resultType="ResultVo">
+        SELECT  COUNT(iorder) AS result
+        FROM (
+               SELECT A.iorder
+               from t_order A
+               inner JOIN t_user B
+               ON A.iuser = B.iuser
+               inner JOIN t_order_product C
+               ON A.iorder = C.iorder
+               inner JOIN t_product_detail D
+               ON C.idetail = D.idetail
+               inner JOIN t_product_master E
+               ON E.iproduct = D.iproduct
+               <include refid="searchSql"></include>
+               GROUP BY B.iuser
+             ) AS A
     </select>
 
     <select id="selUserMaxPageVal" resultType="resultVo">

@@ -91,8 +91,8 @@ public class AdminController {
     }
 
     @GetMapping("/cpu")
-    public void cpu() {
-
+    public void cpu(Model model) {
+        model.addAttribute(Const.DATA, service.selInnerGpu());
     }
 
     @PostMapping("/cpu")
@@ -123,6 +123,7 @@ public class AdminController {
 
     @PostMapping("/gpu")
     public String gpuProc(GpuListEntity gpuList, Model model) {
+        System.out.println(gpuList);
         int gpuListLength = gpuList.getGpuList().size();
         int result = service.insGpu(gpuList);
         if(gpuListLength != result) {

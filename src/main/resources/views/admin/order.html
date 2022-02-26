@@ -9,64 +9,104 @@
 </head>
 
 <th:block layout:fragment="content">
-    <div class="order-list w110p">
-        <div class="order-list-div">
             <div class="selectkinds">
-                <h5>검색어</h5>
-                <h5>주문일자</h5>
-                <h5>주문상태</h5>
-                <h5>주문상태</h5>
-            </div>
-            <div class="list-day">
-                <div>
-                    <select>
-                        <option value="1">전체</option>
-                        <option value="2">김통귤</option>
-                        <option value="3">김만줴</option>
-                        <option value="3">유억숙</option>
-                        <option value="3">김귝항</option>
-                    </select>
-                    <input type="text" name="text" placeholder="검색어 입력">
+                <div class="frow gap30 mb30">
+                    <div class="frow gap50">
+                        <div class="frow gap30">
+                            <h5>검색어</h5>
+                            <select id="select">
+                                <option value="total">전체</option>
+                                <option value="E.nm">상품명</option>
+                                <option value="B.nm">회원명</option>
+                                <option value="B.uid">아이디</option>
+                            </select>
+                            <input type="text" id="search" name="text" placeholder="검색어 입력">
+                        </div>
+                        <div class="frow gap30">
+                            <h5>주문상태</h5>
+                            <select id="status">
+                                <option value="전체선택-1" checked>전체선택</option>
+                                <option value="입금대기-2">입금대기</option>
+                                <option value="배송중-3">배송중</option>
+                                <option value="배송완료-4">배송완료</option>
+                                <option value="구매확정-5">구매확정</option>
+                                <option value="취소완료-6">취소완료</option>
+                                <option value="환불신청-7">환불신청</option>
+                                <option value="환불완료-8">환불완료</option>
+                            </select>
+                        </div>
+                    </div>
                 </div>
-                <div>
-                    <input type="date">
-                </div>
-                <div class="ui inverted segment css2">
-                    <button class="ui inverted red button">오늘</button>
-                    <button class="ui inverted red button">오늘</button>
-                    <button class="ui inverted red button">3일</button>
-                    <button class="ui inverted red button">1주일</button>
-                </div>
-                <div>
-                    <input type="checkbox" name="1">전체선택
-                    <input type="checkbox" name="1">입금대기
-                    <input type="checkbox" name="1">결제완료
-                    <input type="checkbox" name="1">상품준비중
-                    <input type="checkbox" name="1">배송중
-                    <input type="checkbox" name="1">배송완료
-                    <input type="checkbox" name="1">구매확정
+
+                <div class="mybox">
+                    <div class="ui mini compact menu ib mr10" id="dateBtns">
+                        <a class="link item" id="todayBtn">
+                            오늘
+                        </a>
+                        <a class="item active" id="weekBtn">
+                            7일
+                        </a>
+                        <a class="link item" id="fifteenDayBtn">
+                            15일
+                        </a>
+                        <a class="link item" id="monthBtn">
+                            1개월
+                        </a>
+                        <a class="link item" id="threeMonthBtn">
+                            3개월
+                        </a>
+                        <a class="link item" id="yearBtn">
+                            1년
+                        </a>
+                    </div>
+                    <div class="ui tiny form ib w250">
+                        <div class="two fields">
+                            <div class="field">
+                                <div class="ui calendar" id="rangestart">
+                                    <div class="ui input left icon">
+                                        <i class="calendar icon"></i>
+                                        <input type="text" id="fst-date" name="date" value="">
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="mct fs12">~</div>
+                            <div class="field">
+                                <div class="ui calendar" id="rangeend">
+                                    <div class="ui input left icon">
+                                        <i class="calendar icon"></i>
+                                        <input type="text" id="sec-date" name="date" value="">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <button class="ui secondary tiny button ml10" id="orderSearchBtn">
+                        조회
+                        <i class="ml5 mr0 search icon"></i>
+                    </button>
 
                 </div>
+<!--                <div>-->
+                    <table class="mytable w100p">
+                        <thead>
+                        <tr>
+                            <th>날짜/주문번호</th>
+                            <th>상품명</th>
+                            <th>금액/수량</th>
+                            <th>아이디/이름</th>
+                            <th>사용한 포인트</th>
+                            <th>결제수단</th>
+                            <th>주문상태</th>
+                            <th>가격</th>
+                            <th>취소일시</th>
+                        </tr>
+                        </thead>
+                        <tbody id="tbody">
+                        </tbody>
+                    </table>
+<!--                </div>-->
+                <div class="tact w100p">
+                    <div class="ui pagination tiny menu mt50" id="searchPagination"></div>
+                </div>
             </div>
-        </div>
-        <div>
-            <table class="mytable w110p">
-                <thead>
-                <tr>
-                    <th>상픔번호</th>
-                    <th>주문일시</th>
-                    <th>이름</th>
-                    <th>아이디</th>
-                    <th>사용한 포인트</th>
-                    <th>결제수단</th>
-                    <th>주문상태</th>
-                    <th>가격</th>
-                    <th>취소일시</th>
-                </tr>
-                </thead>
-                <tbody>
-                </tbody>
-            </table>
-        </div>
-    </div>
 </th:block>

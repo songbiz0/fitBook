@@ -28,4 +28,10 @@
             <if test="uid != null and uid != ''">AND uid = #{uid}</if>
         </where>
     </update>
+
+    <delete id="delUser">
+        DELETE FROM t_user
+        WHERE iuser = #{iuser}
+        AND uid = #{uid}
+    </delete>
 </mapper>

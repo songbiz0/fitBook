@@ -4,13 +4,14 @@
     if(addBtn) {
         const frmBtn = document.querySelector('#frmBtn');
         const list = [
-            'nm', 'performance', 'seq', 'brand'
+            'nm', 'performance', 'seq', 'brand', 'is_inner_gpu'
         ];
 
         frmBtn.addEventListener('click', (e) => {
             const gpuArr = document.querySelectorAll('.gpu');
             let forNo = 0;
             gpuArr.forEach((item) => {
+                // e.preventDefault();
                 for (let i in list) {
                     const searchId = list[i];
                     const result = 'gpuList[' + forNo + '].' + searchId;
@@ -47,6 +48,10 @@
                     <div class="ui basic label">
                         브랜드
                     </div>
+                </div>
+                <div class="ui toggle checkbox">
+                    <input type="checkbox" class="is_inner_gpu" value="Y">
+                    <label>내장그래픽</label>
                 </div>
                 <input type="button" value="삭제하기" class="delBtn ui inverted red button">
         `;

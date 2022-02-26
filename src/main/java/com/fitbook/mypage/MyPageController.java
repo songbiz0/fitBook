@@ -12,7 +12,10 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
+import java.io.IOException;
+import java.io.PrintWriter;
 
 @Controller
 @RequestMapping("/mypage")
@@ -84,7 +87,7 @@ public class MyPageController {
     @GetMapping("/favoritelist")
     public void favoritelist() {}
 
-    @GetMapping("/orderlist/detail")
+    @GetMapping("/order/detail")
     public String orderDetail(@RequestParam int iorder, Model model) {
         OrderDto dto = new OrderDto();
         dto.setIorder(iorder);
@@ -96,4 +99,24 @@ public class MyPageController {
             return "/mypage/orderdetail";
         }
     }
+
+    @GetMapping("/leave")
+    public void leave(Model model) {
+        model.addAttribute("uid", authenticationFacade.getLoginUser().getUid());
+    }
+
+    @PostMapping("/leave")
+    public String leaveProc(UserEntity entity, HttpServletResponse res) throws IOException {
+        PrintWriter writer = res.getWriter();
+        if(userService.delUser(entity) == 0) {
+            writer.println("<script>alert('회원 탈퇴에 실패하였습니다.')</script>");
+            return "redirect:/";
+        } else {
+            writer.println("<script>alert('회원 탈퇴에 성공했습니다.\n홈으로 이동합니다.')</script>");
+            return "redirect:/user/logout";
+        }
+    }
+
+    @GetMapping("/addr")
+    public void addr() {}
 }

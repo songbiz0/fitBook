@@ -31,7 +31,8 @@ public interface AdminMapper {
     List<OrderProductVo> selBrandDemandList();
 
     // Order List
-    List<OrderVo> selOrderList();
+    List<OrderVo> selOrderList(OrderDto dto);
+    ResultVo getOrderMaxPage(OrderDto dto);
 
     // Parts
     int insCpu(CpuEntity entity);
@@ -40,6 +41,8 @@ public interface AdminMapper {
     ResultVo selMaxPage(CpuDto dto);
     int updCpu(CpuEntity entity);
     int delCpu(CpuDto dto);
+    CpuVo selInnerGpuFromCpu(CpuDto dto);
+    CpuVo getCpuPerformanceInCpu(CpuDto dto);
 
     int insGpu(GpuEntity entity);
     List<GpuVo> selGpuList(GpuDto dto);
@@ -47,11 +50,14 @@ public interface AdminMapper {
     ResultVo selMaxPage(GpuDto dto);
     int updGpu(GpuEntity entity);
     int delGpu(GpuDto dto);
+    GpuVo selInnerGpuPerformance(GpuDto dto);
+    List<GpuVo> selInnerGpu();
 
 
     //product_master 상품목록
     List<ProductVo> selProductList(ProductDto dto);
     List<GpuVo> selGpu();
+    List<GpuVo> selGpuAll();
     List<CpuVo> selCpu();
 
     //product_master_detail 상품디테일
