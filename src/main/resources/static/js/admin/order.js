@@ -131,9 +131,9 @@
     let search;
     let select;
 
-    let pageCnt = 10;
+    let pageCnt = 2;
     let startIdx = 0;
-    let rowCnt = 10;
+    let rowCnt = 1;
     let currentPage = 1;
 
     const makePage = (maxPage) => {
