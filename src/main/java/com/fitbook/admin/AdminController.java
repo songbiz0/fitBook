@@ -4,6 +4,7 @@ import com.fitbook.Const;
 import com.fitbook.auth.AuthenticationFacade;
 import com.fitbook.model.cpu.CpuListEntity;
 import com.fitbook.model.gpu.GpuListEntity;
+import com.fitbook.model.order.OrderDto;
 import com.fitbook.model.product.ProductDetailListVo;
 import com.fitbook.model.product.ProductVo;
 import com.fitbook.model.productquestion.ProductQuestionDto;
@@ -42,6 +43,12 @@ public class AdminController {
     // 주문
     @GetMapping("/order")
     public void order() {
+    }
+    @GetMapping("/orderdetail")
+    public String orderDetail(OrderDto dto, Model model) {
+        System.out.println(service.selProductDetail(dto));
+        model.addAttribute("data", service.selProductDetail(dto));
+        return "admin/orderdetail";
     }
 
     //상품

@@ -9,14 +9,13 @@
 </head>
 
 <th:block layout:fragment="content">
-            <div class="selectkinds">
+            <div class="selectkinds w100p">
                 <div class="frow gap30 mb30">
                     <div class="frow gap50">
                         <div class="frow gap30">
                             <h5>검색어</h5>
                             <select id="select">
                                 <option value="total">전체</option>
-                                <option value="E.nm">상품명</option>
                                 <option value="B.nm">회원명</option>
                                 <option value="B.uid">아이디</option>
                             </select>
@@ -86,15 +85,23 @@
                     </button>
 
                 </div>
-<!--                <div>-->
                     <table class="mytable w100p">
+                        <colgroup>
+                            <col width="18%">
+                            <col width="15%">
+                            <col width="13%">
+                            <col width="14%">
+                            <col width="10%">
+                            <col width="13%">
+                            <col width="3%">
+                            <col width="25%">
+                        </colgroup>
                         <thead>
                         <tr>
                             <th>날짜/주문번호</th>
                             <th>상품명</th>
-                            <th>금액/수량</th>
                             <th>아이디/이름</th>
-                            <th>사용한 포인트</th>
+                            <th>포인트사용</th>
                             <th>결제수단</th>
                             <th>주문상태</th>
                             <th>가격</th>

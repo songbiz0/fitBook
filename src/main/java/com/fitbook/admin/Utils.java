@@ -14,6 +14,17 @@ public class Utils {
     @Value("${spring.servlet.multipart.location}")
     private String path;
 
+    public String phoneRegex(String number) {
+        if(number.length() == 0) {
+            return "";
+        }
+        if(number.length() == 8) {
+            return number.replaceAll("^(\\d{4})(\\d{4})$", "$1-$2");
+        } else {
+            return number.replaceAll("(\\d{2,3})(\\d{3,4})(\\d{4})", "$1-$2-$3");
+        }
+    }
+
     public String getDate(String type) {
         LocalDate now = LocalDate.now();
         String date = now.toString();

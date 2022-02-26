@@ -23,6 +23,20 @@
 
     </sql>
 
+    <select id="selUserMaxPageVal" resultType="resultVo">
+        SELECT CEIL(count(*) / ${recordCount}) AS result
+        FROM t_user C
+                 LEFT JOIN (
+            SELECT A.iuser
+            FROM t_user A
+                     LEFT JOIN t_order B
+                               ON A.iuser = B.iuser
+            group by A.iuser
+        ) D
+                           on C.iuser = D.iuser
+        where ${type} like concat('%', #{keyword}, '%')
+    </select>
+
     <select id="selUserList" resultType="UserVo">
         SELECT A.iuser, A.uid, A.nm, A.email, c.a AS recent_price, SUM(result_price) AS result_price, B.rdt AS recent_rdt , A.rdt AS join_rdt, A.point
         FROM t_user A
@@ -58,7 +72,8 @@
         SELECT A.rdt, A.iorder, E.nm AS productNm
              , C.quantity, B.uid, B.nm AS userNm
              , A.spent_point, A.payment_way, A.order_status
-             , C.result_price, A.cdt, B.iuser <if test="statusNo != 1">, (count(A.iorder)-1) AS cnt</if>
+             , A.result_price, A.cdt, B.iuser , (count(A.iorder)-1) AS cnt
+             , D.img, D.idetail, D.color, D.hdd, D.ssd, E.product_code
         FROM t_order A
         inner JOIN t_user B
         ON A.iuser = B.iuser
@@ -69,13 +84,16 @@
         inner JOIN t_product_master E
         ON E.iproduct = D.iproduct
         <include refid="searchSql"></include>
-        <if test="statusNo != 1">
-            GROUP BY A.iorder AND B.iuser
-        </if>
+        GROUP BY A.iorder
+        LIMIT ${startIdx}, ${rowCnt}
+    </select>
+
+    <select id="selOrder" resultType="OrderVo">
+
     </select>
 
     <select id="getOrderMaxPage" resultType="ResultVo">
-        SELECT  COUNT(iorder) AS result
+        SELECT  CEIL(COUNT(iorder) / ${rowCnt}) AS result
         FROM (
                SELECT A.iorder
                from t_order A
@@ -88,21 +106,32 @@
                inner JOIN t_product_master E
                ON E.iproduct = D.iproduct
                <include refid="searchSql"></include>
-               GROUP BY B.iuser
+               GROUP BY A.iorder
              ) AS A
     </select>
 
-    <select id="selUserMaxPageVal" resultType="resultVo">
-        SELECT CEIL(count(*) / ${recordCount}) AS result
-        FROM t_user C
-                 LEFT JOIN (
-            SELECT A.iuser
-            FROM t_user A
-                     LEFT JOIN t_order B
-                               ON A.iuser = B.iuser
-            group by A.iuser
-        ) D
-                           on C.iuser = D.iuser
-        where ${type} like concat('%', #{keyword}, '%')
+    <select id="selProductDetail" resultType="ProductDetailVo">
+        SELECT A.rdt, A.iorder, C.img, D.nm, D.product_code
+             , C.color, C.hdd, C.ssd
+             , B.result_price, B.quantity, D.brand
+             , C.idetail
+        FROM t_order A
+                 INNER JOIN t_order_product B
+                            ON A.iorder = B.iorder
+                 INNER JOIN t_product_detail C
+                            ON B.idetail = C.idetail
+                 INNER JOIN t_product_master D
+                            ON C.iproduct = D.iproduct
+        WHERE A.iorder = ${iorder}
+    </select>
+
+    <select id="selOrderDetail" resultType="OrderDetailVo">
+        SELECT A.iorder, B.receiver_nm, B.receiver_post, B.receiver_addr, B.receiver_addr_detail
+             , B.receiver_phone, B.shipment_message
+             , A.spent_point, A.payment_way, A.order_status, A.result_price
+        FROM t_order A
+                 INNER JOIN t_order_detail B
+                            ON A.iorder = B.iorder
+        WHERE A.iorder = ${iorder}
     </select>
 </mapper>
