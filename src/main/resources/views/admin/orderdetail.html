@@ -17,10 +17,11 @@
             <h3>주문 상세 내역</h3>
             <table class="mytablenoline w100p mt50">
                 <colgroup>
+                    <col width="30%">
+                    <col width="30%">
                     <col width="20%">
-                    <col width="40%">
                     <col width="20%">
-                    <col width="20%">
+                    <col width="0%">
                 </colgroup>
                 <thead>
                 <tr>
@@ -28,6 +29,7 @@
                     <th>상품명</th>
                     <th>금액/수량</th>
                     <th>주문상태</th>
+                    <th></th>
                 </tr>
                 </thead>
                 <tbody class="btline">
@@ -37,7 +39,7 @@
                         <p th:text="${data.iorder}"></p>
                         <p th:text="${#strings.substring(pd[num].rdt, 0, 11)}"></p>
                     </td>
-                    <td class="frow w100p ct gap20">
+                    <td class="frow ct gap20">
                         <div>
                             <img class="custom-img" th:src="@{/imgPath/products/detail/{idetail}/{img}(idetail=${pd[num].idetail}, img=${pd[num].img})}">
                         </div>
@@ -52,7 +54,17 @@
                         <p th:text="|(${pd[num].quantity})|"></p>
                     </td>
                     <td th:rowspan="${#lists.size(pd)}" >
-                        <span class="text-pointer status" th:if="${num} == 0" th:text="${data.order_status}"></span>
+                        <select class="init-select" th:if="${num} == 0" th:with="s=${data.order_status}">
+                            <option th:text="${data.order_status}"></option>
+                            <option th:if="${!#strings.equals(s,'입금대기')}" th:text="입금대기"></option>
+                            <option th:if="${!#strings.equals(s,'결제완료')}" th:text="결제완료"></option>
+                            <option th:if="${!#strings.equals(s,'배송중')}" th:text="배송중"></option>
+                            <option th:if="${!#strings.equals(s,'배송완료')}" th:text="배송완료"></option>
+                            <option th:if="${!#strings.equals(s,'구매확정')}" th:text="구매확정"></option>
+                            <option th:if="${!#strings.equals(s,'취소완료')}" th:text="취소완료"></option>
+                            <option th:if="${!#strings.equals(s,'환불신청')}" th:text="환불신청"></option>
+                            <option th:if="${!#strings.equals(s,'환불완료')}" th:text="환불완료"></option>
+                        </select>
                     </td>
                 </tr>
                 </th:block>
