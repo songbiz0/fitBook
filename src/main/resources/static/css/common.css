@@ -239,3 +239,19 @@ table {
     height: 100px;
     object-fit: cover;
 }
+.init-select {
+    border: 0;
+    margin-right: 5px;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    appearance: none;
+    color: #003eff;
+    padding: 10px 10px;
+    text-align: center;
+}
+.init-select::-ms-expand {
+    display: none;
+}
+.init-select:hover {
+    cursor: pointer;
+}
