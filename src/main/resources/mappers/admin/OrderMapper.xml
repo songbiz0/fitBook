@@ -134,4 +134,10 @@
                             ON A.iorder = B.iorder
         WHERE A.iorder = ${iorder}
     </select>
+
+    <update id="updOrderStatus">
+        UPDATE t_order
+        SET order_status = #{order_status}
+        WHERE iorder = ${iorder}
+    </update>
 </mapper>

@@ -156,6 +156,13 @@
                 igpuOption.value = data.igpu;
                 igpuOption.innerText = data.gpuNm;
                 selectIgpuElem.appendChild(igpuOption);
+            })
+            .catch(e => {
+                selectIgpuElem.innerHTML = '';
+                igpuOption.value = '';
+                igpuOption.innerText = '';
+                selectIgpuElem.appendChild(igpuOption);
+                console.error(e);
             });
     }
     const selGpu = () => {

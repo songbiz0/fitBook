@@ -6,13 +6,13 @@
       layout:decorate="temp/admin_page_layout">
 <head>
     <meta charset="UTF-8">
-    <script defer th:src="@{/js/admin/orderdetail.js}"></script>
+    <script defer th:src="@{/js/admin/order.js}"></script>
     <title></title>
 </head>
 <body>
 <th:block layout:fragment="content">
-    <div id="data"></div>
-    <div class="fr1">
+    <div id="data" th:data-iorder="${data.iorder}"></div>
+    <div class="fr1 order-detail">
         <div class="fr1">
             <h3>주문 상세 내역</h3>
             <table class="mytablenoline w100p mt50">
@@ -56,8 +56,8 @@
                     <td th:rowspan="${#lists.size(pd)}" >
                         <select class="init-select" th:if="${num} == 0" th:with="s=${data.order_status}">
                             <option th:text="${data.order_status}"></option>
-                            <option th:if="${!#strings.equals(s,'입금대기')}" th:text="입금대기"></option>
-                            <option th:if="${!#strings.equals(s,'결제완료')}" th:text="결제완료"></option>
+                            <option th:if="${!#strings.equals(s,'입금대기')}" th:value="입금대기" th:text="입금대기"></option>
+                            <option th:if="${!#strings.equals(s,'결제완료')}" th:value="결제완료" th:text="결제완료"></option>
                             <option th:if="${!#strings.equals(s,'배송중')}" th:text="배송중"></option>
                             <option th:if="${!#strings.equals(s,'배송완료')}" th:text="배송완료"></option>
                             <option th:if="${!#strings.equals(s,'구매확정')}" th:text="구매확정"></option>
@@ -65,6 +65,9 @@
                             <option th:if="${!#strings.equals(s,'환불신청')}" th:text="환불신청"></option>
                             <option th:if="${!#strings.equals(s,'환불완료')}" th:text="환불완료"></option>
                         </select>
+                        <div sec:authorize="hasRole('ROLE_ADMIN')">
+                            <button id="saveBtn" th:if="${num} == 0" class="ui basic tiny button dis-none">save</button>
+                        </div>
                     </td>
                 </tr>
                 </th:block>
