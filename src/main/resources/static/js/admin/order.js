@@ -134,9 +134,9 @@
         let search;
         let select;
 
-        let pageCnt = 2;
+        let pageCnt = 10;
         let startIdx = 0;
-        let rowCnt = 1;
+        let rowCnt = 10;
         let currentPage = 1;
 
         const makePage = (maxPage) => {
@@ -156,7 +156,7 @@
             span1.classList.add('item');
             span1.innerHTML = `<i class="angle left icon mr0"></i>`;
             span1.addEventListener('click', () => {
-                currentPage = currentPage === 1 ? 1 : (currentPage - 1);
+                currentPage = ((currentPage - pageCnt) < pageCnt) ? 1 : (currentPage - pageCnt);
                 makePage();
                 getList();
             });
@@ -191,7 +191,7 @@
             span2.classList.add('item');
             span2.innerHTML = `<i class="angle right icon mr0"></i>`;
             span2.addEventListener('click', () => {
-                currentPage = currentPage === maxPage ? maxPage : (currentPage + 1);
+                currentPage = ((currentPage + pageCnt) > maxPage) ? maxPage : currentPage + pageCnt;
                 makePage();
                 getList();
             });
