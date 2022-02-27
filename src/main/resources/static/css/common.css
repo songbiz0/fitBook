@@ -79,6 +79,7 @@ table {
 .wfc { width: fit-content !important; }
 
 .minw130 { min-width: 130px; }
+.minh70 { min-height: 70px; }
 
 .fs11 { font-size: 11px !important; }
 .fs12 { font-size: 12px !important; }
@@ -226,10 +227,42 @@ table {
 .searchselect { width: 79.22px !important;}
 .headerSearch { position: absolute !important; top: 80px !important; right: 420px !important; }
 
-.cspointer:hover { cursor: pointer; }
+.cspointer:hover { cursor: pointer; background-color: #e1e1e1; }
+.text-pointer:hover { cursor: pointer; color: #788fff; }
+.status { color: #003eff; }
 
 .justibetween {
     display: flex;
     justify-content: space-between;
 }
 
+.custom-img {
+    width: 115px;
+    height: 100px;
+    object-fit: cover;
+}
+.detail-custom-img {
+    width: 500px;
+    height: 300px;
+    object-fit: cover;
+}
+.init-select {
+    border: 0;
+    margin-right: 5px;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    appearance: none;
+    color: #003eff;
+    padding: 10px 10px;
+    text-align: center;
+}
+.init-select::-ms-expand {
+    display: none;
+}
+.init-select:hover {
+    cursor: pointer;
+}
+
+.dis-none {
+    display: none !important;
+}

@@ -11,7 +11,7 @@
 </head>
 <body>
 <th:block layout:fragment="content">
-    <form th:action="@{/admin/program}" method="post" enctype="multipart/form-data" id="frm">
+    <form th:id="programFrm" th:action="@{/admin/program}" method="post" enctype="multipart/form-data" id="frm">
         <div class="program-enrollment-container">
             <div class="program">
                 <div class="ui right labeled input">
@@ -42,6 +42,16 @@
                     <input type="text" class="required_ram">
                     <div class="ui basic label">
                         권장 RAM
+                    </div>
+                </div>
+                <div class="ui right labeled input">
+                    <div class="inv-name">
+                        <span>Mac OS 지원여부</span>
+                        <span>:</span>
+                    </div>
+                    <div class="ui toggle checkbox" id="macDiv">
+                        <input type="checkbox" class="is_mac_sup" id="mac">
+                        <label></label>
                     </div>
                 </div>
                 <div class="ui right labeled input">

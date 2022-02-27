@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="en"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security"
+      layout:decorate="temp/admin_page_layout">
+<head>
+    <meta charset="UTF-8">
+    <script defer th:src="@{/js/admin/order.js}"></script>
+    <title></title>
+</head>
+<body>
+<th:block layout:fragment="content">
+    <div id="data" th:data-iorder="${data.iorder}"></div>
+    <div class="fr1 order-detail">
+        <div class="fr1">
+            <h3>주문 상세 내역</h3>
+            <table class="mytablenoline w100p mt50">
+                <colgroup>
+                    <col width="30%">
+                    <col width="30%">
+                    <col width="20%">
+                    <col width="20%">
+                    <col width="0%">
+                </colgroup>
+                <thead>
+                <tr>
+                    <th>주문번호/날짜</th>
+                    <th>상품명</th>
+                    <th>금액/수량</th>
+                    <th>주문상태</th>
+                    <th></th>
+                </tr>
+                </thead>
+                <tbody class="btline">
+                <th:block th:with="pd=${data.productDetails}" th:each="num : ${#numbers.sequence(0, #lists.size(data.productDetails) - 1)}">
+                <tr>
+                    <td th:rowspan="${#lists.size(pd)}" th:if="${num} == 0">
+                        <p th:text="${data.iorder}"></p>
+                        <p th:text="${#strings.substring(pd[num].rdt, 0, 11)}"></p>
+                    </td>
+                    <td class="frow ct gap20">
+                        <div>
+                            <img class="custom-img" th:src="@{/imgPath/products/detail/{idetail}/{img}(idetail=${pd[num].idetail}, img=${pd[num].img})}">
+                        </div>
+                        <div class="taleft minw130">
+                            <p class="mb5" th:text="|${pd[num].brand} ${pd[num].nm}|"></p>
+                            <p class="mb5" th:text="${pd[num].product_code}"></p>
+                            <p class="c777777" th:text="|옵션 : ${pd[num].option}|"></p>
+                        </div>
+                    </td>
+                    <td>
+                        <b th:text="${#numbers.formatInteger(pd[num].result_price * pd[0].quantity, 0, 'COMMA')} + '원'"></b>
+                        <p th:text="|(${pd[num].quantity})|"></p>
+                    </td>
+                    <td th:rowspan="${#lists.size(pd)}" >
+                        <select class="init-select" th:if="${num} == 0" th:with="s=${data.order_status}">
+                            <option th:text="${data.order_status}"></option>
+                            <option th:if="${!#strings.equals(s,'입금대기')}" th:value="입금대기" th:text="입금대기"></option>
+                            <option th:if="${!#strings.equals(s,'결제완료')}" th:value="결제완료" th:text="결제완료"></option>
+                            <option th:if="${!#strings.equals(s,'배송중')}" th:text="배송중"></option>
+                            <option th:if="${!#strings.equals(s,'배송완료')}" th:text="배송완료"></option>
+                            <option th:if="${!#strings.equals(s,'구매확정')}" th:text="구매확정"></option>
+                            <option th:if="${!#strings.equals(s,'취소완료')}" th:text="취소완료"></option>
+                            <option th:if="${!#strings.equals(s,'환불신청')}" th:text="환불신청"></option>
+                            <option th:if="${!#strings.equals(s,'환불완료')}" th:text="환불완료"></option>
+                        </select>
+                        <div sec:authorize="hasRole('ROLE_ADMIN')">
+                            <button id="saveBtn" th:if="${num} == 0" class="ui basic tiny button dis-none">save</button>
+                        </div>
+                    </td>
+                </tr>
+                </th:block>
+                </tbody>
+            </table>
+            <div class="frow gap50 mt50">
+                <div class="fc fr1">
+                    <h5>배송지 정보</h5>
+                    <table class="mytable">
+                        <tr>
+                            <td>이름</td>
+                            <td th:text="${data.receiver_nm}"></td>
+                        </tr>
+                        <tr>
+                            <td>연락처</td>
+                            <td th:text="${data.receiver_phone}"></td>
+                        </tr>
+                        <tr>
+                            <td>배송지 주소</td>
+                            <td>
+                                <div class="minh70 fc ct">
+                                    <p th:text="|(${data.receiver_post})| + ${data.receiver_addr}"></p>
+                                    <p th:text="${data.receiver_addr_detail}"></p>
+                                </div>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>배송 메시지</td>
+                            <td th:text="${data.shipment_message}"></td>
+                        </tr>
+                    </table>
+                </div>
+                <div class="fc fr1">
+                    <h5>결제 정보</h5>
+                    <th:block th:with="total=|${#numbers.formatInteger(#aggregates.sum(data.productDetails.![result_price * quantity]), 0, 'COMMA')} 원|">
+                    <table class="mytable">
+                        <tr>
+                            <td>상품 합계</td>
+                            <td th:text="${total}"></td>
+                        </tr>
+                        <tr>
+                            <td>적립금 할인</td>
+                            <td class="cinfo" th:text="|-${#numbers.formatInteger(data.spent_point, 0, 'COMMA')} 원|"></td>
+                        </tr>
+                        <tr>
+                            <td>결제 수단</td>
+                            <td>
+                                <div class="minh70 fc ct" th:text="${data.payment_way}"></div>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>최종 결제 금액</td>
+                            <td><strong th:text="|${#numbers.formatInteger(data.result_price, 0, 'COMMA')} 원|"></strong></td>
+                        </tr>
+                    </table>
+                    </th:block>
+                </div>
+            </div>
+        </div>
+    </div>
+</th:block>
+</body>
+</html>

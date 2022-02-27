@@ -59,11 +59,11 @@
                 });
         }
 
-        const makeErrBox = (item, msg) => {
+        const makeErrBox = (msg) => {
             $('body')
                 .toast({
                     class: 'error',
-                    position: 'bottom right',
+                    position: 'top right',
                     message: msg
                 });
             item.classList.add('err-red');
@@ -77,6 +77,7 @@
             const classNm = elem.classList.value;
             const val = elem.value;
             const parentElem = elem.parentNode;
+            let bool = true;
             if(elem.parentNode.classList.contains('error')) {
                 elem.parentNode.classList.remove('error');
             }
@@ -84,35 +85,63 @@
                 case 'nm' :
                     if(!nmRegex.test(val)) {
                         e.preventDefault();
+                        bool = false;
                         parentElem.classList.add('error');
+                        makeErrBox('20글자 이내로 작성해주세요.');
                     }
                     break;
                 case 'performance' :
                     if(!perfRegex.test(val)) {
                         e.preventDefault();
+                        bool = false;
                         parentElem.classList.add('error');
+                        makeErrBox('10자리 숫자 이내로 작성해주세요.');
                     }
                     break;
                 case 'inner_gpu' :
                     if(!innerGpuRegex.test(val)) {
                         e.preventDefault();
+                        bool = false;
                         parentElem.classList.add('error');
+                        makeErrBox('10자리 숫자 이내로 작성해주세요.');
                     }
                     break;
                 case 'seq':
                     if(!seqRegex.test(val)) {
                         e.preventDefault();
+                        bool = false;
                         parentElem.classList.add('error');
+                        makeErrBox('10자리 숫자 이내로 작성해주세요.');
                     }
                     break;
                 case 'brand' :
                     if(!brandRegex.test(val)) {
                         e.preventDefault();
+                        bool = false;
                         parentElem.classList.add('error');
+                        makeErrBox('20글자 이내로 작성해주세요.');
                     }
                     break;
             }
+            return bool;
         }
+
+
+        const cpuArr = document.querySelectorAll('.cpu');
+        let forNo = 0;
+        cpuArr.forEach((item) => {
+            for (let i in list) {
+                const searchId = list[i];
+                const result = 'cpuList[' + forNo + '].' + searchId;
+                const elem = item.querySelector(`.${searchId}`);
+                elem.name = result;
+                elem.addEventListener('keyup', (e) => {
+                    elem.parentNode.classList.remove('error');
+                });
+            }
+            forNo++;
+        });
+
 
         frmBtn.addEventListener('click', (e) => {
             const cpuArr = document.querySelectorAll('.cpu');
@@ -123,7 +152,10 @@
                     const result = 'cpuList[' + forNo + '].' + searchId;
                     const elem = item.querySelector(`.${searchId}`);
                     elem.name = result;
-                    chkRegex(elem, e);
+                    let bool = chkRegex(elem, e);
+                    if(!bool) {
+                        return;
+                    }
                 }
                 forNo++;
             });

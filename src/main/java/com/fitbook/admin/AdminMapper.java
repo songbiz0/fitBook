@@ -7,7 +7,9 @@ import com.fitbook.model.cpu.CpuVo;
 import com.fitbook.model.gpu.GpuDto;
 import com.fitbook.model.gpu.GpuEntity;
 import com.fitbook.model.gpu.GpuVo;
+import com.fitbook.model.order.OrderDetailVo;
 import com.fitbook.model.order.OrderDto;
+import com.fitbook.model.order.OrderEntity;
 import com.fitbook.model.order.OrderVo;
 import com.fitbook.model.orderproduct.OrderProductVo;
 import com.fitbook.model.product.*;
@@ -33,6 +35,9 @@ public interface AdminMapper {
     // Order List
     List<OrderVo> selOrderList(OrderDto dto);
     ResultVo getOrderMaxPage(OrderDto dto);
+    List<ProductDetailVo> selProductDetail(OrderDto dto);
+    OrderDetailVo selOrderDetail(OrderDto dto);
+    int updOrderStatus(OrderEntity entity);
 
     // Parts
     int insCpu(CpuEntity entity);

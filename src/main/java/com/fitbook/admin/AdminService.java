@@ -9,7 +9,9 @@ import com.fitbook.model.gpu.GpuDto;
 import com.fitbook.model.gpu.GpuEntity;
 import com.fitbook.model.gpu.GpuListEntity;
 import com.fitbook.model.gpu.GpuVo;
+import com.fitbook.model.order.OrderDetailVo;
 import com.fitbook.model.order.OrderDto;
+import com.fitbook.model.order.OrderEntity;
 import com.fitbook.model.order.OrderVo;
 import com.fitbook.model.orderproduct.OrderProductVo;
 import com.fitbook.model.product.ProductVo;
@@ -84,7 +86,13 @@ public class AdminService {
         dto.setStatusNo(Integer.parseInt(statusArr[1]));
         List<OrderVo> list = mapper.selOrderList(dto);
         for(OrderVo item : list) {
-            item.setRdt(item.getRdt().substring(0, 19));
+            item.setRdt(item.getRdt().substring(0, 11));
+            if(item.getCdt() != null) {
+                item.setCdt(item.getCdt().substring(0, 11));
+            }
+            String cdt = item.getCdt();
+            cdt = cdt == null ? "-" : item.getCdt();
+            item.setCdt(cdt);
         }
         return list;
     }
@@ -93,6 +101,26 @@ public class AdminService {
         dto.setStatus(statusArr[0]);
         dto.setStatusNo(Integer.parseInt(statusArr[1]));
         return mapper.getOrderMaxPage(dto);
+    }
+    // Order Detail
+    public OrderDetailVo selProductDetail(OrderDto dto) {
+        OrderDetailVo orderVo = mapper.selOrderDetail(dto);
+        // 전화번호
+        orderVo.setReceiver_phone(utils.phoneRegex(orderVo.getReceiver_phone()));
+        List<ProductDetailVo> list = mapper.selProductDetail(dto);
+        for(ProductDetailVo item : list) {
+            // 옵션
+            StringBuilder option = new StringBuilder(item.getColor());
+            option.append(" / HDD ").append(item.getHdd()).append("GB / SSD ").append(item.getSsd()).append("GB");
+            item.setOption(option.toString());
+        }
+        orderVo.setProductDetails(list);
+        return orderVo;
+    }
+    public ResultVo updOrderStatus(OrderEntity entity) {
+        ResultVo vo = new ResultVo();
+        vo.setResult(mapper.updOrderStatus(entity));
+        return vo;
     }
 
     // Parts
@@ -259,6 +287,12 @@ public class AdminService {
         int length = list.getProgramList().size();
         int result = 0;
         for(ProgramVo item : list.getProgramList()) {
+
+            // is_mac_sup 관련
+            System.out.println(item.getIs_mac_sup());
+            String mac_sup = "Y".equals(item.getIs_mac_sup()) ? "Y" : "N";
+            item.setIs_mac_sup(mac_sup);
+            // 이미지관련
             UUID uuid = UUID.randomUUID();
             String fileNm = uuid + utils.getExt(item.getMfFile().getOriginalFilename());
             item.setImg(fileNm);
