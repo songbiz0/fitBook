@@ -12,8 +12,8 @@
         let param;
         let currentPage = 1;
         let startIdx = 0;
-        let rowCnt = 10;
-        let pageCnt = 10;
+        let rowCnt = 3;
+        let pageCnt = 3;
         let maxPage = 1;
         let typeNo = 0;
         let type;
