@@ -239,6 +239,11 @@ table {
     height: 100px;
     object-fit: cover;
 }
+.detail-custom-img {
+    width: 500px;
+    height: 300px;
+    object-fit: cover;
+}
 .init-select {
     border: 0;
     margin-right: 5px;
@@ -254,4 +259,8 @@ table {
 }
 .init-select:hover {
     cursor: pointer;
+}
+
+.dis-none {
+    display: none !important;
 }

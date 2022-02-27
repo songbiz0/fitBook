@@ -11,6 +11,7 @@ import com.fitbook.model.gpu.GpuListEntity;
 import com.fitbook.model.gpu.GpuVo;
 import com.fitbook.model.order.OrderDetailVo;
 import com.fitbook.model.order.OrderDto;
+import com.fitbook.model.order.OrderEntity;
 import com.fitbook.model.order.OrderVo;
 import com.fitbook.model.orderproduct.OrderProductVo;
 import com.fitbook.model.product.ProductVo;
@@ -115,6 +116,11 @@ public class AdminService {
         }
         orderVo.setProductDetails(list);
         return orderVo;
+    }
+    public ResultVo updOrderStatus(OrderEntity entity) {
+        ResultVo vo = new ResultVo();
+        vo.setResult(mapper.updOrderStatus(entity));
+        return vo;
     }
 
     // Parts
@@ -281,6 +287,12 @@ public class AdminService {
         int length = list.getProgramList().size();
         int result = 0;
         for(ProgramVo item : list.getProgramList()) {
+
+            // is_mac_sup 관련
+            System.out.println(item.getIs_mac_sup());
+            String mac_sup = "Y".equals(item.getIs_mac_sup()) ? "Y" : "N";
+            item.setIs_mac_sup(mac_sup);
+            // 이미지관련
             UUID uuid = UUID.randomUUID();
             String fileNm = uuid + utils.getExt(item.getMfFile().getOriginalFilename());
             item.setImg(fileNm);
