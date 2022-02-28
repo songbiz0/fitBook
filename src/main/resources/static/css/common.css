@@ -79,6 +79,7 @@ table {
 .wfc { width: fit-content !important; }
 
 .minw130 { min-width: 130px; }
+.minw140 { min-width: 140px; }
 .minh70 { min-height: 70px; }
 
 .fs11 { font-size: 11px !important; }
@@ -193,6 +194,7 @@ table {
 .cinfo { color: #35C5F0; }
 .cerror { color: #FF7777; }
 .c777777 { color: #777777 !important; }
+.crealred { color: red; }
 
 .bgcf7f7f7 { background-color: #f7f7f7 !important;}
 

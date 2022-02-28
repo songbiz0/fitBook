@@ -17,4 +17,14 @@ public class ProductVo extends ProductEntity{
     private int idetail;
     private float dc_rate;
     private int price;
+
+    private int cpuPerformance;
+    private int gpuPerformance;
+    private int fitness;
+    private String cpuNm;
+    private String gpuNm;
+    private int originalPrice;
+    private int favorite;
+    private float rating;
+    private String detailImg;
 }

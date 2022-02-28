@@ -4,6 +4,12 @@ dropdown.dropdown({
     fullTextSearch: true
 });
 
+$('.activating.element').popup();
+
+const productUlElem = document.querySelector('#productUl');
+const dontSaveBtnElem = document.querySelector('#dontSaveBtn');
+const saveBtnElem = document.querySelector('#saveBtn');
+
 const numRegex = /^[0-9]+$/;
 
 $(() => {
@@ -87,12 +93,6 @@ $('#q7NextBtn').on('click', () => {
     $('.ql').transition('fade up');
 });
 
-$('#qlNextBtn').on('click', () => {
-    programs = dropdown.dropdown('get value');
-    $('.ql').transition('hide');
-    $('.result').transition('fade up');
-});
-
 let budget = 0;
 let weight = 0;
 let size = 0;
@@ -104,6 +104,44 @@ let macbook = false;
 let highhz = false;
 let highresolution = false;
 let programs = null;
+
+$('#qlNextBtn').on('click', () => {
+    programs = dropdown.dropdown('get value');
+    $('.ql').transition('hide');
+
+    const param = {
+        budget,
+        weight,
+        size,
+        os,
+        as,
+        battery,
+        twoinone: twoinone ? 'Y' : 'N',
+        macbook: macbook ? 'Y' : 'N',
+        highhz: highhz ? 'Y' : 'N',
+        highresolution: highresolution ? 'Y' : 'N',
+        programs
+    }
+
+    fetch('/fit/api/question', {
+        method: 'post',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(param)
+    }).then(res => res.json())
+        .then(data => {
+            fetch('/fit/api/topfour', {
+                method: 'post',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(param)
+            }).then(res => res.json())
+                .then(data => {
+                    makeProductList(data);
+                    console.log(data);
+                    $('.result').transition('fade up');
+                })
+                .catch(err => { console.error(err); });
+        }).catch(err => { console.error(err); });
+});
 
 $('.weight0').on('click', () => {
     weight = 0;
@@ -149,16 +187,108 @@ $('.bt1').on('click', () => {
     battery = 1;
 });
 
-$('#saveBtn').on('click', () => {
-    console.log('budget : ' + budget);
-    console.log('weight : ' + weight);
-    console.log('size : ' + size);
-    console.log('os : ' + os);
-    console.log('as : ' + as);
-    console.log('battery : ' + battery);
-    console.log('twoinone : ' + twoinone);
-    console.log('macbook : ' + macbook);
-    console.log('highhz : ' + highhz);
-    console.log('highresolution : ' + highresolution);
-    console.log('programs : ' + programs);
+const makeProductList = list => {
+    list.forEach(item => {
+        const li = document.createElement('li');
+        li.className = 'fc w300 product hp mlr10 pl';
+        li.innerHTML =
+            `
+        <div>
+            <img class="w250"
+                 src="/imgPath/products/detail/${item.idetail}/${item.detailImg}">
+        </div>
+        <div class="fs13">${item.brand} ${item.nm}</div>
+        <div class="fs12 cgrey">${item.product_code}</div>
+        <div class="fs12 cgrey">${item.cpuNm} / ${item.ram}GB</div>
+        <div class="fs12 mt10 tdlt cgrey">${item.originalPrice.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}원</div>
+        <div class="fs13">${item.price.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}원</div>
+        <div class="mt10">
+                            <span id="likeBtn" class="like fs12 hp mlr10 cb0_5">
+                                <i id="likeI" class="like icon"></i> <span id="likeSpan"></span>
+                            </span>
+            <span id="ratingBtn" class="star fs12 hp mlr10 cb0_5">
+                                <i id="starI" class="star icon"></i> <span id="starSpan"></span>
+                            </span>
+            <span class="mlr10 temper" data-tooltip="나에게 얼마나 적합한 제품인지를 보여줘요." data-variation="mini">
+                            <i class="fire icon cb0_5"></i>
+                            <span class="fs12 cred">${item.fitness}°</span></span>
+        </div>
+        `
+
+        const selFavorite = () => {
+            fetch('/fit/api/selfavorite?iproduct=' + item.iproduct)
+                .then(res => res.json())
+                .then(data => {
+                    li.querySelector('#likeSpan').innerText = data.result;
+                }).catch(err => { console.error(err); });
+        }
+        selFavorite();
+
+        const selRating = () => {
+            fetch('/fit/api/selrating?iproduct=' + item.iproduct)
+                .then(res => res.json())
+                .then(data => {
+                    li.querySelector('#starSpan').innerText = data.result;
+                }).catch(err => { console.error(err); });
+        }
+
+        const isFavorite = () => {
+            fetch('/fit/api/isfavorite?iproduct=' + item.iproduct)
+                .then(res => res.json())
+                .then(data => {
+                    if(data.result === 1) {
+                        li.querySelector('#likeI').classList.add('crealred');
+                    } else {
+                        li.querySelector('#likeI').classList.remove('crealred');
+                    }
+                }).catch(err => { console.error(err); });
+        }
+        isFavorite();
+
+        const isRating = () => {
+            fetch('/fit/api/israting?iproduct=' + item.iproduct)
+                .then(res => res.json())
+                .then(data => {
+                    if(data.result === 1) {
+                        li.querySelector('#starI').classList.add('cgold');
+                        li.querySelector('#starSpan').innerText = data.resultFloat;
+                    } else {
+                        li.querySelector('#starI').classList.remove('cgold');
+                        selRating();
+                    }
+                }).catch(err => { console.error(err); });
+        }
+        isRating();
+
+        li.querySelector('#likeBtn').addEventListener('click', e => {
+            e.stopPropagation();
+            fetch('/fit/api/clickfavorite?iproduct=' + item.iproduct)
+                .then(res => res.json())
+                .then(data => {
+                    if(data.result === 1) {
+                        selFavorite();
+                        isFavorite();
+                    }
+                }).catch(err => { console.error(err); });
+        });
+
+        li.addEventListener('click', () => {
+            alert(item.nm + ' 디테일 페이지로 이동');
+            // TODO 디테일 페이지 이동
+        });
+        productUlElem.appendChild(li);
+    });
+}
+
+dontSaveBtnElem.addEventListener('click', () => {
+    fetch('/fit/api/question', {
+        method: 'delete'
+    }).then(res => res.json())
+        .then(data => {
+            if(data.result === 1) {
+                location.href = '/';
+            } else {
+                makeErrorToast('삭제에 실패했어요');
+            }
+        }).catch(err => { console.error(err); });
 });
