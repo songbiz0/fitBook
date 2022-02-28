@@ -8,6 +8,7 @@ import lombok.Setter;
 public class ResultVo {
     private int result;
     private String resultString;
+    private float resultFloat;
     private String rdt;
     private int result_price;
 }

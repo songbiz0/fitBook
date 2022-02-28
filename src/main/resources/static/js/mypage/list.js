@@ -369,7 +369,7 @@ const makeProductDetailList = (trElem, productDetailItem, orderItem, orderConfir
     td.innerHTML =
         `<div class="frow w100p ct gap20">
                     <img src="${productDetailItem.img}" width="100px" height="100px">
-                    <div class="taleft minw130">
+                    <div class="taleft minw140">
                         <div class="mb5">${productDetailItem.brand} ${productDetailItem.nm}</div>
                         <div class="mb5">${productDetailItem.product_code}</div>
                         <div class="c777777">

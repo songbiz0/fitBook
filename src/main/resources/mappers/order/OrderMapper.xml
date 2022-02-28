@@ -47,6 +47,7 @@
         SELECT A.iorder, A.rdt, A.order_status, A.pre_order_status, B.receiver_nm,
                A. result_price, A.spent_point, A.payment_way, A.cdt,
                B.receiver_phone, B.receiver_post, B.receiver_addr, B.receiver_addr_detail, B.shipment_message
+
         FROM t_order A
         INNER JOIN t_order_detail B
         ON A.iorder = B.iorder

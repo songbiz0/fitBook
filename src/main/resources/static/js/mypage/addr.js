@@ -261,6 +261,11 @@ addrSubmitBtnElem.addEventListener('click', () => {
 });
 
 addShipBtnElem.addEventListener('click', () => {
+    if(listLength >= 5) {
+        makeErrorToast('배송지 정보는 최대 5개까지 저장할 수 있어요.');
+        return;
+    }
+
     if(listLength === 0) {
         $('.ui.checkbox').checkbox('check').checkbox('set disabled');
     } else {
@@ -273,6 +278,8 @@ addShipBtnElem.addEventListener('click', () => {
     addrInputElem.value = '';
     addrDetailInputElem.value = '';
     phoneInputElem.value = '';
+    addrExtraInputElem.classList.add('hidden');
+    addrExtraInputElem.value = '';
 
     $('.ui.modal')
         .modal('show')

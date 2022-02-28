@@ -20,7 +20,7 @@
                 </div>
             </div>
             <div class="ct h122 btgrey headerDiv">
-                <h1>fitBook</h1>
+                <h1><a th:href="@{/}" class="cb">fitBook</a></h1>
                 <div>
                     <div class="ui tiny action input ml260 w200">
                         <input type="text" placeholder="제품 검색" class="w200">
@@ -31,11 +31,11 @@
                 </div>
             </div>
             <div class="ui center aligned container h42">
-                <button class="medium ui button bgwhite mlr30 h100p">HOME</button>
+                <a th:href="@{/}"><button class="medium ui button bgwhite mlr30 h100p">HOME</button></a>
                 <button class="medium ui button bgwhite mlr30">NEW</button>
                 <button class="medium ui button bgwhite mlr30">BEST</button>
                 <button class="medium ui button bgwhite mlr30">SHOP</button>
-                <button class="medium ui button bgwhite mlr30">FIT!</button>
+                <a th:href="@{/fit/question}"><button class="medium ui button bgwhite mlr30">FIT!</button></a>
                 <a th:href="@{/notice/list}"><button id="noticeBtn" class="medium ui button bgwhite mlr30">NOTICE</button></a>
             </div>
         </div>
