@@ -16,7 +16,6 @@ public class ProductQuestionVo extends ProductQuestionEntity {
     private String img;
     private String product_code;
 
-
     // qna
     private int cnt;
     private int maxPage;
