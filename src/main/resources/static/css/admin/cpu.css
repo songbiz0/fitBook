@@ -1,3 +1,7 @@
+#cpuFrm {
+    width: calc(100% - 310px);
+}
+
 .cpu {
     display: flex;
     flex-direction: column;
@@ -27,4 +31,8 @@
 .list-tr:hover {
     cursor: pointer;
     background-color: #e5e5e5;
+}
+
+.input > div {
+    min-width: 150px;
 }

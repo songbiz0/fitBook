@@ -11,7 +11,7 @@
 </head>
 <body>
 <th:block layout:fragment="content">
-    <form th:id="programFrm" th:action="@{/admin/program}" method="post" enctype="multipart/form-data" id="frm">
+    <form th:id="programFrm" class="table-column" th:action="@{/admin/program}" method="post" enctype="multipart/form-data" id="frm">
         <div class="program-enrollment-container">
             <div class="program">
                 <div class="ui right labeled input">
@@ -21,7 +21,7 @@
                     </div>
                 </div>
                 <div class="ui right labeled input">
-                    <select id="cpuOption">
+                    <select id="cpuOption" class="ui selection dropdown minw100">
                         <option value="0">선택</option>
                     </select>
                     <input type="text" class="required_cpu input-cpu">
@@ -30,7 +30,7 @@
                     </div>
                 </div>
                 <div class="ui right labeled input">
-                    <select id="gpuOption">
+                    <select id="gpuOption" class="ui selection dropdown minw100">
                         <option value="0">선택</option>
                     </select>
                     <input type="text" class="input-gpu required_gpu">

@@ -41,7 +41,12 @@
         const setList = (data) => {
             tbodyElem.innerHTML = '';
             cntContainer.innerText = ('(총 : ' + data[0].maxPage + '개)');
-            maxPage = Math.ceil(data[0].maxPage / rowCnt);
+            try {
+                maxPage = Math.ceil(data[0].maxPage / rowCnt);
+            } catch (e) {
+                maxPage = 0;
+                console.log(e);
+            }
             data.forEach(item => {
                 const ctnt = subString(item.ctnt);
                 console.log(item);
@@ -94,6 +99,9 @@
             paginationElem.appendChild(leftElem);
 
             for(let i=startPage; i<=(lastPage < max ? lastPage : max); i++) {
+                if(max == 0) {
+                    return;
+                }
                 const aElem = document.createElement('a');
                 let status;
                 aElem.innerText = i;
