@@ -78,6 +78,8 @@ table {
 .w110p {width: 110%;}
 .wfc { width: fit-content !important; }
 
+.table-column { width: calc(100% - 310px); }
+.minw100 { min-width: 100px; }
 .minw130 { min-width: 130px; }
 .minw140 { min-width: 140px; }
 .minh70 { min-height: 70px; }

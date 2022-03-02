@@ -356,7 +356,13 @@ public class AdminService {
             list = mapper.selQuestionList(dto);
             vo = mapper.qnaMustMaxPage(dto);
         }
-        list.get(0).setMaxPage(vo.getResult());
+        if(vo.getResult() > 0) {
+            list.get(0).setMaxPage(vo.getResult());
+        } else {
+            ProductQuestionVo item = new ProductQuestionVo();
+            item.setMaxPage(0);
+            list.add(item);
+        }
 
         for(ProductQuestionVo item : list) {
             try {

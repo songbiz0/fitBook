@@ -213,45 +213,52 @@
         const setList = (list) => {
             const tBodyElem = document.querySelector('#tbody');
             tBodyElem.innerHTML = '';
-            list.forEach(item => {
-                const trElem = document.createElement('tr');
-                trElem.addEventListener('click', () => {
-                    location.href = '/admin/orderdetail?iorder=' + item.iorder;
+            if(list.length > 0) {
+                list.forEach(item => {
+                    const trElem = document.createElement('tr');
+                    trElem.addEventListener('click', () => {
+                        location.href = '/admin/orderdetail?iorder=' + item.iorder;
+                    });
+                    trElem.classList.add('cspointer');
+                    let cnt = '';
+                    if (item.cnt != 0) {
+                        cnt = '외 ' + item.cnt + '건'
+                    }
+                    trElem.innerHTML = `
+                        <td>
+                            <p class="mb5">${item.rdt}</p>
+                            <p>${item.iorder}</p>
+                        </td>
+                        <td class="frow w100p ct gap20">
+                            <div><img class="custom-img" src="/imgPath/products/detail/${item.idetail}/${item.img}"></div>
+                            <div class="taleft minw130">
+                                <p class="mb5">${item.productNm} ${cnt}</p>
+                                <p class="mb5">${item.product_code}</p>
+                                <div>
+                                    <span class="c777777">
+                                        옵션 : ${item.color} / HDD ${item.hdd} GB / SSD ${item.ssd} GB
+                                    </span>
+                                </div>
+                            </div>
+                        </td>
+                        <td>
+                            <p class="mb5">${item.uid}</p>
+                            <p>${item.userNm}</p>
+                        </td>
+                        <td>${item.spent_point}</td>
+                        <td>${item.payment_way}</td>
+                        <td>${item.order_status}</td>
+                        <td>${item.result_price}</td>
+                        <td>${item.cdt}</td>
+                    `;
+                    tBodyElem.appendChild(trElem);
                 });
-                trElem.classList.add('cspointer');
-                let cnt = '';
-                if (item.cnt != 0) {
-                    cnt = '외 ' + item.cnt + '건'
-                }
-                trElem.innerHTML = `
-                <td>
-                    <p class="mb5">${item.rdt}</p>
-                    <p>${item.iorder}</p>
-                </td>
-                <td class="frow w100p ct gap20">
-                    <div><img class="custom-img" src="/imgPath/products/detail/${item.idetail}/${item.img}"></div>
-                    <div class="taleft minw130">
-                        <p class="mb5">${item.productNm} ${cnt}</p>
-                        <p class="mb5">${item.product_code}</p>
-                        <div>
-                            <span class="c777777">
-                                옵션 : ${item.color} / HDD ${item.hdd} GB / SSD ${item.ssd} GB
-                            </span>
-                        </div>
-                    </div>
-                </td>
-                <td>
-                    <p class="mb5">${item.uid}</p>
-                    <p>${item.userNm}</p>
-                </td>
-                <td>${item.spent_point}</td>
-                <td>${item.payment_way}</td>
-                <td>${item.order_status}</td>
-                <td>${item.result_price}</td>
-                <td>${item.cdt}</td>
-            `;
-                tBodyElem.appendChild(trElem);
-            });
+            } else {
+                const tdElem = document.createElement('td');
+                tdElem.colSpan = 8;
+                tdElem.innerHTML = '<h4>주문이 없습니다.</h4>';
+                tBodyElem.appendChild(tdElem);
+            }
         }
 
         const getList = () => {

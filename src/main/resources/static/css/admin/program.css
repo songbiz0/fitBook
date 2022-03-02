@@ -27,3 +27,7 @@
     cursor: pointer;
     background-color: #e3e3e3;
 }
+
+.input > div {
+    min-width: 120px;
+}

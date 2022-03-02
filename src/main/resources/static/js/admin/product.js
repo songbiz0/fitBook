@@ -136,6 +136,7 @@
     const weigthRegex = /^[0-9]+(.[0-9]+)?$/;
     const brandRegex = /^([a-zA-Z가-힣ㄱ-ㅎ0-9\s]{1,20})$/;
     const osRegex = /^([a-zA-Z가-힣0-9\s]{1,20})$/;
+    const battryRegex = /^([0-9]{1,10})$/;
 
     // detail
     const colorRegex = /^([a-zA-Z가-힣0-9]{1,20})$/;
@@ -399,7 +400,7 @@
     ];
 
     const masterList = [
-        'nm', 'code', 'rdt', 'ram', 'icpu', 'igpu', 'size', 'weight', 'brand', 'os', 'img'
+        'nm', 'code', 'rdt', 'ram', 'icpu', 'igpu', 'size', 'weight', 'brand', 'os', 'img', 'battery'
     ]
 
     const makeErrBox = (item, msg) => {
@@ -483,6 +484,9 @@
                 } else if (masterList[i] === 'os' && !osRegex.test(val)) {
                     makeErrBox(elem, 'OS : 영문, 한글, 숫자를 조합해서 20자 이하로 작성해 주세요.');
                     console.log('os');
+                } else if(masterList[i] === 'battery' && !battryRegex.test(val)) {
+                    makeErrBox(elem, '배터리 : 숫자 10자리 이하로 작성해 주세요.');
+                    console.log('battry');
                 } else if(masterList[i] === 'img') {
                     cnt++;
                 } else {

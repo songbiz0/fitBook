@@ -4,6 +4,7 @@
       layout:decorate="temp/admin_page_layout">
 <head>
     <link rel="stylesheet" th:href="@{/css/admin/cpu.css}">
+    <link rel="stylesheet" th:href="@{/css/main.css}">
     <script defer th:src="@{/js/admin/cpu.js}"></script>
     <title></title>
 </head>
@@ -25,7 +26,7 @@
                     </div>
                 </div>
                 <div class="ui right labeled input">
-                    <select id="gpuOption" class="inner_gpu">
+                    <select id="gpuOption" class="ui selection dropdown inner_gpu minw100">
                         <option value="0">선택</option>
                         <th:block th:each="item : ${data}">
                             <option th:value="${item.igpu}" th:text="${item.nm}"></option>
