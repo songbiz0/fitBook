@@ -213,16 +213,17 @@ public class AdminService {
         if(vo.getIstwoinone() == null || "".equals(vo.getIstwoinone())) {
             vo.setIstwoinone("N");
         }
+        String fileMasterNm = "";
         if(vo.getMfFile() != null) {
             UUID uuid = UUID.randomUUID();
-            String fileNm = uuid + ".jpg";
-            vo.setImg(fileNm);
+            fileMasterNm = uuid + ".jpg";
+            vo.setImg(fileMasterNm);
         }
         int result1 = mapper.insProductMaster(vo);
         int iproduct = vo.getIproduct();
         System.out.println(iproduct);
         try {
-            vo.setImg(utils.uploadFile(vo.getMfFile(), "products\\master", String.valueOf(iproduct)));
+            vo.setImg(utils.uploadFileUUID(vo.getMfFile(), fileMasterNm, "products\\master", String.valueOf(iproduct)));
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -239,12 +240,12 @@ public class AdminService {
         for (ProductDetailVo item : listEntity.getProductList()) {
             item.setIproduct(iproduct);
             UUID uuid = UUID.randomUUID();
-            String fileNm = uuid + ".jpg";
-            item.setImg(fileNm);
+            String fileDetailNm = uuid + ".jpg";
+            item.setImg(fileDetailNm);
             item.setDc_rate(item.getDc_rate() / 100);
             result2 = mapper.insProductDetail(item);
             try {
-                utils.uploadFileUUID(item.getMfFile(), fileNm, "products\\detail", String.valueOf(item.getIdetail()));
+                utils.uploadFileUUID(item.getMfFile(), fileDetailNm, "products\\detail", String.valueOf(item.getIdetail()));
             } catch (Exception e) {
                 e.printStackTrace();
             }
