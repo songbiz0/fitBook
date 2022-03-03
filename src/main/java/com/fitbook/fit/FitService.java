@@ -26,6 +26,12 @@ public class FitService {
         dto.setIuser(authenticationFacade.getLoginUserPk());
         ResultVo result = new ResultVo();
         result.setResult(mapper.insQuestion(dto));
+
+        if(!dto.getPrograms().equals("")) {
+            int[] iprogramArr = Arrays.stream(dto.getPrograms().split(",")).mapToInt(Integer::parseInt).toArray();
+            mapper.insProgramMapping(iprogramArr, authenticationFacade.getLoginUserPk());
+        }
+
         return result;
     }
 
@@ -35,6 +41,13 @@ public class FitService {
         ResultVo result = new ResultVo();
         result.setResult(mapper.delQuestion(dto));
         return result;
+    }
+
+    public QuestionDto selQuestion() {
+        if(authenticationFacade.getLoginUser() == null) {
+            return null;
+        }
+        return mapper.selQuestion(authenticationFacade.getLoginUserPk());
     }
 
     public int calFitness(QuestionDto question, ProductVo product) {
@@ -62,6 +75,7 @@ public class FitService {
                 weightScore = 15;
         }
         weightScore = Math.max(weightScore, 0);
+        weightScore = Math.min(weightScore, 15);
         fitness += weightScore;
 
         int sizeScore = 0;
@@ -83,6 +97,7 @@ public class FitService {
                 sizeScore = 10;
         }
         sizeScore = Math.max(sizeScore, 0);
+        sizeScore = Math.min(sizeScore, 10);
         fitness += sizeScore;
 
         int osScore = 0;
@@ -167,7 +182,7 @@ public class FitService {
         }
 
         int performanceScore = 0;
-        if(question.getPrograms().equals("")) {
+        if(question.getPrograms() == null || question.getPrograms().equals("")) {
             performanceScore = 20;
         } else {
             int cpuPerformanceDifference = product.getCpuPerformance() - question.getRequiredCpu();
@@ -185,11 +200,7 @@ public class FitService {
     }
 
     public QuestionDto calRequiredPerformance(QuestionDto dto) {
-        if(dto.getPrograms().equals("")) {
-            return dto;
-        }
-        int[] iprogramArr = Arrays.stream(dto.getPrograms().split(",")).mapToInt(Integer::parseInt).toArray();
-        List<QuestionDto> list = mapper.selRequiredPerformance(iprogramArr);
+        List<QuestionDto> list = mapper.selRequiredPerformance(selMyProgramList());
         for(QuestionDto program : list) {
             dto.setRequiredCpu(Math.max(dto.getRequiredCpu(), program.getRequiredCpu()));
             dto.setRequiredGpu(Math.max(dto.getRequiredRam(), program.getRequiredRam()));
@@ -199,6 +210,10 @@ public class FitService {
             }
         }
         return dto;
+    }
+
+    public List<Integer> selMyProgramList() {
+        return mapper.selMyProgramList(authenticationFacade.getLoginUserPk());
     }
 
     public List<ProductVo> selProductList() {
@@ -214,17 +229,17 @@ public class FitService {
     }
 
     public ResultVo isFavorite(ProductDto dto) {
-        dto.setIuser(authenticationFacade.getLoginUserPk());
+        dto.setIuser(authenticationFacade.getLoginUser() == null ? -1 :authenticationFacade.getLoginUserPk());
         return mapper.isFavorite(dto) == null ? new ResultVo() : mapper.isFavorite(dto);
     }
 
     public ResultVo isRating(ProductDto dto) {
-        dto.setIuser(authenticationFacade.getLoginUserPk());
+        dto.setIuser(authenticationFacade.getLoginUser() == null ? -1 :authenticationFacade.getLoginUserPk());
         return mapper.isRating(dto) == null ? new ResultVo() : mapper.isRating(dto);
     }
 
     public ResultVo clickFavorite(ProductDto dto) {
-        dto.setIuser(authenticationFacade.getLoginUserPk());
+        dto.setIuser(authenticationFacade.getLoginUser() == null ? -1 :authenticationFacade.getLoginUserPk());
         ResultVo result = new ResultVo();
         try {
             result.setResult(mapper.insFavorite(dto));
