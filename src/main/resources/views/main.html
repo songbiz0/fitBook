@@ -8,11 +8,10 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <script src="https://cdn.jsdelivr.net/npm/jquery@3.3.1/dist/jquery.min.js"></script>
-    <link rel="stylesheet" type="text/css" href="semantic/dist/semantic.min.css">
-    <link rel="stylesheet" href="common.css">
-    <link rel="stylesheet" href="main.css">
-    <title>Document</title>
+    <link rel="stylesheet" th:href="@{/css/main.css}">
+    <script defer src="https://cdn.jsdelivr.net/npm/jquery@3.3.1/dist/jquery.min.js"></script>
+    <script defer th:src="@{/js/mainpage.js}"></script>
+    <title></title>
 </head>
 
 <body>
@@ -21,287 +20,114 @@
         <div class="ui center aligned container">
             <div class="fc mt100">
                 <div><strong class="fs20">RECOMMENDED PRODUCT</strong></div>
-                <ul class="ulfl p0">
-                    <li class="fc w300 product hp mlr10 pl">
-                        <div>
-                            <img class="w250" src="//thumbnail7.coupangcdn.com/thumbnails/remote/492x492ex/image/rs_quotation_api/pj2ekdhb/5ee1033c799d4b678353d2d867fabd7a.jpg">
+                <ul id="recommendedUl" class="ulfl p0">
+                    <div class="fc gap20 mt50" th:if="${recommended} == null">
+                        <div class="fs50"><i class="compass outline icon"></i></div>
+                        <div class="ui fs14">아직 선호도를 검사하지 않으셨네요.<br>간단한 질문들을 통해 나에게 맞는 노트북을 찾아주는 <b>FIT!</b> 서비스를
+                            이용해보세요.
                         </div>
-                        <div class="fs13">삼성전자 2021 갤럭시북 15.6</div>
-                        <div class="fs12 cgrey">NT750XDZ-A71AU</div>
-                        <div class="fs12 cgrey">i7-1165G7 / 16GB</div>
-                        <div class="fs12 mt10 tdlt cgrey">1,514,700원</div>
-                        <div class="fs13">1,469,050원</div>
+                        <div>
+                            <a href="/fit/question">
+                                <button class="ui secondary tiny button">FIT!</button>
+                            </a>
+                        </div>
+                    </div>
+                    <li class="fc w300 product hp mlr10 pl" th:if="${recommended} != null" th:each="item : ${recommended}">
+                        <div class="data" th:data-iproduct="${item.iproduct}">
+                            <img class="w250"
+                                 th:src="@{${'/imgPath/products/detail/' + item.idetail + '/' + item.detailImg}}">
+                        </div>
+                        <div class="fs13" th:text="${item.brand} + ' ' + ${item.nm}"></div>
+                        <div class="fs12 cgrey" th:text="${item.product_code}"></div>
+                        <div class="fs12 cgrey" th:text="${item.cpuNm} +  ' / ' + ${item.ram} + 'GB'"></div>
+                        <div class="fs12 mt10 tdlt cgrey"
+                             th:text="${#numbers.formatInteger(item.originalPrice, 0, 'COMMA')} + '원'"></div>
+                        <div class="fs13" th:text="${#numbers.formatInteger(item.price, 0, 'COMMA')} + '원'"></div>
                         <div class="mt10">
-                            <span class="like fs12 hp mlr10 cb0_5">
-                                <i class="like icon"></i> <span>530</span>
+                            <span id="likeBtn" class="like fs12 hp mlr10 cb0_5">
+                                <i id="likeI" class="like icon"></i> <span id="likeSpan"></span>
                             </span>
-                            <span class="star fs12 hp mlr10 cb0_5">
-                                <i class="star icon"></i> <span>4.7</span>
+                            <span id="ratingBtn" class="star fs12 hp mlr10 cb0_5">
+                                <i id="starI" class="star icon"></i> <span id="starSpan"></span>
                             </span>
                             <span class="mlr10 temper" data-tooltip="나에게 얼마나 적합한 제품인지를 보여줘요." data-variation="mini">
                             <i class="fire icon cb0_5"></i>
-                            <span class="fs12 cred">97°</span></span>
-                        </div>
-                    </li>
-                    <li class="fc w300 product hp mlr10">
-                        <div>
-                            <img class="w250" src="//thumbnail6.coupangcdn.com/thumbnails/remote/492x492ex/image/retail/images/397296000467275-5a83a375-06a6-4c00-9e16-ffd2687b23c8.jpg">
-                        </div>
-                        <div class="fs13">Apple 2020 맥북 에어 13</div>
-                        <div class="fs12 cgrey">MGN63KH/A</div>
-                        <div class="fs12 cgrey">M1 / 8GB</div>
-                        <div class="fs12 mt10 tdlt cgrey">1,290,000원</div>
-                        <div class="fs13">1,163,880원</div>
-                        <div class="mt10">
-                            <span class="like fs12 hp mlr10 cb0_5">
-                                <i class="like icon"></i> <span>6868</span>
-                            </span>
-                            <span class="star fs12 hp mlr10 cb0_5">
-                                <i class="star icon"></i> <span>4.9</span>
-                            </span>
-                            <span class="mlr10 temper" data-tooltip="나에게 얼마나 적합한 제품인지를 보여줘요." data-variation="mini">
-                            <i class="fire icon cb0_5"></i>
-                            <span class="fs12 cred">95°</span></span>
-                        </div>
-                    </li>
-                    <li class="fc w300 product hp mlr10">
-                        <div>
-                            <img class="w250" src="//thumbnail10.coupangcdn.com/thumbnails/remote/492x492ex/image/rs_quotation_api/fnx2celh/2cc4ef09136e4ea5bb6ac248b4f021f7.jpg">
-                        </div>
-                        <div class="fs13">HP 2021 OMEN 15.3</div>
-                        <div class="fs12 cgrey">15-en0038AX</div>
-                        <div class="fs12 cgrey">Ryzen5 4600H / 8GB / GTX 1650Ti</div>
-                        <div class="fs12 mt10 tdlt cgrey">1,349,000원</div>
-                        <div class="fs13">1,227,590원</div>
-                        <div class="mt10">
-                            <span class="like fs12 hp mlr10 cb0_5">
-                                <i class="like icon"></i> <span>18</span>
-                            </span>
-                            <span class="star fs12 hp mlr10 cb0_5">
-                                <i class="star icon"></i> <span>4.2</span>
-                            </span>
-                            <span class="mlr10 temper" data-tooltip="나에게 얼마나 적합한 제품인지를 보여줘요." data-variation="mini">
-                            <i class="fire icon cb0_5"></i>
-                            <span class="fs12 cred">89°</span></span>
-                        </div>
-                    </li>
-                    <li class="fc w300 product hp mlr10">
-                        <div>
-                            <img class="w250" src="//thumbnail10.coupangcdn.com/thumbnails/remote/492x492ex/image/retail/images/2021/08/18/17/5/581de95a-dd53-4952-9233-e25e97fc562b.jpg">
-                        </div>
-                        <div class="fs13">에이수스 2021 ZenBook 14</div>
-                        <div class="fs12 cgrey">UM425UAZ-KI028</div>
-                        <div class="fs12 cgrey">Ryzen7 5700U / 16GB</div>
-                        <div class="fs12 mt10 tdlt cgrey">1,165,800원</div>
-                        <div class="fs13">949,050원</div>
-                        <div class="mt10">
-                            <span class="like fs12 hp mlr10 cb0_5">
-                                <i class="like icon"></i> <span>9</span>
-                            </span>
-                            <span class="star fs12 hp mlr10 cb0_5">
-                                <i class="star icon"></i> <span>4.0</span>
-                            </span>
-                            <span class="mlr10 temper" data-tooltip="나에게 얼마나 적합한 제품인지를 보여줘요." data-variation="mini">
-                            <i class="fire icon cb0_5"></i>
-                            <span class="fs12 cred">88°</span></span>
+                            <span class="fs12 cred" th:text="${item.fitness == -1 ? '?°' : item.fitness} + '°'"></span></span>
                         </div>
                     </li>
                 </ul>
-                <div class="mt10"><button class="ui basic button fs12 pr12">더보기<span class="ml5"><i class="angle down icon mr0"></i></span></button></div>
+                <div class="mt10">
+                    <button id="recommendedMoreBtn" class="ui basic button fs12 pr12" th:if="${recommended} != null">더보기<span class="ml5"><i
+                            class="angle down icon mr0"></i></span></button>
+                </div>
             </div>
             <div class="fc mt100">
                 <div><strong class="fs20">BEST PRODUCT</strong></div>
-                <ul class="ulfl p0">
-                    <li class="fc w300 product hp mlr10 pl">
-                        <div>
-                            <img class="w250" src="//thumbnail7.coupangcdn.com/thumbnails/remote/492x492ex/image/rs_quotation_api/pj2ekdhb/5ee1033c799d4b678353d2d867fabd7a.jpg">
+                <ul id="bestUl" class="ulfl p0">
+                    <li class="fc w300 product hp mlr10 pl" th:each="item : ${best}">
+                        <div class="data" th:data-iproduct="${item.iproduct}">
+                            <img class="w250"
+                                 th:src="@{${'/imgPath/products/detail/' + item.idetail + '/' + item.detailImg}}">
                         </div>
-                        <div class="fs13">삼성전자 2021 갤럭시북 15.6</div>
-                        <div class="fs12 cgrey">NT750XDZ-A71AU</div>
-                        <div class="fs12 cgrey">i7-1165G7 / 16GB</div>
-                        <div class="fs12 mt10 tdlt cgrey">1,514,700원</div>
-                        <div class="fs13">1,469,050원</div>
+                        <div class="fs13" th:text="${item.brand} + ' ' + ${item.nm}"></div>
+                        <div class="fs12 cgrey" th:text="${item.product_code}"></div>
+                        <div class="fs12 cgrey" th:text="${item.cpuNm} +  ' / ' + ${item.ram} + 'GB'"></div>
+                        <div class="fs12 mt10 tdlt cgrey"
+                             th:text="${#numbers.formatInteger(item.originalPrice, 0, 'COMMA')} + '원'"></div>
+                        <div class="fs13" th:text="${#numbers.formatInteger(item.price, 0, 'COMMA')} + '원'"></div>
                         <div class="mt10">
-                            <span class="like fs12 hp mlr10 cb0_5">
-                                <i class="like icon"></i> <span>530</span>
+                            <span id="likeBtn" class="like fs12 hp mlr10 cb0_5">
+                                <i id="likeI" class="like icon"></i> <span id="likeSpan"></span>
                             </span>
-                            <span class="star fs12 hp mlr10 cb0_5">
-                                <i class="star icon"></i> <span>4.7</span>
+                            <span id="ratingBtn" class="star fs12 hp mlr10 cb0_5">
+                                <i id="starI" class="star icon"></i> <span id="starSpan"></span>
                             </span>
                             <span class="mlr10 temper" data-tooltip="나에게 얼마나 적합한 제품인지를 보여줘요." data-variation="mini">
                             <i class="fire icon cb0_5"></i>
-                            <span class="fs12 cred">97°</span></span>
-                        </div>
-                    </li>
-                    <li class="fc w300 product hp mlr10">
-                        <div>
-                            <img class="w250" src="//thumbnail6.coupangcdn.com/thumbnails/remote/492x492ex/image/retail/images/397296000467275-5a83a375-06a6-4c00-9e16-ffd2687b23c8.jpg">
-                        </div>
-                        <div class="fs13">Apple 2020 맥북 에어 13</div>
-                        <div class="fs12 cgrey">MGN63KH/A</div>
-                        <div class="fs12 cgrey">M1 / 8GB</div>
-                        <div class="fs12 mt10 tdlt cgrey">1,290,000원</div>
-                        <div class="fs13">1,163,880원</div>
-                        <div class="mt10">
-                            <span class="like fs12 hp mlr10 cb0_5">
-                                <i class="like icon"></i> <span>6868</span>
-                            </span>
-                            <span class="star fs12 hp mlr10 cb0_5">
-                                <i class="star icon"></i> <span>4.9</span>
-                            </span>
-                            <span class="mlr10 temper" data-tooltip="나에게 얼마나 적합한 제품인지를 보여줘요." data-variation="mini">
-                            <i class="fire icon cb0_5"></i>
-                            <span class="fs12 cred">95°</span></span>
-                        </div>
-                    </li>
-                    <li class="fc w300 product hp mlr10">
-                        <div>
-                            <img class="w250" src="//thumbnail10.coupangcdn.com/thumbnails/remote/492x492ex/image/rs_quotation_api/fnx2celh/2cc4ef09136e4ea5bb6ac248b4f021f7.jpg">
-                        </div>
-                        <div class="fs13">HP 2021 OMEN 15.3</div>
-                        <div class="fs12 cgrey">15-en0038AX</div>
-                        <div class="fs12 cgrey">Ryzen5 4600H / 8GB / GTX 1650Ti</div>
-                        <div class="fs12 mt10 tdlt cgrey">1,349,000원</div>
-                        <div class="fs13">1,227,590원</div>
-                        <div class="mt10">
-                            <span class="like fs12 hp mlr10 cb0_5">
-                                <i class="like icon"></i> <span>18</span>
-                            </span>
-                            <span class="star fs12 hp mlr10 cb0_5">
-                                <i class="star icon"></i> <span>4.2</span>
-                            </span>
-                            <span class="mlr10 temper" data-tooltip="나에게 얼마나 적합한 제품인지를 보여줘요." data-variation="mini">
-                            <i class="fire icon cb0_5"></i>
-                            <span class="fs12 cred">89°</span></span>
-                        </div>
-                    </li>
-                    <li class="fc w300 product hp mlr10">
-                        <div>
-                            <img class="w250" src="//thumbnail10.coupangcdn.com/thumbnails/remote/492x492ex/image/retail/images/2021/08/18/17/5/581de95a-dd53-4952-9233-e25e97fc562b.jpg">
-                        </div>
-                        <div class="fs13">에이수스 2021 ZenBook 14</div>
-                        <div class="fs12 cgrey">UM425UAZ-KI028</div>
-                        <div class="fs12 cgrey">Ryzen7 5700U / 16GB</div>
-                        <div class="fs12 mt10 tdlt cgrey">1,165,800원</div>
-                        <div class="fs13">949,050원</div>
-                        <div class="mt10">
-                            <span class="like fs12 hp mlr10 cb0_5">
-                                <i class="like icon"></i> <span>9</span>
-                            </span>
-                            <span class="star fs12 hp mlr10 cb0_5">
-                                <i class="star icon"></i> <span>4.0</span>
-                            </span>
-                            <span class="mlr10 temper" data-tooltip="나에게 얼마나 적합한 제품인지를 보여줘요." data-variation="mini">
-                            <i class="fire icon cb0_5"></i>
-                            <span class="fs12 cred">88°</span></span>
+                            <span class="fs12 cred" th:text="${item.fitness == -1 ? '?°' : item.fitness} + '°'"></span></span>
                         </div>
                     </li>
                 </ul>
-                <div class="mt10"><button class="ui basic button fs12 pr12">더보기<span class="ml5"><i class="angle down icon mr0"></i></span></button></div>
+                <div class="mt10">
+                    <button id="bestMoreBtn" class="ui basic button fs12 pr12">더보기<span class="ml5"><i
+                            class="angle down icon mr0"></i></span></button>
+                </div>
             </div>
             <div class="fc mt100">
                 <div><strong class="fs20">NEW PRODUCT</strong></div>
-                <ul class="ulfl p0">
-                    <li class="fc w300 product hp mlr10 pl">
-                        <div>
-                            <img class="w250" src="//thumbnail7.coupangcdn.com/thumbnails/remote/492x492ex/image/rs_quotation_api/pj2ekdhb/5ee1033c799d4b678353d2d867fabd7a.jpg">
+                <ul id="newUl" class="ulfl p0">
+                    <li class="fc w300 product hp mlr10 pl" th:each="item : ${newList}">
+                        <div class="data" th:data-iproduct="${item.iproduct}">
+                            <img class="w250"
+                                 th:src="@{${'/imgPath/products/detail/' + item.idetail + '/' + item.detailImg}}">
                         </div>
-                        <div class="fs13">삼성전자 2021 갤럭시북 15.6</div>
-                        <div class="fs12 cgrey">NT750XDZ-A71AU</div>
-                        <div class="fs12 cgrey">i7-1165G7 / 16GB</div>
-                        <div class="fs12 mt10 tdlt cgrey">1,514,700원</div>
-                        <div class="fs13">1,469,050원</div>
+                        <div class="fs13" th:text="${item.brand} + ' ' + ${item.nm}"></div>
+                        <div class="fs12 cgrey" th:text="${item.product_code}"></div>
+                        <div class="fs12 cgrey" th:text="${item.cpuNm} +  ' / ' + ${item.ram} + 'GB'"></div>
+                        <div class="fs12 mt10 tdlt cgrey"
+                             th:text="${#numbers.formatInteger(item.originalPrice, 0, 'COMMA')} + '원'"></div>
+                        <div class="fs13" th:text="${#numbers.formatInteger(item.price, 0, 'COMMA')} + '원'"></div>
                         <div class="mt10">
-                            <span class="like fs12 hp mlr10 cb0_5">
-                                <i class="like icon"></i> <span>530</span>
+                            <span id="likeBtn" class="like fs12 hp mlr10 cb0_5">
+                                <i id="likeI" class="like icon"></i> <span id="likeSpan"></span>
                             </span>
-                            <span class="star fs12 hp mlr10 cb0_5">
-                                <i class="star icon"></i> <span>4.7</span>
+                            <span id="ratingBtn" class="star fs12 hp mlr10 cb0_5">
+                                <i id="starI" class="star icon"></i> <span id="starSpan"></span>
                             </span>
                             <span class="mlr10 temper" data-tooltip="나에게 얼마나 적합한 제품인지를 보여줘요." data-variation="mini">
                             <i class="fire icon cb0_5"></i>
-                            <span class="fs12 cred">97°</span></span>
-                        </div>
-                    </li>
-                    <li class="fc w300 product hp mlr10">
-                        <div>
-                            <img class="w250" src="//thumbnail6.coupangcdn.com/thumbnails/remote/492x492ex/image/retail/images/397296000467275-5a83a375-06a6-4c00-9e16-ffd2687b23c8.jpg">
-                        </div>
-                        <div class="fs13">Apple 2020 맥북 에어 13</div>
-                        <div class="fs12 cgrey">MGN63KH/A</div>
-                        <div class="fs12 cgrey">M1 / 8GB</div>
-                        <div class="fs12 mt10 tdlt cgrey">1,290,000원</div>
-                        <div class="fs13">1,163,880원</div>
-                        <div class="mt10">
-                            <span class="like fs12 hp mlr10 cb0_5">
-                                <i class="like icon"></i> <span>6868</span>
-                            </span>
-                            <span class="star fs12 hp mlr10 cb0_5">
-                                <i class="star icon"></i> <span>4.9</span>
-                            </span>
-                            <span class="mlr10 temper" data-tooltip="나에게 얼마나 적합한 제품인지를 보여줘요." data-variation="mini">
-                            <i class="fire icon cb0_5"></i>
-                            <span class="fs12 cred">95°</span></span>
-                        </div>
-                    </li>
-                    <li class="fc w300 product hp mlr10">
-                        <div>
-                            <img class="w250" src="//thumbnail10.coupangcdn.com/thumbnails/remote/492x492ex/image/rs_quotation_api/fnx2celh/2cc4ef09136e4ea5bb6ac248b4f021f7.jpg">
-                        </div>
-                        <div class="fs13">HP 2021 OMEN 15.3</div>
-                        <div class="fs12 cgrey">15-en0038AX</div>
-                        <div class="fs12 cgrey">Ryzen5 4600H / 8GB / GTX 1650Ti</div>
-                        <div class="fs12 mt10 tdlt cgrey">1,349,000원</div>
-                        <div class="fs13">1,227,590원</div>
-                        <div class="mt10">
-                            <span class="like fs12 hp mlr10 cb0_5">
-                                <i class="like icon"></i> <span>18</span>
-                            </span>
-                            <span class="star fs12 hp mlr10 cb0_5">
-                                <i class="star icon"></i> <span>4.2</span>
-                            </span>
-                            <span class="mlr10 temper" data-tooltip="나에게 얼마나 적합한 제품인지를 보여줘요." data-variation="mini">
-                            <i class="fire icon cb0_5"></i>
-                            <span class="fs12 cred">89°</span></span>
-                        </div>
-                    </li>
-                    <li class="fc w300 product hp mlr10">
-                        <div>
-                            <img class="w250" src="//thumbnail10.coupangcdn.com/thumbnails/remote/492x492ex/image/retail/images/2021/08/18/17/5/581de95a-dd53-4952-9233-e25e97fc562b.jpg">
-                        </div>
-                        <div class="fs13">에이수스 2021 ZenBook 14</div>
-                        <div class="fs12 cgrey">UM425UAZ-KI028</div>
-                        <div class="fs12 cgrey">Ryzen7 5700U / 16GB</div>
-                        <div class="fs12 mt10 tdlt cgrey">1,165,800원</div>
-                        <div class="fs13">949,050원</div>
-                        <div class="mt10">
-                            <span class="like fs12 hp mlr10 cb0_5">
-                                <i class="like icon"></i> <span>9</span>
-                            </span>
-                            <span class="star fs12 hp mlr10 cb0_5">
-                                <i class="star icon"></i> <span>4.0</span>
-                            </span>
-                            <span class="mlr10 temper" data-tooltip="나에게 얼마나 적합한 제품인지를 보여줘요." data-variation="mini">
-                            <i class="fire icon cb0_5"></i>
-                            <span class="fs12 cred">88°</span></span>
+                            <span class="fs12 cred" th:text="${item.fitness == -1 ? '?°' : item.fitness} + '°'"></span></span>
                         </div>
                     </li>
                 </ul>
-                <div class="mt10"><button class="ui basic button fs12 pr12">더보기<span class="ml5"><i class="angle down icon mr0"></i></span></button></div>
+                <div class="mt10">
+                    <button id="newMoreBtn" class="ui basic button fs12 pr12">더보기<span class="ml5"><i
+                            class="angle down icon mr0"></i></span></button>
+                </div>
             </div>
         </div>
     </main>
-    <footer class="btgrey mt100">
-        <div class="ui vertical footer padded segment">
-            <div class="ui left aligned container fs12">
-                <p>fitBook</p>
-                <p>Kim Min-jae, Kim Gyu-Hyeongm Kim Dong-gyu, Yu Eon-su</p>
-            </div>
-        </div>
-    </footer>
 </th:block>
 </body>
 
 </html>
-<script src="semantic/dist/semantic.min.js"></script>
-<script src="main.js"></script>

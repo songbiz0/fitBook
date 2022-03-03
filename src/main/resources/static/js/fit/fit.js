@@ -211,7 +211,7 @@ const makeProductList = list => {
                             </span>
             <span class="mlr10 temper" data-tooltip="나에게 얼마나 적합한 제품인지를 보여줘요." data-variation="mini">
                             <i class="fire icon cb0_5"></i>
-                            <span class="fs12 cred">${item.fitness}°</span></span>
+                            <span class="fs12 cred">${item.fitness === -1 ? '?' : item.fitness}°</span></span>
         </div>
         `
 
