@@ -152,7 +152,7 @@ table {
 .mbauto { margin-bottom: auto; }
 .mr5 { margin-right: 10px; }
 
-.p0 { padding: 0; }
+.p0 { padding: 0 !important; }
 .p15 { padding: 15px !important; }
 .p20 { padding: 20px; }
 .pr10 {padding-right: 10px !important; }

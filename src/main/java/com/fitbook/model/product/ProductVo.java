@@ -5,6 +5,8 @@ import lombok.Setter;
 import lombok.ToString;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.util.List;
+
 @Getter
 @Setter
 @ToString
@@ -26,5 +28,9 @@ public class ProductVo extends ProductEntity{
     private int originalPrice;
     private int favorite;
     private float rating;
+    private int ratingCount;
     private String detailImg;
+
+    private List<ColorDto> colorList;
+    private List<OptionDto> optionList;
 }

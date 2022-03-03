@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html lang="en"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security"
+      layout:decorate="temp/thymeleaf_layout">
+<head>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" th:href="@{/css/main.css}">
+    <script th:inline="javascript">
+        const colorList = /*[[${data.colorList}]]*/ [];
+        const optionList = /*[[${data.optionList}]]*/ [];
+    </script>
+    <script defer th:src="@{/js/shop/detail.js}"></script>
+    <title></title>
+</head>
+<body>
+<th:block layout:fragment="content">
+    <main class="btgrey">
+        <div id="data"
+             th:data-iproduct="${data.iproduct}"
+             th:data-iuser="${user.iuser}"
+             th:data-role="${user.role}"
+        ></div>
+        <div class="ui center aligned container">
+            <div class="fc mt50">
+                <div class="frow fr1">
+                    <img id="productImg" class="w500" th:src="@{${'/imgPath/products/detail/' + data.idetail + '/' + data.detailImg}}">
+                    <div class="ui left aligned container fr1 pt50 pl50 product_info">
+                        <div class="fs18 bbgrey pb15" th:text="${data.brand} + ' ' + ${data.nm}"></div>
+                        <div class="frow w100p mt20">
+                            <div class="w100 fs12">정가</div>
+                            <div class="tdlt fs12" th:text="${#numbers.formatInteger(data.originalPrice, 0, 'COMMA')} + '원'"></div>
+                        </div>
+                        <div class="frow w100p mt20">
+                            <div class="w100 fs12">할인가</div>
+                            <div class="fwb fs13" th:text="${#numbers.formatInteger(data.price, 0, 'COMMA')} + '원'"></div>
+                        </div>
+                        <div class="frow w100p mt20">
+                            <div class="w100 fs12">평가</div>
+                            <div class="fwb fs13 star">
+                                <span id="starBtn" class="fs12 hp cb0_5">
+                                    <i id="starI" class="star icon"></i> <span class="cb" th:text="${data.rating}"></span><span class="cb fwn" th:text="' (' + ${data.ratingCount} +  ')'"></span>
+                                </span>
+                            </div>
+                        </div>
+                        <div class="frow w100p mt20">
+                            <div class="w100 fs12">좋아요</div>
+                            <div class="fwb fs13">
+                                <span id="likeBtn" class="like fs12 hp cb0_5">
+                                    <i id="likeI" class="like icon"></i> <span id="likeSpan" class="cb"></span>
+                                </span>
+                            </div>
+                        </div>
+                        <div class="frow w100p mt20 mb20 pb15 bbgrey">
+                            <div class="w100 fs12">나와의 적합도</div>
+                            <div class="fwb fs13">
+                                <i class="fire icon cred"></i>
+                                <span class="fs13 cred" th:text="${data.fitness} == -1 ? '?°' : ${data.fitness} + '°'"></span></span>
+                            </div>
+                        </div>
+                        <div class="frow w100p">
+                            <div class="w100 fs12 mtauto mbauto">색상</div>
+                            <div id="colorDropdown" class="ui mini selection dropdown">
+                                <input type="hidden" name="pet">
+                                <i class="dropdown icon"></i>
+                                <div class="default text">색상</div>
+                                <div id="colorMenu" class="scrollhint menu">
+                                    <th:block th:each="color : ${data.colorList}">
+                                        <div class="item" th:text="${color.color}" th:data-value="${colorStat.index}"></div>
+                                    </th:block>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="frow w100p mt10">
+                            <div class="w100 fs12 mtauto mbauto">옵션</div>
+                            <div id="optionDropdown" class="ui mini selection dropdown disabled">
+                                <input type="hidden" name="pet">
+                                <i class="dropdown icon"></i>
+                                <div class="default text">옵션</div>
+                                <div id="optionMenu" class="scrollhint menu">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="frow w100p jccenter mt20 gap20">
+                            <button id="cartBtn" class="ui basic tiny button">장바구니 담기</button>
+                            <button id="orderBtn" class="ui secondary tiny button">바로 구매하기</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="ui tabular menu frow w100p" id="productDetail">
+                <a class="item active fs13 fr1">
+                    <div class="tact w100p">상품상세</div>
+                </a>
+                <a class="item fs13 fr1 goToProductReview">
+                    <div class="tact w100p">상품후기</div>
+                </a>
+                <a class="item fs13 fr1 goToProductQuestion">
+                    <div class="tact w100p">상품문의</div>
+                </a>
+            </div>
+            <img class="mt30" th:src="@{${'/imgPath/products/master/' + data.iproduct + '/' + data.img}}">
+            <div class="ui tabular menu frow w100p mt50" id="productReview">
+                <a class="item fs13 fr1 goToProductDetail">
+                    <div class="tact w100p">상품상세</div>
+                </a>
+                <a class="item active fs13 fr1">
+                    <div class="tact w100p">상품후기</div>
+                </a>
+                <a class="item fs13 fr1 goToProductQuestion">
+                    <div class="tact w100p">상품문의</div>
+                </a>
+            </div>
+            <div class="mt30">
+                <div class="ui right aligned container">
+                    <button class="ui secondary tiny button mr10" id="reviewWriteBtn">상품후기 쓰기</button>
+                    <table class="w100p board">
+                        <colgroup>
+                            <col width="156px">
+                            <col>
+                            <col width="156px">
+                            <col width="156px">
+                        </colgroup>
+                        <tr>
+                            <td class="p0"></td>
+                            <td class="p0"></td>
+                            <td class="p0"></td>
+                            <td class="p0"></td>
+                        </tr>
+                        <tbody id="reviewTbody"></tbody>
+                        <tbody id="reviewWriteTbody"></tbody>
+                    </table>
+                    <div class="ui center aligned container mt30">
+                        <div id="reviewPagination" class="ui mini pagination menu"></div>
+                    </div>
+                </div>
+            </div>
+            <div class="ui tabular menu frow w100p mt50" id="productQuestion">
+                <a class="item fs13 fr1 goToProductDetail">
+                    <div class="tact w100p">상품상세</div>
+                </a>
+                <a class="item fs13 fr1 goToProductReview">
+                    <div class="tact w100p">상품후기</div>
+                </a>
+                <a class="item active fs13 fr1">
+                    <div class="tact w100p">상품문의</div>
+                </a>
+            </div>
+            <div class="mt30">
+                <div class="ui right aligned container">
+                    <button id="questionWriteBtn" class="ui secondary tiny button mr10">상품문의 쓰기</button>
+                    <table class="w100p board">
+                        <colgroup>
+                            <col width="156px">
+                            <col>
+                            <col width="156px">
+                            <col width="156px">
+                        </colgroup>
+                        <tr>
+                            <td class="p0"></td>
+                            <td class="p0"></td>
+                            <td class="p0"></td>
+                            <td class="p0"></td>
+                        </tr>
+                        <tbody id="questionTbody"></tbody>
+                        <tbody id="questionWriteTbody"></tbody>
+                    </table>
+                    <div class="ui center aligned container mt30">
+                        <div id="questionPagination" class="ui mini pagination menu"></div>
+                    </div>
+                </div>
+            </div>
+    </main>
+</th:block>
+</body>
+</html>

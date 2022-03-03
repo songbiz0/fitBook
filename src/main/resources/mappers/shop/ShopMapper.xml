@@ -1,0 +1,145 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.fitbook.shop.ShopMapper">
+    <select id="selProductDetail" resultType="ProductVo">
+        SELECT A.ram,
+               A.size,
+               A.weight,
+               A.brand,
+               A.os,
+               A.battery,
+               A.istwoinone,
+               A.hz,
+               A.resolution,
+               ROUND(B.price * (1 - B.dc_rate), -3) AS price,
+               C.performance                        AS cpuPerformance,
+               D.performance                        AS gpuPerformance,
+               B.img                                AS detailImg,
+               A.nm,
+               A.product_code,
+               C.nm                                 AS cpuNm,
+               D.nm                                 AS gpuNm,
+               B.price                              AS originalPrice,
+               B.idetail,
+               A.iproduct,
+               A.img
+        FROM t_product_master A
+                 INNER JOIN t_product_detail B
+                            ON A.iproduct = B.iproduct
+                 INNER JOIN t_product_cpu C
+                            ON A.icpu = C.icpu
+                 INNER JOIN t_product_gpu D
+                            ON A.igpu = D.igpu
+                 LEFT JOIN (
+            SELECT ROUND(AVG(rating), 1) AS rating, COUNT(iuser) AS ratingCount, iproduct
+            FROM t_product_review
+            GROUP BY iproduct
+        ) E
+                           ON A.iproduct = E.iproduct
+        WHERE B.isrep = 'Y'
+          AND A.iproduct = #{iproduct}
+    </select>
+
+    <select id="selColorList" resultType="ColorDto">
+        SELECT color, idetail, img, iproduct
+        FROM t_product_detail
+        WHERE iproduct = #{iproduct}
+        GROUP BY color
+        ORDER BY isrep DESC
+    </select>
+
+    <select id="selOptionList" resultType="OptionDto">
+        SELECT hdd, ssd, color, idetail
+        FROM t_product_detail
+        WHERE iproduct = #{iproduct}
+        ORDER BY isrep DESC
+    </select>
+
+    <select id="selReviewMaxPage" resultType="ResultVo">
+        SELECT CEIL(COUNT(iproduct) / ${recordCount}) AS result
+        FROM t_product_review
+        WHERE iproduct = #{iproduct}
+    </select>
+
+    <select id="selReviewList" resultType="ProductReviewVo">
+        SELECT A.rating, A.ctnt, A.rdt, B.nm AS userNm, A.iuser
+        FROM t_product_review A
+                 INNER JOIN t_user B
+                            ON A.iuser = B.iuser
+        WHERE A.iproduct = #{iproduct}
+        ORDER BY A.rdt DESC
+        LIMIT #{startIdx}, #{recordCount}
+    </select>
+
+    <insert id="insReview">
+        INSERT INTO t_product_review
+            (iproduct, iuser, rating, ctnt)
+        VALUES (#{iproduct}, #{iuser}, #{rating}, #{ctnt})
+        ON DUPLICATE KEY UPDATE rating = #{rating},
+                                ctnt   = #{ctnt}
+    </insert>
+
+    <delete id="delReview">
+        DELETE
+        FROM t_product_review
+        WHERE iuser = #{iuser}
+          AND iproduct = #{iproduct}
+    </delete>
+
+    <select id="selOrderCount" resultType="ResultVo">
+        SELECT COUNT(A.iorder) AS result
+        FROM t_order A
+                 INNER JOIN t_order_product B
+                            ON A.iorder = B.iorder
+                 INNER JOIN t_product_detail C
+                            ON B.idetail = C.idetail
+                 INNER JOIN t_product_master D
+                            ON C.iproduct = D.iproduct
+        WHERE A.iuser = #{iuser}
+          AND D.iproduct = #{iproduct}
+          AND A.order_status = '구매확정'
+    </select>
+
+    <select id="selQuestionMaxPage" resultType="ResultVo">
+        SELECT CEIL(COUNT(iquestion) / ${recordCount}) AS result
+        FROM t_product_question
+        WHERE iproduct = #{iproduct}
+        AND parent = 0
+    </select>
+
+    <select id="selQuestionList" resultType="ProductQuestionVo">
+        SELECT A.iquestion, A.iuser, A.ctnt, A.rdt, A.parent,
+        B.nm AS nm
+        FROM t_product_question A
+        INNER JOIN t_user B
+        ON A.iuser = B.iuser
+        WHERE A.iproduct = #{iproduct}
+        AND A.parent = #{parent}
+        ORDER BY A.iquestion DESC
+        <if test="parent == 0">
+            LIMIT #{startIdx}, #{recordCount}
+        </if>
+    </select>
+
+    <insert id="insQuestion">
+        INSERT INTO t_product_question
+            (iproduct, iuser, ctnt, parent)
+        VALUES (#{iproduct}, #{iuser}, #{ctnt}, #{parent})
+    </insert>
+
+    <update id="updQuestion">
+        UPDATE t_product_question
+        SET ctnt = #{ctnt}
+        WHERE iuser = #{iuser}
+        AND iquestion = #{iquestion}
+    </update>
+
+    <delete id="delQuestion">
+        DELETE
+        FROM t_product_question
+        WHERE iuser = #{iuser}
+          AND iproduct = #{iproduct}
+          AND iquestion = #{iquestion}
+    </delete>
+
+</mapper>

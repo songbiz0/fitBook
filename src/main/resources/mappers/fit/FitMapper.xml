@@ -7,16 +7,23 @@
             (#{iuser}, #{budget}, #{weight}, #{size}, #{os}, #{as}, #{battery}, #{twoinone}, #{macbook}, #{highhz}, #{highresolution})
     </insert>
 
+    <select id="selQuestion" resultType="QuestionDto">
+        SELECT budget, weight, size, os, `as`,
+               battery, twoinone, macbook, highhz, highresolution
+        FROM t_question
+        WHERE iuser = #{iuser}
+    </select>
+
     <delete id="delQuestion">
         DELETE FROM t_question
         WHERE iuser = #{iuser}
     </delete>
 
     <select id="selRequiredPerformance" resultType="QuestionDto">
-        SELECT required_cpu, required_gpu, required_ram, is_mac_sup
+        SELECT required_cpu AS requiredCpu, required_gpu AS requiredGpu, required_ram AS requiredRam, IF(is_mac_sup = 'Y', true, false) AS supportMac
         FROM t_program
         WHERE iprogram IN
-        <foreach collection="array" item="item" separator="," open="(" close=")">
+        <foreach collection="iprograms" item="item" separator="," open="(" close=")">
             #{item}
         </foreach>
     </select>
