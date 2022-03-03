@@ -167,11 +167,6 @@ public class AdminRestController {
         return service.delProgram(dto);
     }
 
-    @GetMapping("/user")
-    public List<UserVo> selUserList() {
-        return service.selUserList();
-    }
-
     @GetMapping("/selectUserSearchList")
     private List<UserVo> selectUserSearchList(UserDto dto) throws Exception {
         System.out.println(dto);

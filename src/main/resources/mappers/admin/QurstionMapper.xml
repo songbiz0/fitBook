@@ -23,10 +23,10 @@
             INNER JOIN t_user B
             ON A.iuser = B.iuser
             INNER JOIN t_product_detail C
-            ON C.idetail = A.idetail
+            ON C.iproduct = A.iproduct
             INNER JOIN t_product_master D
             ON C.iproduct = D.iproduct
-            WHERE parent = 0
+            WHERE parent = 0 AND C.isrep = 'Y'
             LIMIT ${startIdx}, ${rowCnt}
         ) AS t
         <if test="type != null and type != ''">ORDER BY ${type} </if>
@@ -43,7 +43,7 @@
             INNER JOIN t_user B
             ON A.iuser = B.iuser
             INNER JOIN t_product_detail C
-            ON C.idetail = A.idetail
+            ON C.iproduct = A.iproduct
             INNER JOIN t_product_master D
             ON C.iproduct = D.iproduct
             WHERE iquestion NOT IN
@@ -53,7 +53,7 @@
                 FROM t_product_question A
                 WHERE parent > 0
             )
-            AND parent = 0
+            AND parent = 0 AND C.isrep = 'Y'
             LIMIT ${startIdx}, ${rowCnt}
         ) AS t
         <if test="type != null and type != ''">ORDER BY ${type} </if>
@@ -70,7 +70,7 @@
         INNER JOIN t_user B
         ON A.iuser = B.iuser
         INNER JOIN t_product_detail C
-        ON C.idetail = A.idetail
+        ON C.iproduct = A.iproduct
         INNER JOIN t_product_master D
         ON C.iproduct = D.iproduct
         WHERE iquestion NOT IN
@@ -95,7 +95,7 @@
         INNER JOIN t_user B
         ON A.iuser = B.iuser
         INNER JOIN t_product_detail C
-        ON C.idetail = A.idetail
+        ON C.iproduct = A.iproduct
         INNER JOIN t_product_master D
         ON C.iproduct = D.iproduct
         WHERE parent = 0

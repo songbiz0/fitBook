@@ -132,4 +132,15 @@ public class Utils {
         }
         return null;
     }
+
+    public int getPageNum(String page) {
+        int result;
+        try {
+            result = Integer.parseInt(page);
+        } catch (Exception e) {
+            e.printStackTrace();
+            result = 1;
+        }
+        return result;
+    }
 }

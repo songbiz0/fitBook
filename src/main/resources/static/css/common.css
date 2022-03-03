@@ -270,3 +270,6 @@ table {
 .dis-none {
     display: none !important;
 }
+.user-nm {
+    color: #117ef9;
+}
