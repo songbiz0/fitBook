@@ -273,8 +273,7 @@ const makeProductList = list => {
         });
 
         li.addEventListener('click', () => {
-            alert(item.nm + ' 디테일 페이지로 이동');
-            // TODO 디테일 페이지 이동
+            location.href = '/shop/detail?iproduct=' + item.iproduct;
         });
         productUlElem.appendChild(li);
     });

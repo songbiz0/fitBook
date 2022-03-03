@@ -9,7 +9,7 @@ import lombok.ToString;
 @ToString
 public class ProductQuestionEntity {
     private int iquestion;
-    private int idetail;
+    private int iproduct;
     private int iuser;
     private String ctnt;
     private String rdt;

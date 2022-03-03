@@ -13,7 +13,8 @@ import java.util.List;
 public interface FitMapper {
     int insQuestion(QuestionDto dto);
     int delQuestion(QuestionDto dto);
-    List<QuestionDto> selRequiredPerformance(int[] iprogrmas);
+    QuestionDto selQuestion(int iuser);
+    List<QuestionDto> selRequiredPerformance(int[] iprograms);
     List<ProductVo> selProductList();
     ResultVo selFavorite(ProductDto dto);
     ResultVo selRating(ProductDto dto);

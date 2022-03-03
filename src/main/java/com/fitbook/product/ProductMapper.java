@@ -13,4 +13,5 @@ public interface ProductMapper {
     List<ProductVo> selFavList(PageDto dto);
     int delFav(List<Integer> list, int iuser);
     int insCart(List<Integer> list, int iuser);
+    int insCartByIdetail(int idetail, int iuser);
 }

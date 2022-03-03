@@ -6,6 +6,7 @@ import com.fitbook.model.product.ProductDto;
 import com.fitbook.model.product.ProductVo;
 import com.fitbook.model.program.ProgramEntity;
 import com.fitbook.model.question.QuestionDto;
+import com.fitbook.model.question.QuestionEntity;
 import com.fitbook.program.ProgramMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -37,6 +38,13 @@ public class FitService {
         return result;
     }
 
+    public QuestionDto selQuestion() {
+        if(authenticationFacade.getLoginUser() == null) {
+            return null;
+        }
+        return mapper.selQuestion(authenticationFacade.getLoginUserPk());
+    }
+
     public int calFitness(QuestionDto question, ProductVo product) {
         int fitness = 0;
 
@@ -62,6 +70,7 @@ public class FitService {
                 weightScore = 15;
         }
         weightScore = Math.max(weightScore, 0);
+        weightScore = Math.min(weightScore, 15);
         fitness += weightScore;
 
         int sizeScore = 0;
@@ -83,6 +92,7 @@ public class FitService {
                 sizeScore = 10;
         }
         sizeScore = Math.max(sizeScore, 0);
+        sizeScore = Math.min(sizeScore, 10);
         fitness += sizeScore;
 
         int osScore = 0;
@@ -167,7 +177,7 @@ public class FitService {
         }
 
         int performanceScore = 0;
-        if(question.getPrograms().equals("")) {
+        if(question.getPrograms() == null || question.getPrograms().equals("")) {
             performanceScore = 20;
         } else {
             int cpuPerformanceDifference = product.getCpuPerformance() - question.getRequiredCpu();

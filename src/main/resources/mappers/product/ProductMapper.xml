@@ -52,4 +52,13 @@
         ON DUPLICATE KEY
         UPDATE quantity = quantity + 1
     </insert>
+
+    <insert id="insCartByIdetail">
+        INSERT INTO t_cart
+        (iuser, idetail, quantity)
+        VALUES
+            (#{iuser}, #{idetail}, 1)
+        ON DUPLICATE KEY
+        UPDATE quantity = quantity + 1
+    </insert>
 </mapper>
