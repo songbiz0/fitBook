@@ -62,10 +62,12 @@ public class AdminRestController {
     public List<ProductVo>  selProductList(ProductDto dto){
         return service.selProductList(dto);
     }
-
+    //상품디테일
     @GetMapping("/product_master_detail")
     public void selProductDetail(){
     }
+
+
 
 
     @GetMapping("/maxpage")
@@ -74,17 +76,6 @@ public class AdminRestController {
     }
 
     // Parts
-    @GetMapping("/gpuMaxPage")
-    public ResultVo selPartsMaxPage(GpuDto dto) {
-        return service.gpuMaxPage(dto);
-    }
-    @GetMapping("/gpuSearch")
-    public List<GpuVo> selGpuList(GpuDto dto) {
-        System.out.println(dto);
-        return service.selGpuList(dto);
-    }
-
-
     @GetMapping("/cpuMaxPage")
     public ResultVo selCpuMaxPage(CpuDto dto) {
         return service.cpuMaxPage(dto);

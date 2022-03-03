@@ -27,7 +27,7 @@
         const searchList = (url) => fetch(url)
             .then(res => res.json())
             .then(data => {
-                selProductList(data);
+                selProductList(data).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")
                 console.log(data);
                 console.log(url);
             })
@@ -52,16 +52,18 @@
             list.forEach(item => {
                 const trElem = document.createElement('tr')
                 tbodyElem.appendChild(trElem);
+                const locale = item.master_total.toLocaleString();
+                const month_total = item.month_total.toLocaleString();
                 const nmclcik =
 
                 trElem.innerHTML = `
             <td>${item.num}</td>
             <td>${item.product_code}</td>
-            <td>${item.nm},<img class="w70 h50" src="/imgPath/products/detail/${item.idetail}/${item.img}"></td>
+            <td>${item.nm}<img class="w70 h50" src="/imgPath/products/detail/${item.idetail}/${item.img}"></td>
             <td>${item.brand}</td>
-            <td>${item.stock}</td>
-            <td>${item.price}</td>
-            <td>${item.master_total}</td>
+            <td>${item.stock} EA</td>
+            <td>${month_total}원</td>
+            <td>${locale}원</td>
             <td>${item.rating}</td>
             
             

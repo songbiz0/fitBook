@@ -11,12 +11,15 @@
 <th:block layout:fragment="content">
     <div class="product-master w110p">
         <div>
-            <div class="button-list">
-                <button class="mini ui basic button" >
+            <div class="button-list" th:data-iproduct="${detail.iproduct}">
+                <button class="mini ui basic button" style="font-weight: bold;" >
                     <a href="/admin/product_master">목록으로</a>
                 </button>
-                <button class="mini ui secondary button" >
-                    수정하기
+                <button id="modBth" class="mini ui basic button" style="font-weight: bold;" >
+                    수정
+                </button>
+                <button id="delBth" class="mini ui secondary button" >
+                    삭제
                 </button>
             </div>
             <table class="mytable-detail w110p">
@@ -62,7 +65,11 @@
             </table>
             <table class="mytable-detail w110p detail-price">
                 <tr class="table-price">
-                    <th class="borderR1" colspan="4">옵션별 매출표</th>
+                    <th class="borderR1" rowspan="4">옵션별 매출표</th>
+                    <th class="borderR2">컬러</th>
+                    <th class="borderR2">SSD</th>
+                    <th class="borderR2">HDD</th>
+                    <th class="borderR2">판매가</th>
                     <th>총 매출</th>
                     <th>최근 매출</th>
                     <th>재고 수량</th>
@@ -70,19 +77,20 @@
                 </tr>
                 <tr class="tr-price-color" th:each="item : ${data}">
                     <td th:text="${item.color}"></td>
-                    <td class="borderR2" th:text="${item.ssd}+GB"></td>
+                    <td class="borderR2" th:text="${item.ssd}+GB">258</td>
                     <td class="borderR2" th:text="${item.hdd}+GB"></td>
                     <td class="borderR2" th:text="${item.price}+원"></td>
-                    <td>0</td>
-                    <td>0</td>
+                    <td th:text="|${item.detail_total}원|"></td>
+                    <td th:text="|${item.detail_month_total}원|"></td>
                     <td th:text="|${item.stock} EA|"></td>
                     <td>☆☆☆☆☆</td>
                 </tr>
                 <tr class="tr-price-total">
                     <th class="borderR1" colspan="4" >TOTAL 매출</th>
-                    <td>0</td>
-                    <td>0</td>
-                    <td th:text="|${total} EA|"></td>
+                    <th th:text="|${detail.total_price}원|">0</th>
+                    <th th:text="|${detail.month_total}|"></th>
+                    <th th:text="|${total} EA|"></th>
+                    <th></th>
                 </tr>
             </table>
         </div>

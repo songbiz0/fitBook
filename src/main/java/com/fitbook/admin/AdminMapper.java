@@ -63,6 +63,9 @@ public interface AdminMapper {
     //product_master_detail 상품디테일
     List<ProductVo> selProductDetail(ProductDto dto);
     ProductVo selProductDetail2(ProductDto dto);
+    int delProductDetail(ProductDto dto);
+    int updProductDetail(ProductVo vo);
+    List<ProductVo> selDetailForDelete(ProductDto dto);
 
     // Product
     int insProductMaster(ProductEntity entity);

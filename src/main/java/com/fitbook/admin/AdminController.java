@@ -1,7 +1,9 @@
 package com.fitbook.admin;
 
 import com.fitbook.Const;
+import com.fitbook.ResultVo;
 import com.fitbook.auth.AuthenticationFacade;
+import com.fitbook.model.cpu.CpuDto;
 import com.fitbook.model.cpu.CpuListEntity;
 import com.fitbook.model.gpu.GpuListEntity;
 import com.fitbook.model.product.ProductDetailListVo;
@@ -63,9 +65,48 @@ public class AdminController {
         }
         model.addAttribute("total", total);
         model.addAttribute(Const.DATA,list);
-        System.out.println(list);
+        System.out.println("Detail : " +list);
+        System.out.println("Detail2 : " + service.selProductDetail2(dto));
         model.addAttribute(Const.DETAIL,service.selProductDetail2(dto));
     }
+    @DeleteMapping("/product_master_detail")
+    public String delProductDetail(ProductDto dto){
+        service.delProductDetail(dto);
+        return "redirect:/admin/product_master";
+    }
+
+    @GetMapping("/product_master_mod")
+    public void product_master_mod(Model model,ProductDto dto){
+        List<ProductVo> list = service.selProductDetail(dto);
+        int total = 0;
+        for(ProductVo item : list) {
+            total += item.getStock();
+        }
+        model.addAttribute("total", total);
+        model.addAttribute(Const.DATA,list);
+        model.addAttribute(Const.CPU,service.selCpu());
+        model.addAttribute(Const.GPU,service.selGpu());
+        System.out.println(list);
+
+        ProductVo list2 = service.selProductDetail2(dto);
+        ProductVo gpuCpuNm = new ProductVo();
+        System.out.println("DetailMod: " + list2);
+        gpuCpuNm.setCpu(list2.getCpu());
+        gpuCpuNm.setGpu(list2.getGpu());
+        model.addAttribute(Const.DETAIL,list2);
+        model.addAttribute("gpuCpuNm", gpuCpuNm);
+    }
+    @PostMapping("/product_master_mod")
+    public String updProductDetail(ProductVo vo){
+        System.out.println(vo);
+        System.out.println(vo.getIcpu());
+        System.out.println(vo.getIgpu());
+        ProductVo upDate = new ProductVo();
+        service.updProductDetail(vo);
+        System.out.println("update : " + service.updProductDetail(vo));
+        return "redirect:/admin/product_master_detail?iproduct=" + vo.getIproduct();
+    }
+
 
     @GetMapping("/insproduct")
     public void insProduct(Model model) {
