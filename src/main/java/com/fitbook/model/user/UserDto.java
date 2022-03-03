@@ -12,6 +12,10 @@ public class UserDto {
     private String keyword;
 
     //maxPage
+    private int page;
     private int recordCount;
     private int startIdx;
+
+    private int startPage;
+    private int lastPage;
 }

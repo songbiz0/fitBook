@@ -329,9 +329,12 @@ public class AdminService {
     }
 
     //User List
-    public List<UserVo> selUserList() {
-        List<UserVo> list = mapper.selUserList();
+    public List<UserVo> selUserList(UserDto dto) {
+        List<UserVo> list = mapper.selUserList(dto);
         return list;
+    }
+    public UserVo getMaxPageForUser(UserDto dto) {
+        return mapper.getMaxPageForUser(dto);
     }
 
     //User Search List
