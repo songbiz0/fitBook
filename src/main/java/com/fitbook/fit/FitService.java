@@ -6,7 +6,6 @@ import com.fitbook.model.product.ProductDto;
 import com.fitbook.model.product.ProductVo;
 import com.fitbook.model.program.ProgramEntity;
 import com.fitbook.model.question.QuestionDto;
-import com.fitbook.model.question.QuestionEntity;
 import com.fitbook.program.ProgramMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -27,6 +26,12 @@ public class FitService {
         dto.setIuser(authenticationFacade.getLoginUserPk());
         ResultVo result = new ResultVo();
         result.setResult(mapper.insQuestion(dto));
+
+        if(!dto.getPrograms().equals("")) {
+            int[] iprogramArr = Arrays.stream(dto.getPrograms().split(",")).mapToInt(Integer::parseInt).toArray();
+            mapper.insProgramMapping(iprogramArr, authenticationFacade.getLoginUserPk());
+        }
+
         return result;
     }
 
@@ -195,11 +200,7 @@ public class FitService {
     }
 
     public QuestionDto calRequiredPerformance(QuestionDto dto) {
-        if(dto.getPrograms().equals("")) {
-            return dto;
-        }
-        int[] iprogramArr = Arrays.stream(dto.getPrograms().split(",")).mapToInt(Integer::parseInt).toArray();
-        List<QuestionDto> list = mapper.selRequiredPerformance(iprogramArr);
+        List<QuestionDto> list = mapper.selRequiredPerformance(selMyProgramList());
         for(QuestionDto program : list) {
             dto.setRequiredCpu(Math.max(dto.getRequiredCpu(), program.getRequiredCpu()));
             dto.setRequiredGpu(Math.max(dto.getRequiredRam(), program.getRequiredRam()));
@@ -209,6 +210,10 @@ public class FitService {
             }
         }
         return dto;
+    }
+
+    public List<Integer> selMyProgramList() {
+        return mapper.selMyProgramList(authenticationFacade.getLoginUserPk());
     }
 
     public List<ProductVo> selProductList() {
@@ -224,17 +229,17 @@ public class FitService {
     }
 
     public ResultVo isFavorite(ProductDto dto) {
-        dto.setIuser(authenticationFacade.getLoginUserPk());
+        dto.setIuser(authenticationFacade.getLoginUser() == null ? -1 :authenticationFacade.getLoginUserPk());
         return mapper.isFavorite(dto) == null ? new ResultVo() : mapper.isFavorite(dto);
     }
 
     public ResultVo isRating(ProductDto dto) {
-        dto.setIuser(authenticationFacade.getLoginUserPk());
+        dto.setIuser(authenticationFacade.getLoginUser() == null ? -1 :authenticationFacade.getLoginUserPk());
         return mapper.isRating(dto) == null ? new ResultVo() : mapper.isRating(dto);
     }
 
     public ResultVo clickFavorite(ProductDto dto) {
-        dto.setIuser(authenticationFacade.getLoginUserPk());
+        dto.setIuser(authenticationFacade.getLoginUser() == null ? -1 :authenticationFacade.getLoginUserPk());
         ResultVo result = new ResultVo();
         try {
             result.setResult(mapper.insFavorite(dto));

@@ -1,6 +1,7 @@
 package com.fitbook.shop;
 
 import com.fitbook.auth.AuthenticationFacade;
+import com.fitbook.fit.FitService;
 import com.fitbook.model.user.UserEntity;
 import com.fitbook.mypage.MypageService;
 import org.springframework.beans.factory.annotation.Autowired;

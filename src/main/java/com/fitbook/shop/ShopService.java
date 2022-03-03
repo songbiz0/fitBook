@@ -10,11 +10,9 @@ import com.fitbook.model.productReview.ProductReviewEntity;
 import com.fitbook.model.productReview.ProductReviewVo;
 import com.fitbook.model.productquestion.ProductQuestionEntity;
 import com.fitbook.model.productquestion.ProductQuestionVo;
-import com.fitbook.mypage.MypageService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -144,4 +142,10 @@ public class ShopService {
         result.setResult(mapper.updQuestion(entity));
         return result;
     }
+
+    public List<ProductVo> selBestProductList(PageDto dto) {
+        return mapper.selBestProductList(dto);
+    }
+
+    public List<ProductVo> selNewProductList(PageDto dto) { return mapper.selNewProductList(dto); }
 }
