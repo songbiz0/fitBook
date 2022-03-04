@@ -27,6 +27,8 @@ public class FitService {
         ResultVo result = new ResultVo();
         result.setResult(mapper.insQuestion(dto));
 
+        mapper.delProgramMapping(authenticationFacade.getLoginUserPk());
+
         if(!dto.getPrograms().equals("")) {
             int[] iprogramArr = Arrays.stream(dto.getPrograms().split(",")).mapToInt(Integer::parseInt).toArray();
             mapper.insProgramMapping(iprogramArr, authenticationFacade.getLoginUserPk());
@@ -200,7 +202,12 @@ public class FitService {
     }
 
     public QuestionDto calRequiredPerformance(QuestionDto dto) {
-        List<QuestionDto> list = mapper.selRequiredPerformance(selMyProgramList());
+        List<Integer> myProgramList = selMyProgramList();
+        if(myProgramList.size() == 0) {
+            return dto;
+        }
+
+        List<QuestionDto> list = mapper.selRequiredPerformance(myProgramList);
         for(QuestionDto program : list) {
             dto.setRequiredCpu(Math.max(dto.getRequiredCpu(), program.getRequiredCpu()));
             dto.setRequiredGpu(Math.max(dto.getRequiredRam(), program.getRequiredRam()));

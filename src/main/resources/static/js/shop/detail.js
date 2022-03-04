@@ -80,6 +80,11 @@ document.querySelector('#starBtn').addEventListener('click', () => {
 });
 
 document.querySelector('#likeBtn').addEventListener('click', e => {
+    if(Number(document.querySelector('#data').dataset.iuser) === 0) {
+        makeErrorToast('로그인 한 회원한 상품을 좋아요 할 수 있어요.');
+        return;
+    }
+
     fetch('/fit/api/clickfavorite?iproduct=' + dataElem.dataset.iproduct)
         .then(res => res.json())
         .then(data => {

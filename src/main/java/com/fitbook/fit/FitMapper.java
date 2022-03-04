@@ -24,4 +24,5 @@ public interface FitMapper {
     int delFavorite(ProductDto dto);
     void insProgramMapping(int[] iprograms, int iuser);
     List<Integer> selMyProgramList(int iuser);
+    void delProgramMapping(int iuser);
 }

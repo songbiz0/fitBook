@@ -9,14 +9,14 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" th:href="@{/css/main.css}">
-    <script defer src="https://cdn.jsdelivr.net/npm/jquery@3.3.1/dist/jquery.min.js"></script>
     <script defer th:src="@{/js/mainpage.js}"></script>
     <title></title>
 </head>
 
 <body>
 <th:block layout:fragment="content">
-    <main class="btgrey">
+    <main id="data" class="btgrey"
+          th:data-iuser="${user.iuser}">
         <div class="ui center aligned container">
             <div class="fc mt100">
                 <div><strong class="fs20">RECOMMENDED PRODUCT</strong></div>
