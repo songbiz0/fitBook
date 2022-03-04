@@ -29,6 +29,7 @@
                 })
                 .catch(e => {
                     console.error(e);
+                    isEmpty();
                 });
         }
         const subString = (txt) => {
@@ -51,8 +52,15 @@
                 const ctnt = subString(item.ctnt);
                 console.log(item);
                 const trElem = document.createElement('tr');
+                trElem.classList.add('cspointer');
+                trElem.addEventListener('click', () => {
+                    const url = `/shop/detail?iproduct=${item.iproduct}`;
+                    const name = 'detail';
+                    const option = 'with = 500, height = 500, top = 100, left = 200, location = no';
+                    window.open(url, name, option);
+                });
                 trElem.innerHTML = `
-                    <td><img class="w50 h50" src="/imgPath/products/detail/${item.idetail}/${item.img}/"></td>
+                    <td><img class="custom-img" src="/imgPath/products/detail/${item.idetail}/${item.img}/"></td>
                     <td>
                         <p>${item.productNm}</p>
                         <p>${item.product_code}</p>
@@ -67,6 +75,14 @@
                 tbodyElem.appendChild(trElem);
 
             });
+        }
+        const isEmpty = () => {
+            tbodyElem.innerHTML = '';
+            const trElem = document.createElement('tr');
+            trElem.innerHTML = `
+                <td colspan="6"><strong>질문이 없습니다</strong></td>
+            `;
+            tbodyElem.appendChild(trElem);
         }
         const makePagingUrl = (param) => {
             makePage(maxPage);

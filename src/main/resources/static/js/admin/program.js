@@ -271,6 +271,8 @@
 {
     const frm = document.querySelector('.programListFrm');
     if(frm) {
+        const table = frm.querySelector('.mytable');
+        const isTbody = document.querySelector('.programTbody');
         const cpuPerfElem = frm.querySelector('#required_cpu');
         const gpuPerfElem = frm.querySelector('#required_gpu');
         const ramPerfElem = frm.querySelector('#required_ram');
@@ -296,8 +298,17 @@
             fetch(resultUrl)
                 .then(res => res.json())
                 .then(data => {
-                    console.log(data);
-                    setList(data);
+                    console.log(isTbody);
+                    isTbody.innerHTML = '';
+                    if(data.length === 0) {
+                        const trElem = document.createElement('tr');
+                        trElem.innerHTML = `
+                            <td colspan="5"><strong>등록된 프로그램이 없습니다.</strong></td>
+                        `;
+                        isTbody.appendChild(trElem);
+                    } else {
+                        setList(data);
+                    }
                 })
                 .catch(e => {
                     console.log(e);
@@ -317,12 +328,6 @@
             getList(result);
         }
         const setList = (list) => {
-            const table = document.querySelector('table');
-            const isTbody = table.querySelector('tbody');
-            if (isTbody) {
-                isTbody.remove();
-            }
-            const tbody = document.createElement('tbody');
             list.forEach(item => {
                 const tr = document.createElement('tr');
                 tr.classList.add('program-list-tr');
@@ -333,8 +338,7 @@
                 <td>${item.required_gpu}</td>
                 <td>${item.required_ram}</td>
             `;
-                tbody.appendChild(tr);
-                table.appendChild(tbody);
+                isTbody.appendChild(tr);
                 tr.addEventListener('click', () => {
                     location.href = `/admin/programDetail?iprogram=${item.iprogram}`;
                 })

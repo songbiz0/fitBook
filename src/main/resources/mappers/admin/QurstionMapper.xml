@@ -19,6 +19,7 @@
         (
             SELECT A.iquestion, A.rdt, A.ctnt, B.uid, B.nm
                  , C.idetail, C.img , D.nm AS productNm, D.product_code
+                 , D.iproduct
             FROM t_product_question A
             INNER JOIN t_user B
             ON A.iuser = B.iuser
@@ -39,6 +40,7 @@
         (
             SELECT A.iquestion, A.rdt, A.ctnt, B.uid, B.nm
                 , C.idetail, C.img , D.nm AS productNm, D.product_code
+                , D.iproduct
             FROM t_product_question A
             INNER JOIN t_user B
             ON A.iuser = B.iuser

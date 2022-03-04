@@ -9,11 +9,11 @@
         brand - String 20
      */
 
-    const nmRegex = /^([a-zA-Z가-힣0-9-_=+]{1,20})$/;
+    const nmRegex = /^([a-zA-Z가-힣0-9-_=+\s]{1,20})$/;
     const perfRegex = /^([0-9]{1,10})$/;
     const innerGpuRegex = /^([1-9]{1,10})$/;
     const seqRegex = /^([0-9]{1,10})$/;
-    const brandRegex = /^([a-zA-Z가-힣0-9-_=+]{1,20})$/;
+    const brandRegex = /^([a-zA-Z가-힣0-9-_=+\s]{1,20})$/;
 
     const addBtn = document.querySelector('#addBtn');
     if(addBtn) {
@@ -22,10 +22,10 @@
             'nm', 'performance', 'inner_gpu', 'seq', 'brand'
         ];
 
-        const gpuOption = document.querySelector('#gpuOption');
+        const gpuOption = document.querySelector('.inner_gpu').querySelector('select');
         gpuOption.addEventListener('change', ()=>{
             const value = gpuOption.value;
-            const innerGpuInputElem = document.querySelector('#top-innergpu');
+            const innerGpuInputElem = document.querySelector('.innerGpu');
             fetch(`/ajax/admin/gpuPerformance?igpu=${value}`)
                 .then(res => res.json())
                 .then(data => {
@@ -41,7 +41,6 @@
             fetch('/ajax/admin/selInnerGpu')
                 .then(res => res.json())
                 .then(data => {
-                    console.log(data);
                     elem.innerHTML = '';
                     const option = document.createElement('option');
                     option.innerText = '선택';
@@ -152,6 +151,9 @@
                     const result = 'cpuList[' + forNo + '].' + searchId;
                     const elem = item.querySelector(`.${searchId}`);
                     elem.name = result;
+                    if(list[i] === 'inner_gpu') {
+                        elem.querySelector('select').name = result;
+                    }
                     let bool = chkRegex(elem, e);
                     if(!bool) {
                         return;
@@ -177,8 +179,8 @@
                         성능수치
                     </div>
                 </div>
-                <div class="ui right labeled input">
-                    <select class="inner_gpu">
+                <div class="ui right labeled input inner_gpu">
+                    <select class="ui selection dropdown minw100">
                         <option>선택</option>
                     </select>
                     <input type="text" class="innerGpu">
@@ -203,11 +205,11 @@
         `;
             const cpuContainer = document.querySelector('.cpu-enrollment-container');
             cpuContainer.appendChild(cpuElem);
-            const innerGpu = cpuElem.querySelector('.inner_gpu');
+            const innerGpu = cpuElem.querySelector('.inner_gpu').querySelector('select');
             selCpu(innerGpu);
             const innerGpuInputElem = cpuElem.querySelector('.innerGpu');
-            const gpuPerform = () => {
-                const value = innerGpu.value;
+            const gpuPerform = (value) => {
+                console.log(innerGpuInputElem);
                 fetch(`/ajax/admin/gpuPerformance?igpu=${value}`)
                     .then(res => res.json())
                     .then(data => {
@@ -219,7 +221,9 @@
                     });
             }
             innerGpu.addEventListener('change', () => {
-                gpuPerform();
+                const value = cpuElem.querySelector('.inner_gpu').querySelector('select').value;
+                console.log(value);
+                gpuPerform(value);
             });
 
 
