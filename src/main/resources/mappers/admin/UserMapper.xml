@@ -28,7 +28,7 @@
                     LIMIT 18446744073709551615
             ) P
         GROUP BY iuser
-        ORDER BY iuser DESC
+        ORDER BY rdt DESC
         LIMIT ${startIdx}, ${recordCount}
     </select>
 

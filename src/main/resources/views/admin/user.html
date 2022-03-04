@@ -11,14 +11,18 @@
 <th:block layout:fragment="content">
     <div class="user w110p" th:with="keyword=${param.keyword}">
         <form class="search_form" th:action="@{/admin/user}" method="post">
-            <select name="type" id="type">
-                <option value="nm">이름</option>
-                <option value="uid">아이디</option>
-                <option value="email">이메일</option>
+            <select name="type" id="type" class="ui selection dropdown">
+                <option th:selected="${#strings.equals(param.type, 'nm')}" value="nm">이름</option>
+                <option th:selected="${#strings.equals(param.type, 'uid')}" value="uid">아이디</option>
+                <option th:selected="${#strings.equals(param.type, 'email')}" value="email">이메일</option>
             </select>
             </select>
-            <input type="text" id="keyword" name="keyword" th:value="${keyword}" placeholder="검색">
-            <input type="submit" value="검색">
+            <div class="ui tiny action input w200 h38">
+                <input type="text" name="keyword" th:value="${param.keyword}" placeholder="검색" class="w200">
+                <button class="ui tiny secondary icon button">
+                    <i class="search icon"></i>
+                </button>
+            </div>
         </form>
 
 
@@ -38,11 +42,11 @@
             <th:block th:each="item : ${data}">
             <tr>
                 <td>
-                    <p th:text="${item.uid}"></p>
-                    <p class="user-nm" th:text="${item.nm}"></p>
+                    <a th:href="@{/admin/user/detail?iuser={iuser} (iuser=${item.iuser})}"><p class="mb10" th:text="${item.uid}"></p></a>
+                    <a th:href="@{/admin/user/detail?iuser={iuser} (iuser=${item.iuser})}"><p class="user-nm" th:text="${item.nm}"></p></a>
                 </td>
                 <td>
-                    <p th:text="${item.email}"></p>
+                    <a th:href="@{/admin/user/detail?iuser={iuser} (iuser=${item.iuser})}"><p th:text="${item.email}"></p></a>
                 </td>
                 <td>
                     <p th:text="${#numbers.formatInteger(item.recent_price, 0, 'COMMA')} + 원"></p>
