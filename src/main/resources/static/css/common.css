@@ -105,6 +105,7 @@ table {
 .ct { display: flex; justify-content: center; align-items: center; }
 .cth100 { display: flex; justify-content: center; align-items: center; height: 100% !important; }
 .mct { margin: auto !important; }
+.mct-0 { margin: auto 0px; !important;}
 .tact { text-align: center !important; }
 .taleft { text-align: left; }
 .taright { text-align: right; }
