@@ -45,6 +45,20 @@ public class MainController {
                 for(ProductVo vo : newList) {
                     vo.setFitness(fitService.calFitness(questionDto, vo));
                 }
+            } else {
+                for(ProductVo vo : bestList) {
+                    vo.setFitness(-1);
+                }
+                for(ProductVo vo : newList) {
+                    vo.setFitness(-1);
+                }
+            }
+        } else {
+            for(ProductVo vo : bestList) {
+                vo.setFitness(-1);
+            }
+            for(ProductVo vo : newList) {
+                vo.setFitness(-1);
             }
         }
 
