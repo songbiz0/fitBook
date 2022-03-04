@@ -80,10 +80,12 @@ const addEvent = liList => {
 }
 addEvent(liListElem);
 
-recommendedMoreBtnElem.addEventListener('click', () => {
-    alert('리스트로 이동');
-    // TODO
-});
+if(recommendedMoreBtnElem) {
+    recommendedMoreBtnElem.addEventListener('click', () => {
+        alert('리스트로 이동');
+        // TODO
+    });
+}
 
 bestMoreBtnElem.addEventListener('click', () => {
     alert('리스트로 이동');
