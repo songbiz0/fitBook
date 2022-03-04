@@ -16,6 +16,11 @@
             </foreach>
     </insert>
 
+    <delete id="delProgramMapping">
+        DELETE FROM t_program_question_mapping
+        WHERE iuser = #{iuser}
+    </delete>
+
     <select id="selMyProgramList" resultType="Integer">
         SELECT iprogram
         FROM t_program_question_mapping

@@ -5,6 +5,7 @@ import com.fitbook.fit.FitService;
 import com.fitbook.model.PageDto;
 import com.fitbook.model.product.ProductVo;
 import com.fitbook.model.question.QuestionDto;
+import com.fitbook.model.user.UserEntity;
 import com.fitbook.shop.ShopService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -64,6 +65,14 @@ public class MainController {
 
         model.addAttribute("best", bestList);
         model.addAttribute("newList", newList);
+
+        if(authenticationFacade.getLoginUser() == null) {
+            UserEntity user = new UserEntity();
+            user.setIuser(0);
+            model.addAttribute("user", user);
+        } else {
+            model.addAttribute("user", authenticationFacade.getLoginUser());
+        }
 
         return "main";
     }
