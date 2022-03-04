@@ -97,7 +97,7 @@ public class ShopService {
     }
 
     public ResultVo selOrderCount(PageDto dto) {
-        dto.setIuser(authenticationFacade.getLoginUserPk());
+        dto.setIuser(authenticationFacade.getLoginUser() == null ? -1 : authenticationFacade.getLoginUserPk());
         return mapper.selOrderCount(dto);
     }
 
