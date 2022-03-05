@@ -44,7 +44,7 @@
             //여기 아래 부분
         const plainTextElem = document.querySelector('.note-editable');
         $('#summernote').summernote({
-            height: 450,
+            height: 1000,
             callbacks: {
                 onKeyup: function(e) {
                     var caracteres = $(".note-editable").text();
@@ -55,8 +55,8 @@
                 }
             },
             width: 800,
-            minHeight: 450,
-            maxHeight: 450,
+            minHeight: 800,
+            maxHeight: 800,
             focus: true,
             lang: "ko-KR",
             toolbar: [

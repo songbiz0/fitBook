@@ -5,6 +5,8 @@ import com.fitbook.auth.AuthenticationFacade;
 import com.fitbook.model.cpu.CpuListEntity;
 import com.fitbook.model.gpu.GpuListEntity;
 import com.fitbook.model.order.OrderDto;
+import com.fitbook.model.order.OrderListVo;
+import com.fitbook.model.order.OrderVo;
 import com.fitbook.model.product.ProductDetailListVo;
 import com.fitbook.model.product.ProductVo;
 import com.fitbook.model.productquestion.ProductQuestionDto;
@@ -18,6 +20,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 import java.net.URLEncoder;
+import java.util.List;
 
 @Controller
 @RequestMapping("/admin")
@@ -29,10 +32,19 @@ public class AdminController {
 
     // 메인
     @GetMapping("")
-    public String index() { return "redirect:/admin/main"; }
+    public String index() {
+        return "redirect:/admin/main";
+    }
 
     @GetMapping("/main")
-    public void admin() {
+    public void admin(Model model) {
+        List<OrderVo> list = service.getStatusCnt();
+        for(int i=0; i<list.size(); i++) {
+            System.out.println(list.get(i));
+        }
+        OrderListVo vo = new OrderListVo();
+        vo.setOrderList(list);
+        model.addAttribute("statusList", vo);
     }
 
     // 유저

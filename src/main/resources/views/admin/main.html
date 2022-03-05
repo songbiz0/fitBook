@@ -10,17 +10,46 @@
 </head>
 
 <th:block layout:fragment="content">
-    <div class="w100p admin-main-container">
-        <h1>최근 12개월 수익</h1>
-        <canvas id="monthChart" width="1000" height="400"></canvas>
-        <div class="w100p brandDiv mt50 mb50">
-            <div>
-                <h1>브랜드별 수요</h1>
-                <canvas class="mr30" id="brandDemand" width="450" height="300"></canvas>
+    <div>
+        <div>
+            <div class="manageflex">
+                <h1>주문관리</h1>
+
+                <div>
+                    <table class="manage-table">
+
+                        <tr>
+                            <th:block th:with="list=${statusList.orderList}" th:each="num : ${#numbers.sequence(0, (#lists.size(statusList.orderList) / 2)-1)}">
+                            <td>
+                                <span th:text="${list[num].order_status}"></span>
+                                <p th:text="${list[num].cnt}">1</p>
+                            </td>
+                            </th:block>
+                        </tr>
+                        <tr>
+                            <th:block th:with="list=${statusList.orderList}" th:each="num : ${#numbers.sequence((#lists.size(statusList.orderList) / 2), (#lists.size(statusList.orderList)-1))}">
+                            <td>
+                                <span th:text="${list[num].order_status}"></span>
+                                <p th:text="${list[num].cnt}"></p>
+                            </td>
+                            </th:block>
+                        </tr>
+                    </table>
+                </div>
             </div>
-            <div>
-                <h1>이번 달 수익</h1>
-                <canvas class="ml30" id="thisMonthChart" width="450" height="300"></canvas>
+        </div>
+        <div class="w100p admin-main-container">
+            <h1>최근 12개월 수익</h1>
+            <canvas id="monthChart" width="1000" height="400"></canvas>
+            <div class="w100p brandDiv mt50 mb50">
+                <div>
+                    <h1>브랜드별 수요</h1>
+                    <canvas class="mr30" id="brandDemand" width="450" height="300"></canvas>
+                </div>
+                <div>
+                    <h1>이번 달 수익</h1>
+                    <canvas class="ml30" id="thisMonthChart" width="450" height="300"></canvas>
+                </div>
             </div>
         </div>
     </div>

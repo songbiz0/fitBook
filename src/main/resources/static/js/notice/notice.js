@@ -56,6 +56,7 @@
                     location.href = '/notice/detail?inotice=' + item.inotice +'&page=' + currentPage +'&search=' + searchVal + '&select=' + selectVal;
                 });
                 const rdt = item.rdt.substr(0, item.rdt.indexOf('.'));
+                trElem.classList.add('cspointer');
                 trElem.innerHTML = `
                     <td>${item.inotice}</td>
                     <td>${item.title}</td>
@@ -230,9 +231,11 @@
         const noticeTitle = document.querySelector('.notice-tit');
         const ctntElem1 = document.querySelector('#summernote');
         const ctntElem2 = document.querySelector('.note-editable');
+        const editingArea = document.querySelector('.note-editable');
         let isTitle = false;
         let isCtnt = false;
 
+        editingArea.classList.add('h500');
         titleElem.addEventListener('keyup', () => {
             const titleDivElem = document.querySelector('#tit');
             if(!titleRegex.test(titleElem.value)) {
