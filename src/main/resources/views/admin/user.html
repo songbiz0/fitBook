@@ -5,11 +5,11 @@
 <head>
     <meta charset="UTF-8">
     <title>회원관리</title>
-<!--    <script defer th:src="@{/js/admin/user.js}"></script>-->
+    <script defer th:src="@{/js/admin/user.js}"></script>
 </head>
 
 <th:block layout:fragment="content">
-    <div class="user w110p" th:with="keyword=${param.keyword}">
+    <div class="user w110p user-list" th:with="keyword=${param.keyword}">
         <form class="search_form" th:action="@{/admin/user}" method="post">
             <select name="type" id="type" class="ui selection dropdown">
                 <option th:selected="${#strings.equals(param.type, 'nm')}" value="nm">이름</option>
@@ -40,13 +40,13 @@
             </thead>
             <tbody>
             <th:block th:each="item : ${data}">
-            <tr>
+            <tr class="cspointer iuser-tr" th:data-iuser="${item.iuser}">
                 <td>
-                    <a th:href="@{/admin/user/detail?iuser={iuser} (iuser=${item.iuser})}"><p class="mb10" th:text="${item.uid}"></p></a>
-                    <a th:href="@{/admin/user/detail?iuser={iuser} (iuser=${item.iuser})}"><p class="user-nm" th:text="${item.nm}"></p></a>
+                    <p class="mb10" th:text="${item.uid}"></p>
+                    <p class="user-nm" th:text="${item.nm}"></p>
                 </td>
                 <td>
-                    <a th:href="@{/admin/user/detail?iuser={iuser} (iuser=${item.iuser})}"><p th:text="${item.email}"></p></a>
+                    <p th:text="${item.email}"></p>
                 </td>
                 <td>
                     <p th:text="${#numbers.formatInteger(item.recent_price, 0, 'COMMA')} + 원"></p>
