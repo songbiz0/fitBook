@@ -330,6 +330,14 @@ public class AdminService {
 
     //User List
     public List<UserVo> selUserList(UserDto dto) {
+        if(dto.getSort() != null) {
+            String[] sortArr = dto.getSort().split("-");
+            dto.setSortType(sortArr[0]);
+            dto.setSort(sortArr[1]);
+        } else {
+            dto.setSort("DESC");
+            dto.setSortType("rdt");
+        }
         List<UserVo> list = mapper.selUserList(dto);
         return list;
     }

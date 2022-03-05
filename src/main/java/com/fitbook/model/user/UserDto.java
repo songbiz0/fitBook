@@ -10,6 +10,9 @@ import lombok.ToString;
 public class UserDto {
     private String type;
     private String keyword;
+    private String sort;
+    private String sortType;
+    private int exceptNull;
 
     //maxPage
     private int page;
