@@ -245,64 +245,64 @@
                 const divElem = document.createElement('div');
                 divElem.className = 'product-detail';
                 divElem.innerHTML = `
-                <div class="inv-box">
-                    <div class="inv-name">
-                        <span>색상</span>
-                        <span>:</span>
-                    </div>
-                    <input type="text" class="color">
-                </div>
-                <div class="inv-box">
-                    <div class="inv-name">
-                        <span>하드디스크 용량</span>
-                        <span>:</span>
-                    </div>
-                    <input type="text" class="hdd">
-                </div>
-                <div class="inv-box">
-                    <div class="inv-name">
-                        <span>SSD 용량</span>
-                        <span>:</span>
-                    </div>
-                    <input type="text" class="ssd">
-                </div>
-                <div class="inv-box">
-                    <div class="inv-name">
-                        <span>가격</span>
-                        <span>:</span>
-                    </div>
-                    <input type="text" class="price">
-                </div>
-                <div class="inv-box">
-                    <div class="inv-name">
-                        <span>재고</span>
-                        <span>:</span>
-                    </div>
-                    <input type="text" class="stock">
-                </div>
-                <div class="inv-box">
-                    <div class="inv-name">
-                        <span>할인</span>
-                        <span>:</span>
-                    </div>
-                    <input type="text" class="dc_rate">
-                </div>
-                <div id="repre-div">
-                    <div class="inv-name">
-                        <span>이미지</span>
-                        <span>:</span>
-                    </div>
-                    <div class="inv-btm">
-                        <div class="file-area">
-                            <input type="file" class="mfFile">
+                    <div class="inv-box">
+                        <div class="inv-name">
+                            <span>색상</span>
+                            <span>:</span>
                         </div>
-                        <div class="file-set">
-                            <input type="button" class="ui inverted red button file-remove-button" value="파일초기화">
-                            <input type="button" class="ui inverted red button ml10 delBtn" value="삭제하기">
-                            <input type="button" class="ui inverted blue button ml10 repre" value="대표옵션으로설정">
+                        <input type="text" class="color">
+                    </div>
+                    <div class="inv-box">
+                        <div class="inv-name">
+                            <span>하드디스크 용량</span>
+                            <span>:</span>
+                        </div>
+                        <input type="text" class="hdd">
+                    </div>
+                    <div class="inv-box">
+                        <div class="inv-name">
+                            <span>SSD 용량</span>
+                            <span>:</span>
+                        </div>
+                        <input type="text" class="ssd">
+                    </div>
+                    <div class="inv-box">
+                        <div class="inv-name">
+                            <span>가격</span>
+                            <span>:</span>
+                        </div>
+                        <input type="text" class="price">
+                    </div>
+                    <div class="inv-box">
+                        <div class="inv-name">
+                            <span>재고</span>
+                            <span>:</span>
+                        </div>
+                        <input type="text" class="stock">
+                    </div>
+                    <div class="inv-box">
+                        <div class="inv-name">
+                            <span>할인</span>
+                            <span>:</span>
+                        </div>
+                        <input type="text" class="dc_rate">
+                    </div>
+                    <div id="repre-div">
+                        <div class="inv-name">
+                            <span>이미지</span>
+                            <span>:</span>
+                        </div>
+                        <div class="inv-btm">
+                            <div class="file-area">
+                                <input type="file" class="mfFile">
+                            </div>
+                            <div class="file-set">
+                                <input type="button" class="ui inverted red button file-remove-button" value="파일초기화">
+                                <input type="button" class="ui inverted red button ml10 delBtn" value="삭제하기">
+                                <input type="button" class="ui inverted blue button ml10 repre" value="대표옵션으로설정">
+                            </div>
                         </div>
                     </div>
-                </div>
                 `;
 
                 const insBeforeElem = document.querySelector('#ins-before-div');
