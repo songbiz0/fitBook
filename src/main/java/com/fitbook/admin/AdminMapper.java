@@ -28,7 +28,9 @@ import java.util.List;
 
 @Mapper
 public interface AdminMapper {
-    // Main 차트
+    // Main
+    OrderVo statusCnt(String order_status);
+
     List<OrderVo> selCurrentMonthList(OrderDto dto);
     List<OrderVo> selThisMonthList(OrderDto dto);
     List<OrderProductVo> selBrandDemandList();

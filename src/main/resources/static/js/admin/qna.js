@@ -50,8 +50,8 @@
             }
             data.forEach(item => {
                 const ctnt = subString(item.ctnt);
-                console.log(item);
                 const trElem = document.createElement('tr');
+                const rdt = item.rdt.substr(0, 19);
                 trElem.classList.add('cspointer');
                 trElem.addEventListener('click', () => {
                     const url = `/shop/detail?iproduct=${item.iproduct}`;
@@ -67,7 +67,7 @@
                     </td>
                     <td class="min-w400 max-w400">${ctnt}</td>
                     <td>${item.nm}(${item.uid})</td>
-                    <td>${item.rdt}</td>
+                    <td><p>${rdt}</p></td>
                 `;
                 const tdElem = document.createElement('td');
                 tdElem.innerText = item.cnt;
@@ -126,6 +126,9 @@
                 aElem.classList.add(status);
                 paginationElem.appendChild(aElem);
                 aElem.addEventListener('click', () => {
+                    if(currentPage === i) {
+                        return;
+                    }
                     currentPage = i;
                     getList(makePagingUrl());
                 });

@@ -28,4 +28,10 @@
         ON B.idetail = C.idetail
         ]]>
     </select>
+
+    <select id="statusCnt" resultType="OrderVo">
+        SELECT COUNT(order_status) AS cnt, order_status
+        FROM t_order
+        WHERE order_status = #{order_status}
+    </select>
 </mapper>

@@ -41,6 +41,7 @@ table {
 .gap20 { gap: 20px; }
 .gap30 { gap: 30px; }
 .gap50 { gap: 50px; }
+.gap150 { gap: 150px; }
 
 .h10 { height: 10px ;}
 .h12 { height: 12px ;}
@@ -109,6 +110,7 @@ table {
 .tact { text-align: center !important; }
 .taleft { text-align: left; }
 .taright { text-align: right; }
+.f1ct { flex: 1; text-align: center;}
 
 .m0 { margin: 0; }
 .ml0 { margin-left: 0 !important; }
