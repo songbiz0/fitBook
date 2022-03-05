@@ -10,18 +10,31 @@
 
 <th:block layout:fragment="content">
     <div class="user w110p user-list" th:with="keyword=${param.keyword}">
-        <form class="search_form" th:action="@{/admin/user}" method="post">
-            <select name="type" id="type" class="ui selection dropdown">
-                <option th:selected="${#strings.equals(param.type, 'nm')}" value="nm">이름</option>
-                <option th:selected="${#strings.equals(param.type, 'uid')}" value="uid">아이디</option>
-                <option th:selected="${#strings.equals(param.type, 'email')}" value="email">이메일</option>
-            </select>
-            </select>
-            <div class="ui tiny action input w200 h38">
-                <input type="text" name="keyword" th:value="${param.keyword}" placeholder="검색" class="w200">
-                <button class="ui tiny secondary icon button">
-                    <i class="search icon"></i>
-                </button>
+        <form class="search_form justibetween" th:action="@{/admin/user}" method="post">
+            <div>
+                <select name="type" id="type" class="ui selection dropdown">
+                    <option th:selected="${#strings.equals(param.type, 'nm')}" value="nm">이름</option>
+                    <option th:selected="${#strings.equals(param.type, 'uid')}" value="uid">아이디</option>
+                    <option th:selected="${#strings.equals(param.type, 'email')}" value="email">이메일</option>
+                </select>
+                <div class="ui tiny action input w200 h38">
+                    <input id="search" type="text" name="keyword" th:value="${param.keyword}" placeholder="검색" class="w200">
+                    <button class="ui tiny secondary icon button">
+                        <i class="search icon"></i>
+                    </button>
+                </div>
+            </div>
+            <div>
+                <select name="sort" id="rdt-sort" class="ui selection dropdown">
+                    <option th:selected="${#strings.equals(param.sort, 'rdt-desc')}" value="rdt-desc">회원가입 일 내림차순</option>
+                    <option th:selected="${#strings.equals(param.sort, 'rdt-asc')}" value="rdt-asc">회원가입 일 오름차순</option>
+                    <option th:selected="${#strings.equals(param.sort, 'recent_rdt-desc')}" value="recent_rdt-desc">최근거래 일 내림차순</option>
+                    <option th:selected="${#strings.equals(param.sort, 'recent_rdt-asc')}" value="recent_rdt-asc">최근거래 일 오름차순</option>
+                </select>
+                <label>
+                    <input th:checked="${#strings.equals(param.exceptNull, 1)}" type="checkbox" name="exceptNull" value="1">
+                    <span>없음 제외</span>
+                </label>
             </div>
         </form>
 

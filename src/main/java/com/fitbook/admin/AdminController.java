@@ -61,9 +61,11 @@ public class AdminController {
     public String userProc(UserDto dto) throws Exception {
         String keyword = URLEncoder.encode(dto.getKeyword(), "UTF-8");
         String type = URLEncoder.encode(dto.getType(), "UTF-8");
+        String sort = URLEncoder.encode(dto.getSort(), "UTF-8");
+        int except = dto.getExceptNull();
         System.out.println(dto);
 
-        return "redirect:/admin/user?keyword=" + keyword +"&type=" + type;
+        return "redirect:/admin/user?keyword=" + keyword +"&type=" + type + "&sort=" + sort + "&exceptNull=" + except;
     }
 
     @GetMapping("/userinfo")

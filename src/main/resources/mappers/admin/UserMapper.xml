@@ -24,11 +24,14 @@
                 <if test="keyword != null and keyword != ''">
                     AND ${type} LIKE CONCAT('%', #{keyword}, '%')
                 </if>
+                <if test="exceptNull == 1">
+                    AND NOT B.rdt IS NULL
+                </if>
                 ORDER BY A.rdt DESC
                     LIMIT 18446744073709551615
             ) P
         GROUP BY iuser
-        ORDER BY rdt DESC
+        ORDER BY ${sortType} ${sort}
         LIMIT ${startIdx}, ${recordCount}
     </select>
 
