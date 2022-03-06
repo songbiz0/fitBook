@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security"
+      layout:decorate="temp/list_layout">
+<head>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" th:href="@{/css/main.css}">
+    <link rel="stylesheet" th:href="@{/css/shop/list.css}">
+    <script defer th:src="@{/js/shop/list.js}"></script>
+    <title></title>
+</head>
+<body>
+<th:block layout:fragment="content">
+    <div id="data"
+         th:data-maxpage="${maxpage}"
+         th:data-currentpage="${pagedto.currentPage}"
+         th:data-fit="${fit}"
+         th:data-sort="${pagedto.sort}"></div>
+
+    <main class="btgrey">
+        <button class="ui secondary mini button sidebar_toggle">
+            <i class="angle right icon"></i>
+        </button>
+        <div class="ui center aligned container">
+            <div class="fc mt50">
+                <div class="ui right aligned container">
+                    <div class="content mr100">
+                        <div id="sortDropdown" class="ui inline small dropdown">
+                            <div id="sortText" class="text"></div>
+                            <i class="dropdown icon"></i>
+                            <div class="menu">
+                                <div id="best" class="item" data-text="판매량순">판매량순</div>
+                                <div id="recommendation" class="item" data-text="추천순" th:if="${fit}">추천순</div>
+                                <div id="new" class="item" data-text="출시일순">출시일순</div>
+                                <div id="lowPrice" class="item" data-text="낮은 가격순">낮은 가격순</div>
+                                <div id="highPrice" class="item" data-text="높은 가격순">높은 가격순</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <ul class="ulfl p0">
+                    <li class="fc w300 product hp mlr10 pl" th:each="item : ${list}">
+                        <div class="data" th:data-iproduct="${item.iproduct}">
+                            <img class="w250"
+                                 th:src="@{${'/imgPath/products/detail/' + item.idetail + '/' + item.detailImg}}">
+                        </div>
+                        <div class="fs13" th:text="${item.brand} + ' ' + ${item.nm}"></div>
+                        <div class="fs12 cgrey" th:text="${item.product_code}"></div>
+                        <div class="fs12 cgrey" th:text="${item.cpuNm} +  ' / ' + ${item.ram} + 'GB' + (${item.is_inner_gpu == 'Y' ? '' : ' / ' + item.gpuNm})"></div>
+                        <div class="fs12 mt10 tdlt cgrey"
+                             th:text="${#numbers.formatInteger(item.originalPrice, 0, 'COMMA')} + '원'"></div>
+                        <div class="fs13" th:text="${#numbers.formatInteger(item.price, 0, 'COMMA')} + '원'"></div>
+                        <div class="mt10">
+                            <span id="likeBtn" class="like fs12 hp mlr10 cb0_5">
+                                <i id="likeI" class="like icon"></i> <span id="likeSpan"></span>
+                            </span>
+                            <span id="ratingBtn" class="star fs12 hp mlr10 cb0_5">
+                                <i id="starI" class="star icon"></i> <span id="starSpan"></span>
+                            </span>
+                            <span class="mlr10 temper" data-tooltip="나에게 얼마나 적합한 제품인지를 보여줘요." data-variation="mini">
+                            <i class="fire icon cb0_5"></i>
+                            <span class="fs12 cred" th:text="${item.fitness == -1 ? '?' : item.fitness} + '°'"></span></span>
+                        </div>
+                    </li>
+                    <div th:if="${#lists.size(list) == 0}" class="fs13 h200"><p class="cth100">조건에 맞는 상품이 없습니다.</p></div>
+                </ul>
+            </div>
+            <div id="productPagination" class="ui pagination tiny menu mt50"></div>
+        </div>
+    </main>
+</th:block>
+</body>
+</html>

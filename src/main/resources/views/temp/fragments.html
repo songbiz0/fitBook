@@ -32,9 +32,9 @@
             </div>
             <div class="ui center aligned container h42">
                 <a th:href="@{/}"><button class="medium ui button bgwhite mlr30 h100p">HOME</button></a>
-                <button class="medium ui button bgwhite mlr30">NEW</button>
-                <button class="medium ui button bgwhite mlr30">BEST</button>
-                <button class="medium ui button bgwhite mlr30">SHOP</button>
+                <a th:href="@{/shop/list?sort=new}"><button class="medium ui button bgwhite mlr30">NEW</button></a>
+                <a th:href="@{/shop/list?sort=best}"><button class="medium ui button bgwhite mlr30">BEST</button></a>
+                <a th:href="@{/shop/list}"><button class="medium ui button bgwhite mlr30">SHOP</button></a>
                 <a th:href="@{/fit/question}"><button class="medium ui button bgwhite mlr30">FIT!</button></a>
                 <a th:href="@{/notice/list}"><button id="noticeBtn" class="medium ui button bgwhite mlr30">NOTICE</button></a>
             </div>
@@ -51,5 +51,420 @@
             </div>
         </div>
     </footer>
+</th:block>
+
+<th:block th:fragment="sidebar">
+    <div class="ui vertical accordion menu sidebar ofhiddenx">
+        <div class="f mt10 mr10 mb10">
+            <div class="fr1"></div>
+            <button class="ui basic tiny button m5" id="cancelBtn">취소</button>
+            <button class="ui secondary tiny button m5" id="applyBtn">적용</button>
+            <div class="w10"></div>
+        </div>
+
+        <div class="item">
+            <a class="active title">
+                <i class="dropdown icon"></i>
+                제조사
+            </a>
+            <div class="active content">
+                <div id="brandForm" class="ui form">
+                    <div class="grouped fields">
+                        <div class="field" th:each="item : ${searchlist.brandList}">
+                            <div class="ui checkbox">
+                                <input type="checkbox" th:name="${item}" th:id="${item}">
+                                <label th:for="${item}" th:text="${item}"></label>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="item">
+            <a class="title">
+                <i class="dropdown icon"></i>
+                CPU
+            </a>
+            <div class="content">
+                <div id="cpuForm" class="ui form">
+                    <div class="grouped fields">
+                        <div class="field" th:each="item : ${searchlist.intelCpuList}">
+                            <div class="ui checkbox">
+                                <input type="checkbox" th:name="${item}" th:id="${item}">
+                                <label th:for="${item}" th:text="${item}"></label>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="grouped fields">
+                        <div class="field" th:each="item : ${searchlist.amdCpuList}">
+                            <div class="ui checkbox">
+                                <input type="checkbox" th:name="${item}" th:id="${item}">
+                                <label th:for="${item}" th:text="${item}"></label>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="item">
+            <a class="title">
+                <i class="dropdown icon"></i>
+                GPU
+            </a>
+            <div class="content">
+                <div id="gpuForm" class="ui form">
+                    <div class="grouped fields">
+                        <div class="field">
+                            <div id="innerGpuChk" class="ui checkbox">
+                                <input type="checkbox" name="innerGpu" id="innerGpu">
+                                <label for="innerGpu">내장 그래픽 카드 사용</label>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="grouped fields">
+                        <div class="field" th:each="item : ${searchlist.nvidiaGpuList}">
+                            <div class="ui checkbox">
+                                <input type="checkbox" th:name="${item}" th:id="${item}">
+                                <label th:for="${item}" th:text="${item}"></label>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="grouped fields">
+                        <div class="field" th:each="item : ${searchlist.amdGpuList}">
+                            <div class="ui checkbox">
+                                <input type="checkbox" th:name="${item}" th:id="${item}">
+                                <label th:for="${item}" th:text="${item}"></label>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="item">
+            <a class="title">
+                <i class="dropdown icon"></i>
+                화면 크기
+            </a>
+            <div class="content">
+                <div id="sizeForm" class="ui form">
+                    <div class="grouped fields">
+                        <div class="field">
+                            <div class="ui checkbox">
+                                <input type="checkbox" name="13" id="inch13">
+                                <label for="inch13">13인치대</label>
+                            </div>
+                        </div>
+                        <div class="field">
+                            <div class="ui checkbox">
+                                <input type="checkbox" name="14" id="inch14">
+                                <label for="inch14">14인치대</label>
+                            </div>
+                        </div>
+                        <div class="field">
+                            <div class="ui checkbox">
+                                <input type="checkbox" name="15" id="inch15">
+                                <label for="inch15">15인치대</label>
+                            </div>
+                        </div>
+                        <div class="field">
+                            <div class="ui checkbox">
+                                <input type="checkbox" name="16" id="inch16">
+                                <label for="inch16">16인치대</label>
+                            </div>
+                        </div>
+                        <div class="field">
+                            <div class="ui checkbox">
+                                <input type="checkbox" name="17" id="inch17">
+                                <label for="inch17">17인치대</label>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="item">
+            <a class="title">
+                <i class="dropdown icon"></i>
+                메모리
+            </a>
+            <div class="content">
+                <div id="ramForm" class="ui form">
+                    <div class="grouped fields">
+                        <div class="field">
+                            <div class="ui checkbox">
+                                <input type="checkbox" name="4" id="ram4">
+                                <label for="ram4">4GB</label>
+                            </div>
+                        </div>
+                        <div class="field">
+                            <div class="ui checkbox">
+                                <input type="checkbox" name="8" id="ram8">
+                                <label for="ram8">8GB</label>
+                            </div>
+                        </div>
+                        <div class="field">
+                            <div class="ui checkbox">
+                                <input type="checkbox" name="16" id="ram16">
+                                <label for="ram16">16GB</label>
+                            </div>
+                        </div>
+                        <div class="field">
+                            <div class="ui checkbox">
+                                <input type="checkbox" name="32" id="ram32">
+                                <label for="ram32">32GB</label>
+                            </div>
+                        </div>
+                        <div class="field">
+                            <div class="ui checkbox">
+                                <input type="checkbox" name="64" id="ram64">
+                                <label for="ram64">64GB</label>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="item">
+            <a class="title">
+                <i class="dropdown icon"></i>
+                운영체제
+            </a>
+            <div class="content">
+                <div id="osForm" class="ui form">
+                    <div class="grouped fields">
+                        <div class="field">
+                            <div class="ui checkbox">
+                                <input type="checkbox" name="freeDOS" id="freeDos">
+                                <label for="freeDos">미포함 (FreeDOS)</label>
+                            </div>
+                        </div>
+                        <div class="field">
+                            <div class="ui checkbox">
+                                <input type="checkbox" name="Windows 10" id="win10">
+                                <label for="win10">윈도우 10</label>
+                            </div>
+                        </div>
+                        <div class="field">
+                            <div class="ui checkbox">
+                                <input type="checkbox" name="Windows 11" id="win11">
+                                <label for="win11">윈도우 11</label>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="item">
+            <a class="title">
+                <i class="dropdown icon"></i>
+                무게
+            </a>
+            <div class="content">
+                <div id="weightForm" class="ui form">
+                    <div class="grouped fields">
+                        <div class="field w100p">
+                            <div class="ui checkbox">
+                                <input type="checkbox" name="0~1" id="under1kg">
+                                <label for="under1kg">1kg 이하</label>
+                            </div>
+                        </div>
+                        <div class="field">
+                            <div class="ui checkbox">
+                                <input type="checkbox" name="1~1.5" id="under1_5kg">
+                                <label for="under1_5kg">1.0kg ~ 1.5kg</label>
+                            </div>
+                        </div>
+                        <div class="field">
+                            <div class="ui checkbox">
+                                <input type="checkbox" name="1.5~2" id="under2kg">
+                                <label for="under2kg">1.5kg ~ 2.0kg</label>
+                            </div>
+                        </div>
+                        <div class="field">
+                            <div class="ui checkbox">
+                                <input type="checkbox" name="2~2.5" id="under2_5kg">
+                                <label for="under2_5kg">2.0kg ~ 2.5kg</label>
+                            </div>
+                        </div>
+                        <div class="field">
+                            <div class="ui checkbox">
+                                <input type="checkbox" name="2.5~3" id="under3kg">
+                                <label for="under3kg">2.5kg ~ 3.0kg</label>
+                            </div>
+                        </div>
+                        <div class="field w100p">
+                            <div class="ui checkbox">
+                                <input type="checkbox" name="3~10" id="over3kg">
+                                <label for="over3kg">3.0kg 이상</label>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="item">
+            <a class="title">
+                <i class="dropdown icon"></i>
+                해상도
+            </a>
+            <div class="content">
+                <div id="resForm" class="ui form">
+                    <div class="grouped fields">
+                        <div class="field">
+                            <div class="ui checkbox">
+                                <input type="checkbox" name="1366x768" id="fwxga">
+                                <label for="fwxga">1366x768 (FWXGA)</label>
+                            </div>
+                        </div>
+                        <div class="field">
+                            <div class="ui checkbox">
+                                <input type="checkbox" name="1920x1080(FHD)" id="fhd">
+                                <label for="fhd">1920x1080 (FHD)</label>
+                            </div>
+                        </div>
+                        <div class="field">
+                            <div class="ui checkbox">
+                                <input type="checkbox" name="1920x1200(WUXGA)" id="wuxga">
+                                <label for="wuxga">1920x1200 (WUXGA)</label>
+                            </div>
+                        </div>
+                        <div class="field">
+                            <div class="ui checkbox">
+                                <input type="checkbox" name="2560x1440(QHD)" id="qhd">
+                                <label for="qhd">2560x1440 (QHD)</label>
+                            </div>
+                        </div>
+                        <div class="field">
+                            <div class="ui checkbox">
+                                <input type="checkbox" name="2560x1600(WQXGA)" id="wqxga">
+                                <label for="wqxga">2560x1600 (WQXGA)</label>
+                            </div>
+                        </div>
+                        <div class="field">
+                            <div class="ui checkbox">
+                                <input type="checkbox" name="3840x2160(4K UHD)" id="uhd">
+                                <label for="uhd">3840x2160 (4K UHD)</label>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="item">
+            <a class="title">
+                <i class="dropdown icon"></i>
+                주사율
+            </a>
+            <div class="content">
+                <div id="hzForm" class="ui form">
+                    <div class="grouped fields">
+                        <div class="field">
+                            <div class="ui checkbox">
+                                <input type="checkbox" name="60" id="hz60">
+                                <label for="hz60">60Hz</label>
+                            </div>
+                        </div>
+                        <div class="field">
+                            <div class="ui checkbox">
+                                <input type="checkbox" name="120" id="hz120">
+                                <label for="hz120">120Hz</label>
+                            </div>
+                        </div>
+                        <div class="field">
+                            <div class="ui checkbox">
+                                <input type="checkbox" name="144" id="hz144">
+                                <label for="hz144">144Hz</label>
+                            </div>
+                        </div>
+                        <div class="field">
+                            <div class="ui checkbox">
+                                <input type="checkbox" name="165" id="hz165">
+                                <label for="hz165">165Hz</label>
+                            </div>
+                        </div>
+                        <div class="field">
+                            <div class="ui checkbox">
+                                <input type="checkbox" name="240" id="hz240">
+                                <label for="hz240">240Hz</label>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="item">
+            <a class="title">
+                <i class="dropdown icon"></i>
+                배터리
+            </a>
+            <div class="content">
+                <div id="batteryForm" class="ui form">
+                    <div class="grouped fields">
+                        <div class="field">
+                            <div class="ui checkbox">
+                                <input type="checkbox" name="0~40" id="under40wh">
+                                <label for="under40wh">40Wh 미만</label>
+                            </div>
+                        </div>
+                        <div class="field">
+                            <div class="ui checkbox">
+                                <input type="checkbox" name="40~50" id="under50wh">
+                                <label for="under50wh">40~50Wh</label>
+                            </div>
+                        </div>
+                        <div class="field">
+                            <div class="ui checkbox">
+                                <input type="checkbox" name="50~60" id="under60wh">
+                                <label for="under60wh">50~60Wh</label>
+                            </div>
+                        </div>
+                        <div class="field">
+                            <div class="ui checkbox">
+                                <input type="checkbox" name="60~70" id="under70wh">
+                                <label for="under70wh">60~70Wh</label>
+                            </div>
+                        </div>
+                        <div class="field">
+                            <div class="ui checkbox">
+                                <input type="checkbox" name="70~1000" id="over70wh">
+                                <label for="over70wh">70Wh 이상</label>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="item">
+            <a class="title">
+                <i class="dropdown icon"></i>
+                기타
+            </a>
+            <div class="content">
+                <div id="etcForm" class="ui form">
+                    <div class="grouped fields">
+                        <div class="field">
+                            <div class="ui checkbox">
+                                <input type="checkbox" name="twoinone" id="twoinone">
+                                <label for="twoinone">화면 회전각 360도</label>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
 </th:block>
 </html>

@@ -52,7 +52,8 @@
         SELECT A.ram, A.size, A.weight, A.brand, A.os,
                A.battery, A.istwoinone, A.hz, A.resolution, ROUND(B.price * (1 - B.dc_rate), -3) AS price,
                C.performance AS cpuPerformance, D.performance AS gpuPerformance, B.img AS detailImg, A.nm, A.product_code,
-               C.nm AS cpuNm, D.nm AS gpuNm, B.price AS originalPrice, B.idetail, A.iproduct
+               C.nm AS cpuNm, D.nm AS gpuNm, B.price AS originalPrice, B.idetail, A.iproduct,
+               D.is_inner_gpu
         FROM t_product_master A
         INNER JOIN t_product_detail B
         ON A.iproduct = B.iproduct

@@ -39,7 +39,7 @@
                         </div>
                         <div class="fs13" th:text="${item.brand} + ' ' + ${item.nm}"></div>
                         <div class="fs12 cgrey" th:text="${item.product_code}"></div>
-                        <div class="fs12 cgrey" th:text="${item.cpuNm} +  ' / ' + ${item.ram} + 'GB'"></div>
+                        <div class="fs12 cgrey" th:text="${item.cpuNm} +  ' / ' + ${item.ram} + 'GB' + (${item.is_inner_gpu == 'Y' ? '' : ' / ' + item.gpuNm})"></div>
                         <div class="fs12 mt10 tdlt cgrey"
                              th:text="${#numbers.formatInteger(item.originalPrice, 0, 'COMMA')} + '원'"></div>
                         <div class="fs13" th:text="${#numbers.formatInteger(item.price, 0, 'COMMA')} + '원'"></div>
@@ -71,7 +71,7 @@
                         </div>
                         <div class="fs13" th:text="${item.brand} + ' ' + ${item.nm}"></div>
                         <div class="fs12 cgrey" th:text="${item.product_code}"></div>
-                        <div class="fs12 cgrey" th:text="${item.cpuNm} +  ' / ' + ${item.ram} + 'GB'"></div>
+                        <div class="fs12 cgrey" th:text="${item.cpuNm} +  ' / ' + ${item.ram} + 'GB' + (${item.is_inner_gpu == 'Y' ? '' : ' / ' + item.gpuNm})"></div>
                         <div class="fs12 mt10 tdlt cgrey"
                              th:text="${#numbers.formatInteger(item.originalPrice, 0, 'COMMA')} + '원'"></div>
                         <div class="fs13" th:text="${#numbers.formatInteger(item.price, 0, 'COMMA')} + '원'"></div>
@@ -103,7 +103,7 @@
                         </div>
                         <div class="fs13" th:text="${item.brand} + ' ' + ${item.nm}"></div>
                         <div class="fs12 cgrey" th:text="${item.product_code}"></div>
-                        <div class="fs12 cgrey" th:text="${item.cpuNm} +  ' / ' + ${item.ram} + 'GB'"></div>
+                        <div class="fs12 cgrey" th:text="${item.cpuNm} +  ' / ' + ${item.ram} + 'GB' + (${item.is_inner_gpu == 'Y' ? '' : ' / ' + item.gpuNm})"></div>
                         <div class="fs12 mt10 tdlt cgrey"
                              th:text="${#numbers.formatInteger(item.originalPrice, 0, 'COMMA')} + '원'"></div>
                         <div class="fs13" th:text="${#numbers.formatInteger(item.price, 0, 'COMMA')} + '원'"></div>

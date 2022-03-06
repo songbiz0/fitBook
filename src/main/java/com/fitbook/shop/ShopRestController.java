@@ -2,6 +2,7 @@ package com.fitbook.shop;
 
 import com.fitbook.ResultVo;
 import com.fitbook.model.PageDto;
+import com.fitbook.model.product.ProductVo;
 import com.fitbook.model.productReview.ProductReviewEntity;
 import com.fitbook.model.productReview.ProductReviewVo;
 import com.fitbook.model.productquestion.ProductQuestionEntity;
@@ -80,4 +81,7 @@ public class ShopRestController {
     public ResultVo updQuestion(@RequestBody ProductQuestionEntity entity) {
         return service.updQuestion(entity);
     }
+
+    @GetMapping("/selprice")
+    public ProductVo selPrice(@RequestParam int idetail) { return service.selPrice(idetail); }
 }

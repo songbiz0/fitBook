@@ -30,11 +30,11 @@
                         <div class="fs18 bbgrey pb15" th:text="${data.brand} + ' ' + ${data.nm}"></div>
                         <div class="frow w100p mt20">
                             <div class="w100 fs12">정가</div>
-                            <div class="tdlt fs12" th:text="${#numbers.formatInteger(data.originalPrice, 0, 'COMMA')} + '원'"></div>
+                            <div id="originalPrice" class="tdlt fs12" th:text="${#numbers.formatInteger(data.originalPrice, 0, 'COMMA')} + '원'"></div>
                         </div>
                         <div class="frow w100p mt20">
                             <div class="w100 fs12">할인가</div>
-                            <div class="fwb fs13" th:text="${#numbers.formatInteger(data.price, 0, 'COMMA')} + '원'"></div>
+                            <div id="price" class="fwb fs13" th:text="${#numbers.formatInteger(data.price, 0, 'COMMA')} + '원'"></div>
                         </div>
                         <div class="frow w100p mt20">
                             <div class="w100 fs12">평가</div>

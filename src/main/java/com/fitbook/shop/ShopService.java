@@ -4,6 +4,7 @@ import com.fitbook.ResultVo;
 import com.fitbook.auth.AuthenticationFacade;
 import com.fitbook.fit.FitService;
 import com.fitbook.model.PageDto;
+import com.fitbook.model.product.ListDto;
 import com.fitbook.model.product.OptionDto;
 import com.fitbook.model.product.ProductVo;
 import com.fitbook.model.productReview.ProductReviewEntity;
@@ -21,6 +22,12 @@ public class ShopService {
     @Autowired private ShopMapper mapper;
     @Autowired private FitService fitService;
     @Autowired private AuthenticationFacade authenticationFacade;
+
+    public int selMaxPage(PageDto dto) {
+        int maxPage = mapper.selMaxPage(dto);
+        maxPage = Math.max(1, maxPage);
+        return maxPage;
+    }
 
     public ProductVo selProductDetail(int iproduct) {
         ProductVo vo = mapper.selProductDetail(iproduct);
@@ -143,9 +150,26 @@ public class ShopService {
         return result;
     }
 
-    public List<ProductVo> selBestProductList(PageDto dto) {
-        return mapper.selBestProductList(dto);
+    public List<ProductVo> selProductList(PageDto dto) {
+        return mapper.selProductList(dto);
     }
 
-    public List<ProductVo> selNewProductList(PageDto dto) { return mapper.selNewProductList(dto); }
+    public ProductVo selPrice(int idetail) { return mapper.selPrice(idetail); }
+
+    public ListDto selList() {
+        ListDto dto = new ListDto();
+        dto.setBrandList(mapper.selBrandList());
+        dto.setIntelCpuList(mapper.selCpuList("Intel"));
+        dto.setAmdCpuList(mapper.selCpuList("AMD"));
+        dto.setNvidiaGpuList(mapper.selGpuList("NVIDIA"));
+        dto.setAmdGpuList(mapper.selGpuList("AMD"));
+        return dto;
+    }
+
+    public List<String> fromJSON(List<String> list) {
+        for(int i=0; i<list.size(); i++) {
+            list.set(i, list.get(i).replace("\"", "").replace("[", "").replace("]", ""));
+        }
+        return list;
+    }
 }

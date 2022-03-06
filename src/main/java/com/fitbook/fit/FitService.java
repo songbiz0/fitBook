@@ -42,6 +42,7 @@ public class FitService {
         dto.setIuser(authenticationFacade.getLoginUserPk());
         ResultVo result = new ResultVo();
         result.setResult(mapper.delQuestion(dto));
+        mapper.delProgramMapping(authenticationFacade.getLoginUserPk());
         return result;
     }
 

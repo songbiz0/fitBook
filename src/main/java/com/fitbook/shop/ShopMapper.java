@@ -31,6 +31,12 @@ public interface ShopMapper {
     int delQuestion(PageDto dto);
     int updQuestion(ProductQuestionEntity entity);
 
-    List<ProductVo> selBestProductList(PageDto dto);
-    List<ProductVo> selNewProductList(PageDto dto);
+    List<ProductVo> selProductList(PageDto dto);
+    int selMaxPage(PageDto dto);
+
+    ProductVo selPrice(int idetail);
+
+    List<String> selBrandList();
+    List<String> selCpuList(String brand);
+    List<String> selGpuList(String brand);
 }
