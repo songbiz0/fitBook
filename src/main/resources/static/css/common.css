@@ -51,6 +51,7 @@ table {
 .h42 { height: 42px; }
 .h50 { height: 50px }
 .h100 { height: 100px; }
+.h200 { height: 200px; }
 .h122 { height: 122px; }
 .h100p { height: 100% !important; }
 .h300 { height: 300px !important; }
@@ -76,6 +77,7 @@ table {
 .w60p { width: 60%; }
 .w70p { width: 70%; }
 .w80p { width: 80%; }
+.w95p { width: 95%; }
 .w100p { width: 100%; }
 .w110p {width: 110%;}
 .wfc { width: fit-content !important; }
@@ -217,6 +219,7 @@ table {
 .disnone { display: none !important; }
 .disnoneNotInportant { display: none; }
 .ofhidden { overflow: hidden; }
+.ofhiddenx { overflow-x: hidden; }
 
 .mytable { border-top: 1px solid #999999; border-collapse: collapse; font-size: 12px; }
 .mytable th { background-color: #f7f7f7; text-align: center; padding: 10px; }

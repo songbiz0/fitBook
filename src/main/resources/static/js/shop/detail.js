@@ -114,6 +114,15 @@ $('#colorDropdown').dropdown('setting', 'onChange', () => {
     optionDropdownElem.classList.remove('disabled');
 });
 
+$('#optionDropdown').dropdown('setting', 'onChange', () => {
+    fetch('/shop/api/selprice?idetail=' + $('#optionDropdown').dropdown('get value'))
+        .then(res => res.json())
+        .then(data => {
+            document.querySelector('#originalPrice').innerText = data.originalPrice.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",") + '원';
+            document.querySelector('#price').innerText = data.price.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",") + '원';
+        }).catch(err => { console.error(err); });
+});
+
 cartBtnElem.addEventListener('click', () => {
     const selected = $('#optionDropdown').dropdown('get value');
     if(selected === '') {

@@ -27,8 +27,10 @@ public class MainController {
         PageDto dto = new PageDto();
         dto.setStartIdx(0);
         dto.setRecordCount(4);
-        List<ProductVo> bestList = shopService.selBestProductList(dto);
-        List<ProductVo> newList = shopService.selNewProductList(dto);
+        dto.setSort("best");
+        List<ProductVo> bestList = shopService.selProductList(dto);
+        dto.setSort("new");
+        List<ProductVo> newList = shopService.selProductList(dto);
 
         if(authenticationFacade.getLoginUser() != null) {
             QuestionDto questionDto = fitService.selQuestion();
@@ -39,7 +41,8 @@ public class MainController {
                     vo.setFitness(fitService.calFitness(questionDto, vo));
                 }
                 list.sort((o1, o2) -> o2.getFitness() - o1.getFitness());
-                model.addAttribute("recommended", list.subList(0, 4));
+                int end = Math.min(list.size(), 4);
+                model.addAttribute("recommended", list.subList(0, end));
                 for(ProductVo vo : bestList) {
                     vo.setFitness(fitService.calFitness(questionDto, vo));
                 }

@@ -12,6 +12,15 @@ const saveBtnElem = document.querySelector('#saveBtn');
 
 const numRegex = /^[0-9]+$/;
 
+$('#simpleChk').checkbox().first().checkbox({
+    onChecked: () => {
+        $('#programDropdown').addClass('disabled');
+    },
+    onUnchecked: () => {
+        $('#programDropdown').removeClass('disabled');
+    }
+});
+
 $(() => {
     $('.q0').transition('fade up');
 
