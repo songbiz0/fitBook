@@ -65,11 +65,19 @@ public class AdminRestController {
 
     //상품목록
     @GetMapping("/product_master")
-    public List<ProductVo> selProductList(ProductDto dto) {
+    public List<ProductVo>  selProductList(ProductDto dto){
         return service.selProductList(dto);
     }
+    //상품디테일
+    @GetMapping("/product_master_detail")
+    public void selProductDetail(){
+    }
+
+
+
+
     @GetMapping("/maxpage")
-    public ResultVo selMaxPageVal(ProductDto dto) {
+    public ResultVo selMaxPageVal(ProductDto dto){
         return service.selMaxPageVal(dto);
     }
 

@@ -5,6 +5,7 @@ import com.fitbook.auth.AuthenticationFacade;
 import com.fitbook.model.cpu.CpuListEntity;
 import com.fitbook.model.gpu.GpuListEntity;
 import com.fitbook.model.order.OrderDto;
+import com.fitbook.model.product.*;
 import com.fitbook.model.order.OrderListVo;
 import com.fitbook.model.order.OrderVo;
 import com.fitbook.model.product.ProductDetailListVo;
@@ -18,7 +19,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
-
 import java.net.URLEncoder;
 import java.util.List;
 
@@ -102,9 +102,53 @@ public class AdminController {
 
     //상품디테일
     @GetMapping("/product_master_detail")
-    public void product_master_detail(){
-
+    public void product_master_detail(Model model, ProductDto dto){
+        List<ProductVo> list = service.selProductMasterDetail(dto);
+        int total = 0;
+        for(ProductVo item : list) {
+            total += item.getStock();
+        }
+        model.addAttribute("total", total);
+        model.addAttribute(Const.DATA,list);
+        model.addAttribute(Const.DETAIL,service.selProductMasterDetail2(dto));
+        System.out.println(dto.getIproduct());
     }
+    @DeleteMapping("/product_master_detail")
+    public String delProductDetail(ProductDto dto){
+        service.delProductDetail(dto);
+        return "redirect:/admin/product_master";
+    }
+
+    @GetMapping("/product_master_mod")
+    public void product_master_mod(Model model,ProductDto dto){
+        List<ProductVo> list = service.selProductMasterDetail(dto);
+        int total = 0;
+        for(ProductVo item : list){
+            total += item.getStock();
+        }
+        ProductVo list2 = service.selProductMasterDetail2(dto);
+        ProductVo gpuCpuNm = new ProductVo();
+        gpuCpuNm.setCpu(list2.getCpu());
+        gpuCpuNm.setGpu(list2.getGpu());
+        gpuCpuNm.setIcpu(list2.getIcpu());
+        gpuCpuNm.setIgpu(list2.getIgpu());
+        model.addAttribute(Const.CPU,service.selCpu());
+        model.addAttribute(Const.GPU,service.selGpu());
+        model.addAttribute("total",total);
+        model.addAttribute(Const.DETAILGROUP,service.selProductMasterDetail(dto));
+        model.addAttribute(Const.DETAIL,list2);
+        model.addAttribute(Const.DETAIL,service.selProductMasterDetail2(dto));
+        model.addAttribute("gpuCpuNm",gpuCpuNm);
+    }
+
+    @PostMapping("/product_master_mod")
+    public String updProductDetail(ProductVo vo, ProductDetailListVo productList){
+        service.updProductDetail(vo);
+        service.updProductDetailGroup(productList);
+        System.out.println("mod" + productList.getProductList());
+        return "redirect:/admin/product_master_detail?iproduct=" + vo.getIproduct();
+    }
+
 
     @GetMapping("/insproduct")
     public void insProduct(Model model) {

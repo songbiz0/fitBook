@@ -3,7 +3,7 @@
       xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
       layout:decorate="temp/admin_page_layout">
 <head>
-    <link rel="stylesheet" th:href="@{/css/admin/product_master.css}">
+    <link rel="stylesheet" th:href="@{/css/admin/product_master_detail.css}">
     <script defer th:src="@{/js/admin/product_master_detail.js}"></script>
     <title></title>
 </head>
@@ -11,27 +11,89 @@
 <th:block layout:fragment="content">
     <div class="product-master w110p">
         <div>
-            <table class="mytable w110p">
-                <thead>
-                <tr>
-                    <th>상품번호</th>
+            <div class="button-list" th:data-iproduct="${detail.iproduct}">
+                <button class="mini ui basic button" style="font-weight: bold;" >
+                    <a href="/admin/product_master">목록으로</a>
+                </button>
+                <button id="modBth" class="mini ui basic button" style="font-weight: bold;" >
+                    수정
+                </button>
+                <button id="delBth" class="mini ui secondary button" >
+                    삭제
+                </button>
+            </div>
+            <table class="mytable-detail w110p">
+                <tr class="table-nm">
                     <th>상품코드</th>
-                    <th>상품명/이미지</th>
-                    <th>브랜드</th>
-                    <th>재고수량</th>
-                    <th>30일 기준 최근 판매
-                        (금액/수량)</th>
-                    <th>누적판매금액</th>
-                    <th>평점</th>
-
+                    <td colspan="1" th:text="${detail.product_code}"></td>
+                    <th>상품명</th>
+                    <td colspan="3" th:text="|${detail.brand} ${detail.nm}|"></td>
+                    <th>제조일자</th>
+                    <td colspan="3" th:text="${detail.rdt}"></td>
                 </tr>
-                </thead>
-                <tbody>
-                </tbody>
+                <tr>
+                    <th rowspan="2">이미지</th>
+                </tr>
+                <tr class="tr-img">
+                    <td colspan="9"><img th:src="@{/imgPath/products/detail/{no}/{img} (no=${detail.idetail}, img=${detail.img})}" width="300" height="300"></td>
+                </tr>
+                <tr class="table-kind">
+                    <th rowspan="3">제품사양</th>
+                    <th>CPU</th>
+                    <th>GPU</th>
+                    <th>RAM</th>
+                    <th>화면크기</th>
+                    <th>해상도</th>
+                    <th>주사율</th>
+                    <th>배터리</th>
+                    <th>360도</th>
+                    <th>무게</th>
+                    <th>OS</th>
+                </tr>
+                <tr>
+                    <td th:text="|${detail.cpu}|"></td>
+                    <td th:text="|${detail.gpu}|"></td>
+                    <td th:text="|${detail.ram}GB|"></td>
+                    <td th:text="|${detail.size}인치|"></td>
+                    <td th:text="|${detail.resolution}|"></td>
+                    <td th:text="|${detail.hz}|"></td>
+                    <td th:text="|${detail.battery}|"></td>
+                    <td th:text="|${detail.istwoinone}|"></td>
+                    <td th:text="|${detail.weight}|"></td>
+                    <td th:text="|${detail.os}|"></td>
+                </tr>
+            </table>
+            <table class="mytable-detail w110p detail-price">
+                <tr class="table-price">
+                    <th class="borderR1" rowspan="4">옵션별 매출표</th>
+                    <th class="borderR2" colspan="2">컬러</th>
+                    <th class="borderR2">SSD</th>
+                    <th class="borderR2">HDD</th>
+                    <th class="borderR2">판매가</th>
+                    <th>총 매출</th>
+                    <th>최근 매출</th>
+                    <th>재고 수량</th>
+                    <th>평 점</th>
+                </tr>
+                <tr class="tr-price-color" th:each="item : ${data}">
+                    <td><img th:src="@{/imgPath/products/detail/{no}/{img} (no=${item.idetail}, img=${item.img})}" width="100" height="100"></td>
+                    <td th:text="${item.color}"></td>
+                    <td class="borderR2" th:text="${item.ssd}+GB">258</td>
+                    <td class="borderR2" th:text="${item.hdd}+GB"></td>
+                    <td class="borderR2" th:text="|${#numbers.formatInteger(item.price,0,'COMMA')}원|"></td>
+                    <td th:text="|${#numbers.formatInteger(item.detail_total,0,'COMMA')}원|"></td>
+                    <td th:text="|${#numbers.formatInteger(item.detail_month_total,0,'COMMA')}원|"></td>
+                    <td th:text="|${item.stock} EA|"></td>
+                    <td>평점</td>
+                </tr>
+                <tr class="tr-price-total">
+                    <th class="borderR1" colspan="5" >TOTAL 매출</th>
+                    <th th:text="|${#numbers.formatInteger(detail.total_price,0,'COMMA')}원|"></th>
+                    <th th:text="|${#numbers.formatInteger(detail.month_total,0,'COMMA')}원|"></th>
+                    <th th:text="|${total} EA|"></th>
+                    <th></th>
+                </tr>
             </table>
         </div>
-
-
-
     </div>
 </th:block>

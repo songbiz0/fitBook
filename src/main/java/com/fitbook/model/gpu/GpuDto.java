@@ -9,13 +9,11 @@ import lombok.ToString;
 @ToString
 public class GpuDto {
     private int igpu;
-
     private String type;
     private int typeNo;
     private String search;
     private String select;
     private String parts;
-
     private int startIdx;
     private int rowCnt;
 }

@@ -7,6 +7,22 @@ nav {
     text-align: center;
 }
 
+#searchText {
+    background-color: transparent;
+}
+
+.product-searchArea {
+    margin-bottom: 10px;
+}
+
+.textArea {
+    text-align: center;
+    width: 250px;
+    border: 1px solid black;
+}
+
+
+
 
 
 

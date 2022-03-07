@@ -275,6 +275,8 @@ public class AdminService {
 
         return 0;
     }
+
+    //상품목록
     public List<ProductVo> selProductList(ProductDto dto){
         if("nm,product_code".equals(dto.getSelect())){
             String data[] = dto.getSelect().split(",");
@@ -289,10 +291,42 @@ public class AdminService {
         }
         System.out.println("service : " + dto);
         return mapper.selProductList(dto);
-
-
     }
+    //상품디테일
+    public List<ProductVo> selProductMasterDetail(ProductDto dto){
+        return mapper.selProductMasterDetail(dto);
+    }
+    public ProductVo selProductMasterDetail2(ProductDto dto){
+        return mapper.selProductMasterDetail2(dto);
+    }
+
+    public int delProductDetail(ProductDto dto){
+            utils.delFile("products/master", String.valueOf(dto.getIproduct()));
+            List<ProductVo> list = mapper.selDetailForDelete(dto);
+            for(ProductVo item : list) {
+                utils.delFile("products/detail", String.valueOf(item.getIdetail()));
+            }
+
+        return mapper.delProductDetail(dto);
+    }
+    public int updProductDetail(ProductVo vo){
+        return mapper.updProductDetail(vo);
+    }
+
+    public int updProductDetailGroup(ProductDetailListVo vo){
+        for(ProductDetailVo item : vo.getProductList()) {
+            mapper.updProductDetailGroup(item);
+        }
+        return 1;
+    }
+
     public ResultVo selMaxPageVal(ProductDto dto){
+        if("nm,product_code".equals(dto.getSelect())){
+            String data[] = dto.getSelect().split(",");
+            dto.setSelect(data[0]);
+            dto.setTotal(data[1]);
+        }
+        System.out.println("maxpage : " + dto);
         return mapper.selMaxPageVal(dto);
     }
 

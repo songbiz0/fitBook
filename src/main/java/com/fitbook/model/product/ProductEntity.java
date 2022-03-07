@@ -15,6 +15,7 @@ public class ProductEntity {
     private int icpu;
     private int igpu;
     private int ram;
+    private int num;
     private float size;
     private float weight;
     private String brand;

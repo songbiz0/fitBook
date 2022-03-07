@@ -14,34 +14,174 @@
         VALUES
             (${iproduct}, #{color}, ${hdd}, ${ssd}, ${price}, ${stock}, #{isrep}, ${dc_rate}, #{img})
     </insert>
+    <sql id="searchIf">
+        <where>
+            B.isrep = 'Y'
+            <if test="select != null">
+                AND (B.isrep = 'Y' AND ${select} LIKE CONCAT('%',#{search},'%'))
+            </if>
+            <if test="total != null">
+                OR(B.isrep = 'Y' AND ${total} LIKE CONCAT('%',#{search},'%'))
+            </if>
+        </where>
+    </sql>
 
     <select id="selProductList" resultType="ProductVo">
         SELECT * FROM (
-        SELECT A.iproduct, A.nm, A.product_code,A.brand,
-        B.img, B.stock, B.price, B.idetail
+        SELECT ROW_NUMBER() OVER(ORDER BY B.rdt) AS num , A.iproduct, A.nm, A.product_code,A.brand,
+        B.img, B.price, B.idetail, C.stock, F.master_total, IFNULL(J.month_total,0) AS month_total
         FROM t_product_master A
         INNER JOIN t_product_detail B
         ON A.iproduct = B.iproduct
-          <where>
-              B.isrep = 'Y'
-              <if test="select != null">
-                  AND (B.isrep = 'Y' AND ${select} LIKE CONCAT('%',#{search},'%'))
-              </if>
-              <if test="total != null">
-                  OR(B.isrep = 'Y' AND ${total} LIKE CONCAT('%',#{search},'%'))
-              </if>
-          </where>
+        INNER JOIN (
+        SELECT SUM(stock) AS stock,iproduct
+        FROM t_product_detail
+        GROUP BY iproduct
+        )C
+        ON C.iproduct = A.iproduct
+        INNER JOIN (
+        SELECT ifnull(SUM(result_price), 0) AS master_total, D.iproduct
+        FROM t_product_detail D
+        LEFT JOIN t_order_product E
+        ON D.idetail = E.idetail
+        WHERE D.iproduct
+        GROUP BY D.iproduct
+        ) F
+        ON F.iproduct = A.iproduct
+        LEFT JOIN(
+        SELECT SUM(H.result_price) AS month_total, G.iproduct
+        FROM t_product_detail G
+        INNER JOIN t_order_product H
+        ON G.idetail = H.idetail
+        INNER JOIN t_order I
+        ON H.iorder = I.iorder
+        WHERE I.rdt BETWEEN DATE_ADD(NOW(),INTERVAL -3 MONTH) AND NOW()
+        AND G.iproduct
+        GROUP BY G.iproduct
+        ) J
+        ON J.iproduct = A.iproduct
+        <include refid="searchIf">
 
+        </include>
+        ORDER BY num DESC
         LIMIT ${startIdx}, ${recordCount} ) AS t
     </select>
-
-
 
     <select id="selMaxPageVal" resultType="resultVo">
         SELECT CEIL((count(A.iproduct)) / ${recordCount}) AS result
         FROM t_product_master A
+                 INNER JOIN t_product_detail B
+                            ON A.iproduct = B.iproduct
+        WHERE isrep = 'Y'
+    </select>
+
+    <select id="selProductMasterDetail" resultType="ProductVo">
+        SELECT A.rdt, B.price , B.ssd, B.hdd, B.color, B.stock, C.nm, D.nm,G.detail_total,IFNULL(K.detail_month_total,0),B.img
+             , B.idetail
+        FROM t_product_master A
         INNER JOIN t_product_detail B
         ON A.iproduct = B.iproduct
-        WHERE B.isrep = 'Y'
+        INNER JOIN t_product_cpu C
+        ON A.icpu = C.icpu
+        INNER JOIN t_product_gpu D
+        ON A.igpu = D.igpu
+        INNER JOIN (
+            SELECT IFNULL(SUM(F.result_price),0) AS detail_total, E.idetail
+            FROM t_product_detail E
+            LEFT JOIN t_order_product F
+            ON E.idetail = F.idetail
+            WHERE E.iproduct
+            GROUP BY E.idetail
+        ) G
+        ON B.idetail = G.idetail
+        LEFT JOIN (
+            SELECT SUM(I.result_price) AS detail_month_total, H.idetail
+            FROM t_product_detail H
+            LEFT JOIN t_order_product I
+            ON H.idetail = I.idetail
+            LEFT JOIN t_order J
+            ON I.iorder = J.iorder
+            WHERE J.rdt BETWEEN DATE_ADD(NOW(),INTERVAL -3 MONTH) AND NOW()
+            AND H.iproduct
+            GROUP BY H.idetail
+        ) K
+        ON B.idetail = K.idetail
+        WHERE A.iproduct = ${iproduct}
+        GROUP BY B.idetail
+        ORDER BY isrep DESC;
     </select>
+
+    <select id="selProductMasterDetail2" resultType="ProductVo">
+        SELECT A.product_code, A.nm, A.rdt, A.brand, A.ram, A.size, A.weight, A.os,
+               B.idetail, C.nm AS cpu, D.nm AS gpu,  B.img, A.iproduct, A.hz, A.battery,
+               A.istwoinone, A.resolution, G.total_price, IFNULL(K.month_total,0),A.icpu,A.igpu
+        FROM t_product_master A
+        INNER JOIN t_product_detail B
+        ON A.iproduct = B.iproduct
+        INNER JOIN t_product_cpu C
+        ON A.icpu = C.icpu
+        INNER JOIN t_product_gpu D
+        ON A.igpu = D.igpu
+        INNER JOIN (
+            SELECT IFNULL(SUM(F.result_price),0) AS total_price, E.iproduct
+            FROM t_product_detail E
+            LEFT JOIN t_order_product F
+            ON E.idetail = F.idetail
+            WHERE E.iproduct = ${iproduct}
+        )G
+        ON A.iproduct = G.iproduct
+        LEFT JOIN(
+            SELECT SUM(I.result_price) AS month_total,H.iproduct
+            FROM t_product_detail H
+            LEFT JOIN t_order_product I
+            ON H.idetail = I.idetail
+            LEFT JOIN t_order J
+            ON I.iorder = J.iorder
+            WHERE J.rdt BETWEEN DATE_ADD(NOW(),INTERVAL -3 MONTH) AND NOW()
+            AND H.iproduct
+            GROUP BY H.iproduct
+        ) K
+        ON K.iproduct = A.iproduct
+        WHERE B.isrep = 'Y'
+        AND A.iproduct = ${iproduct};
+    </select>
+
+    <delete id="delProductDetail">
+        DELETE FROM a,b
+        USING t_product_master AS a
+        LEFT JOIN t_product_detail AS b
+        ON a.iproduct = b.iproduct
+        WHERE b.iproduct = ${iproduct};
+    </delete>
+
+    <update id="updProductDetail">
+        UPDATE t_product_master A
+        INNER JOIN t_product_detail B
+        ON A.iproduct = B.iproduct
+        INNER JOIN t_product_cpu C
+        ON A.icpu = C.icpu
+        INNER JOIN t_product_gpu D
+        ON A.igpu = D.igpu
+        SET A.product_code=#{product_code}, A.nm=#{nm}, A.rdt=#{rdt} , A.ram=${ram}, A.size=${size}, A.icpu=${icpu}, A.igpu=${igpu},
+            A.weight=${weight}, A.os=#{os}, A.hz=#{hz}, A.istwoinone=#{istwoinone}, A.battery=${battery}, A.resolution=#{resolution}
+        WHERE A.iproduct = ${iproduct}
+    </update>
+
+    <update id="updProductDetailGroup">
+        UPDATE t_product_detail
+        SET ssd=${ssd}, hdd=${hdd}, color=#{color}, price=${price}, stock=${stock}
+        WHERE idetail = ${idetail}
+
+    </update>
+
+
+    <select id="selDetailForDelete" resultType="ProductVo">
+        SELECT idetail
+        FROM t_product_detail
+        WHERE iproduct = ${iproduct}
+    </select>
+
+
+
+
 </mapper>

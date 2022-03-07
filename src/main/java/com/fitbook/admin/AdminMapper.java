@@ -68,6 +68,14 @@ public interface AdminMapper {
     List<GpuVo> selGpuAll();
     List<CpuVo> selCpu();
 
+    //product_master_detail 상품디테일
+    List<ProductVo> selProductMasterDetail(ProductDto dto);
+    ProductVo selProductMasterDetail2(ProductDto dto);
+    int delProductDetail(ProductDto dto);
+    int updProductDetail(ProductVo vo);
+    int updProductDetailGroup(ProductDetailVo vo);
+    List<ProductVo> selDetailForDelete(ProductDto dto);
+
     // Product
     int insProductMaster(ProductEntity entity);
     int insProductDetail(ProductDetailEntity entity);

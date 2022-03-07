@@ -2,17 +2,17 @@
 {
     const Productlist = document.querySelector('.product-master');
     if(Productlist) {
-        const recordCount = 10; //리스트 수
+        const recordCount = 4; //리스트 수
         let currentPage = 1; //현재 페이지
         let maxPage = 1;
         const pagingCount = 10; //페이징 수
         const searchParams = new URL(window.location.href).searchParams;
-        console.log(searchParams);
         const product_master = searchParams.get('product_master');
         const pageContainer = document.querySelector('.page-container');
         const ulElem = pageContainer.querySelector('div')
         let url = '/ajax/admin/product_master'; //search
         const searchElem = document.querySelector('#searchText');
+        const searchBth = document.querySelector("#searchEvent");
 
         //리스트 정보 불러오기
         const getList = () => fetch(`/ajax/admin/product_master?currentPage=${currentPage}&recordCount=${recordCount}`)
@@ -27,7 +27,7 @@
         const searchList = (url) => fetch(url)
             .then(res => res.json())
             .then(data => {
-                selProductList(data);
+                selProductList(data).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")
                 console.log(data);
                 console.log(url);
             })
@@ -35,14 +35,14 @@
                 console.log(e);
             });
 
-        const getMaxPageVal = () => fetch(`/ajax/admin/maxpage?product_master=${product_master}&recordCount=${recordCount}`)
+        const getMaxPageVal = () =>
+            fetch(`/ajax/admin/maxpage?recordCount=${recordCount}`)
             .then(res => res.json())
             .then(data => {
                 console.log(data.result);
                 maxPage = data.result;
                 makePaging();
             });
-
 
         getMaxPageVal();
 
@@ -52,28 +52,42 @@
             list.forEach(item => {
                 const trElem = document.createElement('tr')
                 tbodyElem.appendChild(trElem);
+                const locale = item.master_total.toLocaleString();
+                const month_total = item.month_total.toLocaleString();
+                const nmclcik =
 
                 trElem.innerHTML = `
-            <td><img class="w70 h50" src="/imgPath/products/detail/${item.idetail}/${item.img}"></td>
-            <td>${item.iproduct}</td>
+            <td>${item.num}</td>
             <td>${item.product_code}</td>
-            <td>${item.nm},<img class="w70 h50" src="/imgPath/products/detail/${item.idetail}/${item.img}"></td>
+            <td>${item.nm}<img class="w70 h50" src="/imgPath/products/detail/${item.idetail}/${item.img}"></td>
             <td>${item.brand}</td>
-            <td>${item.stock}</td>
-            <td>${item.price}</td>
+            <td>${item.stock} EA</td>
+            <td>${month_total}원</td>
+            <td>${locale}원</td>
+            <td>${item.rating}</td>
+            
+            
             `;
                 trElem.addEventListener('click', e => {
                     location.href = `/admin/product_master_detail?iproduct=${item.iproduct}`
                 });
+
             });
+        };
+
+        const selectSearch = () => {
+            searchBth.addEventListener('click',resultSearch);
         }
 
-        searchElem.addEventListener("keyup", () => {
-           const searchTeaxt = document.querySelector('#searchText').value;
-           const select = document.querySelector('#select').value;
-           const searchUrl = url + `?search=${searchTeaxt}&select=${select}&recordCount=${recordCount}`;
-           searchList(searchUrl);
-        });
+        const resultSearch = () => {
+            const searchTeaxt = document.querySelector('#searchText').value;
+            const select = document.querySelector('#select').value;
+            const searchUrl = url + `?search=${searchTeaxt}&select=${select}&recordCount=${recordCount}`;
+            searchList(searchUrl);
+            getMaxPageVal();
+        }
+        selectSearch();
+
         const makePaging = () => {
             ulElem.innerHTML = null;
             const calcPage = parseInt((currentPage - 1) / pagingCount);
@@ -84,7 +98,7 @@
 
             const liElem1 = document.createElement('li');
             ulElem.appendChild(liElem1);
-            liElem1.className = 'item';
+            liElem1.classList.add('item');
             liElem1.innerHTML = '&lt;';
             liElem1.addEventListener('click', e => {
                 currentPage = (currentPage) === 1 ? 1 : (currentPage - 1);
@@ -96,10 +110,10 @@
             for (let i = startPage; i <= (lastPage > maxPage ? maxPage : lastPage); i++) {
                 const liElem = document.createElement('li');
                 if(currentPage === i) {
-                    liElem.className = 'active item';
+                    liElem.classList.add('active');
                 }
                 ulElem.appendChild(liElem);
-                liElem.className = 'item';
+                liElem.classList.add('item');
                 liElem.innerText = i;
                 liElem.addEventListener('click' , e =>{
                    if(currentPage !== i){
@@ -110,10 +124,9 @@
                 });
             }
 
-
             const liElem2 = document.createElement('li');
             ulElem.appendChild(liElem2);
-            liElem2.className = 'item';
+            liElem2.classList.add('item');
             liElem2.innerHTML = '&gt;';
             liElem2.addEventListener('click' , e => {
                 currentPage = (currentPage) === maxPage ? maxPage : (currentPage + 1);
