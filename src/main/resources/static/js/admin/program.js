@@ -1,5 +1,26 @@
 // 프로그램 등록
 {
+    /*
+        nm - String 20
+        cpu - int 10
+        gpu
+        ram
+        img - String 200
+     */
+
+    const nmRegex = /^([a-zA-Z가-힣ㄱ-ㅎ0-9\s-_=+]{1,20})$/;
+    const imgRegex = /^([a-zA-Z가-힣ㄱ-ㅎ0-9\s-_=+./?()<>!@#$%^&*~`]{1,200})$/;
+    const cpuRegex = /^([0-9]{1,10})$/;
+    const gpuRegex = /^([0-9]{1,10})$/;
+    const ramRegex = /^([0-9]{1,10})$/;
+
+    const regexParam = {
+        nm : nmRegex,
+        required_cpu : cpuRegex,
+        required_gpu : gpuRegex,
+        required_ram : ramRegex
+    }
+
     const addBtn = document.querySelector('#addBtn');
     if(addBtn) {
         const frmBtn = document.querySelector('#frmBtn');
@@ -9,7 +30,7 @@
         const inputGpuElem = document.querySelector('.input-gpu');
 
         const list = [
-            'nm', 'required_cpu', 'required_gpu', 'required_ram', "mfFile"
+            'nm', 'required_cpu', 'required_gpu', 'required_ram', "is_mac_sup", "mfFile"
         ];
 
         const setCpuList = (list, elem) => {
@@ -99,17 +120,70 @@
             getGpuPerformance(selectGpuElem, inputGpuElem);
         });
 
+        const makeToast = (item, msg) => {
+            $('body')
+                .toast({
+                    class: 'error',
+                    position: 'top right',
+                    message: msg
+                });
+            item.classList.add('err-red');
+            setTimeout(function() {
+                item.classList.remove('err-red');
+            }, 3000);
+        }
+
         frmBtn.addEventListener('click', (e) => {
+            e.preventDefault();
             const programArr = document.querySelectorAll('.program');
+            let bool = false;
             let forNo = 0;
             programArr.forEach((item) => {
                 for (let i in list) {
                     const searchId = list[i];
                     const result = 'programList[' + forNo + '].' + searchId;
-                    item.querySelector(`.${searchId}`).name = result;
+                    const elem = item.querySelector(`.${searchId}`);
+                    let val = elem.value;
+                    if(elem.checked) {
+                        elem.value="Y";
+                    }
+                    console.log(elem.value);
+                    elem.name = result;
+                    for(let i in regexParam) {
+                        if(i === searchId) {
+                            if(!regexParam[i].test(val)) {
+                                if(i === 'nm') {
+                                    makeToast(elem, '20글자 이내로 작성해 주세요.');
+                                } else {
+                                    makeToast(elem, '숫자 10자리 이내로 작성해 주세요.');
+                                }
+                                elem.parentNode.classList.add('error');
+                                bool = false;
+                                return;
+                            } else {
+                                elem.parentNode.classList.remove('error');
+                                bool = true;
+                            }
+                        } else if(searchId === 'mfFile' && elem.value.length < 1) {
+                            makeToast(elem, '이미지를 등록해 주세요.');
+                            elem.parentNode.classList.add('error');
+                            bool = false;
+                            return;
+                        } else if(elem.value.length > 1) {
+                            elem.parentNode.classList.remove('error');
+                            bool = true;
+                        } else {
+                            bool = true;
+                        }
+
+                    }
                 }
                 forNo++;
             });
+            if(bool) {
+                const programFrm = document.querySelector('#programFrm');
+                programFrm.submit();
+            }
         });
 
         addBtn.addEventListener('click', () => {
@@ -144,6 +218,16 @@
                     <input type="text" class="required_ram">
                     <div class="ui basic label">
                         권장 RAM
+                    </div>
+                </div>
+                <div class="ui right labeled input">
+                    <div class="inv-name">
+                        <span>Mac OS 지원여부</span>
+                        <span>:</span>
+                    </div>
+                    <div class="ui toggle checkbox" id="macDiv">
+                        <input type="checkbox" th:value="Y" class="is_mac_sup" id="mac">
+                        <label></label>
                     </div>
                 </div>
                 <div class="ui right labeled input">
@@ -243,7 +327,7 @@
                 const tr = document.createElement('tr');
                 tr.classList.add('program-list-tr');
                 tr.innerHTML = `
-                <td><img class="w70 h50" src="/imgPath/program/${item.iprogram}/${item.img}"></td>
+                <td><img class="custom-img" src="/imgPath/program/${item.iprogram}/${item.img}"></td>
                 <td>${item.nm}</td>
                 <td>${item.required_cpu}</td>
                 <td>${item.required_gpu}</td>
@@ -393,7 +477,7 @@
             const tbody = document.createElement('tbody');
             imgSrc = data.img;
             imgContainerElem.innerHTML = `
-                <img class="w500 h300 img-file" src="/imgPath/program/${data.iprogram}/${data.img}">
+                <img class="detail-custom-img img-file" src="/imgPath/program/${data.iprogram}/${data.img}">
             `;
             tbody.innerHTML = '';
             idx.innerText = data.iprogram;
@@ -413,6 +497,10 @@
                 <tr>
                     <th>RAM 요구사항</th>
                     <td class="tram">${data.required_ram}</td>
+                </tr>
+                <tr>
+                    <th>Mac OS 지원여부</th>
+                    <td class="tmac">${data.is_mac_sup}</td>
                 </tr>
             `;
             myTableElem.appendChild(tbody);
@@ -447,6 +535,7 @@
             const cpuElem = document.querySelector('.tcpu');
             const gpuElem = document.querySelector('.tgpu');
             const ramElem = document.querySelector('.tram');
+            const macElem = document.querySelector('.tmac');
             if(elem.classList.contains('del')) {
                 if(confirm(`${iprogram}번 글을 삭제하시겠습니까?`)) {
                     delFetch();
@@ -458,6 +547,7 @@
                 delInput(cpuElem, 'cpu');
                 delInput(gpuElem, 'gpu');
                 delInput(ramElem, 'ram');
+                delInput(macElem, 'mac');
 
                 elem.classList.replace('cancel', 'del');
                 elem.innerText = '삭제';
@@ -489,6 +579,7 @@
             const cpuElem = document.querySelector('.tcpu');
             const gpuElem = document.querySelector('.tgpu');
             const ramElem = document.querySelector('.tram');
+            const macElem = document.querySelector('.tmac');
             if(elem.classList.contains('mod')) {
                 delBtnElem.classList.replace('del', 'cancel');
                 delBtnElem.innerText = '취소';
@@ -500,6 +591,7 @@
                 makeInput(cpuElem, 'cpu');
                 makeInput(gpuElem, 'gpu');
                 makeInput(ramElem, 'ram');
+                makeInput(macElem, 'mac');
             } else {
                 elem.classList.replace('save', 'mod');
                 elem.innerText = '수정';
@@ -510,6 +602,8 @@
                 let cpu = changeInputToTd('cpu', 'tcpu');
                 let gpu = changeInputToTd('gpu', 'tgpu');
                 let ram = changeInputToTd('ram', 'tram');
+                let mac = changeInputToTd('mac', 'tmac');
+                console.log(mac);
                 const inputElem = document.querySelector('.mfFile');
                 let mfFile = inputElem.files[0];
                 let fetchParam = {
@@ -518,7 +612,6 @@
                     body:form
                 }
                 if(mfFile !== undefined) {
-                    console.log('asd');
                     delete fetchParam.header;
                     form.append('mfFile', mfFile);
                 }
@@ -527,6 +620,7 @@
                 form.append('required_gpu', gpu);
                 form.append('required_ram', ram);
                 form.append('iprogram', iprogram);
+                form.append('is_mac_sup', mac);
                 inputFileContainer.innerHTML = '';
 
                 updFetch(form, fetchParam);

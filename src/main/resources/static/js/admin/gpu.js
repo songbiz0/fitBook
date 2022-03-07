@@ -1,8 +1,33 @@
 // gpu insert
 {
+    const nmRegex = /^([a-zA-Z가-힣ㄱ-ㅎ0-9\s-_=+]{1,20})$/;
+    const perfRegex = /^([0-9]{1,10})$/;
+    const seqRegex = /^([0-9]{1,10})$/;
+    const brandRegex = /^([a-zA-Z가-힣ㄱ-ㅎ0-9\s-_=+]{1,20})$/;
+
+    const regexObject = {
+        nm : nmRegex,
+        performance : perfRegex,
+        seq : seqRegex,
+        brand : brandRegex
+    }
+
+
     const addBtn = document.querySelector('#addBtn');
     if(addBtn) {
         const frmBtn = document.querySelector('#frmBtn');
+        const makeToast = (elem, msg) => {
+            $('body')
+                .toast({
+                    class: 'error',
+                    position: 'top right',
+                    message: msg
+                });
+            elem.classList.add('err-red');
+            setTimeout(function() {
+                elem.classList.remove('err-red');
+            }, 3000);
+        }
         const list = [
             'nm', 'performance', 'seq', 'brand', 'is_inner_gpu'
         ];
@@ -10,15 +35,40 @@
         frmBtn.addEventListener('click', (e) => {
             const gpuArr = document.querySelectorAll('.gpu');
             let forNo = 0;
+            let bool = false;
             gpuArr.forEach((item) => {
-                // e.preventDefault();
+                e.preventDefault();
                 for (let i in list) {
                     const searchId = list[i];
                     const result = 'gpuList[' + forNo + '].' + searchId;
-                    item.querySelector(`.${searchId}`).name = result;
+                    const elem = item.querySelector(`.${searchId}`);
+                    elem.name = result;
+                    const val = elem.value;
+                    for(let i in regexObject) {
+                        if(i === searchId) {
+                            if(!regexObject[i].test(val)) {
+                                elem.parentNode.classList.add('error');
+                                if(i === 'nm' || i === 'brand') {
+                                    makeToast(elem, '20글자 이내로 작성해 주세요.');
+                                } else {
+                                    makeToast(elem, '10자리 이내의 숫자로 작성해 주세요.');
+                                }
+                                bool = false;
+                                return;
+                            } else {
+                                elem.parentNode.classList.remove('error');
+                                console.log('asd');
+                                bool = true;
+                            }
+                        }
+                    }
                 }
                 forNo++;
             });
+            if(bool) {
+                const gpuFrm = document.querySelector('#gpuFrm');
+                gpuFrm.submit();
+            }
         });
 
         addBtn.addEventListener('click', () => {

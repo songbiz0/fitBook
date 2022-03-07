@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.fitbook.fit.FitMapper">
+    <insert id="insQuestion">
+        REPLACE INTO t_question
+        VALUES
+            (#{iuser}, #{budget}, #{weight}, #{size}, #{os}, #{as}, #{battery}, #{twoinone}, #{macbook}, #{highhz}, #{highresolution})
+    </insert>
+
+    <select id="selQuestion" resultType="QuestionDto">
+        SELECT budget, weight, size, os, `as`,
+               battery, twoinone, macbook, highhz, highresolution
+        FROM t_question
+        WHERE iuser = #{iuser}
+    </select>
+
+    <delete id="delQuestion">
+        DELETE FROM t_question
+        WHERE iuser = #{iuser}
+    </delete>
+
+    <select id="selRequiredPerformance" resultType="QuestionDto">
+        SELECT required_cpu AS requiredCpu, required_gpu AS requiredGpu, required_ram AS requiredRam, IF(is_mac_sup = 'Y', true, false) AS supportMac
+        FROM t_program
+        WHERE iprogram IN
+        <foreach collection="iprograms" item="item" separator="," open="(" close=")">
+            #{item}
+        </foreach>
+    </select>
+
+    <select id="selProductList" resultType="ProductVo">
+        SELECT A.ram, A.size, A.weight, A.brand, A.os,
+               A.battery, A.istwoinone, A.hz, A.resolution, ROUND(B.price * (1 - B.dc_rate), -3) AS price,
+               C.performance AS cpuPerformance, D.performance AS gpuPerformance, B.img AS detailImg, A.nm, A.product_code,
+               C.nm AS cpuNm, D.nm AS gpuNm, B.price AS originalPrice, B.idetail, A.iproduct
+        FROM t_product_master A
+        INNER JOIN t_product_detail B
+        ON A.iproduct = B.iproduct
+        INNER JOIN t_product_cpu C
+        ON A.icpu = C.icpu
+        INNER JOIN t_product_gpu D
+        ON A.igpu = D.igpu
+        WHERE B.isrep = 'Y'
+    </select>
+
+    <select id="selFavorite" resultType="ResultVo">
+        SELECT COUNT(iuser) AS result
+        FROM t_fav_mapping
+        GROUP BY iproduct
+        HAVING iproduct = #{iproduct}
+    </select>
+
+    <select id="selRating" resultType="ResultVo">
+        SELECT ROUND(AVG(rating), 1) AS resultFloat
+        FROM t_product_review
+        GROUP BY iproduct
+        HAVING iproduct = #{iproduct}
+    </select>
+
+    <select id="isFavorite" resultType="ResultVo">
+        SELECT 1 AS result
+        FROM t_fav_mapping
+        WHERE iproduct = #{iproduct}
+        AND iuser = #{iuser}
+    </select>
+
+    <select id="isRating" resultType="ResultVo">
+        SELECT 1 AS result, rating AS resultFloat
+        FROM t_product_review
+        WHERE iproduct = #{iproduct}
+        AND iuser = #{iuser}
+    </select>
+
+    <insert id="insFavorite">
+        INSERT INTO t_fav_mapping
+            (iuser, iproduct)
+        VALUES
+            (#{iuser}, #{iproduct})
+    </insert>
+
+    <delete id="delFavorite">
+        DELETE FROM t_fav_mapping
+        WHERE iuser = #{iuser}
+        AND iproduct = #{iproduct}
+    </delete>
+</mapper>

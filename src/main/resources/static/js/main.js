@@ -1,5 +1,27 @@
 $('.ui.dropdown').dropdown();
 
+const makeErrorToast = msg => {
+    $(document).ready(() => {
+            $('body').toast({
+                class: 'error',
+                message: msg
+            });
+        }
+    );
+}
+
+const makeInfoToast = msg => {
+    $(document).ready(() => {
+            $('body').toast({
+                class: 'info',
+                message: msg
+            });
+        }
+    );
+}
+
+//
+
 $('.ui.sidebar').sidebar('setting', 'transition', 'overlay');
 
 const sidebarBtn = document.querySelector('.sidebar_toggle');
@@ -26,30 +48,3 @@ if(cancelBtn) {
         $('.ui.sidebar').sidebar('hide');
     });
 }
-
-const cartBtn = document.querySelector('#cartBtn');
-if(cartBtn) {
-    cartBtn.addEventListener('click', () => {
-        $('body')
-            .toast({
-                class: 'info',
-                message: '상품을 장바구니에 담았어요.'
-            });
-    });
-}
-
-const getReview = document.querySelector('#goToProductReview');
-if(getReview) {
-    getReview.addEventListener('click', () => {
-        window.scrollTo({top: document.querySelector('#productReview').offsetTop});
-    });
-}
-
-
-const reviewWriteBtn = document.querySelector('#reviewWriteBtn');
-if(reviewWriteBtn) {
-    reviewWriteBtn.addEventListener('click', () => {
-        $('.ui.modal').modal('show');
-    });
-}
-

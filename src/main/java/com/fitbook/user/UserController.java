@@ -9,6 +9,8 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.Map;
+
 @Controller
 @RequestMapping("/user")
 public class UserController {
@@ -95,4 +97,22 @@ public class UserController {
 
     @GetMapping("/find_pw_result")
     public void find_pw_result() {}
+
+    @GetMapping("/api_kakao")
+    public String kakaoApi() {
+        StringBuffer url = new StringBuffer();
+        url.append("https://kauth.kakao.com/oauth/authorize?response_type=code&client_id=");
+        url.append("7ef8b6fe4cd24c17564a5b169caba23f&redirect_uri=");
+        url.append("http://localhost:8090/user/kakao_callback");
+        return "redirect:" + url.toString();
+    }
+
+    @GetMapping("/kakao_callback")
+    public String kakaoCallback(@RequestParam String code) {
+        String access_code = service.getReturnAccessToken(code);
+        Map<String, Object> map = service.getUserInfo(access_code);
+        System.out.println(map.get("nickname"));
+//        System.out.println(map.get("nickname"));
+        return "redirect:/admin/main";
+    }
 }

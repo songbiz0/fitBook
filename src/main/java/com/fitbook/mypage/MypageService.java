@@ -136,6 +136,13 @@ public class MypageService {
         return result;
     }
 
+    public ResultVo insCartByIdetail(int idetail) {
+        ResultVo result = new ResultVo();
+        int insCartResult = productMapper.insCartByIdetail(idetail, authenticationFacade.getLoginUserPk());
+        result.setResult(insCartResult);
+        return result;
+    }
+
     public OrderDetailVo selOrderDetail(OrderDto dto) {
         dto.setIuser(authenticationFacade.getLoginUserPk());
         OrderDetailVo vo = orderMapper.selOrderDetail(dto);
@@ -167,6 +174,12 @@ public class MypageService {
     }
 
     public ResultVo insAddr(AddressDto dto) {
+        if(selAddrList().size() >= 5) {
+            ResultVo result = new ResultVo();
+            result.setResult(0);
+            return result;
+        }
+
         dto.setIuser(authenticationFacade.getLoginUserPk());
 
         if(dto.getIsrep().equals("Y")) {

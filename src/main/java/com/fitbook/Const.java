@@ -12,4 +12,5 @@ public class Const {
     public static final String DETAIL = "detail";
     public static final String CPU = "cpu";
     public static final String GPU = "gpu";
+    public static final String DETAILGROUP = "detailgroup";
 }

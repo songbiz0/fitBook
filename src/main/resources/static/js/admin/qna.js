@@ -12,8 +12,8 @@
         let param;
         let currentPage = 1;
         let startIdx = 0;
-        let rowCnt = 10;
-        let pageCnt = 10;
+        let rowCnt = 3;
+        let pageCnt = 3;
         let maxPage = 1;
         let typeNo = 0;
         let type;
@@ -41,13 +41,22 @@
         const setList = (data) => {
             tbodyElem.innerHTML = '';
             cntContainer.innerText = ('(총 : ' + data[0].maxPage + '개)');
-            maxPage = Math.ceil(data[0].maxPage / rowCnt);
+            try {
+                maxPage = Math.ceil(data[0].maxPage / rowCnt);
+            } catch (e) {
+                maxPage = 0;
+                console.log(e);
+            }
             data.forEach(item => {
                 const ctnt = subString(item.ctnt);
                 console.log(item);
                 const trElem = document.createElement('tr');
                 trElem.innerHTML = `
-                    <td>${item.productNm}/${item.product_code}/<img class="w50 h50" src="/imgPath/products/detail/${item.idetail}/${item.img}"></td>
+                    <td><img class="w50 h50" src="/imgPath/products/detail/${item.idetail}/${item.img}/"></td>
+                    <td>
+                        <p>${item.productNm}</p>
+                        <p>${item.product_code}</p>
+                    </td>
                     <td class="min-w400 max-w400">${ctnt}</td>
                     <td>${item.nm}(${item.uid})</td>
                     <td>${item.rdt}</td>
@@ -90,6 +99,9 @@
             paginationElem.appendChild(leftElem);
 
             for(let i=startPage; i<=(lastPage < max ? lastPage : max); i++) {
+                if(max == 0) {
+                    return;
+                }
                 const aElem = document.createElement('a');
                 let status;
                 aElem.innerText = i;

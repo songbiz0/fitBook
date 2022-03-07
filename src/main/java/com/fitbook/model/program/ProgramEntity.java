@@ -14,4 +14,5 @@ public class ProgramEntity {
     private int required_gpu;
     private int required_ram;
     private String img;
+    private String is_mac_sup;
 }

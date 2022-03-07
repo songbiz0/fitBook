@@ -18,4 +18,5 @@ public class ProductDetailVo extends ProductDetailEntity {
     private int quantity;
     private String brand;
     private int result_price;
+    private String rdt;
 }
