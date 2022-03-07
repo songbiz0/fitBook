@@ -8,6 +8,7 @@ import com.fitbook.model.order.OrderDto;
 import com.fitbook.model.order.OrderListVo;
 import com.fitbook.model.order.OrderVo;
 import com.fitbook.model.product.ProductDetailListVo;
+import com.fitbook.model.product.ProductDto;
 import com.fitbook.model.product.ProductVo;
 import com.fitbook.model.productquestion.ProductQuestionDto;
 import com.fitbook.model.productquestion.ProductQuestionEntity;
