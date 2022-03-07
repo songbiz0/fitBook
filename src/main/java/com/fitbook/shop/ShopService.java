@@ -4,9 +4,7 @@ import com.fitbook.ResultVo;
 import com.fitbook.auth.AuthenticationFacade;
 import com.fitbook.fit.FitService;
 import com.fitbook.model.PageDto;
-import com.fitbook.model.product.ListDto;
-import com.fitbook.model.product.OptionDto;
-import com.fitbook.model.product.ProductVo;
+import com.fitbook.model.product.*;
 import com.fitbook.model.productReview.ProductReviewEntity;
 import com.fitbook.model.productReview.ProductReviewVo;
 import com.fitbook.model.productquestion.ProductQuestionEntity;
@@ -171,5 +169,38 @@ public class ShopService {
             list.set(i, list.get(i).replace("\"", "").replace("[", "").replace("]", ""));
         }
         return list;
+    }
+
+    public List<ProductDetailVo> selCartList() {
+        List<ProductDetailVo> list = mapper.selCartList(authenticationFacade.getLoginUserPk());
+        for(ProductDetailVo vo : list) {
+            vo.setDiscount(vo.getOriginalPrice() - vo.getPrice());
+            vo.setAccumulate((int) Math.round(vo.getPrice() * 0.001));
+            vo.setStock(Math.min(vo.getStock(), 9));
+
+            StringBuilder sb = new StringBuilder();
+            sb.append(vo.getColor());
+            if (vo.getHdd() > 0) {
+                sb.append(" / HDD ").append(vo.getHdd()).append("GB");
+            }
+            if (vo.getSsd() > 0) {
+                sb.append(" / SSD ").append(vo.getSsd()).append("GB");
+            }
+            vo.setOption(sb.toString());
+        }
+        return list;
+    }
+
+    public ResultVo updCart(ProductDetailDto dto) {
+        dto.setIuser(authenticationFacade.getLoginUserPk());
+        ResultVo result = new ResultVo();
+        result.setResult(mapper.updCart(dto));
+        return result;
+    }
+
+    public ResultVo delCart(List<Integer> list) {
+        ResultVo result = new ResultVo();
+        result.setResult(mapper.delCart(list, authenticationFacade.getLoginUserPk()));
+        return result;
     }
 }

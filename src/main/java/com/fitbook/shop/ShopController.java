@@ -3,6 +3,7 @@ package com.fitbook.shop;
 import com.fitbook.auth.AuthenticationFacade;
 import com.fitbook.fit.FitService;
 import com.fitbook.model.PageDto;
+import com.fitbook.model.product.ProductDetailVo;
 import com.fitbook.model.product.ProductVo;
 import com.fitbook.model.question.QuestionDto;
 import com.fitbook.model.user.UserEntity;
@@ -110,4 +111,7 @@ public class ShopController {
             model.addAttribute("list", list);
         }
     }
+
+    @GetMapping("/cart")
+    public void cart() {}
 }
