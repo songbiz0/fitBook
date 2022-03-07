@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
+<head>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" type="text/css" th:href="@{/fomantic_ui/semantic/dist/semantic.min.css}">
+    <link rel="stylesheet" th:href="@{/css/common.css}">
+    <link rel="stylesheet" th:href="@{/css/main.css}">
+    <script defer src="https://cdn.jsdelivr.net/npm/jquery@3.3.1/dist/jquery.min.js"></script>
+    <script defer th:src="@{/fomantic_ui/semantic/dist/semantic.min.js}"></script>
+    <script defer th:src="@{/js/main.js}"></script>
+    <title layout:title-pattern="$LAYOUT_TITLE">fitBook</title>
+</head>
+<body>
+<th:block th:replace="temp/fragments :: sidebar"></th:block>
+<div class="pusher">
+    <th:block th:replace="temp/fragments :: header"></th:block>
+    <div class="container">
+        <th:block layout:fragment="content"></th:block>
+    </div>
+    <th:block th:replace="temp/fragments :: footer"></th:block>
+</div>
+</body>
+</html>

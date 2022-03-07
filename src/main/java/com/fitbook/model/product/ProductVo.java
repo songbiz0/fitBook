@@ -41,6 +41,7 @@ public class ProductVo extends ProductEntity{
     private float rating;
     private int ratingCount;
     private String detailImg;
+    private String is_inner_gpu;
 
     private List<ColorDto> colorList;
     private List<OptionDto> optionList;

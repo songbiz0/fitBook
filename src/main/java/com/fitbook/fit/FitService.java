@@ -6,7 +6,6 @@ import com.fitbook.model.product.ProductDto;
 import com.fitbook.model.product.ProductVo;
 import com.fitbook.model.program.ProgramEntity;
 import com.fitbook.model.question.QuestionDto;
-import com.fitbook.model.question.QuestionEntity;
 import com.fitbook.program.ProgramMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -27,6 +26,14 @@ public class FitService {
         dto.setIuser(authenticationFacade.getLoginUserPk());
         ResultVo result = new ResultVo();
         result.setResult(mapper.insQuestion(dto));
+
+        mapper.delProgramMapping(authenticationFacade.getLoginUserPk());
+
+        if(!dto.getPrograms().equals("")) {
+            int[] iprogramArr = Arrays.stream(dto.getPrograms().split(",")).mapToInt(Integer::parseInt).toArray();
+            mapper.insProgramMapping(iprogramArr, authenticationFacade.getLoginUserPk());
+        }
+
         return result;
     }
 
@@ -35,6 +42,7 @@ public class FitService {
         dto.setIuser(authenticationFacade.getLoginUserPk());
         ResultVo result = new ResultVo();
         result.setResult(mapper.delQuestion(dto));
+        mapper.delProgramMapping(authenticationFacade.getLoginUserPk());
         return result;
     }
 
@@ -195,11 +203,12 @@ public class FitService {
     }
 
     public QuestionDto calRequiredPerformance(QuestionDto dto) {
-        if(dto.getPrograms().equals("")) {
+        List<Integer> myProgramList = selMyProgramList();
+        if(myProgramList.size() == 0) {
             return dto;
         }
-        int[] iprogramArr = Arrays.stream(dto.getPrograms().split(",")).mapToInt(Integer::parseInt).toArray();
-        List<QuestionDto> list = mapper.selRequiredPerformance(iprogramArr);
+
+        List<QuestionDto> list = mapper.selRequiredPerformance(myProgramList);
         for(QuestionDto program : list) {
             dto.setRequiredCpu(Math.max(dto.getRequiredCpu(), program.getRequiredCpu()));
             dto.setRequiredGpu(Math.max(dto.getRequiredRam(), program.getRequiredRam()));
@@ -211,30 +220,54 @@ public class FitService {
         return dto;
     }
 
+    public List<Integer> selMyProgramList() {
+        return mapper.selMyProgramList(authenticationFacade.getLoginUserPk());
+    }
+
     public List<ProductVo> selProductList() {
         return mapper.selProductList();
     }
 
     public ResultVo selFavorite(ProductDto dto) {
-        return mapper.selFavorite(dto) == null ? new ResultVo() : mapper.selFavorite(dto);
+        ResultVo result = mapper.selFavorite(dto);
+        if(result == null) {
+            result = new ResultVo();
+            result.setResult(0);
+        }
+        return result;
     }
 
     public ResultVo selRating(ProductDto dto) {
-        return mapper.selRating(dto) == null ? new ResultVo() : mapper.selRating(dto);
+        ResultVo result = mapper.selRating(dto);
+        if(result == null) {
+            result = new ResultVo();
+            result.setResultFloat(0);
+        }
+        return result;
     }
 
     public ResultVo isFavorite(ProductDto dto) {
-        dto.setIuser(authenticationFacade.getLoginUserPk());
-        return mapper.isFavorite(dto) == null ? new ResultVo() : mapper.isFavorite(dto);
+        dto.setIuser(authenticationFacade.getLoginUser() == null ? -1 :authenticationFacade.getLoginUserPk());
+        ResultVo result = mapper.isFavorite(dto);
+        if(result == null) {
+            result = new ResultVo();
+            result.setResult(0);
+        }
+        return result;
     }
 
     public ResultVo isRating(ProductDto dto) {
-        dto.setIuser(authenticationFacade.getLoginUserPk());
-        return mapper.isRating(dto) == null ? new ResultVo() : mapper.isRating(dto);
+        dto.setIuser(authenticationFacade.getLoginUser() == null ? -1 :authenticationFacade.getLoginUserPk());
+        ResultVo result = mapper.isRating(dto);
+        if(result == null) {
+            result = new ResultVo();
+            result.setResult(0);
+        }
+        return result;
     }
 
     public ResultVo clickFavorite(ProductDto dto) {
-        dto.setIuser(authenticationFacade.getLoginUserPk());
+        dto.setIuser(authenticationFacade.getLoginUser() == null ? -1 :authenticationFacade.getLoginUserPk());
         ResultVo result = new ResultVo();
         try {
             result.setResult(mapper.insFavorite(dto));

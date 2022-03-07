@@ -1,6 +1,120 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.fitbook.shop.ShopMapper">
+    <sql id="condition">
+        <if test="brand != null and brand.size != 0">
+            <foreach collection="brand" item="item" open="AND A.brand IN (" separator="," close=")">
+                #{item}
+            </foreach>
+        </if>
+        <if test="cpu != null and cpu.size != 0">
+            <foreach collection="cpu" item="item" open="AND C.nm IN (" separator="," close=")">
+                #{item}
+            </foreach>
+        </if>
+        <if test="innerGpu">
+            AND D.is_inner_gpu = 'Y'
+        </if>
+        <if test="gpu != null and gpu.size != 0 and !innerGpu">
+            <foreach collection="gpu" item="item" open="AND D.nm IN (" separator="," close=")">
+                #{item}
+            </foreach>
+        </if>
+        <if test="size != null and size.size != 0">
+            <foreach collection="size" item="item" open="AND (" separator="OR" close=")">
+                FLOOR(A.size) = #{item}
+            </foreach>
+        </if>
+        <if test="ram != null and ram.size != 0">
+            <foreach collection="ram" item="item" open="AND A.ram IN (" separator="," close=")">
+                #{item}
+            </foreach>
+        </if>
+        <if test="os != null and os.size != 0">
+            <foreach collection="os" item="item" open="AND A.os IN (" separator="," close=")">
+                #{item}
+            </foreach>
+        </if>
+        <if test="weight != null and weight.size != 0">
+            <foreach collection="weight" item="item" open="AND (" separator="OR" close=")">
+                A.weight BETWEEN SUBSTRING_INDEX(#{item}, '~', 1) AND SUBSTRING_INDEX(#{item}, '~', -1)
+            </foreach>
+        </if>
+        <if test="res != null and res.size != 0">
+            <foreach collection="res" item="item" open="AND A.resolution IN (" separator="," close=")">
+                #{item}
+            </foreach>
+        </if>
+        <if test="hz != null and hz.size != 0">
+            <foreach collection="hz" item="item" open="AND A.hz IN (" separator="," close=")">
+                #{item}
+            </foreach>
+        </if>
+        <if test="battery != null and battery.size != 0">
+            <foreach collection="battery" item="item" open="AND (" separator="OR" close=")">
+                A.battery BETWEEN SUBSTRING_INDEX(#{item}, '~', 1) AND SUBSTRING_INDEX(#{item}, '~', -1)
+            </foreach>
+        </if>
+        <if test="etc != null and etc.size != 0">
+            AND A.istwoinone = 'Y'
+        </if>
+    </sql>
+
+    <select id="selMaxPage" resultType="Integer">
+        SELECT CEIL(COUNT(A.iproduct) / ${recordCount})
+        FROM t_product_master A
+        INNER JOIN t_product_detail B
+        ON A.iproduct = B.iproduct
+        INNER JOIN t_product_cpu C
+        ON A.icpu = C.icpu
+        INNER JOIN t_product_gpu D
+        ON A.igpu = D.igpu
+        WHERE B.isrep = 'Y'
+        <include refid="condition"></include>
+    </select>
+
+    <select id="selProductList" resultType="ProductVo">
+        SELECT A.ram, A.size, A.weight, A.brand, A.os,
+        A.battery, A.istwoinone, A.hz, A.resolution, ROUND(B.price * (1 - B.dc_rate), -3) AS price,
+        C.performance AS cpuPerformance, D.performance AS gpuPerformance, B.img AS detailImg, A.nm, A.product_code,
+        C.nm AS cpuNm, D.nm AS gpuNm, B.price AS originalPrice, B.idetail, A.iproduct, D.is_inner_gpu
+        <if test="sort == 'best'">, ifnull(E.amount, 0) AS amount</if>
+        FROM t_product_master A
+        INNER JOIN t_product_detail B
+        ON A.iproduct = B.iproduct
+        INNER JOIN t_product_cpu C
+        ON A.icpu = C.icpu
+        INNER JOIN t_product_gpu D
+        ON A.igpu = D.igpu
+        <if test="sort == 'best'">
+            LEFT JOIN (
+            SELECT COUNT(C.iproduct) AS amount, C.iproduct
+            FROM t_order_product A
+            INNER JOIN t_product_detail B
+            ON A.idetail = B.idetail
+            INNER JOIN t_product_master C
+            ON B.iproduct = C.iproduct
+            GROUP BY C.iproduct
+            ) E
+            ON A.iproduct = E.iproduct
+        </if>
+        WHERE B.isrep = 'Y'
+        <include refid="condition"></include>
+        <if test="sort == 'best'">
+            ORDER BY E.amount DESC
+        </if>
+        <if test="sort == 'new'">
+            ORDER BY A.rdt DESC
+        </if>
+        <if test="sort == 'lowPrice'">
+            ORDER BY B.price
+        </if>
+        <if test="sort == 'highPrice'">
+            ORDER BY B.price DESC
+        </if>
+        LIMIT ${startIdx}, ${recordCount}
+    </select>
+
     <select id="selProductDetail" resultType="ProductVo">
         SELECT A.ram,
                A.size,
@@ -45,14 +159,14 @@
         FROM t_product_detail
         WHERE iproduct = #{iproduct}
         GROUP BY color
-        ORDER BY isrep DESC
+        ORDER BY isrep DESC, idetail
     </select>
 
     <select id="selOptionList" resultType="OptionDto">
         SELECT hdd, ssd, color, idetail
         FROM t_product_detail
         WHERE iproduct = #{iproduct}
-        ORDER BY isrep DESC
+        ORDER BY isrep DESC, idetail
     </select>
 
     <select id="selReviewMaxPage" resultType="ResultVo">
@@ -104,7 +218,7 @@
         SELECT CEIL(COUNT(iquestion) / ${recordCount}) AS result
         FROM t_product_question
         WHERE iproduct = #{iproduct}
-        AND parent = 0
+          AND parent = 0
     </select>
 
     <select id="selQuestionList" resultType="ProductQuestionVo">
@@ -131,7 +245,7 @@
         UPDATE t_product_question
         SET ctnt = #{ctnt}
         WHERE iuser = #{iuser}
-        AND iquestion = #{iquestion}
+          AND iquestion = #{iquestion}
     </update>
 
     <delete id="delQuestion">
@@ -142,4 +256,66 @@
           AND iquestion = #{iquestion}
     </delete>
 
+    <select id="selPrice" resultType="ProductVo">
+        SELECT ROUND(price * (1 - dc_rate), -3) AS price, price AS originalPrice
+        FROM t_product_detail
+        WHERE idetail = #{idetail}
+    </select>
+
+    <select id="selBrandList" resultType="String">
+        SELECT DISTINCT brand
+        FROM t_product_master
+        ORDER BY brand;
+    </select>
+
+    <select id="selCpuList" resultType="String">
+        SELECT DISTINCT nm
+        FROM t_product_cpu
+        WHERE brand = #{brand}
+        ORDER BY seq DESC, performance DESC
+    </select>
+
+    <select id="selGpuList" resultType="String">
+        SELECT DISTINCT nm
+        FROM t_product_gpu
+        WHERE is_inner_gpu = 'N'
+          AND brand = #{brand}
+        ORDER BY seq DESC, performance DESC
+    </select>
+
+    <select id="selCartList" resultType="ProductDetailVo">
+        SELECT B.img,
+               A.brand,
+               A.nm,
+               A.product_code,
+               B.color,
+               B.hdd,
+               B.ssd,
+               B.stock,
+               B.price                              AS originalPrice,
+               ROUND(B.price * (1 - B.dc_rate), -3) AS price,
+               B.idetail,
+               C.quantity
+        FROM t_product_master A
+                 INNER JOIN t_product_detail B
+                            ON A.iproduct = B.iproduct
+                 INNER JOIN t_cart C
+                            ON B.idetail = C.idetail
+        WHERE iuser = #{iuser}
+    </select>
+
+    <update id="updCart">
+        UPDATE t_cart
+        SET quantity = #{quantity}
+        WHERE iuser = #{iuser}
+        AND idetail = #{idetail}
+    </update>
+
+    <delete id="delCart">
+        DELETE FROM t_cart
+        <foreach collection="list" item="item" open="WHERE idetail IN (" separator="," close=")">
+            #{item}
+        </foreach>
+        AND iuser = #{iuser}
+    </delete>
 </mapper>

@@ -25,4 +25,6 @@ public class QuestionDto {
     private int requiredGpu;
     private int requiredRam;
     private boolean supportMac;
+
+    private String notAnswered;
 }

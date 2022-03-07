@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.fitbook.admin.AdminMapper">
+
+    <select id="selUserList" resultType="UserVo">
+        SELECT ifnull(result_price, 0) AS result_price, iuser, uid
+             , nm, email, rdt, `point`, recent_rdt, ifnull(recent_price, 0) AS recent_price
+        FROM
+            (
+                SELECT A.iuser, A.uid, A.nm, A.email, A.rdt, A.`point`
+                     , B.rdt AS recent_rdt, B.result_price, recent_price
+                FROM t_user A
+                         LEFT JOIN t_order B
+                                   ON A.iuser = B.iuser
+                         LEFT JOIN (
+                    SELECT sum(result_price) AS recent_price, iorder
+                    FROM t_order
+                    WHERE rdt BETWEEN DATE_ADD(NOW(), INTERVAL -1 MONTH) AND NOW()
+                    GROUP BY iuser
+                ) C
+                                   ON C.iorder = B.iorder
+                WHERE A.role = 'ROLE_USER'
+                  AND (B.order_status != '취소완료' OR B.order_status != '환불완료' OR B.order_status IS NULL)
+                <if test="keyword != null and keyword != ''">
+                    AND ${type} LIKE CONCAT('%', #{keyword}, '%')
+                </if>
+                <if test="exceptNull == 1">
+                    AND NOT B.rdt IS NULL
+                </if>
+                ORDER BY A.rdt DESC
+                    LIMIT 18446744073709551615
+            ) P
+        GROUP BY iuser
+        ORDER BY ${sortType} ${sort}
+        LIMIT ${startIdx}, ${recordCount}
+    </select>
+
+    <select id="getMaxPageForUser" resultType="UserVo">
+        SELECT CEIL(COUNT(iuser) / ${recordCount}) AS maxPage
+        FROM (
+        SELECT A.iuser
+        FROM t_user A
+        LEFT JOIN t_order B
+        ON A.iuser = B.iuser
+        <where>
+            A.role = 'ROLE_USER'
+            <if test="keyword != null and keyword !=''">
+                AND ${type} LIKE CONCAT('%', #{keyword}, '%')
+            </if>
+        </where>
+        GROUP BY A.iuser
+        ) AS t
+    </select>
+</mapper>

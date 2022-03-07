@@ -12,14 +12,14 @@
 <th:block layout:fragment="content">
     <div class="w100p">
         <div class="programListFrm">
-            <div class="searchDiv">
-                <div>
-                    <input type="search" placeholder="검색" id="searchText">
+            <div class="searchDiv mb10">
+                <div class="ui input">
+                    <input type="text" id="searchText" placeholder="Search...">
                 </div>
-                <div class="frow gap10">
-                    <i class="fa-solid fa-angle-up" id="required_cpu">CPU성능수치</i>
-                    <i class="fa-solid fa-angle-up" id="required_gpu">GPU성능수치</i>
-                    <i class="fa-solid fa-angle-up" id="required_ram">RAM성능수치</i>
+                <div class="frow gap10 mct-0">
+                    <i class="fa-solid fa-angle-up" id="required_cpu"> CPU성능수치</i>
+                    <i class="fa-solid fa-angle-up" id="required_gpu"> GPU성능수치</i>
+                    <i class="fa-solid fa-angle-up" id="required_ram"> RAM</i>
                 </div>
             </div>
         </div>
@@ -32,10 +32,10 @@
                     <th>프로그램명</th>
                     <th>CPU 성능수치</th>
                     <th>GPU 성능수치</th>
-                    <th>RAM 성능수치</th>
+                    <th>RAM (GB)</th>
                 </tr>
                 </thead>
-                <tbody>
+                <tbody class="programTbody">
 
                 </tbody>
             </table>

@@ -256,7 +256,7 @@
             } else {
                 const tdElem = document.createElement('td');
                 tdElem.colSpan = 8;
-                tdElem.innerHTML = '<h4>주문이 없습니다.</h4>';
+                tdElem.innerHTML = '<strong>주문이 없습니다.</strong>';
                 tBodyElem.appendChild(tdElem);
             }
         }
