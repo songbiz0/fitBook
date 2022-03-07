@@ -35,7 +35,7 @@
                     <th rowspan="2">이미지</th>
                 </tr>
                 <tr class="tr-img">
-                    <td colspan="9"><img th:src="@{/imgPath/products/detail/{no}/{img} (no=${detail.idetail}, img=${detail.img})}" width="400" height="400"></td>
+                    <td colspan="9"><img th:src="@{/imgPath/products/detail/{no}/{img} (no=${detail.idetail}, img=${detail.img})}" width="300" height="300"></td>
                 </tr>
                 <tr class="table-kind">
                     <th rowspan="3">제품사양</th>
@@ -66,7 +66,7 @@
             <table class="mytable-detail w110p detail-price">
                 <tr class="table-price">
                     <th class="borderR1" rowspan="4">옵션별 매출표</th>
-                    <th class="borderR2">컬러</th>
+                    <th class="borderR2" colspan="2">컬러</th>
                     <th class="borderR2">SSD</th>
                     <th class="borderR2">HDD</th>
                     <th class="borderR2">판매가</th>
@@ -76,19 +76,20 @@
                     <th>평 점</th>
                 </tr>
                 <tr class="tr-price-color" th:each="item : ${data}">
+                    <td><img th:src="@{/imgPath/products/detail/{no}/{img} (no=${item.idetail}, img=${item.img})}" width="100" height="100"></td>
                     <td th:text="${item.color}"></td>
                     <td class="borderR2" th:text="${item.ssd}+GB">258</td>
                     <td class="borderR2" th:text="${item.hdd}+GB"></td>
-                    <td class="borderR2" th:text="${item.price}+원"></td>
-                    <td th:text="|${item.detail_total}원|"></td>
-                    <td th:text="|${item.detail_month_total}원|"></td>
+                    <td class="borderR2" th:text="|${#numbers.formatInteger(item.price,0,'COMMA')}원|"></td>
+                    <td th:text="|${#numbers.formatInteger(item.detail_total,0,'COMMA')}원|"></td>
+                    <td th:text="|${#numbers.formatInteger(item.detail_month_total,0,'COMMA')}원|"></td>
                     <td th:text="|${item.stock} EA|"></td>
-                    <td>☆☆☆☆☆</td>
+                    <td>평점</td>
                 </tr>
                 <tr class="tr-price-total">
-                    <th class="borderR1" colspan="4" >TOTAL 매출</th>
-                    <th th:text="|${detail.total_price}원|">0</th>
-                    <th th:text="|${detail.month_total}|"></th>
+                    <th class="borderR1" colspan="5" >TOTAL 매출</th>
+                    <th th:text="|${#numbers.formatInteger(detail.total_price,0,'COMMA')}원|"></th>
+                    <th th:text="|${#numbers.formatInteger(detail.month_total,0,'COMMA')}원|"></th>
                     <th th:text="|${total} EA|"></th>
                     <th></th>
                 </tr>

@@ -8,6 +8,7 @@ import com.fitbook.model.gpu.GpuDto;
 import com.fitbook.model.gpu.GpuEntity;
 import com.fitbook.model.gpu.GpuVo;
 import com.fitbook.model.order.OrderDto;
+import com.fitbook.model.order.OrderEntity;
 import com.fitbook.model.order.OrderVo;
 import com.fitbook.model.orderproduct.OrderProductVo;
 import com.fitbook.model.product.ProductDto;
@@ -55,6 +56,11 @@ public class AdminRestController {
     @GetMapping("/orderMaxPage")
     public ResultVo getOrderMaxPage(OrderDto dto) {
         return service.getOrderMaxPage(dto);
+    }
+    @PutMapping("/updorderstatus")
+    public ResultVo updOrderStatus(@RequestBody OrderEntity entity) {
+        System.out.println(entity);
+        return service.updOrderStatus(entity);
     }
 
     //상품목록
@@ -161,6 +167,7 @@ public class AdminRestController {
     }
     @PutMapping("/programDetail")
     public int updProgram(ProgramVo vo) throws Exception {
+        System.out.println(vo.getIs_mac_sup());
         return service.updProgram(vo);
     }
     @DeleteMapping("/programDetail")

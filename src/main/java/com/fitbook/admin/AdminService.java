@@ -9,7 +9,9 @@ import com.fitbook.model.gpu.GpuDto;
 import com.fitbook.model.gpu.GpuEntity;
 import com.fitbook.model.gpu.GpuListEntity;
 import com.fitbook.model.gpu.GpuVo;
+import com.fitbook.model.order.OrderDetailVo;
 import com.fitbook.model.order.OrderDto;
+import com.fitbook.model.order.OrderEntity;
 import com.fitbook.model.order.OrderVo;
 import com.fitbook.model.orderproduct.OrderProductVo;
 import com.fitbook.model.product.ProductVo;
@@ -84,7 +86,13 @@ public class AdminService {
         dto.setStatusNo(Integer.parseInt(statusArr[1]));
         List<OrderVo> list = mapper.selOrderList(dto);
         for(OrderVo item : list) {
-            item.setRdt(item.getRdt().substring(0, 19));
+            item.setRdt(item.getRdt().substring(0, 11));
+            if(item.getCdt() != null) {
+                item.setCdt(item.getCdt().substring(0, 11));
+            }
+            String cdt = item.getCdt();
+            cdt = cdt == null ? "-" : item.getCdt();
+            item.setCdt(cdt);
         }
         return list;
     }
@@ -93,6 +101,26 @@ public class AdminService {
         dto.setStatus(statusArr[0]);
         dto.setStatusNo(Integer.parseInt(statusArr[1]));
         return mapper.getOrderMaxPage(dto);
+    }
+    // Order Detail
+    public OrderDetailVo selProductDetail(OrderDto dto) {
+        OrderDetailVo orderVo = mapper.selOrderDetail(dto);
+        // 전화번호
+        orderVo.setReceiver_phone(utils.phoneRegex(orderVo.getReceiver_phone()));
+        List<ProductDetailVo> list = mapper.selProductDetail(dto);
+        for(ProductDetailVo item : list) {
+            // 옵션
+            StringBuilder option = new StringBuilder(item.getColor());
+            option.append(" / HDD ").append(item.getHdd()).append("GB / SSD ").append(item.getSsd()).append("GB");
+            item.setOption(option.toString());
+        }
+        orderVo.setProductDetails(list);
+        return orderVo;
+    }
+    public ResultVo updOrderStatus(OrderEntity entity) {
+        ResultVo vo = new ResultVo();
+        vo.setResult(mapper.updOrderStatus(entity));
+        return vo;
     }
 
     // Parts
@@ -185,16 +213,17 @@ public class AdminService {
         if(vo.getIstwoinone() == null || "".equals(vo.getIstwoinone())) {
             vo.setIstwoinone("N");
         }
+        String fileMasterNm = "";
         if(vo.getMfFile() != null) {
             UUID uuid = UUID.randomUUID();
-            String fileNm = uuid + ".jpg";
-            vo.setImg(fileNm);
+            fileMasterNm = uuid + ".jpg";
+            vo.setImg(fileMasterNm);
         }
         int result1 = mapper.insProductMaster(vo);
         int iproduct = vo.getIproduct();
         System.out.println(iproduct);
         try {
-            vo.setImg(utils.uploadFile(vo.getMfFile(), "products\\master", String.valueOf(iproduct)));
+            vo.setImg(utils.uploadFileUUID(vo.getMfFile(), fileMasterNm, "products\\master", String.valueOf(iproduct)));
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -211,12 +240,12 @@ public class AdminService {
         for (ProductDetailVo item : listEntity.getProductList()) {
             item.setIproduct(iproduct);
             UUID uuid = UUID.randomUUID();
-            String fileNm = uuid + ".jpg";
-            item.setImg(fileNm);
+            String fileDetailNm = uuid + ".jpg";
+            item.setImg(fileDetailNm);
             item.setDc_rate(item.getDc_rate() / 100);
             result2 = mapper.insProductDetail(item);
             try {
-                utils.uploadFileUUID(item.getMfFile(), fileNm, "products\\detail", String.valueOf(item.getIdetail()));
+                utils.uploadFileUUID(item.getMfFile(), fileDetailNm, "products\\detail", String.valueOf(item.getIdetail()));
             } catch (Exception e) {
                 e.printStackTrace();
             }
@@ -251,11 +280,11 @@ public class AdminService {
         return mapper.selProductList(dto);
     }
     //상품디테일
-    public List<ProductVo> selProductDetail(ProductDto dto){
-        return mapper.selProductDetail(dto);
+    public List<ProductVo> selProductMasterDetail(ProductDto dto){
+        return mapper.selProductMasterDetail(dto);
     }
-    public ProductVo selProductDetail2(ProductDto dto){
-        return mapper.selProductDetail2(dto);
+    public ProductVo selProductMasterDetail2(ProductDto dto){
+        return mapper.selProductMasterDetail2(dto);
     }
 
     public int delProductDetail(ProductDto dto){
@@ -269,6 +298,13 @@ public class AdminService {
     }
     public int updProductDetail(ProductVo vo){
         return mapper.updProductDetail(vo);
+    }
+
+    public int updProductDetailGroup(ProductDetailListVo vo){
+        for(ProductDetailVo item : vo.getProductList()) {
+            mapper.updProductDetailGroup(item);
+        }
+        return 1;
     }
 
     public ResultVo selMaxPageVal(ProductDto dto){
@@ -286,6 +322,12 @@ public class AdminService {
         int length = list.getProgramList().size();
         int result = 0;
         for(ProgramVo item : list.getProgramList()) {
+
+            // is_mac_sup 관련
+            System.out.println(item.getIs_mac_sup());
+            String mac_sup = "Y".equals(item.getIs_mac_sup()) ? "Y" : "N";
+            item.setIs_mac_sup(mac_sup);
+            // 이미지관련
             UUID uuid = UUID.randomUUID();
             String fileNm = uuid + utils.getExt(item.getMfFile().getOriginalFilename());
             item.setImg(fileNm);
@@ -349,7 +391,13 @@ public class AdminService {
             list = mapper.selQuestionList(dto);
             vo = mapper.qnaMustMaxPage(dto);
         }
-        list.get(0).setMaxPage(vo.getResult());
+        if(vo.getResult() > 0) {
+            list.get(0).setMaxPage(vo.getResult());
+        } else {
+            ProductQuestionVo item = new ProductQuestionVo();
+            item.setMaxPage(0);
+            list.add(item);
+        }
 
         for(ProductQuestionVo item : list) {
             try {

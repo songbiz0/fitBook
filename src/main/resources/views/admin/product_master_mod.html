@@ -58,7 +58,7 @@
                     <tr class="specdetail">
                         <td>
                             <select name="icpu" CLASS="ui mini selection  dropdown">
-                                <option th:text="${gpuCpuNm.cpu}"></option>
+                                <option th:value="${gpuCpuNm.icpu}"  th:text="${gpuCpuNm.cpu}"></option>
                                 <th:block th:each="list : ${cpu}">
                                     <option th:if="${!#strings.equals(gpuCpuNm.cpu, list.nm)}" th:value="${list.icpu}" th:text="${list.nm}"/>
                                 </th:block>
@@ -66,13 +66,12 @@
                         </td>
                         <td>
                             <select name="igpu" CLASS="ui mini selection dropdown">
-                                <option th:text="${gpuCpuNm.gpu}"></option>
+                                <option th:value="${gpuCpuNm.igpu}"   th:text="${gpuCpuNm.gpu}"></option>
                                 <th:block th:each="list : ${gpu}">
                                     <option th:if="${!#strings.equals(gpuCpuNm.gpu, list.nm)}" th:value="${list.igpu}" th:text="${list.nm}"/>
                                 </th:block>
                             </select>
                         </td>
-
                         <td >
                             <div class="ui input spectsize" style="width: 50px">
                                 <input class="updetail" type="text" name="ram" th:value="${detail.ram}" style="text-align: center">
@@ -127,41 +126,40 @@
                         <th>재고 수량</th>
                         <th>평 점</th>
                     </tr>
-                    <tr class="tr-price-color" th:each="item : ${data}">
+                    <tr class="tr-price-color" th:each="num : ${#numbers.sequence(0, #lists.size(detailgroup)-1)}">
+                        <input type="text" th:name="|productList[${num}].idetail|" th:value="${detailgroup[num].idetail}" hidden>
                         <td class="borderR2">
                             <div class="ui input spectsize" style="width: 70px">
-                                <input type="text" name="color" th:value="${item.color}" style="text-align: center">
+                                <input type="text" th:name="|productList[${num}].color|"  th:value="${detailgroup[num].color}" style="text-align: center">
                             </div>
                         </td>
                         <td class="borderR2">
-                            <div class="ui input spectsize" style="width: 60px" >
-                                <input type="text" name="ssd" th:value="${item.ssd}" style="text-align: center">
-                            </div>
-                        </td>
-                        <td class="borderR2">
-                            <div class="ui input spectsize" style="width: 60px">
-                                <input type="text" name="hdd" th:value="${item.hdd}" style="text-align: center">
-                            </div>
-                        </td>
-                        <td class="borderR2">
-                            <div class="ui input spectsize">
-                                <input type="text" name="price" th:value="${item.price}" style="text-align: center">
-                            </div>
-                        </td>
-                        <td th:text="|${item.detail_total}원|"></td>
-                        <td th:text="|${item.detail_month_total}원|"></td>
-                        <td>
                             <div class="ui input spectsize" style="width: 70px">
-                                <input type="text" name="stock" th:value="${item.stock}" style="text-align: center">
+                                <input type="text" th:name="|productList[${num}].ssd|"  th:value="${detailgroup[num].ssd}" style="text-align: center">
                             </div>
                         </td>
-                        <td>☆☆☆☆☆</td>
+                        <td class="borderR2">
+                            <div class="ui input spectsize" style="width: 70px">
+                                <input type="text" th:name="|productList[${num}].hdd|"  th:value="${detailgroup[num].hdd}" style="text-align: center">
+                            </div>
+                        </td>
+                        <td class="borderR2">
+                            <div class="ui input spectsize" style="width: 100px">
+                                <input type="text" th:name="|productList[${num}].price|"  th:value="${#numbers.formatInteger(detailgroup[num].price,0,'COMMA')}" style="text-align: center">
+                            </div>
+                        </td>
+                        <td th:text="|${#numbers.formatInteger(detailgroup[num].detail_total,0,'COMMA')}원|"></td>
+                        <td th:text="|${#numbers.formatInteger(detailgroup[num].detail_month_total,0,'COMMA')}원|"></td>
+                        <td class="borderR2">
+                            <div class="ui input spectsize" style="width: 70px">
+                                <input type="text" th:name="|productList[${num}].stock|"  th:value="${detailgroup[num].stock}" style="text-align: center">
+                            </div>
+                        </td>
                     </tr>
                     <tr class="tr-price-total" >
                         <th class="borderR1" colspan="4" >TOTAL 매출</th>
-                        <th th:text="|${detail.total_price}원|"></th>
-                        <th th:text="|${detail.month_total}원|"></th>
-
+                        <th th:text="|${#numbers.formatInteger(detail.total_price,0,'COMMA')}원|"></th>
+                        <th th:text="|${#numbers.formatInteger(detail.month_total,0,'COMMA')}원|"></th>
                         <th th:text="|${total}EA|"></th>
                         <th>
                             0

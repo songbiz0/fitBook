@@ -6,10 +6,8 @@ import com.fitbook.auth.AuthenticationFacade;
 import com.fitbook.model.cpu.CpuDto;
 import com.fitbook.model.cpu.CpuListEntity;
 import com.fitbook.model.gpu.GpuListEntity;
-import com.fitbook.model.product.ProductDetailListVo;
-import com.fitbook.model.product.ProductDto;
-import com.fitbook.model.product.ProductEntity;
-import com.fitbook.model.product.ProductVo;
+import com.fitbook.model.order.OrderDto;
+import com.fitbook.model.product.*;
 import com.fitbook.model.productquestion.ProductQuestionDto;
 import com.fitbook.model.productquestion.ProductQuestionEntity;
 import com.fitbook.model.productquestion.ProductQuestionVo;
@@ -49,6 +47,12 @@ public class AdminController {
     @GetMapping("/order")
     public void order() {
     }
+    @GetMapping("/orderdetail")
+    public String orderDetail(OrderDto dto, Model model) {
+        System.out.println(service.selProductDetail(dto));
+        model.addAttribute("data", service.selProductDetail(dto));
+        return "admin/orderdetail";
+    }
 
     //상품
     @GetMapping("/product_master")
@@ -58,16 +62,15 @@ public class AdminController {
     //상품디테일
     @GetMapping("/product_master_detail")
     public void product_master_detail(Model model, ProductDto dto){
-        List<ProductVo> list = service.selProductDetail(dto);
+        List<ProductVo> list = service.selProductMasterDetail(dto);
         int total = 0;
         for(ProductVo item : list) {
             total += item.getStock();
         }
         model.addAttribute("total", total);
         model.addAttribute(Const.DATA,list);
-        System.out.println("Detail : " +list);
-        System.out.println("Detail2 : " + service.selProductDetail2(dto));
-        model.addAttribute(Const.DETAIL,service.selProductDetail2(dto));
+        model.addAttribute(Const.DETAIL,service.selProductMasterDetail2(dto));
+        System.out.println(dto.getIproduct());
     }
     @DeleteMapping("/product_master_detail")
     public String delProductDetail(ProductDto dto){
@@ -77,33 +80,31 @@ public class AdminController {
 
     @GetMapping("/product_master_mod")
     public void product_master_mod(Model model,ProductDto dto){
-        List<ProductVo> list = service.selProductDetail(dto);
+        List<ProductVo> list = service.selProductMasterDetail(dto);
         int total = 0;
-        for(ProductVo item : list) {
+        for(ProductVo item : list){
             total += item.getStock();
         }
-        model.addAttribute("total", total);
-        model.addAttribute(Const.DATA,list);
-        model.addAttribute(Const.CPU,service.selCpu());
-        model.addAttribute(Const.GPU,service.selGpu());
-        System.out.println(list);
-
-        ProductVo list2 = service.selProductDetail2(dto);
+        ProductVo list2 = service.selProductMasterDetail2(dto);
         ProductVo gpuCpuNm = new ProductVo();
-        System.out.println("DetailMod: " + list2);
         gpuCpuNm.setCpu(list2.getCpu());
         gpuCpuNm.setGpu(list2.getGpu());
+        gpuCpuNm.setIcpu(list2.getIcpu());
+        gpuCpuNm.setIgpu(list2.getIgpu());
+        model.addAttribute(Const.CPU,service.selCpu());
+        model.addAttribute(Const.GPU,service.selGpu());
+        model.addAttribute("total",total);
+        model.addAttribute(Const.DETAILGROUP,service.selProductMasterDetail(dto));
         model.addAttribute(Const.DETAIL,list2);
-        model.addAttribute("gpuCpuNm", gpuCpuNm);
+        model.addAttribute(Const.DETAIL,service.selProductMasterDetail2(dto));
+        model.addAttribute("gpuCpuNm",gpuCpuNm);
     }
+
     @PostMapping("/product_master_mod")
-    public String updProductDetail(ProductVo vo){
-        System.out.println(vo);
-        System.out.println(vo.getIcpu());
-        System.out.println(vo.getIgpu());
-        ProductVo upDate = new ProductVo();
+    public String updProductDetail(ProductVo vo, ProductDetailListVo productList){
         service.updProductDetail(vo);
-        System.out.println("update : " + service.updProductDetail(vo));
+        service.updProductDetailGroup(productList);
+        System.out.println("mod" + productList.getProductList());
         return "redirect:/admin/product_master_detail?iproduct=" + vo.getIproduct();
     }
 

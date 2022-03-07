@@ -15,4 +15,6 @@ public class ProductDto {
     private String search;
     private String select;
     private String total;
+
+    private int iuser;
 }
