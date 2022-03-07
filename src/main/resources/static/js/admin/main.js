@@ -159,3 +159,16 @@
     }
 }
 // 요번달수익 (줄그래프) -------------------(end)
+
+// 날짜 출력(오늘 ~ 한달 전) -----------------------------------------------(start)
+{
+    const manageTitle = document.querySelector('.manage-tit');
+    if(manageTitle) {
+        const dateElem = manageTitle.querySelector('.date');
+        const now = new Date().toLocaleDateString();
+        const prepareMonth = new Date();
+        const aMonthAgo = new Date(prepareMonth.setMonth(prepareMonth.getMonth() -1)).toLocaleDateString();
+        const dateResult = `( ${aMonthAgo} ~ ${now} )`;
+        dateElem.innerText = dateResult;
+    }
+}

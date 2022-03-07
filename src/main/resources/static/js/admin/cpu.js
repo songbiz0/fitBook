@@ -1,14 +1,6 @@
 {
     // cpu insert
 
-    /*
-        nm - String 20
-        perf - int 10
-        inner_gpu - int 10
-        seq - int 11
-        brand - String 20
-     */
-
     const nmRegex = /^([a-zA-Z가-힣0-9-_=+\s]{1,20})$/;
     const perfRegex = /^([0-9]{1,10})$/;
     const innerGpuRegex = /^([1-9]{1,10})$/;
@@ -73,8 +65,14 @@
 
 
         const chkRegex = (elem, e) => {
-            const classNm = elem.classList.value;
+            let classNm = elem.classList.value;
             const val = elem.value;
+            if(parseInt(val) === 0) {
+                classNm = 'inner_gpu';
+                console.log('complete');
+            }
+            console.log(elem);
+            console.log(val);
             const parentElem = elem.parentNode;
             let bool = true;
             if(elem.parentNode.classList.contains('error')) {
@@ -102,7 +100,7 @@
                         e.preventDefault();
                         bool = false;
                         parentElem.classList.add('error');
-                        makeErrBox('10자리 숫자 이내로 작성해주세요.');
+                        makeErrBox('내장그래픽을 선택해 주세요.');
                     }
                     break;
                 case 'seq':
@@ -149,10 +147,11 @@
                 for (let i in list) {
                     const searchId = list[i];
                     const result = 'cpuList[' + forNo + '].' + searchId;
-                    const elem = item.querySelector(`.${searchId}`);
+                    let elem = item.querySelector(`.${searchId}`);
                     elem.name = result;
                     if(list[i] === 'inner_gpu') {
-                        elem.querySelector('select').name = result;
+                        elem = elem.querySelector('select')
+                        elem.name = result;
                     }
                     let bool = chkRegex(elem, e);
                     if(!bool) {
@@ -181,7 +180,7 @@
                 </div>
                 <div class="ui right labeled input inner_gpu">
                     <select class="ui selection dropdown minw100">
-                        <option>선택</option>
+                        <option>선택</option> 
                     </select>
                     <input type="text" class="innerGpu">
                     <div class="ui basic label">

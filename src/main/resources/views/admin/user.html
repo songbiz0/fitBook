@@ -79,6 +79,11 @@
                 </td>
             </tr>
             </th:block>
+            <th:block th:if="${data.size() == 0}">
+                      <td colspan="7">
+                          <strong>회원이 없습니다.</strong>
+                      </td>
+            </th:block>
             </tbody>
         </table>
         <th:block th:with="curPage = ${#strings.isEmpty(param.page) ? 1 : param.page}">
