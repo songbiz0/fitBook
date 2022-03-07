@@ -2,6 +2,8 @@ package com.fitbook.shop;
 
 import com.fitbook.ResultVo;
 import com.fitbook.model.PageDto;
+import com.fitbook.model.product.ProductDetailDto;
+import com.fitbook.model.product.ProductDetailVo;
 import com.fitbook.model.product.ProductVo;
 import com.fitbook.model.productReview.ProductReviewEntity;
 import com.fitbook.model.productReview.ProductReviewVo;
@@ -84,4 +86,20 @@ public class ShopRestController {
 
     @GetMapping("/selprice")
     public ProductVo selPrice(@RequestParam int idetail) { return service.selPrice(idetail); }
+
+    @GetMapping("selcart")
+    public List<ProductDetailVo> selCart() { return service.selCartList(); }
+
+    @GetMapping("/updcart")
+    public ResultVo updCart(ProductDetailDto dto) {
+        return service.updCart(dto);
+    }
+
+    @PostMapping("/delcart")
+    public ResultVo delCart(@RequestBody List<Integer> list) {
+        for(int a : list) {
+            System.out.println(a);
+        }
+        return service.delCart(list);
+    }
 }

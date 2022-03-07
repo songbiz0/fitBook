@@ -282,4 +282,40 @@
           AND brand = #{brand}
         ORDER BY seq DESC, performance DESC
     </select>
+
+    <select id="selCartList" resultType="ProductDetailVo">
+        SELECT B.img,
+               A.brand,
+               A.nm,
+               A.product_code,
+               B.color,
+               B.hdd,
+               B.ssd,
+               B.stock,
+               B.price                              AS originalPrice,
+               ROUND(B.price * (1 - B.dc_rate), -3) AS price,
+               B.idetail,
+               C.quantity
+        FROM t_product_master A
+                 INNER JOIN t_product_detail B
+                            ON A.iproduct = B.iproduct
+                 INNER JOIN t_cart C
+                            ON B.idetail = C.idetail
+        WHERE iuser = #{iuser}
+    </select>
+
+    <update id="updCart">
+        UPDATE t_cart
+        SET quantity = #{quantity}
+        WHERE iuser = #{iuser}
+        AND idetail = #{idetail}
+    </update>
+
+    <delete id="delCart">
+        DELETE FROM t_cart
+        <foreach collection="list" item="item" open="WHERE idetail IN (" separator="," close=")">
+            #{item}
+        </foreach>
+        AND iuser = #{iuser}
+    </delete>
 </mapper>

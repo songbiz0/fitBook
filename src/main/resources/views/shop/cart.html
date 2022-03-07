@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security"
+      layout:decorate="temp/thymeleaf_layout">
+<head>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" th:href="@{/css/main.css}">
+    <script th:inline="javascript">
+    </script>
+    <script defer th:src="@{/js/shop/cart.js}"></script>
+    <title></title>
+</head>
+<body>
+<th:block layout:fragment="content">
+    <main class="btgrey">
+        <div class="ui left aligned container mt50">
+            <h3 class="mb30">장바구니</h3>
+            <table class="mytable w100p">
+                <colgroup>
+                    <col width="5%">
+                    <col width="40%">
+                    <col width="10%">
+                    <col width="15%">
+                    <col width="15%">
+                    <col width="15%">
+                </colgroup>
+                <tr>
+                    <th><div class="ui checkbox"><input type="checkbox"><label></label></div></th>
+                    <th>상품 정보</th>
+                    <th>수량</th>
+                    <th>상품 금액</th>
+                    <th>할인/적립</th>
+                    <th>결제 금액</th>
+                </tr>
+                <tbody id="tbody"></tbody>
+            </table>
+            <div>
+                <button id="delBtn" class="ui mini basic button m10">선택 상품 삭제</button>
+            </div>
+            <div class="fs14 mr30 taright">
+                <div class="m5">총 주문 금액 : <b id="totalPriceB"></b></div>
+                <div>
+                    <button class="ui mini basic button m5">선택 상품 주문</button>
+                    <button class="ui mini secondary button m5">전체 상품 주문</button>
+                </div>
+            </div>
+        </div>
+    </main>
+</th:block>
+</body>
+</html>
