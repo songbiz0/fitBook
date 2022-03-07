@@ -50,3 +50,14 @@
 .manageflex > div {
     margin-bottom: 100px;
 }
+
+.manage-tit {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    margin: auto;
+    margin-bottom: 0px !important;
+}
+.cgray {
+    color: #c9c9c9;
+}
