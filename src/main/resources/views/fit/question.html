@@ -119,11 +119,17 @@
             <div class="ql mt50 disnoneNotInportant">
                 <h5>Q8. 마지막으로 주로 사용하시는 프로그램을 골라주세요. (최대 5개)</h5>
                 <div class="mct w60p">
-                    <div class="ui fluid multiple tiny search selection dropdown">
+                    <div id="programDropdown" class="ui fluid multiple tiny search selection dropdown">
                         <input type="hidden" name="country">
                         <i class="dropdown icon"></i>
                         <div class="default text">검색</div>
                         <div class="menu"></div>
+                    </div>
+                    <div class="ui left aligned container">
+                        <div id="simpleChk" class="ui tiny checkbox ml10 mt10 hp w100p">
+                            <input type="checkbox" name="simple" id="simple">
+                            <label for="simple" class="hp">인터넷 강의, 사무용 등 단순 용도</label>
+                        </div>
                     </div>
                     <div class="mt20">
                         <div class="ui basic tiny button rewBtn">처음으로</div>

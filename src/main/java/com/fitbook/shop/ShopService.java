@@ -4,17 +4,14 @@ import com.fitbook.ResultVo;
 import com.fitbook.auth.AuthenticationFacade;
 import com.fitbook.fit.FitService;
 import com.fitbook.model.PageDto;
-import com.fitbook.model.product.OptionDto;
-import com.fitbook.model.product.ProductVo;
+import com.fitbook.model.product.*;
 import com.fitbook.model.productReview.ProductReviewEntity;
 import com.fitbook.model.productReview.ProductReviewVo;
 import com.fitbook.model.productquestion.ProductQuestionEntity;
 import com.fitbook.model.productquestion.ProductQuestionVo;
-import com.fitbook.mypage.MypageService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -23,6 +20,12 @@ public class ShopService {
     @Autowired private ShopMapper mapper;
     @Autowired private FitService fitService;
     @Autowired private AuthenticationFacade authenticationFacade;
+
+    public int selMaxPage(PageDto dto) {
+        int maxPage = mapper.selMaxPage(dto);
+        maxPage = Math.max(1, maxPage);
+        return maxPage;
+    }
 
     public ProductVo selProductDetail(int iproduct) {
         ProductVo vo = mapper.selProductDetail(iproduct);
@@ -99,7 +102,7 @@ public class ShopService {
     }
 
     public ResultVo selOrderCount(PageDto dto) {
-        dto.setIuser(authenticationFacade.getLoginUserPk());
+        dto.setIuser(authenticationFacade.getLoginUser() == null ? -1 : authenticationFacade.getLoginUserPk());
         return mapper.selOrderCount(dto);
     }
 
@@ -142,6 +145,62 @@ public class ShopService {
         ResultVo result = new ResultVo();
         entity.setIuser(authenticationFacade.getLoginUserPk());
         result.setResult(mapper.updQuestion(entity));
+        return result;
+    }
+
+    public List<ProductVo> selProductList(PageDto dto) {
+        return mapper.selProductList(dto);
+    }
+
+    public ProductVo selPrice(int idetail) { return mapper.selPrice(idetail); }
+
+    public ListDto selList() {
+        ListDto dto = new ListDto();
+        dto.setBrandList(mapper.selBrandList());
+        dto.setIntelCpuList(mapper.selCpuList("Intel"));
+        dto.setAmdCpuList(mapper.selCpuList("AMD"));
+        dto.setNvidiaGpuList(mapper.selGpuList("NVIDIA"));
+        dto.setAmdGpuList(mapper.selGpuList("AMD"));
+        return dto;
+    }
+
+    public List<String> fromJSON(List<String> list) {
+        for(int i=0; i<list.size(); i++) {
+            list.set(i, list.get(i).replace("\"", "").replace("[", "").replace("]", ""));
+        }
+        return list;
+    }
+
+    public List<ProductDetailVo> selCartList() {
+        List<ProductDetailVo> list = mapper.selCartList(authenticationFacade.getLoginUserPk());
+        for(ProductDetailVo vo : list) {
+            vo.setDiscount(vo.getOriginalPrice() - vo.getPrice());
+            vo.setAccumulate((int) Math.round(vo.getPrice() * 0.001));
+            vo.setStock(Math.min(vo.getStock(), 9));
+
+            StringBuilder sb = new StringBuilder();
+            sb.append(vo.getColor());
+            if (vo.getHdd() > 0) {
+                sb.append(" / HDD ").append(vo.getHdd()).append("GB");
+            }
+            if (vo.getSsd() > 0) {
+                sb.append(" / SSD ").append(vo.getSsd()).append("GB");
+            }
+            vo.setOption(sb.toString());
+        }
+        return list;
+    }
+
+    public ResultVo updCart(ProductDetailDto dto) {
+        dto.setIuser(authenticationFacade.getLoginUserPk());
+        ResultVo result = new ResultVo();
+        result.setResult(mapper.updCart(dto));
+        return result;
+    }
+
+    public ResultVo delCart(List<Integer> list) {
+        ResultVo result = new ResultVo();
+        result.setResult(mapper.delCart(list, authenticationFacade.getLoginUserPk()));
         return result;
     }
 }

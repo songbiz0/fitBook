@@ -24,6 +24,16 @@ public class FitRestController {
         return service.selProgramList();
     }
 
+    @GetMapping("/question")
+    public QuestionDto selQuestion() {
+        QuestionDto dto = service.selQuestion();
+        if(dto == null) {
+            dto = new QuestionDto();
+            dto.setNotAnswered("not");
+        }
+        return dto;
+    }
+
     @PostMapping("/question")
     public ResultVo insQuestion(@RequestBody QuestionDto dto) {
         return service.insQuestion(dto);

@@ -7,6 +7,26 @@
             (#{iuser}, #{budget}, #{weight}, #{size}, #{os}, #{as}, #{battery}, #{twoinone}, #{macbook}, #{highhz}, #{highresolution})
     </insert>
 
+    <insert id="insProgramMapping">
+        INSERT INTO t_program_question_mapping
+            (iprogram, iuser)
+        VALUES
+            <foreach collection="iprograms" item="item" separator=",">
+                (#{item}, #{iuser})
+            </foreach>
+    </insert>
+
+    <delete id="delProgramMapping">
+        DELETE FROM t_program_question_mapping
+        WHERE iuser = #{iuser}
+    </delete>
+
+    <select id="selMyProgramList" resultType="Integer">
+        SELECT iprogram
+        FROM t_program_question_mapping
+        WHERE iuser = #{iuser}
+    </select>
+
     <select id="selQuestion" resultType="QuestionDto">
         SELECT budget, weight, size, os, `as`,
                battery, twoinone, macbook, highhz, highresolution
@@ -23,7 +43,7 @@
         SELECT required_cpu AS requiredCpu, required_gpu AS requiredGpu, required_ram AS requiredRam, IF(is_mac_sup = 'Y', true, false) AS supportMac
         FROM t_program
         WHERE iprogram IN
-        <foreach collection="iprograms" item="item" separator="," open="(" close=")">
+        <foreach collection="list" item="item" separator="," open="(" close=")">
             #{item}
         </foreach>
     </select>
@@ -32,7 +52,8 @@
         SELECT A.ram, A.size, A.weight, A.brand, A.os,
                A.battery, A.istwoinone, A.hz, A.resolution, ROUND(B.price * (1 - B.dc_rate), -3) AS price,
                C.performance AS cpuPerformance, D.performance AS gpuPerformance, B.img AS detailImg, A.nm, A.product_code,
-               C.nm AS cpuNm, D.nm AS gpuNm, B.price AS originalPrice, B.idetail, A.iproduct
+               C.nm AS cpuNm, D.nm AS gpuNm, B.price AS originalPrice, B.idetail, A.iproduct,
+               D.is_inner_gpu
         FROM t_product_master A
         INNER JOIN t_product_detail B
         ON A.iproduct = B.iproduct

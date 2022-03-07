@@ -21,13 +21,16 @@ import com.fitbook.model.program.ProgramEntity;
 import com.fitbook.model.program.ProgramVo;
 import com.fitbook.model.user.UserDto;
 import com.fitbook.model.user.UserVo;
+import org.apache.catalina.User;
 import org.apache.ibatis.annotations.Mapper;
 
 import java.util.List;
 
 @Mapper
 public interface AdminMapper {
-    // Main 차트
+    // Main
+    OrderVo statusCnt(String order_status);
+
     List<OrderVo> selCurrentMonthList(OrderDto dto);
     List<OrderVo> selThisMonthList(OrderDto dto);
     List<OrderProductVo> selBrandDemandList();
@@ -87,7 +90,8 @@ public interface AdminMapper {
     int delProgram(ProgramDto dto);
 
     // Member List
-    List<UserVo> selUserList();
+    List<UserVo> selUserList(UserDto dto);
+    UserVo getMaxPageForUser(UserDto dto);
 
     // Member UserSearchList
     List<UserVo> selectUserSearchList(UserDto dto);

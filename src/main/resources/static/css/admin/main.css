@@ -29,3 +29,35 @@
 .admin-main-container > h1{
     text-align: center;
 }
+.manage-table {
+    border-collapse: collapse;
+    border: 1px solid #d0d0d0;
+    border-top: 3px solid black;
+}
+.manage-table span { color: #868686; width: 100%;}
+.manage-table p { text-align: right; font-weight: bolder; margin-top: 10px;}
+.manage-table td {
+    border: 1px solid black;
+    width: 150px;
+    height: 100px;
+    padding: 20px;
+}
+.manageflex {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+.manageflex > div {
+    margin-bottom: 100px;
+}
+
+.manage-tit {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    margin: auto;
+    margin-bottom: 0px !important;
+}
+.cgray {
+    color: #c9c9c9;
+}

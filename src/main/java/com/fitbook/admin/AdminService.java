@@ -38,7 +38,20 @@ public class AdminService {
 
     @Autowired private Utils utils;
 
-    // Main Chart
+    // Main
+    public List<OrderVo> getStatusCnt() {
+        List<OrderVo> list = new ArrayList<>();
+        String[] statusArr = {
+                "입금대기", "결제완료", "배송중", "배송완료"
+                , "구매확정", "취소완료", "환불신청", "환불완료"};
+        for(int i=0; i<statusArr.length; i++) {
+            String order_status = statusArr[i];
+            OrderVo vo = mapper.statusCnt(order_status);
+            vo.setOrder_status(order_status);
+            list.add(vo);
+        }
+        return list;
+    }
     public Map<String, Integer> selCurrentMonthList() {
         OrderDto dto = new OrderDto();
         String yearResult = utils.getDate("year");
@@ -363,9 +376,20 @@ public class AdminService {
     }
 
     //User List
-    public List<UserVo> selUserList() {
-        List<UserVo> list = mapper.selUserList();
+    public List<UserVo> selUserList(UserDto dto) {
+        if(dto.getSort() != null) {
+            String[] sortArr = dto.getSort().split("-");
+            dto.setSortType(sortArr[0]);
+            dto.setSort(sortArr[1]);
+        } else {
+            dto.setSort("DESC");
+            dto.setSortType("rdt");
+        }
+        List<UserVo> list = mapper.selUserList(dto);
         return list;
+    }
+    public UserVo getMaxPageForUser(UserDto dto) {
+        return mapper.getMaxPageForUser(dto);
     }
 
     //User Search List

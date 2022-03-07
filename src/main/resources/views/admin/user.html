@@ -3,33 +3,46 @@
       xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
       layout:decorate="temp/admin_page_layout">
 <head>
+    <meta charset="UTF-8">
     <title>회원관리</title>
     <script defer th:src="@{/js/admin/user.js}"></script>
 </head>
 
 <th:block layout:fragment="content">
-    <div class="user w110p">
-        <form class="search_form">
-            <select name="type" id="type">
-                <option value="aaa">검색내용선택</option>
-                <option value="nm">이름</option>
-                <option value="uid">아이디</option>
-                <option value="email">이메일</option>
-                <option value="join_rdt">가입일</option>
-                <option value="recent_rdt">최근결제일</option>
-            </select>
-            </select>
-            <input type="text" id="keyword" value="" placeholder="검색">
+    <div class="user w110p user-list" th:with="keyword=${param.keyword}">
+        <form class="search_form justibetween" th:action="@{/admin/user}" method="post">
+            <div>
+                <select name="type" id="type" class="ui selection dropdown">
+                    <option th:selected="${#strings.equals(param.type, 'nm')}" value="nm">이름</option>
+                    <option th:selected="${#strings.equals(param.type, 'uid')}" value="uid">아이디</option>
+                    <option th:selected="${#strings.equals(param.type, 'email')}" value="email">이메일</option>
+                </select>
+                <div class="ui tiny action input w200 h38">
+                    <input id="search" type="text" name="keyword" th:value="${param.keyword}" placeholder="검색" class="w200">
+                    <button class="ui tiny secondary icon button">
+                        <i class="search icon"></i>
+                    </button>
+                </div>
+            </div>
+            <div>
+                <select name="sort" id="rdt-sort" class="ui selection dropdown">
+                    <option th:selected="${#strings.equals(param.sort, 'rdt-desc')}" value="rdt-desc">회원가입 일 내림차순</option>
+                    <option th:selected="${#strings.equals(param.sort, 'rdt-asc')}" value="rdt-asc">회원가입 일 오름차순</option>
+                    <option th:selected="${#strings.equals(param.sort, 'recent_rdt-desc')}" value="recent_rdt-desc">최근거래 일 내림차순</option>
+                    <option th:selected="${#strings.equals(param.sort, 'recent_rdt-asc')}" value="recent_rdt-asc">최근거래 일 오름차순</option>
+                </select>
+                <label>
+                    <input th:checked="${#strings.equals(param.exceptNull, 1)}" type="checkbox" name="exceptNull" value="1">
+                    <span>없음 제외</span>
+                </label>
+            </div>
         </form>
 
 
         <table class="mytable w100p" id="listTable">
             <thead>
-
             <tr>
-                <th>번호</th>
-                <th>아이디</th>
-                <th>이름</th>
+                <th>아이디/이름</th>
                 <th>이메일</th>
                 <th>최근한달결제금액</th>
                 <th>누적결제금액</th>
@@ -39,13 +52,60 @@
             </tr>
             </thead>
             <tbody>
+            <th:block th:each="item : ${data}">
+            <tr class="cspointer iuser-tr" th:data-iuser="${item.iuser}">
+                <td>
+                    <p class="mb10" th:text="${item.uid}"></p>
+                    <p class="user-nm" th:text="${item.nm}"></p>
+                </td>
+                <td>
+                    <p th:text="${item.email}"></p>
+                </td>
+                <td>
+                    <p th:text="${#numbers.formatInteger(item.recent_price, 0, 'COMMA')} + 원"></p>
+                </td>
+                <td>
+                    <p th:text="${#numbers.formatInteger(item.result_price, 0, 'COMMA')} + 원"></p>
+                </td>
+                <td>
+                    <p th:text="${#strings.substring(item.recent_rdt, 0, 11)}" th:if="${!#strings.isEmpty(item.recent_rdt)}"></p>
+                    <p th:if="${#strings.isEmpty(item.recent_rdt)}" th:text="'없음'"></p>
+                </td>
+                <td>
+                    <p th:text="${#strings.substring(item.rdt, 0, 11)}" th:if="${!#strings.isEmpty(item.rdt)}"></p>
+                </td>
+                <td>
+                    <p th:text="${#numbers.formatInteger(item.point, 0, 'COMMA')} + p"></p>
+                </td>
+            </tr>
+            </th:block>
+            <th:block th:if="${data.size() == 0}">
+                      <td colspan="7">
+                          <strong>회원이 없습니다.</strong>
+                      </td>
+            </th:block>
             </tbody>
         </table>
+        <th:block th:with="curPage = ${#strings.isEmpty(param.page) ? 1 : param.page}">
         <div class="page-container">
             <div class="tact w100p">
                 <div class="ui pagination tiny menu mt50">
+                    <th:block th:with="pre=${pageData.getStartPage() != 1 ? pageData.getStartPage()-1 : 1}">
+                        <a th:if="${#strings.isEmpty(param.keyword)}" th:href="@{/admin/user?page={page} (page=${pre})}" class="item" th:classappend="${pageData.getStartPage()} == 1 ? 'disabled':''"><i class="angle left icon mr0"></i></a>
+                        <a th:if="${!#strings.isEmpty(param.keyword)}" th:href="@{/admin/user?page={page}&keyword={keyword}&type={type} (page=${pre}, keyword=${param.keyword}, type=${param.type})}" class="item" th:classappend="${pageData.getStartPage()} == 1 ? 'disabled':''"><i class="angle left icon mr0"></i></a>
+                    </th:block>
+
+                    <th:block th:each="no : ${#numbers.sequence(pageData.getStartPage(), pageData.getLastPage())}">
+                        <a th:if="${#strings.isEmpty(param.keyword) && no <= maxPage.getMaxPage()}" th:href="@{/admin/user?page={page} (page=${no})}" class="item" th:text="${no}" th:classappend="${#strings.equals(no, curPage)} ? 'active':''"></a>
+                        <a th:if="${!#strings.isEmpty(param.keyword) && no <= maxPage.getMaxPage()}" th:href="@{/admin/user?page={page}&keyword={keyword}&type={type} (page=${no}, keyword=${param.keyword}, type=${param.type})}" class="item" th:text="${no}" th:classappend="${#strings.equals(no, curPage)} ? 'active':''"></a>
+                    </th:block>
+                    <th:block th:with="next=${pageData.getLastPage() < maxPage.getMaxPage() ? pageData.getLastPage()+1 : maxPage.getMaxPage()}">
+                        <a th:if="${#strings.isEmpty(param.keyword)}" th:href="@{/admin/user?page={page} (page=${next})}" class="item" th:classappend="${pageData.getLastPage() >= maxPage.getMaxPage() ? 'disabled' : ''}"><i class="angle right icon mr0"></i></a>
+                        <a th:if="${!#strings.isEmpty(param.keyword)}" th:href="@{/admin/user?page={page}&keyword={keyword}&type={type} (page=${next}, keyword=${param.keyword}, type=${param.type})}" class="item" th:classappend="${pageData.getLastPage() >= maxPage.getMaxPage() ? 'disabled' : ''}"><i class="angle right icon mr0"></i></a>
+                    </th:block>
                 </div>
             </div>
         </div>
+        </th:block>
     </div>
 </th:block>

@@ -10,6 +10,5 @@ public class UserVo extends UserEntity {
     private int recent_price;
     private String recent_rdt;
     private String join_rdt;
-
-
+    private int maxPage;
 }
