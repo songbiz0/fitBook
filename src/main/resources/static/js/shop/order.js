@@ -508,7 +508,7 @@ orderBtnElem.addEventListener('click', e => {
         return;
     }
 
-    if ($('#paymentWayDropdown').dropdown('get text') === '무통장입금') {
+    if ($('#paymentWayDropdown').dropdown('get text') === '무통장입금' || !document.querySelector('#paymentWayDropdown').classList.contains('disabled')) {
         const form = document.createElement('form');
         form.method = 'post';
         form.action = '/shop/order';
