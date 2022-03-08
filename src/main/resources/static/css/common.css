@@ -289,3 +289,7 @@ table {
 .mauto-10 {
     margin: auto 10px;
 }
+.text-deco-underline {
+    color: #117ef9;
+    text-decoration: underline;
+}

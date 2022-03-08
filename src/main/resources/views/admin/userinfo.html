@@ -14,7 +14,6 @@
 </head>
 <body>
 <div class="ml10 mr10 user-detail">
-
     <div class="border-bottom mt20 pb20 pt20">
         <h2>회원관리</h2>
     </div>
@@ -22,7 +21,7 @@
         <h2 th:text="|${data.uid}(${data.nm})|"></h2>
         <div class="mauto-10">
             <strong>포인트 :</strong>
-            <a id="modPoint" href="#"><span th:text="${#numbers.formatInteger(data.point, 0, 'COMMA')} + p"></span></a>
+            <a id="modPoint" href="#"><span class="text-deco-underline" th:text="|${#numbers.formatInteger(data.point, 0, 'COMMA')}P|"></span></a>
         </div>
     </div>
     <div class="userbox mb20">
