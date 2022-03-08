@@ -124,6 +124,6 @@ public class ShopController {
     public String orderProc(OrderDto dto, Model model) {
         service.order(dto);
         model.addAttribute("iorder", dto.getIorder());
-        return "/shop/ordersuccess";
+        return "shop/ordersuccess";
     }
 }

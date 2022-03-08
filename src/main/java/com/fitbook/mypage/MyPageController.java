@@ -44,7 +44,7 @@ public class MyPageController {
     @GetMapping("/changeinfo/conf")
     public String changeinfoconf(Model model) {
         model.addAttribute("uid", authenticationFacade.getLoginUser().getUid());
-        return "/mypage/changeinfoconf";
+        return "mypage/changeinfoconf";
     }
 
     @PostMapping("/changeinfoconf")
@@ -79,10 +79,10 @@ public class MyPageController {
     }
 
     @GetMapping("/changeinfo/fail")
-    public String changeInfoFail() { return "/mypage/change_fail"; }
+    public String changeInfoFail() { return "mypage/change_fail"; }
 
     @GetMapping("/changeinfo/result")
-    public String changeInfoResult() { return "/mypage/change_result"; }
+    public String changeInfoResult() { return "mypage/change_result"; }
 
     @GetMapping("/favoritelist")
     public void favoritelist() {}
@@ -94,9 +94,9 @@ public class MyPageController {
         OrderDetailVo vo = service.selOrderDetail(dto);
         model.addAttribute("data", vo);
         if(vo.getOrder_status().equals("취소완료")) {
-            return "/mypage/canceldetail";
+            return "mypage/canceldetail";
         } else {
-            return "/mypage/orderdetail";
+            return "mypage/orderdetail";
         }
     }
 

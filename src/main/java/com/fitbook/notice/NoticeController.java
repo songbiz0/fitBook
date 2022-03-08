@@ -18,7 +18,6 @@ public class NoticeController {
 
     @GetMapping("/list")
     public String noticeList() {
-
         return "/notice/notice";
     }
 
