@@ -41,6 +41,7 @@
             tbodyElem.innerHTML = null;
             list.forEach(item => {
                 const trElem = document.createElement('tr')
+                trElem.classList.add('cspointer');
                 tbodyElem.appendChild(trElem);
                 // const locale = item.master_total.toLocaleString();
                 // const month_total = item.month_total.toLocaleString();
