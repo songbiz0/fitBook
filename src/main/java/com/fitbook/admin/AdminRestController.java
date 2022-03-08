@@ -61,7 +61,6 @@ public class AdminRestController {
     }
     @PutMapping("/updorderstatus")
     public ResultVo updOrderStatus(@RequestBody OrderEntity entity) {
-        System.out.println(entity);
         return service.updOrderStatus(entity);
     }
 
@@ -169,7 +168,6 @@ public class AdminRestController {
     }
     @PutMapping("/programDetail")
     public int updProgram(ProgramVo vo) throws Exception {
-        System.out.println(vo.getIs_mac_sup());
         return service.updProgram(vo);
     }
     @DeleteMapping("/programDetail")
@@ -179,7 +177,6 @@ public class AdminRestController {
 
     @GetMapping("/selectUserSearchList")
     private List<UserVo> selectUserSearchList(UserDto dto) throws Exception {
-        System.out.println(dto);
         return service.selectUserSearchList(dto);
     }
 

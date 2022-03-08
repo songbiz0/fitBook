@@ -328,7 +328,10 @@
         const initSelectElem = document.querySelector('.init-select');
         const saveBtnElem = document.querySelector('#saveBtn');
         const iorder = dataElem.dataset.iorder;
+        const iuser = dataElem.dataset.iuser;
+        const spentPoint = dataElem.dataset.point;
         const initVal = initSelectElem.value;
+        const preOrderStatus = document.querySelector('#pre-order-status').value;
         let selectVal = initSelectElem.value;
         const makeToast = (msg) => {
             $('body')
@@ -349,7 +352,10 @@
             const url = '/ajax/admin/updorderstatus';
             const param = {
                 iorder : iorder,
-                order_status : selectVal
+                order_status : selectVal,
+                pre_order_status : preOrderStatus,
+                iuser : iuser,
+                spent_point: spentPoint
             }
             fetch(url, {
                 method : 'put',
