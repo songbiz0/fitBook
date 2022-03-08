@@ -2,9 +2,13 @@ package com.fitbook.model.order;
 
 import lombok.Getter;
 import lombok.Setter;
+import lombok.ToString;
+
+import java.util.List;
 
 @Getter
 @Setter
+@ToString
 public class OrderDto {
     // Main 차트
     private String last_year;
@@ -33,4 +37,18 @@ public class OrderDto {
     private int statusNo;
 
     private int rowCnt;
+
+
+    private String receiver_nm;
+    private String receiver_post;
+    private String receiver_addr;
+    private String receiver_addr_detail;
+    private String receiver_phone;
+    private String shipment_message;
+
+    private int spent_point;
+    private String payment_way;
+    List<String> idetailList;
+
+    private String reason;
 }

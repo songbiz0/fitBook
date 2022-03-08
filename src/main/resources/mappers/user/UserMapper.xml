@@ -34,4 +34,16 @@
         WHERE iuser = #{iuser}
         AND uid = #{uid}
     </delete>
+
+    <update id="updPointByOrderDto">
+        UPDATE t_user
+        SET point = point - #{spent_point}
+        WHERE iuser = #{iuser}
+    </update>
+
+    <update id="updPoint">
+        UPDATE t_user
+        SET point = point + #{changed_point}
+        WHERE iuser = #{iuser}
+    </update>
 </mapper>

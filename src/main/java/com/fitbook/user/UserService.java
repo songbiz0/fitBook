@@ -1,8 +1,7 @@
 package com.fitbook.user;
 
-import com.fitbook.ResultVo;
 import com.fitbook.auth.AuthenticationFacade;
-import com.fitbook.model.PageDto;
+import com.fitbook.model.order.OrderDto;
 import com.fitbook.model.user.UserEntity;
 import com.fitbook.mypage.MypageService;
 import com.google.gson.JsonElement;
@@ -15,7 +14,6 @@ import org.springframework.stereotype.Service;
 import java.io.*;
 import java.net.HttpURLConnection;
 import java.net.URL;
-import java.net.URLConnection;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -26,6 +24,7 @@ public class UserService {
     @Autowired private PasswordEncoder passwordEncoder;
     @Autowired private AuthenticationFacade authenticationFacade;
     @Autowired private MypageService mypageService;
+    @Autowired private PointMapper pointMapper;
 
     public int join(UserEntity entity) {
         System.out.println("upw : " + entity.getUpw());
@@ -146,4 +145,7 @@ public class UserService {
         return resultMap;
     }
 
+    public int insPointHistory(OrderDto dto) {
+        return pointMapper.insPointHistoryByOrderDto(dto);
+    }
 }

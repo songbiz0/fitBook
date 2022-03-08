@@ -1,7 +1,28 @@
+$('#checkAll').checkbox().first().checkbox({
+    onChecked: () => {
+        document.querySelectorAll('.ui.checkbox').forEach(item => {
+            $(item).checkbox('set checked');
+        });
+    },
+    onUnchecked: () => {
+        document.querySelectorAll('.ui.checkbox').forEach(item => {
+            $(item).checkbox('set unchecked');
+        });
+    }
+});
+
+const tbodyElem = document.querySelector('#tbody');
 const makeList = list => {
-    const tbodyElem = document.querySelector('#tbody');
     tbodyElem.innerHTML = '';
     let totalPrice = 0;
+
+    if(list.length === 0) {
+        const tr = document.createElement('tr');
+        tr.innerHTML =
+            `<td rowspan="1" colspan="6" class="btline h150">장바구니에 담긴 상품이 없습니다.</td>`
+        tr.classList.add('nullMessage');
+        tbodyElem.appendChild(tr);
+    }
 
     list.forEach(item => {
         const tr = document.createElement('tr');
@@ -31,7 +52,7 @@ const makeList = list => {
                     </td>
                     <td><b>${item.originalPrice.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",") + '원'}</b></td>
                     <td><b>${item.discount.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",") + '원'}</b><br>
-                        <p>(${item.accumulate.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",") + '원 적립 예정'}</p></td>
+                        <p>(${item.accumulate.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",") + '원 적립 예정)'}</p></td>
                     <td><b class="resultPriceB">${(item.price * item.quantity).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",") + '원'}</b></td>`
 
         const menuElem = tr.querySelector('.scrollhint.menu');
@@ -70,17 +91,28 @@ const loadList = () => {
 }
 loadList();
 
-
-document.querySelector('#delBtn').addEventListener('click', () => {
+const getCheckedIdetail = () => {
     const productsArr = [];
 
-    const productsElem = document.querySelectorAll('tr:not(:first-child)');
+    const productsElem = tbodyElem.querySelectorAll('tr');
     productsElem.forEach(item => {
-        const eachChkElem = item.querySelector('.ui.checkbox');
-        if($(eachChkElem).checkbox('is checked')) {
-            productsArr.push(eachChkElem.dataset.idetail);
+        if(!item.classList.contains('nullMessage')) {
+            const eachChkElem = item.querySelector('.ui.checkbox');
+            if($(eachChkElem).checkbox('is checked')) {
+                productsArr.push(eachChkElem.dataset.idetail);
+            }
         }
     });
+
+    return productsArr;
+}
+
+document.querySelector('#delBtn').addEventListener('click', () => {
+    const productsArr = getCheckedIdetail();
+    if(productsArr.length === 0) {
+        makeErrorToast('선택한 상품이 없어요.');
+        return;
+    }
 
     fetch('/shop/api/delcart', {
         method: 'post',
@@ -90,8 +122,39 @@ document.querySelector('#delBtn').addEventListener('click', () => {
         .then(data => {
             if(data.result > 0) {
                 loadList();
+                $('#checkAll').checkbox('set unchecked');
             } else {
                 makeErrorToast('상품 삭제에 실패했어요.');
             }
         }).catch(err => { console.error(err); });
+});
+const URLSearch = new URLSearchParams(location.search);
+
+document.querySelector('#optionalOrderBtn').addEventListener('click', () => {
+    const productsArr = getCheckedIdetail();
+    if(productsArr.length === 0) {
+        makeErrorToast('선택한 상품이 없어요.');
+        return;
+    }
+
+    URLSearch.append('list', JSON.stringify(productsArr));
+    location.href = '/shop/order?' + URLSearch;
+});
+
+document.querySelector('#entireOrderBtn').addEventListener('click', () => {
+    const productsArr = [];
+    const productsElem = tbodyElem.querySelectorAll('tr');
+    productsElem.forEach(item => {
+        if(!item.classList.contains('nullMessage')) {
+            const eachChkElem = item.querySelector('.ui.checkbox');
+            productsArr.push(eachChkElem.dataset.idetail);
+        }
+    });
+    if(productsArr.length === 0) {
+        makeErrorToast('장바구니에 등록된 상품이 없어요.');
+        return;
+    }
+
+    URLSearch.append('list', JSON.stringify(productsArr));
+    location.href = '/shop/order?' + URLSearch;
 });
