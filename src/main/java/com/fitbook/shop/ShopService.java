@@ -4,22 +4,32 @@ import com.fitbook.ResultVo;
 import com.fitbook.auth.AuthenticationFacade;
 import com.fitbook.fit.FitService;
 import com.fitbook.model.PageDto;
+import com.fitbook.model.address.AddressDto;
+import com.fitbook.model.address.AddressEntity;
+import com.fitbook.model.order.OrderDto;
 import com.fitbook.model.product.*;
 import com.fitbook.model.productReview.ProductReviewEntity;
 import com.fitbook.model.productReview.ProductReviewVo;
 import com.fitbook.model.productquestion.ProductQuestionEntity;
 import com.fitbook.model.productquestion.ProductQuestionVo;
+import com.fitbook.user.UserMapper;
+import com.fitbook.user.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
+import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 public class ShopService {
 
     @Autowired private ShopMapper mapper;
     @Autowired private FitService fitService;
+    @Autowired private UserService userService;
     @Autowired private AuthenticationFacade authenticationFacade;
+    @Autowired private UserMapper userMapper;
 
     public int selMaxPage(PageDto dto) {
         int maxPage = mapper.selMaxPage(dto);
@@ -191,6 +201,19 @@ public class ShopService {
         return list;
     }
 
+    public List<ProductDetailVo> selOrderCartList(List<String> list) {
+        List<ProductDetailVo> productList = selCartList();
+        List<ProductDetailVo> result = new ArrayList<>();
+        for(ProductDetailVo vo : productList) {
+            for(String idetail : list) {
+                if(vo.getIdetail() == Integer.parseInt(idetail)) {
+                    result.add(vo);
+                }
+            }
+        }
+        return result;
+    }
+
     public ResultVo updCart(ProductDetailDto dto) {
         dto.setIuser(authenticationFacade.getLoginUserPk());
         ResultVo result = new ResultVo();
@@ -201,6 +224,39 @@ public class ShopService {
     public ResultVo delCart(List<Integer> list) {
         ResultVo result = new ResultVo();
         result.setResult(mapper.delCart(list, authenticationFacade.getLoginUserPk()));
+        return result;
+    }
+
+    public AddressEntity selAddr(AddressDto dto) {
+        dto.setIuser(authenticationFacade.getLoginUserPk());
+        return mapper.selAddr(dto);
+    }
+
+    @Transactional
+    public int order(OrderDto dto) {
+        int iuser = authenticationFacade.getLoginUserPk();
+        dto.setIuser(iuser);
+        int result = 0;
+        dto.setIdetailList(fromJSON(dto.getIdetailList()));
+        try {
+            if(dto.getPayment_way().equals("무통장입금")) {
+                dto.setOrder_status("입금대기");
+            } else {
+                dto.setOrder_status("결제완료");
+            }
+            mapper.insOrder(dto);
+            mapper.insDetailOrder(dto);
+            mapper.insOrderProduct(dto);
+            mapper.delCart(dto.getIdetailList().stream().map(Integer::parseInt).collect(Collectors.toList()), iuser);
+            userMapper.updPointByOrderDto(dto);
+            dto.setReason("상품 구매");
+            dto.setSpent_point(dto.getSpent_point() * -1);
+            userService.insPointHistory(dto);
+            result = 1;
+        } catch (Exception e) {
+            e.printStackTrace();
+            throw e;
+        }
         return result;
     }
 }

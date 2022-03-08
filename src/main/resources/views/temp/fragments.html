@@ -10,7 +10,7 @@
             <div class="ui right aligned container h37">
                 <div sec:authorize="isAuthenticated()" class="h100p">
                     <a th:href="@{/user/logout}"><button class="tiny ui button bgwhite h100p">로그아웃</button></a>
-                    <a sec:authorize="!hasRole('ROLE_ADMIN')"><button class="tiny ui button bgwhite h100p">장바구니</button></a>
+                    <a sec:authorize="!hasRole('ROLE_ADMIN')" th:href="@{/shop/cart}"><button class="tiny ui button bgwhite h100p">장바구니</button></a>
                     <a sec:authorize="!hasRole('ROLE_ADMIN')" th:href="@{/mypage/orderlist}"><button class="tiny ui button bgwhite h100p">마이페이지</button></a>
                     <a sec:authorize="hasRole('ROLE_ADMIN')" th:href="@{/admin/main}"><button class="tiny ui button bgwhite h100p">관리자 페이지</button></a>
                 </div>

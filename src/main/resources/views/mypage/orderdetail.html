@@ -43,7 +43,7 @@
                     </td>
                     <td>
                         <div class="frow w100p ct gap20">
-                            <img src="http://img.danawa.com/prod_img/500000/474/706/img/13706474_1.jpg?shrink=330:330&_v=20211210141001"
+                            <img th:src="@{${'/imgPath/products/detail/' + data.productDetails[0].idetail + '/' + data.productDetails[0].img}}"
                                  width="100px" height="100px">
                             <div class="taleft minw130">
                                 <div class="mb5" th:text="${data.productDetails[0].brand} + ' ' + ${data.productDetails[0].nm}"></div>
@@ -54,7 +54,7 @@
                     </td>
                     <td>
                         <div>
-                            <div class="mb5"><b th:text="${#numbers.formatInteger(data.productDetails[0].result_price * data.productDetails[0].quantity, 0, 'COMMA')} + '원'"></b></div>
+                            <div class="mb5"><b th:text="${#numbers.formatInteger(data.productDetails[0].result_price, 0, 'COMMA')} + '원'"></b></div>
                             <div th:text="'(' + ${data.productDetails[0].quantity} + ')'"></div>
                         </div>
                     </td>
@@ -80,7 +80,7 @@
                     th:classappend="${numStat.last} ? 'btline' : ''">
                     <td>
                         <div class="frow w100p ct gap20">
-                            <img src="http://img.danawa.com/prod_img/500000/474/706/img/13706474_1.jpg?shrink=330:330&_v=20211210141001"
+                            <img th:src="@{${'/imgPath/products/detail/' + data.productDetails[num].idetail + '/' + data.productDetails[num].img}}"
                                  width="100px" height="100px">
                             <div class="taleft minw130">
                                 <div class="mb5" th:text="${data.productDetails[num].brand} + ' ' + ${data.productDetails[num].nm}"></div>
@@ -91,7 +91,7 @@
                     </td>
                     <td>
                         <div>
-                            <div class="mb5"><b th:text="${#numbers.formatInteger(data.productDetails[num].result_price * data.productDetails[num].quantity, 0, 'COMMA')} + '원'"></b></div>
+                            <div class="mb5"><b th:text="${#numbers.formatInteger(data.productDetails[num].result_price, 0, 'COMMA')} + '원'"></b></div>
                             <div th:text="'(' + ${data.productDetails[num].quantity} + ')'">(1)</div>
                         </div>
                     </td>

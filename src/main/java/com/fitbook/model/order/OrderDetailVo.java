@@ -20,4 +20,6 @@ public class OrderDetailVo extends OrderVo {
     private String shipment_message;
 
     private List<ProductDetailVo> productDetails;
+
+    private int idetail;
 }

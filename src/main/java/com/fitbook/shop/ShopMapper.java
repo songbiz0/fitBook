@@ -2,6 +2,9 @@ package com.fitbook.shop;
 
 import com.fitbook.ResultVo;
 import com.fitbook.model.PageDto;
+import com.fitbook.model.address.AddressDto;
+import com.fitbook.model.address.AddressEntity;
+import com.fitbook.model.order.OrderDto;
 import com.fitbook.model.product.*;
 import com.fitbook.model.productReview.ProductReviewEntity;
 import com.fitbook.model.productReview.ProductReviewVo;
@@ -41,4 +44,10 @@ public interface ShopMapper {
     List<ProductDetailVo> selCartList(int iuser);
     int updCart(ProductDetailDto dto);
     int delCart(List<Integer> list, int iuser);
+
+    AddressEntity selAddr(AddressDto dto);
+
+    int insOrder(OrderDto dto);
+    int insDetailOrder(OrderDto dto);
+    int insOrderProduct(OrderDto dto);
 }

@@ -2,6 +2,8 @@ package com.fitbook.shop;
 
 import com.fitbook.ResultVo;
 import com.fitbook.model.PageDto;
+import com.fitbook.model.address.AddressDto;
+import com.fitbook.model.address.AddressEntity;
 import com.fitbook.model.product.ProductDetailDto;
 import com.fitbook.model.product.ProductDetailVo;
 import com.fitbook.model.product.ProductVo;
@@ -101,5 +103,15 @@ public class ShopRestController {
             System.out.println(a);
         }
         return service.delCart(list);
+    }
+
+    @GetMapping("/seladdr")
+    public AddressEntity selAddr(AddressDto dto) {
+        return service.selAddr(dto);
+    }
+
+    @GetMapping("/seladdrlist")
+    public List<AddressEntity> selAddrList() {
+        return mypageService.selAddrList();
     }
 }

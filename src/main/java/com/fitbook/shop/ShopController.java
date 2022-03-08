@@ -3,6 +3,7 @@ package com.fitbook.shop;
 import com.fitbook.auth.AuthenticationFacade;
 import com.fitbook.fit.FitService;
 import com.fitbook.model.PageDto;
+import com.fitbook.model.order.OrderDto;
 import com.fitbook.model.product.ProductDetailVo;
 import com.fitbook.model.product.ProductVo;
 import com.fitbook.model.question.QuestionDto;
@@ -11,9 +12,7 @@ import com.fitbook.mypage.MypageService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -114,4 +113,16 @@ public class ShopController {
 
     @GetMapping("/cart")
     public void cart() {}
+
+    @GetMapping("/order")
+    public void order(@RequestParam List<String> list, Model model) {
+        model.addAttribute("user", authenticationFacade.getLoginUser());
+        model.addAttribute("list", service.selOrderCartList(service.fromJSON(list)));
+    }
+
+    @PostMapping("/order")
+    public String orderProc(OrderDto dto) {
+        int result = service.order(dto);
+        return result == 0 ? "/shop/orderfail" : "/shop/ordersuccess";
+    }
 }
