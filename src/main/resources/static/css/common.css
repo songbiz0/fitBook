@@ -164,11 +164,13 @@ table {
 .pr13 {padding-right: 13px !important; }
 .pr14 {padding-right: 14px !important; }
 .pr15 {padding-right: 15px !important; }
+.pt20 {padding-top: 20px;}
 .pt50 {padding-top: 50px;}
 .pl10 { padding-left: 10px !important; }
 .pl15 { padding-left: 15px !important; }
 .pl50 { padding-left: 50px; }
 .pb10 { padding-bottom: 10px !important;}
+.pb20 { padding-bottom: 20px !important;}
 .pb50 { padding-bottom: 50px !important;}
 .pb100 { padding-bottom: 100px !important;}
 .pb15 { padding-bottom: 15px; }
@@ -276,4 +278,11 @@ table {
 }
 .user-nm {
     color: #117ef9;
+}
+
+.border-bottom {
+    border-bottom: 1px solid;
+}
+.mauto-10 {
+    margin: auto 10px;
 }

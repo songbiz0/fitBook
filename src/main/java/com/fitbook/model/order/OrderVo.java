@@ -34,4 +34,5 @@ public class OrderVo extends OrderEntity{
     private String color;
     private int ssd;
     private int hdd;
+    private int iproduct;
 }

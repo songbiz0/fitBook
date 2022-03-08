@@ -1,6 +1,8 @@
 package com.fitbook.admin;
 
 import com.fitbook.ResultVo;
+import com.fitbook.auth.AuthenticationFacade;
+import com.fitbook.model.address.AddressEntity;
 import com.fitbook.model.cpu.CpuDto;
 import com.fitbook.model.cpu.CpuEntity;
 import com.fitbook.model.cpu.CpuListEntity;
@@ -14,7 +16,9 @@ import com.fitbook.model.order.OrderDto;
 import com.fitbook.model.order.OrderEntity;
 import com.fitbook.model.order.OrderVo;
 import com.fitbook.model.orderproduct.OrderProductVo;
+import com.fitbook.model.point.PointEntity;
 import com.fitbook.model.product.ProductVo;
+import com.fitbook.model.productReview.ProductReviewVo;
 import com.fitbook.model.productquestion.ProductQuestionDto;
 import com.fitbook.model.productquestion.ProductQuestionEntity;
 import com.fitbook.model.productquestion.ProductQuestionVo;
@@ -24,6 +28,7 @@ import com.fitbook.model.program.ProgramListVo;
 import com.fitbook.model.program.ProgramVo;
 import com.fitbook.model.product.*;
 import com.fitbook.model.user.UserDto;
+import com.fitbook.model.user.UserEntity;
 import com.fitbook.model.user.UserVo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -35,7 +40,7 @@ import java.util.*;
 @Service
 public class AdminService {
     @Autowired private AdminMapper mapper;
-
+    @Autowired private AuthenticationFacade authenticationFacade;
     @Autowired private Utils utils;
 
     // Main
@@ -342,6 +347,22 @@ public class AdminService {
     }
 
     //User List
+    public ResultVo insUserPoint(PointEntity entity) {
+        ResultVo vo = new ResultVo();
+        int result = 0;
+
+        UserEntity selPoint = mapper.selUserPoint(entity);
+        System.out.println("changedPoint : " + entity.getChanged_point());
+        System.out.println("point : " + selPoint.getPoint());
+        if(entity.getChanged_point() + selPoint.getPoint() >= 0) {
+            result = mapper.insUserPoint(entity);
+            mapper.updUserPoint(entity);
+        }
+
+
+        vo.setResult(result);
+        return vo;
+    }
     public List<UserVo> selUserList(UserDto dto) {
         if(dto.getSort() != null) {
             String[] sortArr = dto.getSort().split("-");
@@ -368,6 +389,42 @@ public class AdminService {
 
     public ResultVo selUserMaxPage(UserDto dto) {
         return mapper.selUserMaxPageVal(dto);
+    }
+
+    // User Detail
+    public UserVo selUserDetail(UserDto dto) {
+        return mapper.selUserDetail(dto);
+    }
+    public List<OrderVo> selUserOrderList(UserDto dto) {
+        return mapper.selUserOrderList(dto);
+    }
+    public ResultVo selUserOrderMaxPage(UserDto dto) {
+        return mapper.selUserOrderMaxPage(dto);
+    }
+    public AddressEntity selUserAddress(UserDto dto) {
+        return mapper.selUserAddress(dto);
+    }
+    public List<ProductReviewVo> selUserReviewList(UserDto dto) {
+        return mapper.selUserReviewList(dto);
+    }
+    public ResultVo selUserReviewMaxPage(UserDto dto) {
+        return mapper.selUserReviewMaxPage(dto);
+    }
+    public List<ProductQuestionVo> selUserQuestionList(UserDto dto) {
+        return mapper.selUserQuestionList(dto);
+    }
+    public ResultVo selUserQuestionMaxPage(UserDto dto) {
+        return mapper.selUserQuestionMaxPage(dto);
+    }
+
+    public OrderVo userOrderCnt(UserDto dto) {
+        return mapper.userOrderCnt(dto);
+    }
+    public ProductReviewVo userReviewCnt(UserDto dto) {
+        return mapper.userReviewCnt(dto);
+    }
+    public ProductQuestionVo userQuestionCnt(UserDto dto) {
+        return mapper.userQuestionCnt(dto);
     }
 
     // QnA
