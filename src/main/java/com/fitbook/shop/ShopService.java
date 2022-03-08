@@ -212,7 +212,7 @@ public class ShopService {
             }
             if (0 < ssd && ssd < 1024) {
                 sb.append(" / SSD ").append(ssd).append("GB");
-            } else if(hdd >= 1024) {
+            } else if(ssd >= 1024) {
                 sb.append(" / SSD ").append(ssd / 1024).append("TB");
             }
             vo.setOption(sb.toString());
