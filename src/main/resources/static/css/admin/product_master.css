@@ -21,6 +21,8 @@ nav {
     border: 1px solid black;
 }
 
+.cspointer:hover { cursor: pointer; background-color: #e1e1e1; }
+
 
 
 

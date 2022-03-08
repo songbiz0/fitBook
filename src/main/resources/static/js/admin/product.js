@@ -2,7 +2,7 @@
 {
     const Productlist = document.querySelector('.product-master');
     if(Productlist) {
-        const recordCount = 2; //리스트 수
+        const recordCount = 10; //리스트 수
         let currentPage = 1; //현재 페이지
         let maxPage = 1;
         const pagingCount = 10; //페이징 수
@@ -43,12 +43,20 @@
                 const trElem = document.createElement('tr')
                 trElem.classList.add('cspointer');
                 tbodyElem.appendChild(trElem);
+                trElem.classList.add('cspointer')
                 // const locale = item.master_total.toLocaleString();
                 // const month_total = item.month_total.toLocaleString();
                 trElem.innerHTML = `
             <td>${item.num}</td>
             <td>${item.product_code}</td>
-            <td>${item.nm}<img class="w70 h50" src="/imgPath/products/detail/${item.idetail}/${item.img}"></td>
+            <td style="display: flex; ">
+                <div>
+                    <img class="w100 h100" src="/imgPath/products/detail/${item.idetail}/${item.img}">            
+                </div>
+                <div style="margin: auto">
+                    ${item.nm}
+                </div>
+            </td>
             <td>${item.brand}</td>
             <td>${item.stock} EA</td>
             <td>${item.month_total}원</td>
