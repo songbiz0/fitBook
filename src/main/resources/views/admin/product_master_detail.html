@@ -75,8 +75,8 @@
                     <th>재고 수량</th>
                 </tr>
                 <tr class="tr-price-color" th:each="item : ${data}">
-                    <td><img th:src="@{/imgPath/products/detail/{no}/{img} (no=${item.idetail}, img=${item.img})}" width="100" height="100"></td>
-                    <td th:text="${item.color}"></td>
+                    <td style="width: 130px;"><img th:src="@{/imgPath/products/detail/{no}/{img} (no=${item.idetail}, img=${item.img})}" width="100" height="100"></td>
+                    <td th:text="${item.color}" style="text-align: left"></td>
                     <td class="borderR2" th:text="${item.ssd}+GB">258</td>
                     <td class="borderR2" th:text="${item.hdd}+GB"></td>
                     <td class="borderR2" th:text="|${#numbers.formatInteger(item.price,0,'COMMA')}원|"></td>
