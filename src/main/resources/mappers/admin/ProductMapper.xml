@@ -28,7 +28,8 @@
 
     <select id="selProductList" resultType="ProductVo">
         SELECT * FROM (
-        SELECT ROW_NUMBER() OVER(ORDER BY A.rdt) AS num , A.iproduct, A.nm, A.product_code,A.brand,
+
+        SELECT ROW_NUMBER() OVER(ORDER BY A.iproduct) AS num , A.iproduct, A.nm, A.product_code,A.brand,
         B.img, B.price, B.idetail, C.stock, F.master_total, IFNULL(J.month_total,0) AS month_total, ifnull(K.rating,0) AS rating , ifnull(K.ratingCount,0) AS ratingCount
         FROM t_product_master A
         INNER JOIN t_product_detail B

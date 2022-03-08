@@ -118,7 +118,6 @@ const getList = () => {
         })
         .catch(err => { console.error(err); });
 }
-
 getList();
 
 searchPostBtnElem.addEventListener('click', e => {
@@ -233,6 +232,9 @@ addrSubmitBtnElem.addEventListener('click', () => {
         return;
     }
 
+    const arr = addrInputElem.value.replaceAll('(', '').split(') ');
+    post = arr[0];
+    myAddr = arr[1];
     fetch('/mypage/api/addr', {
         method: 'post',
         headers: { 'Content-Type': 'application/json' },
@@ -281,7 +283,7 @@ addShipBtnElem.addEventListener('click', () => {
     addrExtraInputElem.classList.add('hidden');
     addrExtraInputElem.value = '';
 
-    $('.ui.modal')
+    $('.ui.second.modal')
         .modal('show')
     ;
 });

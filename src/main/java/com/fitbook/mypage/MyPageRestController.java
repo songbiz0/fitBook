@@ -9,9 +9,7 @@ import com.fitbook.model.order.OrderVo;
 import com.fitbook.model.point.PointEntity;
 import com.fitbook.model.product.ProductVo;
 import com.fitbook.model.user.UserEntity;
-import com.fitbook.user.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;

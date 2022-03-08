@@ -13,4 +13,16 @@
         ORDER BY ipoint DESC
         LIMIT ${startIdx}, ${recordCount}
     </select>
+    <insert id="insPointHistoryByOrderDto">
+        INSERT INTO t_point
+            (iuser, changed_point, reason)
+        VALUES
+            (#{iuser}, #{spent_point}, #{reason})
+    </insert>
+    <insert id="insPointHistory">
+        INSERT INTO t_point
+            (iuser, changed_point, reason)
+        VALUES
+            (#{iuser}, #{changed_point}, #{reason})
+    </insert>
 </mapper>

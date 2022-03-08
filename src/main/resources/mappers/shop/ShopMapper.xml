@@ -318,4 +318,61 @@
         </foreach>
         AND iuser = #{iuser}
     </delete>
+
+    <select id="selAddr" resultType="AddressEntity">
+        SELECT user_nm, post, addr, addr_detail, phone, isrep
+        FROM t_address
+        WHERE iuser = #{iuser}
+        <if test="iaddress != null and iaddress != 0">
+            AND iaddress = #{iaddress}
+        </if>
+        <if test="param == 'rep'">
+            AND isrep = 'Y'
+        </if>
+        <if test="param == 'latest'">
+            AND islatest = 'Y'
+        </if>
+    </select>
+
+    <insert id="insOrder" useGeneratedKeys="true" keyProperty="iorder">
+        INSERT INTO t_order
+            (iuser, spent_point, payment_way, result_price, order_status)
+        VALUES
+            (#{iuser}, #{spent_point}, #{payment_way}, (
+                SELECT SUM(ROUND(A.price * (1 - A.dc_rate), -3) * B.quantity) - #{spent_point}
+                FROM t_product_detail A
+                         INNER JOIN t_cart B
+                                    ON A.idetail = B.idetail
+                WHERE B.iuser = #{iuser}
+                  AND A.idetail IN (<foreach collection="idetailList" item="item" separator=",">#{item}</foreach>)
+                ), #{order_status})
+    </insert>
+
+    <insert id="insDetailOrder">
+        INSERT INTO t_order_detail
+            (iorder, receiver_nm, receiver_post, receiver_addr, receiver_addr_detail, receiver_phone, shipment_message)
+        VALUES
+            (#{iorder}, #{receiver_nm}, #{receiver_post}, #{receiver_addr}, #{receiver_addr_detail}, #{receiver_phone}, #{shipment_message})
+    </insert>
+
+    <insert id="insOrderProduct">
+        INSERT INTO t_order_product
+            (iorder, idetail, quantity, result_price)
+        VALUES
+            <foreach collection="idetailList" item="item" separator=",">
+                (#{iorder}, #{item}, (
+                    SELECT quantity
+                    FROM t_cart
+                    WHERE iuser = #{iuser}
+                    AND idetail = #{item}
+                ), (
+                    SELECT ROUND(A.price * (1 - A.dc_rate), -3) * B.quantity
+                    FROM t_product_detail A
+                    INNER JOIN t_cart B
+                    ON A.idetail = B.idetail
+                    WHERE B.iuser = #{iuser}
+                    AND A.idetail = #{item}
+                ))
+            </foreach>
+    </insert>
 </mapper>

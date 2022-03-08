@@ -33,24 +33,3 @@ $('#rangeend').calendar({
 });
 
 $('.ui.accordion').accordion();
-
-$('.coupled.modal')
-    .modal({
-        allowMultiple: true
-    })
-;
-
-const shipManageBtnElem = document.querySelector('#shipManageBtn');
-if(shipManageBtnElem) {
-    shipManageBtnElem.addEventListener('click', e => {
-        e.preventDefault();
-        $('.first.modal')
-            .modal('show')
-        ;
-    });
-}
-
-// open second modal on first modal buttons
-$('.second.modal')
-    .modal('attach events', '.first.modal #addShipBtn2')
-;

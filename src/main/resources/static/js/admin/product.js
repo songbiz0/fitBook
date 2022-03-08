@@ -27,12 +27,12 @@
 
         const getMaxPageVal = () =>
             fetch(`/ajax/admin/maxpage?recordCount=${recordCount}`)
-            .then(res => res.json())
-            .then(data => {
-                console.log(data.result);
-                maxPage = data.result;
-                makePaging();
-            });
+                .then(res => res.json())
+                .then(data => {
+                    console.log(data.result);
+                    maxPage = data.result;
+                    makePaging();
+                });
 
         getMaxPageVal();
 
@@ -90,10 +90,10 @@
 
         searchBth.addEventListener('click', () => {
             currentPage = 1;
-           const searchText = document.querySelector('#searchText').value;
-           const select = document.querySelector('#select').value;
-           const searchUrl = url + `?search=${searchText}&select=${select}&recordCount=${recordCount}`;
-           const searchPage =  `/ajax/admin/maxpage?search=${searchText}&select=${select}&recordCount=${recordCount}`;
+            const searchText = document.querySelector('#searchText').value;
+            const select = document.querySelector('#select').value;
+            const searchUrl = url + `?search=${searchText}&select=${select}&recordCount=${recordCount}`;
+            const searchPage =  `/ajax/admin/maxpage?search=${searchText}&select=${select}&recordCount=${recordCount}`;
 
             searchList(searchUrl, currentPage);
             searchPageVal(searchPage);
@@ -177,11 +177,11 @@
                 liElem.classList.add('item');
                 liElem.innerText = i;
                 liElem.addEventListener('click' , e =>{
-                   if(currentPage !== i){
-                       currentPage = i;
-                       getList();
-                       makePaging();
-                   }
+                    if(currentPage !== i){
+                        currentPage = i;
+                        getList();
+                        makePaging();
+                    }
                 });
             }
 
@@ -624,4 +624,3 @@
         }
     }
 }
-

@@ -18,6 +18,7 @@ const reviewWriteTbodyElem = document.querySelector('#reviewWriteTbody');
 const questionWriteTbodyElem = document.querySelector('#questionWriteTbody');
 
 const iproduct = dataElem.dataset.iproduct;
+const iuser = dataElem.dataset.iuser;
 
 goToProductDetailElems.forEach(item => {
     item.addEventListener('click', () => {
@@ -130,6 +131,11 @@ cartBtnElem.addEventListener('click', () => {
         return;
     }
 
+    if(iuser === '0') {
+        makeErrorToast('비회원은 주문 기능을 이용할 수 없어요.');
+        return;
+    }
+
     fetch('/shop/api/inscart?idetail=' + selected)
         .then(res => res.json())
         .then(data => {
@@ -142,8 +148,30 @@ cartBtnElem.addEventListener('click', () => {
 });
 
 orderBtnElem.addEventListener('click', () => {
-    alert('주문창으로 이동');
-    // TODO 주문창으로 이동
+    const selected = $('#optionDropdown').dropdown('get value');
+    if(selected === '') {
+        makeErrorToast('먼저 옵션을 선택해주세요.');
+        return;
+    }
+
+    if(iuser === '0') {
+        makeErrorToast('비회원은 주문 기능을 이용할 수 없어요.');
+        return;
+    }
+
+    fetch('/shop/api/inscart?idetail=' + selected)
+        .then(res => res.json())
+        .then(data => {
+            if(data.result === 0) {
+                makeErrorToast('주문에 실패했어요.');
+            } else {
+                const URLSearch = new URLSearchParams(location.search);
+                const productsArr = [];
+                productsArr.push(selected);
+                URLSearch.append('list', JSON.stringify(productsArr));
+                location.href = '/shop/order?' + URLSearch;
+            }
+        }).catch(err => { console.error(err); });
 });
 
 // 상품 리뷰

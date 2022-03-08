@@ -12,7 +12,6 @@ import com.fitbook.model.order.OrderVo;
 import com.fitbook.model.point.PointEntity;
 import com.fitbook.model.product.ProductDetailVo;
 import com.fitbook.model.product.ProductVo;
-import com.fitbook.model.user.UserEntity;
 import com.fitbook.order.OrderMapper;
 import com.fitbook.product.ProductMapper;
 import com.fitbook.user.PointMapper;
@@ -20,25 +19,19 @@ import com.fitbook.user.UserMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
 @Service
 public class MypageService {
 
-    @Autowired
-    private OrderMapper orderMapper;
-    @Autowired
-    private PointMapper pointMapper;
-    @Autowired
-    private ProductMapper productMapper;
-    @Autowired
-    private AuthenticationFacade authenticationFacade;
-    @Autowired
-    private PasswordEncoder passwordEncoder;
-    @Autowired
-    private AddressMapper addressMapper;
+    @Autowired private OrderMapper orderMapper;
+    @Autowired private PointMapper pointMapper;
+    @Autowired private ProductMapper productMapper;
+    @Autowired private AuthenticationFacade authenticationFacade;
+    @Autowired private PasswordEncoder passwordEncoder;
+    @Autowired private AddressMapper addressMapper;
+    @Autowired UserMapper userMapper;
 
     public List<OrderVo> selOrderList(OrderDto dto) {
         dto.setIuser(authenticationFacade.getLoginUserPk());
@@ -88,6 +81,23 @@ public class MypageService {
         dto.setIuser(authenticationFacade.getLoginUserPk());
         ResultVo result = new ResultVo();
         result.setResult(orderMapper.updOrder(dto));
+
+        OrderDetailVo vo = orderMapper.selOrderDetail(dto);
+        PointEntity entity = new PointEntity();
+        entity.setIuser(authenticationFacade.getLoginUserPk());
+
+        if(dto.getOrder_status().equals("취소완료")) {
+            entity.setChanged_point(vo.getSpent_point());
+            userMapper.updPoint(entity);
+            entity.setReason("주문 취소");
+            pointMapper.insPointHistory(entity);
+        } else if(dto.getOrder_status().equals("구매확정")) {
+            entity.setChanged_point((int)(vo.getResult_price() * 0.001));
+            userMapper.updPoint(entity);
+            entity.setReason("상품 구매로 포인트 적립");
+            pointMapper.insPointHistory(entity);
+        }
+
         return result;
     }
 
