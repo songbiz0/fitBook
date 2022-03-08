@@ -10,6 +10,7 @@ import com.fitbook.model.order.OrderListVo;
 import com.fitbook.model.order.OrderVo;
 import com.fitbook.model.point.PointEntity;
 import com.fitbook.model.product.ProductDetailListVo;
+import com.fitbook.model.product.ProductDto;
 import com.fitbook.model.product.ProductDetailVo;
 import com.fitbook.model.product.ProductVo;
 import com.fitbook.model.productquestion.ProductQuestionDto;
@@ -21,6 +22,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+
 import java.net.URLEncoder;
 import java.util.List;
 
