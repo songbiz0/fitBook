@@ -51,4 +51,5 @@ public class OrderDto {
     List<String> idetailList;
 
     private String reason;
+    private int result_price;
 }

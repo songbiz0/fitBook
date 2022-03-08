@@ -52,11 +52,17 @@ public class MypageService {
             for (ProductDetailVo vo2 : productDetails) {
                 StringBuilder sb = new StringBuilder();
                 sb.append(vo2.getColor());
-                if (vo2.getHdd() > 0) {
-                    sb.append(" / HDD ").append(vo2.getHdd()).append("GB");
+                int hdd = vo2.getHdd();
+                int ssd = vo2.getSsd();
+                if (0 < hdd && hdd < 1024) {
+                    sb.append(" / HDD ").append(hdd).append("GB");
+                } else if(hdd >= 1024) {
+                    sb.append(" / HDD ").append(hdd / 1024).append("TB");
                 }
-                if (vo2.getSsd() > 0) {
-                    sb.append(" / SSD ").append(vo2.getSsd()).append("GB");
+                if (0 < ssd && ssd < 1024) {
+                    sb.append(" / SSD ").append(ssd).append("GB");
+                } else if(hdd >= 1024) {
+                    sb.append(" / SSD ").append(ssd / 1024).append("TB");
                 }
                 vo2.setOption(sb.toString());
             }
@@ -92,10 +98,13 @@ public class MypageService {
             entity.setReason("주문 취소");
             pointMapper.insPointHistory(entity);
         } else if(dto.getOrder_status().equals("구매확정")) {
-            entity.setChanged_point((int)(vo.getResult_price() * 0.001));
-            userMapper.updPoint(entity);
-            entity.setReason("상품 구매로 포인트 적립");
-            pointMapper.insPointHistory(entity);
+            int changedPoint = (int)(vo.getResult_price() * 0.001);
+            if(changedPoint != 0) {
+                entity.setChanged_point(changedPoint);
+                userMapper.updPoint(entity);
+                entity.setReason("상품 구매로 포인트 적립");
+                pointMapper.insPointHistory(entity);
+            }
         }
 
         return result;
@@ -162,11 +171,17 @@ public class MypageService {
         for (ProductDetailVo vo2 : productDetails) {
             StringBuilder sb = new StringBuilder();
             sb.append(vo2.getColor());
-            if (vo2.getHdd() > 0) {
-                sb.append(" / HDD ").append(vo2.getHdd()).append("GB");
+            int hdd = vo2.getHdd();
+            int ssd = vo2.getSsd();
+            if (0 < hdd && hdd < 1024) {
+                sb.append(" / HDD ").append(hdd).append("GB");
+            } else if(hdd >= 1024) {
+                sb.append(" / HDD ").append(hdd / 1024).append("TB");
             }
-            if (vo2.getSsd() > 0) {
-                sb.append(" / SSD ").append(vo2.getSsd()).append("GB");
+            if (0 < ssd && ssd < 1024) {
+                sb.append(" / SSD ").append(ssd).append("GB");
+            } else if(hdd >= 1024) {
+                sb.append(" / SSD ").append(ssd / 1024).append("TB");
             }
             vo2.setOption(sb.toString());
         }
