@@ -18,7 +18,7 @@
         GROUP BY A.iuser
     </select>
     <select id="userReviewCnt" resultType="ProductReviewVo">
-        SELECT count(ireview) AS cnt
+        SELECT count(iuser) AS cnt
         FROM t_product_review
         WHERE iuser = ${iuser}
     </select>
@@ -159,7 +159,7 @@
         LIMIT ${startIdx}, ${recordCount}
     </select>
     <select id="selUserReviewMaxPage" resultType="ResultVo">
-        SELECT CEIL(COUNT(B.ireview) / ${recordCount}) as result
+        SELECT CEIL(COUNT(B.iuser) / ${recordCount}) as result
         FROM t_user A
         INNER JOIN t_product_review B
         ON A.iuser = B.iuser

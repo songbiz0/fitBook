@@ -332,6 +332,8 @@ public class AdminService {
             dto.setTotal(data[1]);
         }
         System.out.println("maxpage : " + dto);
+        ResultVo vo = mapper.selMaxPageVal(dto);
+        System.out.println(vo.getResult());
         return mapper.selMaxPageVal(dto);
     }
 
