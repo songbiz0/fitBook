@@ -2,7 +2,7 @@
 {
     const Productlist = document.querySelector('.product-master');
     if(Productlist) {
-        const recordCount = 4; //리스트 수
+        const recordCount = 2; //리스트 수
         let currentPage = 1; //현재 페이지
         let maxPage = 1;
         const pagingCount = 10; //페이징 수
@@ -14,26 +14,16 @@
         const searchElem = document.querySelector('#searchText');
         const searchBth = document.querySelector("#searchEvent");
 
-        //리스트 정보 불러오기
         const getList = () => fetch(`/ajax/admin/product_master?currentPage=${currentPage}&recordCount=${recordCount}`)
             .then(res => res.json())
             .then(list => {
                 selProductList(list);
+
             })
             .catch(e => {
                 console.log(e);
             });
 
-        const searchList = (url) => fetch(url)
-            .then(res => res.json())
-            .then(data => {
-                selProductList(data).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")
-                console.log(data);
-                console.log(url);
-            })
-            .catch(e=>{
-                console.log(e);
-            });
 
         const getMaxPageVal = () =>
             fetch(`/ajax/admin/maxpage?recordCount=${recordCount}`)
@@ -64,9 +54,7 @@
             <td>${item.stock} EA</td>
             <td>${month_total}원</td>
             <td>${locale}원</td>
-            <td>${item.rating}</td>
-            
-            
+            <td>${item.rating} / ${item.ratingCount}</td>
             `;
                 trElem.addEventListener('click', e => {
                     location.href = `/admin/product_master_detail?iproduct=${item.iproduct}`
@@ -75,19 +63,92 @@
             });
         };
 
-        const selectSearch = () => {
-            searchBth.addEventListener('click',resultSearch);
+        const searchList = (searchUrl) => {
+            console.log(searchUrl);
+            fetch(searchUrl)
+                .then(res => res.json())
+                .then(data => {
+                    console.log(data);
+                    selProductList(data);
+                })
+                .catch(e => {
+                    console.error(e);
+                });
+        }
+        const searchPageVal = (searchPage) => {
+            console.log(searchPage)
+            fetch(searchPage)
+                .then(res => res.json())
+                .then(data => {
+                    maxPage = data.result
+                    searchMakePaging();
+                });
         }
 
-        const resultSearch = () => {
-            const searchTeaxt = document.querySelector('#searchText').value;
-            const select = document.querySelector('#select').value;
-            const searchUrl = url + `?search=${searchTeaxt}&select=${select}&recordCount=${recordCount}`;
+        searchBth.addEventListener('click', () => {
+           const searchText = document.querySelector('#searchText').value;
+           const select = document.querySelector('#select').value;
+           const searchUrl = url + `?search=${searchText}&select=${select}&currentPage=${currentPage}&recordCount=${recordCount}`
+           const searchPage =  `/ajax/admin/maxpage?search=${searchText}&select=${select}&recordCount=${recordCount}`
+
+
             searchList(searchUrl);
-            getMaxPageVal();
-        }
-        selectSearch();
+            searchPageVal(searchPage);
+        });
+        const searchMakePaging = () => {
+            ulElem.innerHTML = null;
+            const calcPage = parseInt((currentPage - 1) / pagingCount);
+            const startPage = (calcPage * pagingCount) + 1;
+            const lastPage = (calcPage + 1) * pagingCount;
 
+            const searchText = document.querySelector('#searchText').value;
+            const select = document.querySelector('#select').value;
+            const searchUrl = url + `?search=${searchText}&select=${select}&currentPage=${currentPage}&recordCount=${recordCount}`
+            const searchPage =  `/ajax/admin/maxpage?search=${searchText}&select=${select}&recordCount=${recordCount}`
+
+            const liElem1 = document.createElement('li');
+            ulElem.appendChild(liElem1);
+            liElem1.classList.add('item');
+            liElem1.innerHTML = '&lt;';
+            liElem1.addEventListener('click', e => {
+                currentPage = (currentPage) === 1 ? 1 : (currentPage - 1);
+                searchList(searchUrl);
+                searchMakePaging(searchPage);
+            });
+
+
+            for (let i = startPage; i <= (lastPage > maxPage ? maxPage : lastPage); i++) {
+                const liElem = document.createElement('li');
+                if(currentPage === i) {
+                    liElem.classList.add('active');
+                }
+                ulElem.appendChild(liElem);
+                liElem.classList.add('item');
+                liElem.innerText = i;
+                liElem.addEventListener('click' , e =>{
+                    if(currentPage !== i){
+                        currentPage = i;
+                        searchMakePaging(searchPage);
+                        searchList(searchUrl);
+                    }
+                });
+            }
+
+            const liElem2 = document.createElement('li');
+            ulElem.appendChild(liElem2);
+            liElem2.classList.add('item');
+            liElem2.innerHTML = '&gt;';
+            liElem2.addEventListener('click' , e => {
+                currentPage = (currentPage) === maxPage ? maxPage : (currentPage + 1);
+                searchList(searchUrl);
+                searchMakePaging(searchPage);
+            });
+
+        }
+
+
+
+//----------------------------------------------------------------------------------------------------------------------
         const makePaging = () => {
             ulElem.innerHTML = null;
             const calcPage = parseInt((currentPage - 1) / pagingCount);

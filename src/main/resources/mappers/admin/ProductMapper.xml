@@ -29,7 +29,7 @@
     <select id="selProductList" resultType="ProductVo">
         SELECT * FROM (
         SELECT ROW_NUMBER() OVER(ORDER BY B.rdt) AS num , A.iproduct, A.nm, A.product_code,A.brand,
-        B.img, B.price, B.idetail, C.stock, F.master_total, IFNULL(J.month_total,0) AS month_total
+        B.img, B.price, B.idetail, C.stock, F.master_total, IFNULL(J.month_total,0) AS month_total, ifnull(K.rating,0) AS rating , ifnull(K.ratingCount,0) AS ratingCount
         FROM t_product_master A
         INNER JOIN t_product_detail B
         ON A.iproduct = B.iproduct
@@ -60,6 +60,12 @@
         GROUP BY G.iproduct
         ) J
         ON J.iproduct = A.iproduct
+        LEFT JOIN(
+            SELECT ROUND(AVG(rating), 1) AS rating, COUNT(iuser) AS ratingCount, iproduct
+            FROM t_product_review
+            GROUP BY iproduct
+        ) K
+        ON A.iproduct = K.iproduct
         <include refid="searchIf">
 
         </include>
@@ -70,9 +76,11 @@
     <select id="selMaxPageVal" resultType="resultVo">
         SELECT CEIL((count(A.iproduct)) / ${recordCount}) AS result
         FROM t_product_master A
-                 INNER JOIN t_product_detail B
-                            ON A.iproduct = B.iproduct
-        WHERE isrep = 'Y'
+     INNER JOIN t_product_detail B
+                ON A.iproduct = B.iproduct
+        <include refid="searchIf">
+
+        </include>
     </select>
 
     <select id="selProductMasterDetail" resultType="ProductVo">
