@@ -19,17 +19,17 @@ public class NoticeController {
     @GetMapping("/list")
     public String noticeList() {
 
-        return "/notice/notice";
+        return "notice/notice";
     }
 
     @GetMapping("/writenotice")
     public String insNotice() {
-        return "/notice/writenotice";
+        return "notice/writenotice";
     }
     @GetMapping("/detail")
     public String detailNotice(Model model, NoticeDto dto) {
         model.addAttribute("data", service.selNotice(dto));
-        return "/notice/noticeDetail";
+        return "notice/noticeDetail";
     }
     @PostMapping("/writenotice")
     public String insNoticeProc(NoticeEntity entity) {
@@ -41,7 +41,7 @@ public class NoticeController {
         NoticeDto dto = new NoticeDto();
         dto.setInotice(inotice);
         model.addAttribute(Const.DATA, service.selNotice(dto));
-        return "/notice/modnotice";
+        return "notice/modnotice";
     }
     @PostMapping("/modify")
     public String modNoticeProc(NoticeEntity entity) {
