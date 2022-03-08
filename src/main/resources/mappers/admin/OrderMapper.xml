@@ -113,6 +113,7 @@
              , B.quantity
              , D.brand
              , C.idetail
+             , A.iuser
         FROM t_order A
                  INNER JOIN t_order_product B
                             ON A.iorder = B.iorder
@@ -135,6 +136,7 @@
              , A.payment_way
              , A.order_status
              , A.result_price
+             , A.iuser
         FROM t_order A
                  INNER JOIN t_order_detail B
                             ON A.iorder = B.iorder
@@ -143,7 +145,14 @@
 
     <update id="updOrderStatus">
         UPDATE t_order
-        SET order_status = #{order_status}
+        SET order_status = #{order_status}, pre_order_status = #{pre_order_status}
+        <if test="cdt != null and cdt != ''">, cdt = now()</if>
         WHERE iorder = ${iorder}
+    </update>
+    <update id="returnPoint">
+         INSERT INTO t_point
+         (iuser, changed_point, reason)
+         VALUES
+         (${iuser}, ${changed_point}, #{reason})
     </update>
 </mapper>
