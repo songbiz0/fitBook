@@ -146,6 +146,7 @@ public class AdminController {
         gpuCpuNm.setGpu(list2.getGpu());
         gpuCpuNm.setIcpu(list2.getIcpu());
         gpuCpuNm.setIgpu(list2.getIgpu());
+
         model.addAttribute(Const.CPU,service.selCpu());
         model.addAttribute(Const.GPU,service.selGpu());
         model.addAttribute("total",total);

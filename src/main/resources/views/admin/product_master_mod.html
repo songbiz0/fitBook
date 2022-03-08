@@ -66,7 +66,7 @@
                         </td>
                         <td>
                             <select name="igpu" CLASS="ui mini selection dropdown">
-                                <option th:value="${gpuCpuNm.igpu}"   th:text="${gpuCpuNm.gpu}"></option>
+                                <option  th:value="${gpuCpuNm.igpu}"   th:text="${gpuCpuNm.gpu}"></option>
                                 <th:block th:each="list : ${gpu}">
                                     <option th:if="${!#strings.equals(gpuCpuNm.gpu, list.nm)}" th:value="${list.igpu}" th:text="${list.nm}"/>
                                 </th:block>
@@ -83,14 +83,29 @@
                             </div>
                         </td>
                         <td>
-                            <div class="ui input spectsize">
-                                <input class="updetail" type="text" name="resolution" th:value="${detail.resolution}">
-                            </div>
+                            <select name="resolution" CLASS="ui mini selection  dropdown">
+                                <option th:value="${detail.resolution}" th:text="${detail.resolution}"></option>
+                                <th:block>
+                                    <option th:if="${!#strings.equals(detail.resolution, '1366x768')}" value="1366x768">1366x768</option>
+                                    <option th:if="${!#strings.equals(detail.resolution, '1920x1080(FHD)')}" value="1920x1080(FHD)">1920x1080(FHD)</option>
+                                    <option th:if="${!#strings.equals(detail.resolution, '1920x1200(WUXGA)')}" value="1920x1200(WUXGA)">1920x1200(WUXGA)</option>
+                                    <option th:if="${!#strings.equals(detail.resolution, '2560x1440(QHD)')}" value="2560x1440(QHD)">2560x1440(QHD)</option>
+                                    <option th:if="${!#strings.equals(detail.resolution, '2560x1600(WQXGA)')}"  value="2560x1600(WQXGA)">2560x1600(WQXGA)</option>
+                                    <option th:if="${!#strings.equals(detail.resolution, '3840x2160(4K UHD)')}" value="3840x2160(4K UHD)">3840x2160(4K UHD)</option>
+                                </th:block>
+                            </select>
                         </td>
                         <td>
-                            <div class="ui input spectsize" style="width: 60px">
-                                <input class="updetail" type="text" name="hz" th:value="${detail.hz}" style="text-align: center">
-                            </div>
+                            <select name="hz" CLASS="ui mini compact selection dropdown">
+                                <option th:value="${detail.hz}" th:text="${detail.hz}"></option>
+                                <th:block>
+                                    <option th:if="${!#strings.equals(detail.hz, '60')}" value="60">60hz</option>
+                                    <option th:if="${!#strings.equals(detail.hz, '120')}" value="120">120hz</option>
+                                    <option th:if="${!#strings.equals(detail.hz, '144')}" value="144">144hz</option>
+                                    <option th:if="${!#strings.equals(detail.hz, '165')}" value="165">165hz</option>
+                                    <option th:if="${!#strings.equals(detail.hz, '240')}" value="240">240hz</option>
+                                </th:block>
+                            </select>
                         </td>
                         <td>
                             <div class="ui input spectsize" style="width: 60px">
