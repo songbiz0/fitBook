@@ -27,12 +27,12 @@
 
         const getMaxPageVal = () =>
             fetch(`/ajax/admin/maxpage?recordCount=${recordCount}`)
-            .then(res => res.json())
-            .then(data => {
-                console.log(data.result);
-                maxPage = data.result;
-                makePaging();
-            });
+                .then(res => res.json())
+                .then(data => {
+                    console.log(data.result);
+                    maxPage = data.result;
+                    makePaging();
+                });
 
         getMaxPageVal();
 
@@ -42,18 +42,16 @@
             list.forEach(item => {
                 const trElem = document.createElement('tr')
                 tbodyElem.appendChild(trElem);
-                const locale = item.master_total.toLocaleString();
-                const month_total = item.month_total.toLocaleString();
-                const nmclcik =
-
+                // const locale = item.master_total.toLocaleString();
+                // const month_total = item.month_total.toLocaleString();
                 trElem.innerHTML = `
             <td>${item.num}</td>
             <td>${item.product_code}</td>
             <td>${item.nm}<img class="w70 h50" src="/imgPath/products/detail/${item.idetail}/${item.img}"></td>
             <td>${item.brand}</td>
             <td>${item.stock} EA</td>
-            <td>${month_total}원</td>
-            <td>${locale}원</td>
+            <td>${item.month_total}원</td>
+            <td>${item.master_total}원</td>
             <td>${item.rating} / ${item.ratingCount}</td>
             `;
                 trElem.addEventListener('click', e => {
@@ -63,48 +61,54 @@
             });
         };
 
-        const searchList = (searchUrl) => {
-            console.log(searchUrl);
-            fetch(searchUrl)
+        const searchList = (searchUrl, cur) => {
+            const resultUrl = searchUrl + '&currentPage=' + cur;
+            fetch(resultUrl)
                 .then(res => res.json())
                 .then(data => {
-                    console.log(data);
+                    searchPageVal();
                     selProductList(data);
                 })
                 .catch(e => {
                     console.error(e);
                 });
         }
-        const searchPageVal = (searchPage) => {
-            console.log(searchPage)
+
+        const searchPageVal = () => {
+            const searchText = document.querySelector('#searchText').value;
+            const select = document.querySelector('#select').value;
+            const searchPage =  `/ajax/admin/maxpage?search=${searchText}&select=${select}&recordCount=${recordCount}`;
+            console.log(searchPage);
             fetch(searchPage)
                 .then(res => res.json())
                 .then(data => {
-                    maxPage = data.result
-                    searchMakePaging();
+                    maxPage = data.result;
+                    searchMakePaging(maxPage);
                 });
         }
 
         searchBth.addEventListener('click', () => {
-           const searchText = document.querySelector('#searchText').value;
-           const select = document.querySelector('#select').value;
-           const searchUrl = url + `?search=${searchText}&select=${select}&currentPage=${currentPage}&recordCount=${recordCount}`
-           const searchPage =  `/ajax/admin/maxpage?search=${searchText}&select=${select}&recordCount=${recordCount}`
+            currentPage = 1;
+            const searchText = document.querySelector('#searchText').value;
+            const select = document.querySelector('#select').value;
+            const searchUrl = url + `?search=${searchText}&select=${select}&recordCount=${recordCount}`;
+            const searchPage =  `/ajax/admin/maxpage?search=${searchText}&select=${select}&recordCount=${recordCount}`;
 
-
-            searchList(searchUrl);
+            searchList(searchUrl, currentPage);
             searchPageVal(searchPage);
         });
-        const searchMakePaging = () => {
+
+        const searchMakePaging = (maxPage) => {
             ulElem.innerHTML = null;
+
             const calcPage = parseInt((currentPage - 1) / pagingCount);
             const startPage = (calcPage * pagingCount) + 1;
             const lastPage = (calcPage + 1) * pagingCount;
 
             const searchText = document.querySelector('#searchText').value;
             const select = document.querySelector('#select').value;
-            const searchUrl = url + `?search=${searchText}&select=${select}&currentPage=${currentPage}&recordCount=${recordCount}`
-            const searchPage =  `/ajax/admin/maxpage?search=${searchText}&select=${select}&recordCount=${recordCount}`
+            const searchUrl = url + `?search=${searchText}&select=${select}&recordCount=${recordCount}`;
+            const searchPage =  `/ajax/admin/maxpage?search=${searchText}&select=${select}&recordCount=${recordCount}`;
 
             const liElem1 = document.createElement('li');
             ulElem.appendChild(liElem1);
@@ -112,8 +116,7 @@
             liElem1.innerHTML = '&lt;';
             liElem1.addEventListener('click', e => {
                 currentPage = (currentPage) === 1 ? 1 : (currentPage - 1);
-                searchList(searchUrl);
-                searchMakePaging(searchPage);
+                searchList(searchUrl, currentPage);
             });
 
 
@@ -126,11 +129,8 @@
                 liElem.classList.add('item');
                 liElem.innerText = i;
                 liElem.addEventListener('click' , e =>{
-                    if(currentPage !== i){
-                        currentPage = i;
-                        searchMakePaging(searchPage);
-                        searchList(searchUrl);
-                    }
+                    currentPage = i;
+                    searchList(searchUrl, currentPage);
                 });
             }
 
@@ -140,8 +140,7 @@
             liElem2.innerHTML = '&gt;';
             liElem2.addEventListener('click' , e => {
                 currentPage = (currentPage) === maxPage ? maxPage : (currentPage + 1);
-                searchList(searchUrl);
-                searchMakePaging(searchPage);
+                searchList(searchUrl, currentPage);
             });
 
         }
@@ -177,11 +176,11 @@
                 liElem.classList.add('item');
                 liElem.innerText = i;
                 liElem.addEventListener('click' , e =>{
-                   if(currentPage !== i){
-                       currentPage = i;
-                       getList();
-                       makePaging();
-                   }
+                    if(currentPage !== i){
+                        currentPage = i;
+                        getList();
+                        makePaging();
+                    }
                 });
             }
 
@@ -624,4 +623,3 @@
         }
     }
 }
-
