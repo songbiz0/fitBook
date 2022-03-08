@@ -213,18 +213,18 @@
             const tbody = document.createElement('tbody');
             list.forEach(item => {
                 const tr = document.createElement('tr');
-                // tr.classList.add('list-tr');
+                tr.classList.add('list-tr');
                 tr.innerHTML = `
-                    <td><a href="/admin/gpuDetail?igpu=${item.gpu}">${item.nm}</a></td>
+                    <td>${item.nm}</td>
                     <td>${item.performance}</td>
                     <td>${item.seq}</td>
                     <td>${item.brand}</td>
                 `;
                 tbody.appendChild(tr);
                 table.appendChild(tbody);
-                // tr.addEventListener('click', () => {
-                //     location.href = `/admin/gpuDetail?igpu=${item.igpu}`;
-                // });
+                tr.addEventListener('click', () => {
+                    location.href = `/admin/gpuDetail?igpu=${item.igpu}`;
+                });
             });
         }
         const makePage = (maxPage) => {

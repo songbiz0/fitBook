@@ -68,7 +68,7 @@ public class AdminController {
         model.addAttribute("pageData", pageData);
         model.addAttribute("maxPage", service.getMaxPageForUser(dto));
         model.addAttribute(Const.DATA, service.selUserList(dto));
-        return "/admin/user";
+        return "admin/user";
     }
     @PostMapping("/user")
     public String userProc(UserDto dto) throws Exception {
