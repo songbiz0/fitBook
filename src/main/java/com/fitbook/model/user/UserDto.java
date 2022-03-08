@@ -8,6 +8,7 @@ import lombok.ToString;
 @Setter
 @ToString
 public class UserDto {
+    private int iuser;
     private String type;
     private String keyword;
     private String sort;

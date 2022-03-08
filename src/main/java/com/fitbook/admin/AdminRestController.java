@@ -11,8 +11,10 @@ import com.fitbook.model.order.OrderDto;
 import com.fitbook.model.order.OrderEntity;
 import com.fitbook.model.order.OrderVo;
 import com.fitbook.model.orderproduct.OrderProductVo;
+import com.fitbook.model.point.PointEntity;
 import com.fitbook.model.product.ProductDto;
 import com.fitbook.model.product.ProductVo;
+import com.fitbook.model.productReview.ProductReviewVo;
 import com.fitbook.model.productquestion.ProductQuestionDto;
 import com.fitbook.model.productquestion.ProductQuestionVo;
 import com.fitbook.model.program.ProgramDto;
@@ -179,6 +181,35 @@ public class AdminRestController {
     private List<UserVo> selectUserSearchList(UserDto dto) throws Exception {
         System.out.println(dto);
         return service.selectUserSearchList(dto);
+    }
+
+    @GetMapping("/userorder")
+    public List<OrderVo> selUserOrderList(UserDto dto) {
+        return service.selUserOrderList(dto);
+    }
+    @GetMapping("/ordermaxpage")
+    public ResultVo selUserOrderMaxPage(UserDto dto) {
+        return service.selUserOrderMaxPage(dto);
+    }
+    @GetMapping("/userreview")
+    public List<ProductReviewVo> selUserReviewList(UserDto dto) {
+        return service.selUserReviewList(dto);
+    }
+    @GetMapping("/reviewmaxpage")
+    public ResultVo selUserReviewMaxPage(UserDto dto) {
+        return service.selUserReviewMaxPage(dto);
+    }
+    @GetMapping("/userqna")
+    public List<ProductQuestionVo> selUserQuestionList(UserDto dto) {
+        return service.selUserQuestionList(dto);
+    }
+    @GetMapping("/qnamaxpage")
+    public ResultVo selUserQuestionMaxPage(UserDto dto) {
+        return service.selUserQuestionMaxPage(dto);
+    }
+    @PostMapping("/userinfo")
+    public ResultVo userInfoProc(PointEntity entity) {
+        return service.insUserPoint(entity);
     }
 
     @GetMapping("/userMaxPage")

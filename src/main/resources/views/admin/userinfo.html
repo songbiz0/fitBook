@@ -1,11 +1,167 @@
 <html lang="ko"
       xmlns:th="http://www.thymeleaf.org"
-      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
-      layout:decorate="temp/admin_page_layout">
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
 <head>
     <title></title>
+    <link rel="stylesheet" href="/css/common.css">
+    <link rel="stylesheet" href="/css/admin/user.css">
+    <script defer th:src="@{/js/admin/user.js}"></script>
+    <link rel="stylesheet" type="text/css" th:href="@{/fomantic_ui/semantic/dist/semantic.min.css}">
+    <link rel="stylesheet" th:href="@{/css/common.css}">
+    <script defer src="https://cdn.jsdelivr.net/npm/jquery@3.3.1/dist/jquery.min.js"></script>
+    <script defer th:src="@{/fomantic_ui/semantic/dist/semantic.min.js}"></script>
+    <script defer th:src="@{/js/main.js}"></script>
 </head>
+<body>
+<div class="ml10 mr10 user-detail">
 
-<th:block layout:fragment="content">
-    <h1>USER</h1>
-</th:block>
+    <div class="border-bottom mt20 pb20 pt20">
+        <h2>회원관리</h2>
+    </div>
+    <div class="justibetween mt20">
+        <h2 th:text="|${data.uid}(${data.nm})|"></h2>
+        <div class="mauto-10">
+            <strong>포인트 :</strong>
+            <a id="modPoint" href="#"><span th:text="${#numbers.formatInteger(data.point, 0, 'COMMA')} + p"></span></a>
+        </div>
+    </div>
+    <div class="userbox mb20">
+        <span>총 주문금액</span>
+        <span class="cerror" th:text="${topOrder.result_price}"></span>
+        <span>|</span>
+        <span>총 주문수</span>
+        <span class="cerror" th:text="${topOrder.cnt}"></span>
+        <span>|</span>
+        <span>총 리뷰수</span>
+        <span class="cerror" th:text="${topReview.cnt}"></span>
+        <span>|</span>
+        <span>총 문의수</span>
+        <span class="cerror" th:text="${topQna.cnt}"></span>
+    </div>
+    <div>
+        <strong>회원정보</strong>
+        <div class="mt20">
+            <table class="usertable w100p">
+                <colgroup>
+                    <col width="20%">
+                    <col width="30%">
+                    <col width="20%">
+                    <col width="30%">
+                </colgroup>
+                <tr>
+                    <th>회원아이디</th>
+                    <td th:text="${data.uid}"></td>
+                    <th>회원이름</th>
+                    <td th:text="${data.nm}"></td>
+                </tr>
+                <tr>
+                    <th>이메일</th>
+                    <td th:text="${data.email}"></td>
+                    <th>회원가입일</th>
+                    <td th:text="${#strings.substring(data.rdt, 0, 11)}"></td>
+                </tr>
+                <tr>
+                    <th>대표 배송지</th>
+                    <td colspan="3">
+                        <th:block th:if="${!#strings.isEmpty(addr)}">
+                        <span th:text="|(${addr.post})|"></span>
+                        <span th:text="${addr.addr}"></span>
+                        <span th:text="${addr.addr_detail}"></span>
+                        </th:block>
+                        <th:block th:if="${#strings.isEmpty(addr)}">
+                            <strong>대표 배송지가 없습니다.</strong>
+                        </th:block>
+                    </td>
+                </tr>
+            </table>
+        </div>
+    </div>
+    <div class="mt20">
+        <strong>주문내역</strong>
+        <div class="mt20">
+            <table class="usertable w100p">
+                <thead>
+                <tr>
+                    <th>주문번호</th>
+                    <th>상품명</th>
+                    <th>결제수단</th>
+                    <th>사용포인트</th>
+                    <th>결제금액</th>
+                    <th>주문상태</th>
+                    <th>주문날짜</th>
+                </tr>
+                </thead>
+                <tbody class="order-body"></tbody>
+            </table>
+        </div>
+        <div class="tact w100p">
+            <div class="ui pagination order-pagination tiny menu mt50"></div>
+        </div>
+    </div>
+    <div class="mt20">
+        <strong>리뷰내역</strong>
+        <div class="mt20">
+            <table class="usertable w100p">
+                <thead>
+                <tr>
+                    <th>상품</th>
+                    <th>리뷰내용</th>
+                    <th>평점</th>
+                    <th>작성날짜</th>
+                </tr>
+                </thead>
+                <tbody class="review-body"></tbody>
+            </table>
+        </div>
+        <div class="tact w100p">
+            <div class="ui pagination review-pagination tiny menu mt50"></div>
+        </div>
+    </div>
+    <div class="mt20">
+        <strong>문의내역</strong>
+        <div class="mt20">
+            <table class="usertable w100p">
+                <thead>
+                <tr>
+                    <th>상품</th>
+                    <th>문의내용</th>
+                    <th>답변</th>
+                    <th>작성날짜</th>
+                </tr>
+                </thead>
+                <tbody class="qna-body"></tbody>
+            </table>
+        </div>
+        <div class="tact w100p">
+            <div class="ui pagination qna-pagination tiny menu mt50"></div>
+        </div>
+    </div>
+</div>
+<div class="ui modal">
+    <i class="close icon"></i>
+    <div class="header fs18">
+        포인트 수정
+    </div>
+    <div class="content">
+        <form id="pointFrm" th:method="post" th:action="@{/admin/userinfo}" class="ui mini form">
+            <input type="hidden" name="iuser" th:value="${data.iuser}">
+            <select id="point-status">
+                <option value="+">포인트 더하기</option>
+                <option value="-">포인트 빼기</option>
+            </select>
+            <div>
+                <input type="text" id="pointVal" name="changed_point" placeholder="변경할 포인트">
+            </div>
+            <div>
+                <input type="text" name="reason" placeholder="포인트 변경 이유">
+            </div>
+        </form>
+    </div>
+    <div class="actions tact">
+        <div class="tact">
+            <div id="cancelBtn" class="ui basic tiny button bgwhite">취소</div>
+            <div id="submitBtn" class="ui secondary tiny button">등록</div>
+        </div>
+    </div>
+</div>
+</body>

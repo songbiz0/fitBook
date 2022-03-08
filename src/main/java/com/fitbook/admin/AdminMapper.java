@@ -1,6 +1,7 @@
 package com.fitbook.admin;
 
 import com.fitbook.ResultVo;
+import com.fitbook.model.address.AddressEntity;
 import com.fitbook.model.cpu.CpuDto;
 import com.fitbook.model.cpu.CpuEntity;
 import com.fitbook.model.cpu.CpuVo;
@@ -12,7 +13,9 @@ import com.fitbook.model.order.OrderDto;
 import com.fitbook.model.order.OrderEntity;
 import com.fitbook.model.order.OrderVo;
 import com.fitbook.model.orderproduct.OrderProductVo;
+import com.fitbook.model.point.PointEntity;
 import com.fitbook.model.product.*;
+import com.fitbook.model.productReview.ProductReviewVo;
 import com.fitbook.model.productquestion.ProductQuestionDto;
 import com.fitbook.model.productquestion.ProductQuestionEntity;
 import com.fitbook.model.productquestion.ProductQuestionVo;
@@ -20,6 +23,7 @@ import com.fitbook.model.program.ProgramDto;
 import com.fitbook.model.program.ProgramEntity;
 import com.fitbook.model.program.ProgramVo;
 import com.fitbook.model.user.UserDto;
+import com.fitbook.model.user.UserEntity;
 import com.fitbook.model.user.UserVo;
 import org.apache.catalina.User;
 import org.apache.ibatis.annotations.Mapper;
@@ -97,6 +101,21 @@ public interface AdminMapper {
     List<UserVo> selectUserSearchList(UserDto dto);
     ResultVo selUserMaxPageVal(UserDto dto);
 
+    // user detail
+    int insUserPoint(PointEntity entity);
+    UserVo selUserDetail(UserDto dto);
+    AddressEntity selUserAddress(UserDto dto);
+    List<OrderVo> selUserOrderList(UserDto dto);
+    ResultVo selUserOrderMaxPage(UserDto dto);
+    List<ProductReviewVo> selUserReviewList(UserDto dto);
+    ResultVo selUserReviewMaxPage(UserDto dto);
+    List<ProductQuestionVo> selUserQuestionList(UserDto dto);
+    ResultVo selUserQuestionMaxPage(UserDto dto);
+    OrderVo userOrderCnt(UserDto dto);
+    ProductReviewVo userReviewCnt(UserDto dto);
+    ProductQuestionVo userQuestionCnt(UserDto dto);
+    UserEntity selUserPoint(PointEntity entity);
+    int updUserPoint(PointEntity entity);
 
     // QnA
     int insQuestion(ProductQuestionEntity entity);

@@ -24,4 +24,7 @@ public class ProductQuestionVo extends ProductQuestionEntity {
 
     // 대댓글
     private List<ProductQuestionVo> replyList;
+
+    // userinfo - qna
+    private String color;
 }

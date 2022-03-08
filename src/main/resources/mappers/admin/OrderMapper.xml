@@ -38,27 +38,36 @@
     </select>
 
     <select id="selectUserSearchList" resultType="UserVo">
-        SELECT A.iuser, A.uid, A.nm, A.email, c.a AS recent_price, SUM(result_price) AS result_price, B.rdt AS recent_rdt , A.rdt AS join_rdt, A.point
+        SELECT A.iuser,
+               A.uid,
+               A.nm,
+               A.email,
+               c.a               AS recent_price,
+               SUM(result_price) AS result_price,
+               B.rdt             AS recent_rdt,
+               A.rdt             AS join_rdt,
+               A.point
         FROM t_user A
-        LEFT JOIN t_order B
-        ON A.iuser = B.iuser
-        LEFT JOIN (
-        SELECT SUM(if(rdt BETWEEN DATE_ADD(NOW(), INTERVAL -1 MONTH) AND NOW(), result_price, 0)) AS a, iuser
-        FROM t_order
-        GROUP BY iuser
+                 LEFT JOIN t_order B
+                           ON A.iuser = B.iuser
+                 LEFT JOIN (
+            SELECT SUM(if(rdt BETWEEN DATE_ADD(NOW(), INTERVAL -1 MONTH) AND NOW(), result_price, 0)) AS a, iuser
+            FROM t_order
+            GROUP BY iuser
         ) C
-        ON A.iuser = C.iuser
+                           ON A.iuser = C.iuser
         GROUP BY A.iuser
         HAVING ${type} LIKE CONCAT('%', #{keyword}, '%')
-        LIMIT ${startIdx}, ${recordCount}
+            LIMIT ${startIdx}
+             , ${recordCount}
     </select>
 
     <select id="selOrderList" resultType="OrderVo">
         SELECT A.rdt, A.iorder, E.nm AS productNm
-             , C.quantity, B.uid, B.nm AS userNm
-             , A.spent_point, A.payment_way, A.order_status
-             , A.result_price, A.cdt, B.iuser , (count(A.iorder)-1) AS cnt
-             , D.img, D.idetail, D.color, D.hdd, D.ssd, E.product_code
+        , C.quantity, B.uid, B.nm AS userNm
+        , A.spent_point, A.payment_way, A.order_status
+        , A.result_price, A.cdt, B.iuser , (count(A.iorder)-1) AS cnt
+        , D.img, D.idetail, D.color, D.hdd, D.ssd, E.product_code
         FROM t_order A
         inner JOIN t_user B
         ON A.iuser = B.iuser
@@ -74,27 +83,35 @@
     </select>
 
     <select id="getOrderMaxPage" resultType="ResultVo">
-        SELECT  CEIL(COUNT(iorder) / ${rowCnt}) AS result
+        SELECT CEIL(COUNT(iorder) / ${rowCnt}) AS result
         FROM (
-               SELECT A.iorder
-               from t_order A
-               inner JOIN t_user B
-               ON A.iuser = B.iuser
-               inner JOIN t_order_product C
-               ON A.iorder = C.iorder
-               inner JOIN t_product_detail D
-               ON C.idetail = D.idetail
-               inner JOIN t_product_master E
-               ON E.iproduct = D.iproduct
-               <include refid="searchSql"></include>
-               GROUP BY A.iorder
-             ) AS A
+        SELECT A.iorder
+        from t_order A
+        inner JOIN t_user B
+        ON A.iuser = B.iuser
+        inner JOIN t_order_product C
+        ON A.iorder = C.iorder
+        inner JOIN t_product_detail D
+        ON C.idetail = D.idetail
+        inner JOIN t_product_master E
+        ON E.iproduct = D.iproduct
+        <include refid="searchSql"></include>
+        GROUP BY A.iorder
+        ) AS A
     </select>
 
     <select id="selProductDetail" resultType="ProductDetailVo">
-        SELECT A.rdt, A.iorder, C.img, D.nm, D.product_code
-             , C.color, C.hdd, C.ssd
-             , B.result_price, B.quantity, D.brand
+        SELECT A.rdt
+             , A.iorder
+             , C.img
+             , D.nm
+             , D.product_code
+             , C.color
+             , C.hdd
+             , C.ssd
+             , B.result_price
+             , B.quantity
+             , D.brand
              , C.idetail
         FROM t_order A
                  INNER JOIN t_order_product B
@@ -107,9 +124,17 @@
     </select>
 
     <select id="selOrderDetail" resultType="OrderDetailVo">
-        SELECT A.iorder, B.receiver_nm, B.receiver_post, B.receiver_addr, B.receiver_addr_detail
-             , B.receiver_phone, B.shipment_message
-             , A.spent_point, A.payment_way, A.order_status, A.result_price
+        SELECT A.iorder
+             , B.receiver_nm
+             , B.receiver_post
+             , B.receiver_addr
+             , B.receiver_addr_detail
+             , B.receiver_phone
+             , B.shipment_message
+             , A.spent_point
+             , A.payment_way
+             , A.order_status
+             , A.result_price
         FROM t_order A
                  INNER JOIN t_order_detail B
                             ON A.iorder = B.iorder

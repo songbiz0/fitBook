@@ -1,0 +1,19 @@
+.userbox { border: 2px solid #e3e3e3; padding: 23px 15px 15px 15px; }
+.mytable tr { padding: 20px; }
+.usertable {
+    border-top: 1px solid black;
+    border-collapse: collapse;
+}
+.usertable td, th {
+    border-bottom: 1px solid #F6F6F6;
+    text-align: center;
+}
+.usertable th {
+    background-color: #F6F6F6;
+    padding: 15px;
+    font-size: 15px;
+}
+.usertable td {
+    padding: 15px;
+    font-size: 15px;
+}
