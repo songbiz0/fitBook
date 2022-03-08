@@ -7,4 +7,8 @@ import lombok.Setter;
 @Setter
 public class ProductReviewVo extends ProductReviewEntity {
     private String userNm;
+    private String color;
+    private String nm;
+    private int maxPage;
+    private int cnt;
 }

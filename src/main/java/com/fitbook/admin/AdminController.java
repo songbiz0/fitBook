@@ -8,7 +8,9 @@ import com.fitbook.model.order.OrderDto;
 import com.fitbook.model.product.*;
 import com.fitbook.model.order.OrderListVo;
 import com.fitbook.model.order.OrderVo;
+import com.fitbook.model.point.PointEntity;
 import com.fitbook.model.product.ProductDetailListVo;
+import com.fitbook.model.product.ProductDetailVo;
 import com.fitbook.model.product.ProductVo;
 import com.fitbook.model.productquestion.ProductQuestionDto;
 import com.fitbook.model.productquestion.ProductQuestionEntity;
@@ -81,7 +83,17 @@ public class AdminController {
     }
 
     @GetMapping("/userinfo")
-    public void userinfo () {
+    public void userinfo (Model model, UserDto dto) {
+        model.addAttribute(Const.DATA, service.selUserDetail(dto));
+        model.addAttribute("addr", service.selUserAddress(dto));
+        model.addAttribute("topOrder", service.userOrderCnt(dto));
+        model.addAttribute("topReview", service.userReviewCnt(dto));
+        model.addAttribute("topQna", service.userQuestionCnt(dto));
+    }
+    @PostMapping("/userinfo")
+    public String userInfoProc(PointEntity entity) {
+        service.insUserPoint(entity);
+        return "redirect:/admin/userinfo?iuser=" + entity.getIuser();
     }
 
     // 주문

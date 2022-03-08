@@ -2,6 +2,32 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.fitbook.admin.AdminMapper">
 
+    <insert id="insUserPoint">
+        INSERT INTO t_point
+        (iuser, changed_point, reason)
+        VALUES
+        (${iuser}, ${changed_point}, #{reason})
+    </insert>
+
+    <select id="userOrderCnt" resultType="OrderVo">
+        SELECT ifnull(SUM(result_price), 0) AS result_price, COUNT(iorder) AS cnt
+        FROM t_user A
+        LEFT JOIN t_order B
+        ON A.iuser = B.iuser
+        WHERE A.iuser = ${iuser}
+        GROUP BY A.iuser
+    </select>
+    <select id="userReviewCnt" resultType="ProductReviewVo">
+        SELECT count(ireview) AS cnt
+        FROM t_product_review
+        WHERE iuser = ${iuser}
+    </select>
+    <select id="userQuestionCnt" resultType="ProductQuestionVo">
+        SELECT COUNT(iquestion) AS cnt
+        FROM t_product_question
+        WHERE iuser = ${iuser}
+    </select>
+
     <select id="selUserList" resultType="UserVo">
         SELECT ifnull(result_price, 0) AS result_price, iuser, uid
              , nm, email, rdt, `point`, recent_rdt, ifnull(recent_price, 0) AS recent_price
@@ -50,5 +76,133 @@
         </where>
         GROUP BY A.iuser
         ) AS t
+    </select>
+
+    <select id="selUserDetail" resultType="UserVo">
+        SELECT A.nm, A.uid, A.point, A.email, A.rdt, A.iuser
+             , C.rdt AS recent_rdt, D.recent_price, E.result_price
+        FROM t_user A
+        LEFT JOIN t_order B
+        ON A.iuser = B.iuser
+        LEFT JOIN (
+            SELECT A.iuser, B.rdt
+            FROM t_user A
+            LEFT JOIN t_order B
+            ON A.iuser = B.iuser
+            WHERE A.iuser = ${iuser}
+            ORDER BY B.rdt DESC
+            LIMIT 1
+        ) C
+        ON A.iuser = C.iuser
+        LEFT JOIN (
+            SELECT SUM(result_price) AS recent_price, A.iuser
+            FROM t_user A
+            LEFT JOIN t_order B
+            ON A.iuser = B.iuser
+            WHERE A.iuser = ${iuser}
+            AND B.rdt BETWEEN DATE_ADD(NOW(), INTERVAL -1 MONTH) AND NOW()
+        ) D
+        ON D.iuser = A.iuser
+        LEFT JOIN (
+            SELECT SUM(result_price) AS result_price, A.iuser
+            FROM t_user A
+            LEFT JOIN t_order B
+            ON A.iuser = B.iuser
+            WHERE A.iuser = ${iuser}
+        ) E
+        ON A.iuser = E.iuser
+        WHERE A.iuser = ${iuser}
+        GROUP BY A.iuser
+    </select>
+
+    <select id="selUserAddress" resultType="AddressEntity">
+        SELECT B.post, B.addr, B.addr_detail, B.phone, B.isrep
+        FROM t_user A
+        INNER JOIN t_address B
+        ON A.iuser = B.iuser
+        WHERE A.iuser = ${iuser}
+        AND B.isrep = 'Y'
+    </select>
+
+    <select id="selUserOrderList" resultType="OrderVo">
+        SELECT B.iorder, B.rdt, B.iuser, B.spent_point, B.payment_way, B.result_price
+             , E.nm, B.order_status, E.iproduct
+        FROM t_user A
+        INNER JOIN t_order B
+        ON A.iuser = B.iuser
+        INNER JOIN t_order_product C
+        ON B.iorder = C.iorder
+        INNER JOIN t_product_detail D
+        ON C.idetail = D.idetail
+        INNER JOIN t_product_master E
+        ON E.iproduct = D.iproduct
+        WHERE A.iuser = ${iuser}
+        ORDER BY B.rdt DESC
+    </select>
+    <select id="selUserOrderMaxPage" resultType="ResultVo">
+        SELECT CEIL(COUNT(iorder) / ${recordCount}) AS result
+        FROM t_order
+        WHERE iuser = ${iuser}
+    </select>
+
+    <select id="selUserReviewList" resultType="ProductReviewVo">
+        SELECT B.ctnt, B.rating, B.rdt, C.iproduct, D.color, C.nm
+        FROM t_user A
+        INNER JOIN t_product_review B
+        ON A.iuser = B.iuser
+        INNER JOIN t_product_master C
+        ON B.iproduct = C.iproduct
+        INNER JOIN t_product_detail D
+        ON C.iproduct = D.iproduct
+        WHERE B.iuser = ${iuser}
+        ORDER BY B.rdt DESC
+        LIMIT ${startIdx}, ${recordCount}
+    </select>
+    <select id="selUserReviewMaxPage" resultType="ResultVo">
+        SELECT CEIL(COUNT(B.ireview) / ${recordCount}) as result
+        FROM t_user A
+        INNER JOIN t_product_review B
+        ON A.iuser = B.iuser
+        INNER JOIN t_product_master C
+        ON B.iproduct = C.iproduct
+        INNER JOIN t_product_detail D
+        ON C.iproduct = D.iproduct
+        WHERE B.iuser = ${iuser}
+    </select>
+    <select id="selUserQuestionList" resultType="ProductQuestionVo">
+        SELECT B.iproduct, B.ctnt, B.parent, B.rdt
+             , C.nm AS productNm, D.color
+        FROM t_user A
+        INNER JOIN t_product_question B
+        ON A.iuser = B.iuser
+        INNER JOIN t_product_master C
+        ON B.iproduct = C.iproduct
+        INNER JOIN t_product_detail D
+        ON D.iproduct = C.iproduct
+        WHERE A.iuser = ${iuser}
+        ORDER BY B.rdt DESC
+        LIMIT ${startIdx}, ${recordCount}
+    </select>
+    <select id="selUserQuestionMaxPage" resultType="ResultVo">
+        SELECT ceil(count(iquestion) / ${recordCount}) AS result
+        FROM t_product_question
+        WHERE iuser = ${iuser}
+    </select>
+
+    <update id="updUserPoint">
+        UPDATE t_user a
+            INNER JOIN(
+            SELECT SUM(changed_point) AS cp, iuser
+            FROM t_point
+            WHERE iuser = ${iuser}
+            GROUP BY iuser
+            ) b
+        ON a.iuser = b.iuser
+            SET a.point = b.cp
+    </update>
+    <select id="selUserPoint" resultType="UserEntity">
+        SELECT point
+        FROM t_user
+        WHERE iuser = ${iuser}
     </select>
 </mapper>
