@@ -16,22 +16,22 @@
 
 <body>
 <th:block layout:fragment="content">
+    <main class="btgrey">
+        <div class="ui left aligned container mt50">
+            <h3>공지사항</h3>
     <div class="ctntData" th:with="ctnt=${data.ctnt}" th:data-ctnt="${ctnt}"></div>
     <div class="titleData" th:with="title=${data.title}" th:data-title="${title}">
         <form class="summernote-form" method="post" th:action="@{/notice/modify(inotice=${data.inotice})}" enctype="application/x-www-form-urlencoded">
-            <div class="form-div mb30">
-                <div class="ui labeled input notice-tit frow">
-                    <div class="ui label">
-                        제목
-                    </div>
-                    <input id="title" type="text" name="title" placeholder="">
-                </div>
-                <div id="tit" class="msg hidden">
-                    <span>메시지</span>
+            <div class="form-div m10 w90p">
+                <div class="ui input notice-tit w100p mb10">
+                    <input id="title" class="w100p" type="text" name="title" placeholder="">
                 </div>
                 <textarea id="summernote" name="ctnt"></textarea>
             </div>
-            <input type="submit" class="ui secondary medium button" id="save" th:value="저장">
+            <div class="mt20 w90p">
+                <input type="submit" class="ui secondary small button ml5 fr" id="save" th:value="등록">
+                <button id="modCancelBtn" class="ui basic small button mr5 fr">취소</button>
+            </div>
         </form>
     </div>
     <script>
@@ -78,6 +78,8 @@
             fontSizes: ['8','9','10','11','12','14','16','18','20','22','24','28','30','36','50','72']
         });
     </script>
+        </div>
+    </main>
 </th:block>
 </body>
 

@@ -2,26 +2,20 @@
 <html lang="en"
       xmlns:th="http://www.thymeleaf.org"
       xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security"
       layout:decorate="temp/thymeleaf_layout">
 
 <head>
     <meta charset="UTF-8">
     <script defer th:src="@{/js/notice/notice.js}"></script>
-    <title>aocument</title>
+    <title></title>
 </head>
 
 <body>
 <th:block layout:fragment="content">
     <main id="notice-list" class="btgrey">
         <div class="ui left aligned container mt50">
-            <div class="mb30 justibetween">
-                <div>
-                    <h3>공지사항</h3>
-                </div>
-                <div>
-                    <a th:href="@{/notice/writenotice}"><button class="ui basic tiny button"><h5>글쓰기</h5></button></a>
-                </div>
-            </div>
+            <h3 class="mb30">공지사항</h3>
             <table class="mytable w100p">
                 <colgroup>
                     <col width="10%">
@@ -42,10 +36,12 @@
                 <tbody>
                 </tbody>
             </table>
-            <div class="tact">
-                <div class="ui pagination tiny menu mt50">
-
-                </div>
+            <div class="fc">
+            <div sec:authorize="hasRole('ROLE_ADMIN')" class="w100p ofauto">
+                <a th:href="@{/notice/writenotice}"><button class="ui secondary tiny button fr m20">글쓰기</button></a>
+            </div>
+            <div class="tact" th:classappend="${#authorization.expression('!hasRole(''ADMIN'')') ? 'mt30' : ''}">
+                <div class="ui pagination tiny menu"></div>
             </div>
             <div class="tact">
             <div class="ui mini action input mt30">
@@ -57,6 +53,7 @@
                 <input id="search" type="text" class="radiusnone w200">
                 <div id="searchBtn" class="ui secondary mini button">검색</div>
               </div>
+            </div>
             </div>
         </div>
     </main>

@@ -262,7 +262,7 @@ const getList = () => {
             if (data.length === 0) {
                 const tr = document.createElement('tr');
                 tr.innerHTML =
-                    `<td rowspan="1" colspan="5" class="btline h100">
+                    `<td rowspan="1" colspan="6" class="btline h100">
                         현재 등록된 배송지가 없습니다.
                      </td>`
                 addrTbodyElem.appendChild(tr);
@@ -508,7 +508,7 @@ orderBtnElem.addEventListener('click', e => {
         return;
     }
 
-    if ($('#paymentWayDropdown').dropdown('get text') === '무통장입금' || !document.querySelector('#paymentWayDropdown').classList.contains('disabled')) {
+    if ($('#paymentWayDropdown').dropdown('get text') === '무통장입금' || document.querySelector('#paymentWayDropdown').classList.contains('disabled')) {
         const form = document.createElement('form');
         form.method = 'post';
         form.action = '/shop/order';

@@ -1,6 +1,7 @@
 package com.fitbook.shop;
 
 import com.fitbook.ResultVo;
+import com.fitbook.address.AddressMapper;
 import com.fitbook.auth.AuthenticationFacade;
 import com.fitbook.fit.FitService;
 import com.fitbook.model.PageDto;
@@ -25,11 +26,18 @@ import java.util.stream.Collectors;
 @Service
 public class ShopService {
 
-    @Autowired private ShopMapper mapper;
-    @Autowired private FitService fitService;
-    @Autowired private UserService userService;
-    @Autowired private AuthenticationFacade authenticationFacade;
-    @Autowired private UserMapper userMapper;
+    @Autowired
+    private ShopMapper mapper;
+    @Autowired
+    private FitService fitService;
+    @Autowired
+    private UserService userService;
+    @Autowired
+    private AuthenticationFacade authenticationFacade;
+    @Autowired
+    private UserMapper userMapper;
+    @Autowired
+    AddressMapper addressMapper;
 
     public int selMaxPage(PageDto dto) {
         int maxPage = mapper.selMaxPage(dto);
@@ -42,34 +50,34 @@ public class ShopService {
 
         vo.setColorList(mapper.selColorList(iproduct));
         List<OptionDto> optionList = mapper.selOptionList(iproduct);
-        for(OptionDto dto : optionList) {
+        for (OptionDto dto : optionList) {
             StringBuilder sb = new StringBuilder();
             int hdd = dto.getHdd();
             int ssd = dto.getSsd();
-            if(0 < hdd && hdd < 1024) {
+            if (0 < hdd && hdd < 1024) {
                 sb.append("HDD ").append(hdd).append("GB");
-                if(0 < ssd && ssd < 1024) {
+                if (0 < ssd && ssd < 1024) {
                     sb.append(" / SSD ").append(ssd).append("GB");
-                } else if(ssd >= 1024) {
+                } else if (ssd >= 1024) {
                     sb.append(" / SSD ").append(ssd / 1024).append("TB");
                 }
-            } else if(hdd >= 1024) {
+            } else if (hdd >= 1024) {
                 sb.append("HDD ").append(hdd / 1024).append("TB");
-                if(0 < ssd && ssd < 1024) {
+                if (0 < ssd && ssd < 1024) {
                     sb.append(" / SSD ").append(ssd).append("GB");
-                } else if(ssd >= 1024) {
+                } else if (ssd >= 1024) {
                     sb.append(" / SSD ").append(ssd / 1024).append("TB");
                 }
-            } else if(0 < ssd && ssd < 1024) {
+            } else if (0 < ssd && ssd < 1024) {
                 sb.append("SSD ").append(dto.getSsd()).append("GB");
-            } else if(ssd >= 1024) {
+            } else if (ssd >= 1024) {
                 sb.append("SSD ").append(ssd / 1024).append("TB");
             }
             dto.setOption(sb.toString());
         }
         vo.setOptionList(optionList);
 
-        if(fitService.selQuestion() == null) {
+        if (fitService.selQuestion() == null) {
             vo.setFitness(-1);
         } else {
             vo.setFitness(fitService.calFitness(fitService.selQuestion(), vo));
@@ -98,7 +106,7 @@ public class ShopService {
         ResultVo result = new ResultVo();
 
         // 별점 체크하지 않은 경우 예외처리
-        if(entity.getRating() < 1) {
+        if (entity.getRating() < 1) {
             result.setResult(0);
             return result;
         }
@@ -107,7 +115,7 @@ public class ShopService {
         PageDto dto = new PageDto();
         dto.setIuser(authenticationFacade.getLoginUserPk());
         dto.setIproduct(entity.getIproduct());
-        if(mapper.selOrderCount(dto).getResult() < 1) {
+        if (mapper.selOrderCount(dto).getResult() < 1) {
             result.setResult(0);
             return result;
         }
@@ -141,7 +149,7 @@ public class ShopService {
         dto.setStartIdx(startIdx);
 
         List<ProductQuestionVo> questionList = mapper.selQuestionList(dto);
-        for(ProductQuestionVo vo : questionList) {
+        for (ProductQuestionVo vo : questionList) {
             dto.setParent(vo.getIquestion());
             List<ProductQuestionVo> questionReplyList = mapper.selQuestionList(dto);
             vo.setReplyList(questionReplyList);
@@ -175,7 +183,9 @@ public class ShopService {
         return mapper.selProductList(dto);
     }
 
-    public ProductVo selPrice(int idetail) { return mapper.selPrice(idetail); }
+    public ProductVo selPrice(int idetail) {
+        return mapper.selPrice(idetail);
+    }
 
     public ListDto selList() {
         ListDto dto = new ListDto();
@@ -188,7 +198,7 @@ public class ShopService {
     }
 
     public List<String> fromJSON(List<String> list) {
-        for(int i=0; i<list.size(); i++) {
+        for (int i = 0; i < list.size(); i++) {
             list.set(i, list.get(i).replace("\"", "").replace("[", "").replace("]", ""));
         }
         return list;
@@ -196,7 +206,7 @@ public class ShopService {
 
     public List<ProductDetailVo> selCartList() {
         List<ProductDetailVo> list = mapper.selCartList(authenticationFacade.getLoginUserPk());
-        for(ProductDetailVo vo : list) {
+        for (ProductDetailVo vo : list) {
             vo.setDiscount(vo.getOriginalPrice() - vo.getPrice());
             vo.setAccumulate((int) Math.round(vo.getPrice() * 0.001));
             vo.setStock(Math.min(vo.getStock(), 9));
@@ -207,12 +217,12 @@ public class ShopService {
             int ssd = vo.getSsd();
             if (0 < hdd && hdd < 1024) {
                 sb.append(" / HDD ").append(hdd).append("GB");
-            } else if(hdd >= 1024) {
+            } else if (hdd >= 1024) {
                 sb.append(" / HDD ").append(hdd / 1024).append("TB");
             }
             if (0 < ssd && ssd < 1024) {
                 sb.append(" / SSD ").append(ssd).append("GB");
-            } else if(ssd >= 1024) {
+            } else if (ssd >= 1024) {
                 sb.append(" / SSD ").append(ssd / 1024).append("TB");
             }
             vo.setOption(sb.toString());
@@ -223,9 +233,9 @@ public class ShopService {
     public List<ProductDetailVo> selOrderCartList(List<String> list) {
         List<ProductDetailVo> productList = selCartList();
         List<ProductDetailVo> result = new ArrayList<>();
-        for(ProductDetailVo vo : productList) {
-            for(String idetail : list) {
-                if(vo.getIdetail() == Integer.parseInt(idetail)) {
+        for (ProductDetailVo vo : productList) {
+            for (String idetail : list) {
+                if (vo.getIdetail() == Integer.parseInt(idetail)) {
                     result.add(vo);
                 }
             }
@@ -248,37 +258,56 @@ public class ShopService {
 
     public AddressEntity selAddr(AddressDto dto) {
         dto.setIuser(authenticationFacade.getLoginUserPk());
-        return mapper.selAddr(dto);
+        return addressMapper.selAddr(dto);
     }
 
-    @Transactional
+    @Transactional(rollbackFor = Exception.class)
     public void order(OrderDto dto) {
+        Integer isOutOfStock = mapper.selIsOutOfStock(dto.getIdetailList());
+        if(isOutOfStock != null) {
+            throw new RuntimeException("재고 없는 상품 주문");
+        }
+
         int iuser = authenticationFacade.getLoginUserPk();
         dto.setIuser(iuser);
         dto.setIdetailList(fromJSON(dto.getIdetailList()));
-        try {
-            if(dto.getPayment_way().equals("무통장입금")) {
-                dto.setOrder_status("입금대기");
-            } else {
-                dto.setOrder_status("결제완료");
-            }
-            mapper.insOrder(dto);
-            mapper.insDetailOrder(dto);
-            mapper.insOrderProduct(dto);
-            mapper.delCart(dto.getIdetailList().stream().map(Integer::parseInt).collect(Collectors.toList()), iuser);
-            userMapper.updPointByOrderDto(dto);
-            dto.setReason("상품 구매");
-            dto.setSpent_point(dto.getSpent_point() * -1);
-            userService.insPointHistory(dto);
 
-            if(dto.getResult_price() == 0) {
-                dto.setOrder_status("결제완료");
-            }
+        dto.setPayment_way("무통장입금");
 
-        } catch (Exception e) {
-            e.printStackTrace();
-            throw e;
+        dto.setOrder_status("입금대기");
+        mapper.insOrder(dto);
+        if (dto.getResult_price() == 0) {
+            dto.setOrder_status("결제완료");
+            mapper.updOrder(dto);
         }
-        return;
+        System.out.println(dto);
+        mapper.insDetailOrder(dto);
+        mapper.insOrderProduct(dto);
+        mapper.delCart(dto.getIdetailList().stream().map(Integer::parseInt).collect(Collectors.toList()), iuser);
+        userMapper.updPointByOrderDto(dto);
+        dto.setReason("상품 구매로 포인트 사용");
+        dto.setSpent_point(dto.getSpent_point() * -1);
+        userService.insPointHistory(dto);
+
+        AddressDto addressDto = new AddressDto();
+        addressDto.setIuser(iuser);
+        addressDto.setParam("latest");
+        AddressEntity addressEntity = addressMapper.selAddr(addressDto);
+
+        addressDto.setPost(dto.getReceiver_post());
+        addressDto.setAddr(dto.getReceiver_addr());
+        addressDto.setAddr_detail(dto.getReceiver_addr_detail());
+        addressDto.setPhone(dto.getReceiver_phone());
+        addressDto.setAddr_nm("");
+        addressDto.setUser_nm(dto.getReceiver_nm());
+        addressDto.setIsrep("N");
+        addressDto.setIslatest("Y");
+
+        if(addressEntity == null) {
+            addressMapper.insAddr(addressDto);
+        } else {
+            addressDto.setIaddress(addressEntity.getIaddress());
+            addressMapper.updAddr(addressDto);
+        }
     }
 }

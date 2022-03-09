@@ -14,4 +14,5 @@ public interface AddressMapper {
     void updIsrep(AddressDto dto);
     int delAddr(AddressDto dto);
     int updAddr(AddressDto dto);
+    AddressEntity selAddr(AddressDto dto);
 }
