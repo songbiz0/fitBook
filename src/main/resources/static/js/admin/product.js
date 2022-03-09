@@ -44,8 +44,8 @@
                 trElem.classList.add('cspointer');
                 tbodyElem.appendChild(trElem);
                 trElem.classList.add('cspointer')
-                // const locale = item.master_total.toLocaleString();
-                // const month_total = item.month_total.toLocaleString();
+                const master_total = item.master_total.toLocaleString();
+                const month_total = item.month_total.toLocaleString();
                 trElem.innerHTML = `
             <td>${item.num}</td>
             <td>${item.product_code}</td>
@@ -59,8 +59,8 @@
             </td>
             <td>${item.brand}</td>
             <td>${item.stock} EA</td>
-            <td>${item.month_total}원</td>
-            <td>${item.master_total}원</td>
+            <td>${master_total}원</td>
+            <td>${month_total}원</td>
             <td>${item.rating} / ${item.ratingCount}</td>
             `;
                 trElem.addEventListener('click', e => {
