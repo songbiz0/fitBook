@@ -137,6 +137,17 @@ public class AdminService {
     }
     public ResultVo updOrderStatus(OrderEntity entity) {
         ResultVo vo = new ResultVo();
+        switch (entity.getOrder_status()) {
+            case "환불완료":
+                PointEntity entity1 = new PointEntity();
+                entity1.setIuser(entity.getIuser());
+                entity1.setChanged_point(entity.getSpent_point());
+                entity1.setReason("환불완료");
+                mapper.returnPoint(entity1);
+                mapper.updUserPoint(entity1);
+                entity.setCdt("Y");
+                break;
+        }
         vo.setResult(mapper.updOrderStatus(entity));
         return vo;
     }
@@ -218,7 +229,6 @@ public class AdminService {
     public ResultVo delGpu(GpuDto dto) {
         ResultVo vo = new ResultVo();
         vo.setResult(mapper.delGpu(dto));
-        System.out.println(mapper.delGpu(dto));
         return vo;
     }
     public GpuVo selInnerGpuPerformance(GpuDto dto) {
@@ -239,7 +249,6 @@ public class AdminService {
         }
         int result1 = mapper.insProductMaster(vo);
         int iproduct = vo.getIproduct();
-        System.out.println(iproduct);
         try {
             vo.setImg(utils.uploadFileUUID(vo.getMfFile(), fileMasterNm, "products\\master", String.valueOf(iproduct)));
         } catch (Exception e) {
@@ -294,7 +303,6 @@ public class AdminService {
         if("".equals(dto.getSearch()) || dto.getSearch() == null){
             dto.setSearch("");
         }
-        System.out.println("service : " + dto);
         return mapper.selProductList(dto);
     }
     //상품디테일
@@ -331,9 +339,7 @@ public class AdminService {
             dto.setSelect(data[0]);
             dto.setTotal(data[1]);
         }
-        System.out.println("maxpage : " + dto);
         ResultVo vo = mapper.selMaxPageVal(dto);
-        System.out.println(vo.getResult());
         return mapper.selMaxPageVal(dto);
     }
 
@@ -344,7 +350,6 @@ public class AdminService {
         for(ProgramVo item : list.getProgramList()) {
 
             // is_mac_sup 관련
-            System.out.println(item.getIs_mac_sup());
             String mac_sup = "Y".equals(item.getIs_mac_sup()) ? "Y" : "N";
             item.setIs_mac_sup(mac_sup);
             // 이미지관련
@@ -388,8 +393,6 @@ public class AdminService {
         int result = 0;
 
         UserEntity selPoint = mapper.selUserPoint(entity);
-        System.out.println("changedPoint : " + entity.getChanged_point());
-        System.out.println("point : " + selPoint.getPoint());
         if(entity.getChanged_point() + selPoint.getPoint() >= 0) {
             result = mapper.insUserPoint(entity);
             mapper.updUserPoint(entity);
@@ -485,8 +488,6 @@ public class AdminService {
         for(ProductQuestionVo item : list) {
             try {
                 item.setCnt(mapper.selCmtCount(item.getIquestion()).getCnt());
-                System.out.println(item.getIquestion());
-                System.out.println(mapper.selCmtCount(item.getIquestion()).getCnt());
             } catch (Exception e) {
                 e.printStackTrace();
                 item.setCnt(0);

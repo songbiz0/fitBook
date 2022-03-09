@@ -43,9 +43,6 @@ public class AdminController {
     @GetMapping("/main")
     public void admin(Model model) {
         List<OrderVo> list = service.getStatusCnt();
-        for(int i=0; i<list.size(); i++) {
-            System.out.println(list.get(i));
-        }
         OrderListVo vo = new OrderListVo();
         vo.setOrderList(list);
         model.addAttribute("statusList", vo);
@@ -71,7 +68,7 @@ public class AdminController {
         model.addAttribute("pageData", pageData);
         model.addAttribute("maxPage", service.getMaxPageForUser(dto));
         model.addAttribute(Const.DATA, service.selUserList(dto));
-        return "/admin/user";
+        return "admin/user";
     }
     @PostMapping("/user")
     public String userProc(UserDto dto) throws Exception {
@@ -79,7 +76,6 @@ public class AdminController {
         String type = URLEncoder.encode(dto.getType(), "UTF-8");
         String sort = URLEncoder.encode(dto.getSort(), "UTF-8");
         int except = dto.getExceptNull();
-        System.out.println(dto);
 
         return "redirect:/admin/user?keyword=" + keyword +"&type=" + type + "&sort=" + sort + "&exceptNull=" + except;
     }
@@ -104,7 +100,6 @@ public class AdminController {
     }
     @GetMapping("/orderdetail")
     public String orderDetail(OrderDto dto, Model model) {
-        System.out.println(service.selProductDetail(dto));
         model.addAttribute("data", service.selProductDetail(dto));
         return "admin/orderdetail";
     }
@@ -125,7 +120,6 @@ public class AdminController {
         model.addAttribute("total", total);
         model.addAttribute(Const.DATA,list);
         model.addAttribute(Const.DETAIL,service.selProductMasterDetail2(dto));
-        System.out.println(dto.getIproduct());
     }
     @DeleteMapping("/product_master_detail")
     public String delProductDetail(ProductDto dto){
@@ -160,7 +154,6 @@ public class AdminController {
     public String updProductDetail(ProductVo vo, ProductDetailListVo productList){
         service.updProductDetail(vo);
         service.updProductDetailGroup(productList);
-        System.out.println("mod" + productList.getProductList());
         return "redirect:/admin/product_master_detail?iproduct=" + vo.getIproduct();
     }
 
@@ -202,8 +195,6 @@ public class AdminController {
             model.addAttribute("msg", (cpuListLength - result) + "개의 파일이 업로드에 실패하였습니다.");
         }
 
-        System.out.println(result);
-
         return "redirect:/admin/cpu";
     }
 
@@ -221,7 +212,6 @@ public class AdminController {
 
     @PostMapping("/gpu")
     public String gpuProc(GpuListEntity gpuList, Model model) {
-        System.out.println(gpuList);
         int gpuListLength = gpuList.getGpuList().size();
         int result = service.insGpu(gpuList);
         if(gpuListLength != result) {

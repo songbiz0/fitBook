@@ -131,6 +131,65 @@
         const perf = document.querySelector('#perf');
         const searchElem = document.querySelector('#searchText');
         const selectElem = document.querySelector('#select');
+        // const delChkBoxElem = document.querySelector('#delChkBox');
+        // const delBtnElem = document.querySelector('#delBtn');
+        //
+        // delBtnElem.addEventListener('click', () => {
+        //     const delChkboxArr = document.querySelectorAll('.delChk');
+        //     const list = [];
+        //     const no = delChkboxArr.length;
+        //     let delNo = 1;
+        //     delChkboxArr.forEach(item => {
+        //         if(item.checked) {
+        //             const data = {'igpu' : item.value}
+        //             list.push(data);
+        //         }
+        //         delNo++;
+        //     });
+        //     console.log(list);
+        //     fetch('/ajax/admin/testDel', {
+        //         method : 'post',
+        //         headers : {'Content-Type' : 'application/json'},
+        //         body : JSON.stringify(list)
+        //     })
+        //         .then(res => res.json())
+        //         .then(data => {
+        //             console.log(data);
+        //         })
+        //         .catch(e => {
+        //             console.error(e);
+        //         });
+        // });
+        //
+        // delChkBoxElem.addEventListener('click', () => {
+        //     const delChkBoxArr = document.querySelectorAll('.delChk');
+        //     let chkCnt = 0;
+        //     if(delChkBoxElem.checked) {
+        //         delChkBoxArr.forEach(item => {
+        //             item.checked = true;
+        //             item.addEventListener('click', () => {
+        //                 if(!item.checked) {
+        //                     delChkBoxElem.checked = false;
+        //                 } else {
+        //                     delChkBoxArr.forEach(item => {
+        //                         if (item.checked) {
+        //                             chkCnt += 1;
+        //                         }
+        //                     });
+        //                     if (chkCnt === delChkBoxArr.length) {
+        //                         delChkBoxElem.checked = true;
+        //                     }
+        //                 }
+        //                 chkCnt = 0;
+        //             });
+        //         });
+        //     } else {
+        //         delChkBoxArr.forEach(item => {
+        //             item.checked = false;
+        //         });
+        //     }
+        // });
+
 
         const getList = (addUrl) => {
             let resultUrl = url + `startIdx=${startIdx}&rowCnt=${rowCnt}`;
@@ -289,7 +348,9 @@
                 resultUrl = `typeNo=1&search=${searchText}&select=${select}&type=performance`;
             }
             getList(resultUrl);
-        })
+        });
+
+
 
         getMaxPage();
         getList();

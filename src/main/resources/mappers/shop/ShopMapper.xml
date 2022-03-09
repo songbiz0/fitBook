@@ -58,6 +58,13 @@
         <if test="etc != null and etc.size != 0">
             AND A.istwoinone = 'Y'
         </if>
+        <if test="search != null and search != ''">
+            AND (A.nm LIKE CONCAT('%', #{search}, '%')
+                OR
+                A.product_code LIKE CONCAT('%', #{search}, '%')
+                OR
+                A.brand LIKE CONCAT('%', #{search}, '%'))
+        </if>
     </sql>
 
     <select id="selMaxPage" resultType="Integer">
@@ -334,7 +341,7 @@
         </if>
     </select>
 
-    <insert id="insOrder" useGeneratedKeys="true" keyProperty="iorder">
+    <insert id="insOrder" useGeneratedKeys="true" keyColumn="iorder, result_price" keyProperty="iorder, result_price">
         INSERT INTO t_order
             (iuser, spent_point, payment_way, result_price, order_status)
         VALUES

@@ -44,13 +44,26 @@ public class ShopService {
         List<OptionDto> optionList = mapper.selOptionList(iproduct);
         for(OptionDto dto : optionList) {
             StringBuilder sb = new StringBuilder();
-            if(dto.getHdd() > 0) {
-                sb.append("HDD ").append(dto.getHdd()).append("GB");
-                if(dto.getSsd() > 0) {
-                    sb.append(" / SSD ").append(dto.getSsd()).append("GB");
+            int hdd = dto.getHdd();
+            int ssd = dto.getSsd();
+            if(0 < hdd && hdd < 1024) {
+                sb.append("HDD ").append(hdd).append("GB");
+                if(0 < ssd && ssd < 1024) {
+                    sb.append(" / SSD ").append(ssd).append("GB");
+                } else if(ssd >= 1024) {
+                    sb.append(" / SSD ").append(ssd / 1024).append("TB");
                 }
-            } else {
+            } else if(hdd >= 1024) {
+                sb.append("HDD ").append(hdd / 1024).append("TB");
+                if(0 < ssd && ssd < 1024) {
+                    sb.append(" / SSD ").append(ssd).append("GB");
+                } else if(ssd >= 1024) {
+                    sb.append(" / SSD ").append(ssd / 1024).append("TB");
+                }
+            } else if(0 < ssd && ssd < 1024) {
                 sb.append("SSD ").append(dto.getSsd()).append("GB");
+            } else if(ssd >= 1024) {
+                sb.append("SSD ").append(ssd / 1024).append("TB");
             }
             dto.setOption(sb.toString());
         }
@@ -190,11 +203,17 @@ public class ShopService {
 
             StringBuilder sb = new StringBuilder();
             sb.append(vo.getColor());
-            if (vo.getHdd() > 0) {
-                sb.append(" / HDD ").append(vo.getHdd()).append("GB");
+            int hdd = vo.getHdd();
+            int ssd = vo.getSsd();
+            if (0 < hdd && hdd < 1024) {
+                sb.append(" / HDD ").append(hdd).append("GB");
+            } else if(hdd >= 1024) {
+                sb.append(" / HDD ").append(hdd / 1024).append("TB");
             }
-            if (vo.getSsd() > 0) {
-                sb.append(" / SSD ").append(vo.getSsd()).append("GB");
+            if (0 < ssd && ssd < 1024) {
+                sb.append(" / SSD ").append(ssd).append("GB");
+            } else if(ssd >= 1024) {
+                sb.append(" / SSD ").append(ssd / 1024).append("TB");
             }
             vo.setOption(sb.toString());
         }
@@ -233,10 +252,9 @@ public class ShopService {
     }
 
     @Transactional
-    public int order(OrderDto dto) {
+    public void order(OrderDto dto) {
         int iuser = authenticationFacade.getLoginUserPk();
         dto.setIuser(iuser);
-        int result = 0;
         dto.setIdetailList(fromJSON(dto.getIdetailList()));
         try {
             if(dto.getPayment_way().equals("무통장입금")) {
@@ -252,11 +270,15 @@ public class ShopService {
             dto.setReason("상품 구매");
             dto.setSpent_point(dto.getSpent_point() * -1);
             userService.insPointHistory(dto);
-            result = 1;
+
+            if(dto.getResult_price() == 0) {
+                dto.setOrder_status("결제완료");
+            }
+
         } catch (Exception e) {
             e.printStackTrace();
             throw e;
         }
-        return result;
+        return;
     }
 }

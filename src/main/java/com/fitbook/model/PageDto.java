@@ -34,4 +34,6 @@ public class PageDto {
     private List<String> hz;
     private List<String> battery;
     private List<String> etc;
+
+    private String search;
 }

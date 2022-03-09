@@ -45,6 +45,7 @@ public interface AdminMapper {
     List<ProductDetailVo> selProductDetail(OrderDto dto);
     OrderDetailVo selOrderDetail(OrderDto dto);
     int updOrderStatus(OrderEntity entity);
+    int returnPoint(PointEntity entity);
 
     // Parts
     int insCpu(CpuEntity entity);

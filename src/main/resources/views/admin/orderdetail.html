@@ -11,7 +11,11 @@
 </head>
 <body>
 <th:block layout:fragment="content">
-    <div id="data" th:data-iorder="${data.iorder}"></div>
+    <div id="data"
+         th:data-iorder="${data.iorder}"
+         th:data-iuser="${data.iuser}"
+         th:data-point="${data.spent_point}"
+    ></div>
     <div class="fr1 order-detail">
         <div class="fr1">
             <h3>주문 상세 내역</h3>
@@ -55,9 +59,9 @@
                     </td>
                     <td th:rowspan="${#lists.size(pd)}" >
                         <select class="init-select" th:if="${num} == 0" th:with="s=${data.order_status}">
-                            <option th:text="${data.order_status}"></option>
-                            <option th:if="${!#strings.equals(s,'입금대기')}" th:value="입금대기" th:text="입금대기"></option>
-                            <option th:if="${!#strings.equals(s,'결제완료')}" th:value="결제완료" th:text="결제완료"></option>
+                            <option th:text="${data.order_status}" th:value="${data.order_status}" id="pre-order-status"></option>
+                            <option th:if="${!#strings.equals(s,'입금대기')}" th:text="입금대기"></option>
+                            <option th:if="${!#strings.equals(s,'결제완료')}" th:text="결제완료"></option>
                             <option th:if="${!#strings.equals(s,'배송중')}" th:text="배송중"></option>
                             <option th:if="${!#strings.equals(s,'배송완료')}" th:text="배송완료"></option>
                             <option th:if="${!#strings.equals(s,'구매확정')}" th:text="구매확정"></option>

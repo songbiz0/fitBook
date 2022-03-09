@@ -10,7 +10,6 @@ import com.fitbook.model.gpu.GpuVo;
 import com.fitbook.model.order.OrderDto;
 import com.fitbook.model.order.OrderEntity;
 import com.fitbook.model.order.OrderVo;
-import com.fitbook.model.orderproduct.OrderProductVo;
 import com.fitbook.model.point.PointEntity;
 import com.fitbook.model.product.ProductDto;
 import com.fitbook.model.product.ProductVo;
@@ -18,16 +17,11 @@ import com.fitbook.model.productReview.ProductReviewVo;
 import com.fitbook.model.productquestion.ProductQuestionDto;
 import com.fitbook.model.productquestion.ProductQuestionVo;
 import com.fitbook.model.program.ProgramDto;
-import com.fitbook.model.program.ProgramEntity;
 import com.fitbook.model.program.ProgramVo;
 import com.fitbook.model.user.UserDto;
 import com.fitbook.model.user.UserVo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.multipart.MultipartFile;
-
-import java.awt.print.Pageable;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -61,7 +55,6 @@ public class AdminRestController {
     }
     @PutMapping("/updorderstatus")
     public ResultVo updOrderStatus(@RequestBody OrderEntity entity) {
-        System.out.println(entity);
         return service.updOrderStatus(entity);
     }
 
@@ -169,7 +162,6 @@ public class AdminRestController {
     }
     @PutMapping("/programDetail")
     public int updProgram(ProgramVo vo) throws Exception {
-        System.out.println(vo.getIs_mac_sup());
         return service.updProgram(vo);
     }
     @DeleteMapping("/programDetail")
@@ -179,7 +171,6 @@ public class AdminRestController {
 
     @GetMapping("/selectUserSearchList")
     private List<UserVo> selectUserSearchList(UserDto dto) throws Exception {
-        System.out.println(dto);
         return service.selectUserSearchList(dto);
     }
 
