@@ -2,9 +2,11 @@ package com.fitbook.model.address;
 
 import lombok.Getter;
 import lombok.Setter;
+import lombok.ToString;
 
 @Getter
 @Setter
+@ToString
 public class AddressEntity {
     private int iaddress;
     private int iuser;

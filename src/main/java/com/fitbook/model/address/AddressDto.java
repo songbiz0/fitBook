@@ -15,6 +15,7 @@ public class AddressDto {
     private String addr_nm;
     private String user_nm;
     private String isrep;
+    private String islatest;
 
     private String param;
 }

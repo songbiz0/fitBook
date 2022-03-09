@@ -62,6 +62,11 @@
         INNER JOIN t_product_gpu D
         ON A.igpu = D.igpu
         WHERE B.isrep = 'Y'
+          AND (
+                  SELECT SUM(stock)
+                  FROM t_product_detail
+                  WHERE iproduct = A.iproduct
+              ) > 0
     </select>
 
     <select id="selFavorite" resultType="ResultVo">

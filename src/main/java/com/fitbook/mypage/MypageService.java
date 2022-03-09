@@ -95,14 +95,14 @@ public class MypageService {
         if(dto.getOrder_status().equals("취소완료")) {
             entity.setChanged_point(vo.getSpent_point());
             userMapper.updPoint(entity);
-            entity.setReason("주문 취소");
+            entity.setReason("주문 취소로 포인트 환불");
             pointMapper.insPointHistory(entity);
         } else if(dto.getOrder_status().equals("구매확정")) {
             int changedPoint = (int)(vo.getResult_price() * 0.001);
             if(changedPoint != 0) {
                 entity.setChanged_point(changedPoint);
                 userMapper.updPoint(entity);
-                entity.setReason("상품 구매로 포인트 적립");
+                entity.setReason("주문 확정으로 포인트 적립");
                 pointMapper.insPointHistory(entity);
             }
         }
@@ -158,6 +158,13 @@ public class MypageService {
     public ResultVo insCartByIdetail(int idetail) {
         ResultVo result = new ResultVo();
         int insCartResult = productMapper.insCartByIdetail(idetail, authenticationFacade.getLoginUserPk());
+        result.setResult(insCartResult);
+        return result;
+    }
+
+    public ResultVo insCartSetOne(int idetail) {
+        ResultVo result = new ResultVo();
+        int insCartResult = productMapper.insCartSetOne(idetail, authenticationFacade.getLoginUserPk());
         result.setResult(insCartResult);
         return result;
     }
