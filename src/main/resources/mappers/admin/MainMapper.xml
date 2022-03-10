@@ -14,7 +14,8 @@
         <![CDATA[
             SELECT result_price, rdt
             FROM t_order
-            WHERE DATE(rdt) >= #{month_first_day} AND DATE(rdt) <= #{today}
+            WHERE (DATE(rdt) >= #{month_first_day} AND DATE(rdt) <= #{today})
+            AND (order_status != '취소완료' AND order_status != '환불완료')
         ]]>
     </select>
 

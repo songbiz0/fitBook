@@ -135,20 +135,35 @@ public class AdminService {
         orderVo.setProductDetails(list);
         return orderVo;
     }
-    public ResultVo updOrderStatus(OrderEntity entity) {
+    public ResultVo updOrderStatus(OrderVo orderVo) {
         ResultVo vo = new ResultVo();
-        switch (entity.getOrder_status()) {
-            case "환불완료":
+        System.out.println(orderVo);
+        List<OrderVo> orderVoList = mapper.selProductDetailListForQuantity(orderVo);
+        switch (orderVo.getOrder_status()) {
+            case "환불완료": case "취소완료" :
                 PointEntity entity1 = new PointEntity();
-                entity1.setIuser(entity.getIuser());
-                entity1.setChanged_point(entity.getSpent_point());
+                entity1.setIuser(orderVo.getIuser());
+                entity1.setChanged_point(orderVo.getSpent_point());
                 entity1.setReason("환불완료");
                 mapper.returnPoint(entity1);
                 mapper.updUserPoint(entity1);
-                entity.setCdt("Y");
+                orderVo.setCdt("Y");
+                if("입금대기".equals(orderVo.getPre_order_status())) {
+                    break;
+                }
+                for(OrderVo item : orderVoList) {
+                    item.setOper(1);
+                    mapper.updProductDetailStock(item);
+                }
+                break;
+            case "배송중":
+                for(OrderVo item : orderVoList) {
+                    item.setOper(0);
+                    mapper.updProductDetailStock(item);
+                }
                 break;
         }
-        vo.setResult(mapper.updOrderStatus(entity));
+        vo.setResult(mapper.updOrderStatus(orderVo));
         return vo;
     }
 
@@ -242,7 +257,8 @@ public class AdminService {
             vo.setIstwoinone("N");
         }
         String fileMasterNm = "";
-        if(vo.getMfFile() != null) {
+        if(!vo.getMfFile().isEmpty()) {
+            System.out.println("tt");
             UUID uuid = UUID.randomUUID();
             fileMasterNm = uuid + ".jpg";
             vo.setImg(fileMasterNm);
@@ -250,7 +266,9 @@ public class AdminService {
         int result1 = mapper.insProductMaster(vo);
         int iproduct = vo.getIproduct();
         try {
-            vo.setImg(utils.uploadFileUUID(vo.getMfFile(), fileMasterNm, "products/master", String.valueOf(iproduct)));
+            if(!vo.getMfFile().isEmpty()) {
+                vo.setImg(utils.uploadFileUUID(vo.getMfFile(), fileMasterNm, "products/master", String.valueOf(iproduct)));
+            }
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -455,7 +473,9 @@ public class AdminService {
     public ResultVo selUserQuestionMaxPage(UserDto dto) {
         return mapper.selUserQuestionMaxPage(dto);
     }
-
+    public ProductQuestionVo selIsParent(ProductQuestionDto dto) {
+        return mapper.selIsParent(dto);
+    }
     public OrderVo userOrderCnt(UserDto dto) {
         return mapper.userOrderCnt(dto);
     }
