@@ -348,6 +348,8 @@
                 }
                 data.forEach(item => {
                     const rdt = item.rdt.substr(0, 19);
+                    const price = item.result_price.toLocaleString();
+                    const point = item.spent_point.toLocaleString();
                     const trElem = document.createElement('tr');
                     trElem.classList.add('cspointer');
                     trElem.addEventListener('click', () => {
@@ -360,8 +362,8 @@
                         <td>${item.iorder}</td>
                         <td>${item.nm}</td>
                         <td>${item.payment_way}</td>
-                        <td>${item.spent_point}</td>
-                        <td>${item.result_price}</td>
+                        <td>${point}P</td>
+                        <td>${price}원</td>
                         <td>${item.order_status}</td>
                         <td>${rdt}</td>
                     `;

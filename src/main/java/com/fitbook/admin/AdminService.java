@@ -250,7 +250,7 @@ public class AdminService {
         int result1 = mapper.insProductMaster(vo);
         int iproduct = vo.getIproduct();
         try {
-            vo.setImg(utils.uploadFileUUID(vo.getMfFile(), fileMasterNm, "products\\master", String.valueOf(iproduct)));
+            vo.setImg(utils.uploadFileUUID(vo.getMfFile(), fileMasterNm, "products/master", String.valueOf(iproduct)));
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -272,7 +272,7 @@ public class AdminService {
             item.setDc_rate(item.getDc_rate() / 100);
             result2 = mapper.insProductDetail(item);
             try {
-                utils.uploadFileUUID(item.getMfFile(), fileDetailNm, "products\\detail", String.valueOf(item.getIdetail()));
+                utils.uploadFileUUID(item.getMfFile(), fileDetailNm, "products/detail", String.valueOf(item.getIdetail()));
             } catch (Exception e) {
                 e.printStackTrace();
             }
