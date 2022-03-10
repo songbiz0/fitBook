@@ -5,6 +5,8 @@
 
 http://fitbook.shop/
 
+<br>
+
 # 목차
 - [개발 환경](#개발-환경)
 - [사용 기술](#사용-기술)
@@ -15,12 +17,15 @@ http://fitbook.shop/
 - [프로젝트 목적](#프로젝트-목적)
     * [노트북 쇼핑몰 프로젝트를 기획한 이유?](#노트북-쇼핑몰-프로젝트를-기획한-이유?)
 - [핵심 기능](#핵심-기능)
-    * [기본적인 게시물 CRUD](#기본적인-CRUD)
-    * [AJAX / Rest API](#AJAX-/-Rest-API)
+    * [기본적인 게시물 CRUD](#기본적인-crud)
+    * [AJAX / Rest API](#ajax-/-rest-api)
     * [댓글과 대댓글 구현](#댓글과-대댓글-구현)
-    * [Spring Scheduler](#Spring-Scheduler)
+    * Transaction(#transaction)
+    * [Spring Scheduler](#spring-scheduler)
     * [노트북 추천 시스템](#노트북-추천-시스템)
 - [역할 분담](#역할-분담)
+
+<br>
 
 ## 개발 환경
 - IntelliJ
@@ -28,6 +33,8 @@ http://fitbook.shop/
 - GitHub
 - HeidiSQL
 - Visual Studio Code
+
+<br>
 
 ## 사용 기술
 ### 백엔드
@@ -43,6 +50,8 @@ http://fitbook.shop/
 #### Database
 - MariaDB
 
+<br>
+
 ### 프론트엔드
 - Javascript
 - HTML/CSS
@@ -54,8 +63,12 @@ http://fitbook.shop/
 - SummerNote
 - Chart.js
 
+<br>
+
 ## E-R 다이어그램
 ![image](https://github.com/songbiz0/fitBook/blob/master/img/fitbook-1.png?raw=true)
+
+<br>
 
 ## 프로젝트 목적
 
@@ -68,6 +81,8 @@ http://fitbook.shop/
 그래서 가장 처음에 만들어보고 싶었던 기능은 사용자의 질문을 기반으로 사용자의 상황에 가장 어울리는 노트북을 추천해주는 페이지였습니다.
 
 그리고 여기에 더해, 쇼핑몰 웹 사이트의 로직을 처음부터 구현해본다면 학원 과정 중 배운 내용들의 대부분을 직접 구현해볼 수 있는 좋은 기회라고 생각해 최종적으로 **사용자에게 어울리는 노트북을 추천해주는 쇼핑몰** 사이트가 프로젝트로 선정되었습니다.
+
+<br>
 
 ## 구현 기능
 
@@ -86,9 +101,9 @@ http://fitbook.shop/
 
 사용자와의 상호작용으로 인한 페이지 변환이 잦은 경우 자원의 효율적인 사용과 UX 개선을 위해 Rest API를 적극적으로 활용하였습니다.
 
-[Rest API Controller](https://github.com/songbiz0/fitBook/blob/master/src/main/java/com/fitbook/shop/ShopRestController.java#L1)
+[상품 담당 Rest Controller](https://github.com/songbiz0/fitBook/blob/master/src/main/java/com/fitbook/shop/ShopRestController.java#L1)
 
-[Javascript AJAX](https://github.com/songbiz0/fitBook/blob/230a0a25cbf5e7bedf10b66626ad2aa0aee06517/src/main/resources/static/js/mypage/list.js#L191)
+[AJAX 통신을 통해 화면을 그리는 주문 목록 페이지](https://github.com/songbiz0/fitBook/blob/230a0a25cbf5e7bedf10b66626ad2aa0aee06517/src/main/resources/static/js/mypage/list.js#L191)
 
 <br>
 
