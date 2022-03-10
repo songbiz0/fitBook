@@ -95,8 +95,10 @@ public class MypageService {
         if(dto.getOrder_status().equals("취소완료")) {
             entity.setChanged_point(vo.getSpent_point());
             userMapper.updPoint(entity);
-            entity.setReason("주문 취소로 포인트 환불");
-            pointMapper.insPointHistory(entity);
+            if(entity.getChanged_point() != 0) {
+                entity.setReason("주문 취소로 포인트 환불");
+                pointMapper.insPointHistory(entity);
+            }
         } else if(dto.getOrder_status().equals("구매확정")) {
             int changedPoint = (int)(vo.getResult_price() * 0.001);
             if(changedPoint != 0) {

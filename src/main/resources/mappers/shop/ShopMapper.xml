@@ -148,7 +148,9 @@
                B.price                              AS originalPrice,
                B.idetail,
                A.iproduct,
-               A.img
+               A.img,
+               E.rating,
+               E.ratingCount
         FROM t_product_master A
                  INNER JOIN t_product_detail B
                             ON A.iproduct = B.iproduct
@@ -266,6 +268,13 @@
         WHERE iuser = #{iuser}
           AND iproduct = #{iproduct}
           AND iquestion = #{iquestion}
+    </delete>
+
+    <delete id="delQuestionByParent">
+        DELETE
+        FROM t_product_question
+        WHERE iproduct = #{iproduct}
+        AND parent = #{iquestion}
     </delete>
 
     <select id="selPrice" resultType="ProductVo">

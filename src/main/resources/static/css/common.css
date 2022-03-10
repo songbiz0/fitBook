@@ -213,6 +213,7 @@ table {
 
 .hp:hover { cursor: pointer !important; }
 .hd { cursor: default !important; }
+.hul:hover { text-decoration: underline; }
 
 .ulfl > li { float: left; }
 

@@ -169,6 +169,9 @@ public class ShopService {
         dto.setIuser(authenticationFacade.getLoginUserPk());
         ResultVo result = new ResultVo();
         result.setResult(mapper.delQuestion(dto));
+        if(result.getResult() > 0) {
+            mapper.delQuestionByParent(dto);
+        }
         return result;
     }
 
@@ -285,9 +288,11 @@ public class ShopService {
         mapper.insOrderProduct(dto);
         mapper.delCart(dto.getIdetailList().stream().map(Integer::parseInt).collect(Collectors.toList()), iuser);
         userMapper.updPointByOrderDto(dto);
-        dto.setReason("상품 구매로 포인트 사용");
-        dto.setSpent_point(dto.getSpent_point() * -1);
-        userService.insPointHistory(dto);
+        if(dto.getSpent_point() != 0) {
+            dto.setReason("상품 구매로 포인트 사용");
+            dto.setSpent_point(dto.getSpent_point() * -1);
+            userService.insPointHistory(dto);
+        }
 
         AddressDto addressDto = new AddressDto();
         addressDto.setIuser(iuser);

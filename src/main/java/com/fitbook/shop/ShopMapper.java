@@ -30,6 +30,7 @@ public interface ShopMapper {
     List<ProductQuestionVo> selQuestionList(PageDto dto);
     int insQuestion(ProductQuestionEntity entity);
     int delQuestion(PageDto dto);
+    int delQuestionByParent(PageDto dto);
     int updQuestion(ProductQuestionEntity entity);
 
     List<ProductVo> selProductList(PageDto dto);
