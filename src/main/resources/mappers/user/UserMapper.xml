@@ -46,4 +46,10 @@
         SET point = point + #{changed_point}
         WHERE iuser = #{iuser}
     </update>
+
+    <select id="selPoint" resultType="Integer">
+        SELECT point
+        FROM t_user
+        WHERE iuser = #{iuser}
+    </select>
 </mapper>

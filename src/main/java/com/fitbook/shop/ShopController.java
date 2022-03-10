@@ -122,8 +122,14 @@ public class ShopController {
 
     @PostMapping("/order")
     public String orderProc(OrderDto dto, Model model) {
-        service.order(dto);
-        model.addAttribute("iorder", dto.getIorder());
-        return "shop/ordersuccess";
+        int result = 0;
+        try {
+            service.order(dto);
+            model.addAttribute("iorder", dto.getIorder());
+            result = 1;
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return result == 0 ? "shop/orderfail" : "shop/ordersuccess";
     }
 }

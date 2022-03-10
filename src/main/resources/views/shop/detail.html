@@ -67,7 +67,8 @@
                                 <div class="default text">색상</div>
                                 <div id="colorMenu" class="scrollhint menu">
                                     <th:block th:each="color : ${data.colorList}">
-                                        <div class="item" th:text="${color.color}" th:data-value="${colorStat.index}"></div>
+                                        <div th:if="${color.stock} != 0" class="item" th:text="${color.color}" th:data-value="${colorStat.index}"></div>
+                                        <div th:if="${color.stock} == 0" class="disabled item" th:text="${color.color} + ' (품절)'" th:data-value="${colorStat.index}"></div>
                                     </th:block>
                                 </div>
                             </div>
@@ -100,7 +101,8 @@
                     <div class="tact w100p">상품문의</div>
                 </a>
             </div>
-            <img class="mt30" th:src="@{${'/imgPath/products/master/' + data.iproduct + '/' + data.img}}">
+            <img th:if="${data.img} != null" class="mt30" th:src="@{${'/imgPath/products/master/' + data.iproduct + '/' + data.img}}">
+            <img th:if="${data.img} == null" class="mt30" th:src="@{${'/imgPath/default.jpg'}}">
             <div class="ui tabular menu frow w100p mt50" id="productReview">
                 <a class="item fs13 fr1 goToProductDetail">
                     <div class="tact w100p">상품상세</div>

@@ -182,7 +182,7 @@
                     <select class="ui selection dropdown minw100">
                         <option>선택</option> 
                     </select>
-                    <input type="text" class="innerGpu">
+                    <input type="text" class="innerGpu" readonly>
                     <div class="ui basic label">
                         내장그래픽 성능수치
                     </div>
@@ -284,9 +284,9 @@
                 const trElem = document.createElement('tr');
                 trElem.classList.add('list-tr');
                 trElem.innerHTML = `
-                    <td>${item.nm}</td>
+                    <td>${item.cpuNm}</td>
                     <td>${item.performance}</td>
-                    <td>${item.inner_gpu}</td>
+                    <td>${item.gpuNm}</td>
                     <td>${item.seq}</td>
                     <td>${item.brand}</td>
                 `;
@@ -403,10 +403,6 @@
 
         perfElem.addEventListener('click', () => {
             getListFromSortStatus(perfElem, 'performance');
-        });
-
-        innerPerfElem.addEventListener('click', () => {
-            getListFromSortStatus(innerPerfElem, 'inner_gpu');
         });
 
         getList();

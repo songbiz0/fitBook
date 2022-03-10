@@ -20,7 +20,7 @@
     <select id="selProductDetails" resultType="ProductDetailVo">
         SELECT B.nm, B.product_code, C.color, C.hdd, B.brand,
                C.ssd, C.price, D.quantity, C.img, D.result_price,
-               C.idetail
+               C.idetail, B.iproduct
         FROM t_order A
                  INNER JOIN t_order_product D
                             ON A.iorder = D.iorder

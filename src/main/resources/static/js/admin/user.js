@@ -60,6 +60,7 @@
             let currentPage = 1;
             let recordCount = 5;
             let pageCnt = 5;
+            let parent = 0;
             if (userDetailElem) {
                 const qnaBodyElem = userDetailElem.querySelector('.qna-body');
                 const qnaPageElem = userDetailElem.querySelector('.qna-pagination');
@@ -78,14 +79,27 @@
                 const getQuestionList = () => {
                     fetch(`/ajax/admin/userqna?iuser=${iuser}&startIdx=${startIdx}&recordCount=${recordCount}`)
                         .then(res => res.json())
-                        .then(data => {
-                            console.log(data);
+                        .then (data => {
+                            isParent(data);
                             setQuestionList(data);
                             getMaxPage(`/ajax/admin/qnamaxpage?iuser=${iuser}&recordCount=${recordCount}`, qnaPageElem);
                         })
                         .catch(e => {
                             console.error(e);
                         });
+                }
+                const isParent = (data) => {
+                    data.forEach(item => {
+                        fetch (`/ajax/admin/userisparent?iquestion=${item.iquestion}`)
+                            .then(res => res.json())
+                            .then(data => {
+                                parent = data.parent;
+                            })
+                            .catch(e => {
+                                console.error(e);
+                            });
+                    });
+                    console.log(parent);
                 }
                 const setQuestionList = (data) => {
                     qnaBodyElem.innerHTML = '';
@@ -105,17 +119,27 @@
                             const name = 'detail';
                             window.open(url, name, option);
                         });
-                        const parent = item.parent === 0 ? 'X' : 'O';
                         const rdt = item.rdt.substr(0, 19);
+
+                        fetch (`/ajax/admin/userisparent?iquestion=${item.iquestion}`)
+                            .then(res => res.json())
+                            .then(data => {
+                                parent = data.parent;
+                                parent = parent > 0 ? 'O' : 'X';
+                                qnaBodyElem.appendChild(trElem);
+                            })
+                            .catch(e => {
+                                console.error(e);
+                            });
+
                         trElem.innerHTML = `
-                    <td>
-                        <span>${item.productNm} (${item.color})</span>
-                    </td>
-                    <td>${item.ctnt}</td>
-                    <td>${parent}</td>
-                    <td>${rdt}</td>
-                `;
-                        qnaBodyElem.appendChild(trElem);
+                            <td id="row-span">
+                                <span>${item.productNm} (${item.color})</span>
+                            </td>
+                            <td>${item.ctnt}</td>
+                            <td>${parent}</td>
+                            <td>${rdt}</td>
+                        `;
                     });
                 }
 
@@ -316,7 +340,6 @@
                 fetch(url)
                     .then(res => res.json())
                     .then(data => {
-                        console.log(data.result);
                         makePage(data.result, elem);
                     })
                     .catch(e => {
@@ -329,7 +352,6 @@
                 fetch(`/ajax/admin/userorder?iuser=${iuser}&recordCount=${recordCount}&startIdx=${startIdx}`)
                     .then(res => res.json())
                     .then(data => {
-                        console.log(data);
                         getMaxPage(`/ajax/admin/ordermaxpage?iuser=${iuser}&recordCount=${recordCount}`, orderPageElem);
                         setOrderList(data);
                     })
@@ -346,8 +368,12 @@
                     `;
                     orderBodyElem.appendChild(tr);
                 }
+                let preIorder;
+                let iorderArr = [];
                 data.forEach(item => {
                     const rdt = item.rdt.substr(0, 19);
+                    const price = item.result_price.toLocaleString();
+                    const point = item.spent_point.toLocaleString();
                     const trElem = document.createElement('tr');
                     trElem.classList.add('cspointer');
                     trElem.addEventListener('click', () => {
@@ -358,10 +384,10 @@
                     });
                     trElem.innerHTML = `
                         <td>${item.iorder}</td>
-                        <td>${item.nm}</td>
+                        <td id="nm">${item.nm}</td>
                         <td>${item.payment_way}</td>
-                        <td>${item.spent_point}</td>
-                        <td>${item.result_price}</td>
+                        <td>${point}P</td>
+                        <td>${price}원</td>
                         <td>${item.order_status}</td>
                         <td>${rdt}</td>
                     `;

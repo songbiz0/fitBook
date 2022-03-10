@@ -43,8 +43,10 @@ public interface AdminMapper {
     List<OrderVo> selOrderList(OrderDto dto);
     ResultVo getOrderMaxPage(OrderDto dto);
     List<ProductDetailVo> selProductDetail(OrderDto dto);
+    List<OrderVo> selProductDetailListForQuantity(OrderVo vo);
     OrderDetailVo selOrderDetail(OrderDto dto);
-    int updOrderStatus(OrderEntity entity);
+    int updOrderStatus(OrderVo vo);
+    int updProductDetailStock(OrderVo vo);
     int returnPoint(PointEntity entity);
 
     // Parts
@@ -112,6 +114,7 @@ public interface AdminMapper {
     ResultVo selUserReviewMaxPage(UserDto dto);
     List<ProductQuestionVo> selUserQuestionList(UserDto dto);
     ResultVo selUserQuestionMaxPage(UserDto dto);
+    ProductQuestionVo selIsParent(ProductQuestionDto dto);
     OrderVo userOrderCnt(UserDto dto);
     ProductReviewVo userReviewCnt(UserDto dto);
     ProductQuestionVo userQuestionCnt(UserDto dto);

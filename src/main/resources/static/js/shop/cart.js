@@ -1,20 +1,26 @@
 $('#checkAll').checkbox().first().checkbox({
     onChecked: () => {
         document.querySelectorAll('.ui.checkbox').forEach(item => {
-            $(item).checkbox('set checked');
+            if(!item.classList.contains('disabled')) {
+                $(item).checkbox('set checked');
+            }
         });
+        setResultPrice();
     },
     onUnchecked: () => {
         document.querySelectorAll('.ui.checkbox').forEach(item => {
-            $(item).checkbox('set unchecked');
+            if(!item.classList.contains('disabled')) {
+                $(item).checkbox('set unchecked');
+            }
         });
+        setResultPrice();
     }
 });
 
+let totalPrice = 0;
 const tbodyElem = document.querySelector('#tbody');
 const makeList = list => {
     tbodyElem.innerHTML = '';
-    let totalPrice = 0;
 
     if(list.length === 0) {
         const tr = document.createElement('tr');
@@ -26,7 +32,7 @@ const makeList = list => {
 
     list.forEach(item => {
         const tr = document.createElement('tr');
-        totalPrice += item.price * item.quantity;
+        tr.classList.add('productTr');
         tr.innerHTML =
             `<td><div class="ui checkbox" data-idetail="${item.idetail}"><input type="checkbox"><label></label></div></td>
                     <td>
@@ -41,11 +47,11 @@ const makeList = list => {
                         </div>
                     </td>
                     <td>
-                        <div class="w40 ib">
-                            <div class="ui mini fluid selection dropdown">
+                        <div id="dropdownSize" class="w40 ib">
+                            <div id="quantityDropdown" class="ui mini fluid selection dropdown">
                                 <input type="hidden" name="quantity">
                                 <i class="dropdown icon"></i>
-                                <div class="default text cb">${item.quantity}</div>
+                                <div id="quantity" class="default text cb">${item.quantity}</div>
                                 <div class="scrollhint menu"></div>
                             </div>
                         </div>
@@ -55,13 +61,37 @@ const makeList = list => {
                         <p>(${item.accumulate.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",") + '원 적립 예정)'}</p></td>
                     <td><b class="resultPriceB">${(item.price * item.quantity).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",") + '원'}</b></td>`
 
+        const quantityDropdown = tr.querySelector('#quantityDropdown');
         const menuElem = tr.querySelector('.scrollhint.menu');
-        for(let i=1; i<=item.stock; i++) {
-            const div = document.createElement('div');
-            div.className = 'item';
-            div.innerText = i;
-            menuElem.appendChild(div);
+
+        const checkbox = tr.querySelector('.ui.checkbox');
+        if(item.stock > 0) {
+            for(let i=1; i<=item.stock; i++) {
+                const div = document.createElement('div');
+                div.className = 'item';
+                div.innerText = i;
+                menuElem.appendChild(div);
+            }
+
+            totalPrice += item.price * item.quantity;
+        } else {
+            const dropdownSizeElem = tr.querySelector('#dropdownSize');
+            const quantityElem = quantityDropdown.querySelector('#quantity');
+            dropdownSizeElem.classList.add('w60');
+            quantityElem.classList.add('w40');
+            quantityDropdown.classList.add('disabled');
+            quantityElem.innerText = '품절';
+
+            const checkboxInput = checkbox.querySelector('input');
+            checkbox.classList.add('disabled');
+            checkboxInput.setAttribute('disabled', 'disabled');
+            checkboxInput.classList.add('hd');
         }
+        $(checkbox).checkbox({
+            onChange: () => {
+                setResultPrice();
+            }
+        });
 
         const dropdownElem = tr.querySelector('.dropdown.ui')
         $(dropdownElem).dropdown('setting', 'onChange', () => {
@@ -79,7 +109,7 @@ const makeList = list => {
         tbodyElem.append(tr);
     });
 
-    document.querySelector('#totalPriceB').innerText = totalPrice.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",") + '원';
+    setTotalPrice();
 }
 
 const loadList = () => {
@@ -147,7 +177,9 @@ document.querySelector('#entireOrderBtn').addEventListener('click', () => {
     productsElem.forEach(item => {
         if(!item.classList.contains('nullMessage')) {
             const eachChkElem = item.querySelector('.ui.checkbox');
-            productsArr.push(eachChkElem.dataset.idetail);
+            if(!eachChkElem.classList.contains('disabled')) {
+                productsArr.push(eachChkElem.dataset.idetail);
+            }
         }
     });
     if(productsArr.length === 0) {
@@ -158,3 +190,23 @@ document.querySelector('#entireOrderBtn').addEventListener('click', () => {
     URLSearch.append('list', JSON.stringify(productsArr));
     location.href = '/shop/order?' + URLSearch;
 });
+
+const setResultPrice = () => {
+    const productTrElems = document.querySelectorAll('.productTr');
+    let priceSum = 0;
+    productTrElems.forEach(item => {
+        const checkbox = item.querySelector('.ui.checkbox');
+        if($(checkbox).checkbox('is checked')) {
+            priceSum += Number(item.querySelector('.resultPriceB').innerText.replaceAll(',', '').replace('원', ''));
+        }
+    });
+    if(productTrElems.length !== 0 && priceSum === 0) {
+        setTotalPrice();
+    } else {
+        document.querySelector('#totalPriceB').innerText = priceSum.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",") + '원';
+    }
+}
+
+const setTotalPrice = () => {
+    document.querySelector('#totalPriceB').innerText = totalPrice.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",") + '원';
+}

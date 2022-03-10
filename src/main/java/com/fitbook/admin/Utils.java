@@ -122,16 +122,16 @@ public class Utils {
         return fileNm;
     }
 
-    public String productImgUpdate(MultipartFile mf, String type, String code) throws Exception {
-        // type => master 인지 detail 인지
-        String projectPath =  System.getProperty("user.dir") + "\\src\\main\\resources\\static\\images\\products\\" + type + "\\" + code + "\\"; // + 상픔코드
-        File file = new File(projectPath);
-        //TODO pk 값으로 조회해서 같은 폴더에 있는 이미지 삭제 후 다시 삽입
-        if(!file.exists()) {
-            return null;
-        }
-        return null;
-    }
+//    public String productImgUpdate(MultipartFile mf, String type, String code) throws Exception {
+//        // type => master 인지 detail 인지
+//        String projectPath =  System.getProperty("user.dir") + "\\src\\main\\resources\\static\\images\\products\\" + type + "\\" + code + "\\"; // + 상픔코드
+//        File file = new File(projectPath);
+//        //TODO pk 값으로 조회해서 같은 폴더에 있는 이미지 삭제 후 다시 삽입
+//        if(!file.exists()) {
+//            return null;
+//        }
+//        return null;
+//    }
 
     public int getPageNum(String page) {
         int result;

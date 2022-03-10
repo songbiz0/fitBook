@@ -148,4 +148,6 @@ public class UserService {
     public int insPointHistory(OrderDto dto) {
         return pointMapper.insPointHistoryByOrderDto(dto);
     }
+
+    public int selPoint() { return mapper.selPoint(authenticationFacade.getLoginUserPk()); }
 }

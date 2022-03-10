@@ -143,6 +143,12 @@
         WHERE A.iorder = ${iorder}
     </select>
 
+    <select id="selProductDetailListForQuantity" resultType="OrderVo">
+        SELECT quantity, idetail
+        FROM t_order_product
+        WHERE iorder = ${iorder}
+    </select>
+
     <update id="updOrderStatus">
         UPDATE t_order
         SET order_status = #{order_status}, pre_order_status = #{pre_order_status}
@@ -155,4 +161,10 @@
          VALUES
          (${iuser}, ${changed_point}, #{reason})
     </update>
+    <update id="updProductDetailStock">
+        UPDATE t_product_detail
+        SET stock = stock <if test="oper == 0">-</if><if test="oper == 1">+</if> ${quantity}
+        WHERE idetail = ${idetail}
+    </update>
+
 </mapper>

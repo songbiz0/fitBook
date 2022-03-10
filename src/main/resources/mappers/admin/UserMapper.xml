@@ -29,8 +29,8 @@
     </select>
 
     <select id="selUserList" resultType="UserVo">
-        SELECT ifnull(result_price, 0) AS result_price, iuser, uid
-             , nm, email, rdt, `point`, recent_rdt, ifnull(recent_price, 0) AS recent_price
+        SELECT ifnull(sum(result_price), 0) AS result_price, iuser, uid
+             , nm, email, rdt, `point`, recent_rdt, ifnull(sum(recent_price), 0) AS recent_price
         FROM
             (
                 SELECT A.iuser, A.uid, A.nm, A.email, A.rdt, A.`point`
@@ -47,12 +47,7 @@
                                    ON C.iorder = B.iorder
                 WHERE A.role = 'ROLE_USER'
                   AND (B.order_status != '취소완료' OR B.order_status != '환불완료' OR B.order_status IS NULL)
-                <if test="keyword != null and keyword != ''">
-                    AND ${type} LIKE CONCAT('%', #{keyword}, '%')
-                </if>
-                <if test="exceptNull == 1">
-                    AND NOT B.rdt IS NULL
-                </if>
+
                 ORDER BY A.rdt DESC
                     LIMIT 18446744073709551615
             ) P
@@ -138,10 +133,13 @@
         ON E.iproduct = D.iproduct
         WHERE A.iuser = ${iuser}
         ORDER BY B.rdt DESC
+        LIMIT ${startIdx}, ${recordCount}
     </select>
     <select id="selUserOrderMaxPage" resultType="ResultVo">
-        SELECT CEIL(COUNT(iorder) / ${recordCount}) AS result
-        FROM t_order
+        SELECT CEIL(COUNT(B.iorder) / ${recordCount}) AS result
+        FROM t_order A
+        INNER JOIN t_order_product B
+        ON A.iorder = B.iorder
         WHERE iuser = ${iuser}
     </select>
 
@@ -171,7 +169,7 @@
     </select>
     <select id="selUserQuestionList" resultType="ProductQuestionVo">
         SELECT B.iproduct, B.ctnt, B.parent, B.rdt
-             , C.nm AS productNm, D.color
+             , C.nm AS productNm, D.color, B.iquestion
         FROM t_user A
         INNER JOIN t_product_question B
         ON A.iuser = B.iuser
@@ -182,6 +180,13 @@
         WHERE A.iuser = ${iuser}
         ORDER BY B.rdt DESC
         LIMIT ${startIdx}, ${recordCount}
+    </select>
+    <select id="selIsParent" resultType="ProductQuestionVo">
+        SELECT B.parent, B.iquestion
+        FROM t_user A
+        INNER JOIN t_product_question B
+        ON A.iuser = B.iuser
+        WHERE B.parent = ${iquestion}
     </select>
     <select id="selUserQuestionMaxPage" resultType="ResultVo">
         SELECT ceil(count(iquestion) / ${recordCount}) AS result

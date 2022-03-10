@@ -239,7 +239,7 @@ const makeOrderList = list => {
         tr.innerHTML =
             `<td rowspan=${item.productDetails.length} class="btline">
                 <div>
-                    <a href="/mypage/order/detail?iorder=${item.iorder}" class="cb"><div>${item.iorder}</div></a>
+                    <a href="/mypage/order/detail?iorder=${item.iorder}" class="cb hul"><div>${item.iorder}</div></a>
                     <div>${item.rdt}</div>
                 </div>
             </td>`
@@ -368,9 +368,9 @@ const makeProductDetailList = (trElem, productDetailItem, orderItem, orderConfir
     const td = document.createElement('td');
     td.innerHTML =
         `<div class="frow w100p ct gap20">
-                    <img src="/imgPath/products/detail/${productDetailItem.idetail}/${productDetailItem.img}" width="100px" height="100px">
+                    <a href="/shop/detail?iproduct=${productDetailItem.iproduct}"><img src="/imgPath/products/detail/${productDetailItem.idetail}/${productDetailItem.img}" width="100px" height="100px"></a>
                     <div class="taleft minw140">
-                        <div class="mb5">${productDetailItem.brand} ${productDetailItem.nm}</div>
+                        <a href="/shop/detail?iproduct=${productDetailItem.iproduct}" class="cb hul"><div class="mb5">${productDetailItem.brand} ${productDetailItem.nm}</div></a>
                         <div class="mb5">${productDetailItem.product_code}</div>
                         <div class="c777777">
                             옵션 : ${productDetailItem.option}
@@ -400,6 +400,9 @@ const makeProductDetailList = (trElem, productDetailItem, orderItem, orderConfir
             `<div>
                     <button class="ui secondary mini button" id="writeReviewBtn">후기 작성</button>
                 </div>`
+        td4.addEventListener('click', () => {
+            location.href = `/shop/detail?iproduct=${productDetailItem.iproduct}#productQuestion`;
+        });
         trElem.appendChild(td4);
     }
 }

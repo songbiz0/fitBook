@@ -1,25 +1,3 @@
-const makeErrorToast = msg => {
-    $(document).ready(() => {
-            $('body').toast({
-                class: 'error',
-                message: msg
-            });
-        }
-    );
-}
-
-const makeInfoToast = msg => {
-    $(document).ready(() => {
-            $('body').toast({
-                class: 'info',
-                message: msg
-            });
-        }
-    );
-}
-
-//
-
 const maxPageUrl = '/mypage/api/maxpagefav';
 const getListUrl = '/mypage/api/favlist';
 const nullMessage = '좋아요한 상품이 없습니다.';
@@ -160,10 +138,13 @@ const makeList = list => {
              <td><div class="ui checkbox chk"><input type="checkbox"><label></label></div></td>
              <td>
                 <div class="fr w100p ct gap20">
-                    <img src="${item.img}"
-                                 width="100px" height="100px">
+                <a href="/shop/detail?iproduct=${item.iproduct}">
+                        <img src="/imgPath/products/detail/${item.idetail}/${item.img}" width="100px" height="100px">
+                    </a>
                             <div class="taleft">
-                                <div class="mb5">${item.brand} ${item.nm}</div>
+                            <a href="/shop/detail?iproduct=${item.iproduct}" class="cb hul">
+                                    <div class="mb5">${item.brand} ${item.nm}</div>
+                                </a>
                                 <div class="mb5">${item.product_code}</div>
                             </div>
                 </div>

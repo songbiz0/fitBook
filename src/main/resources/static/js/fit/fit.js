@@ -22,8 +22,6 @@ $('#simpleChk').checkbox().first().checkbox({
 });
 
 $(() => {
-    $('.q0').transition('fade up');
-
     fetch('/fit/api/programlist')
         .then(res => res.json())
         .then(data => {
@@ -240,6 +238,7 @@ const makeProductList = list => {
                     li.querySelector('#starSpan').innerText = data.result;
                 }).catch(err => { console.error(err); });
         }
+        selRating();
 
         const isFavorite = () => {
             fetch('/fit/api/isfavorite?iproduct=' + item.iproduct)
@@ -260,10 +259,8 @@ const makeProductList = list => {
                 .then(data => {
                     if(data.result === 1) {
                         li.querySelector('#starI').classList.add('cgold');
-                        li.querySelector('#starSpan').innerText = data.resultFloat;
                     } else {
                         li.querySelector('#starI').classList.remove('cgold');
-                        selRating();
                     }
                 }).catch(err => { console.error(err); });
         }

@@ -224,6 +224,8 @@
                     if (item.cnt != 0) {
                         cnt = '외 ' + item.cnt + '건'
                     }
+                    const price = item.result_price.toLocaleString();
+                    const point = item.spent_point.toLocaleString();
                     trElem.innerHTML = `
                         <td>
                             <p class="mb5">${item.rdt}</p>
@@ -245,10 +247,10 @@
                             <p class="mb5">${item.uid}</p>
                             <p>${item.userNm}</p>
                         </td>
-                        <td>${item.spent_point}</td>
+                        <td>${point}P</td>
                         <td>${item.payment_way}</td>
                         <td>${item.order_status}</td>
-                        <td>${item.result_price}</td>
+                        <td>${price}원</td>
                         <td>${item.cdt}</td>
                     `;
                     tBodyElem.appendChild(trElem);

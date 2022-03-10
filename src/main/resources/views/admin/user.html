@@ -31,10 +31,6 @@
                     <option th:selected="${#strings.equals(param.sort, 'recent_rdt-desc')}" value="recent_rdt-desc">최근거래 일 내림차순</option>
                     <option th:selected="${#strings.equals(param.sort, 'recent_rdt-asc')}" value="recent_rdt-asc">최근거래 일 오름차순</option>
                 </select>
-                <label>
-                    <input th:checked="${#strings.equals(param.exceptNull, 1)}" type="checkbox" name="exceptNull" value="1">
-                    <span>없음 제외</span>
-                </label>
             </div>
         </form>
 
