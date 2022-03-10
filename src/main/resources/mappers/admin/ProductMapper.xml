@@ -28,9 +28,8 @@
 
     <select id="selProductList" resultType="ProductVo">
         SELECT * FROM (
-
         SELECT ROW_NUMBER() OVER(ORDER BY A.iproduct) AS num , A.iproduct, A.nm, A.product_code,A.brand,
-        B.img, B.price, B.idetail, C.stock, F.master_total, IFNULL(J.month_total,0) AS month_total, ifnull(K.rating,0) AS rating , ifnull(K.ratingCount,0) AS ratingCount
+        B.img, B.price, B.idetail, C.stock, IFNULL(F.master_total,0) AS master_total, IFNULL(J.month_total,0) AS month_total, ifnull(K.rating,0) AS rating , ifnull(K.ratingCount,0) AS ratingCount
         FROM t_product_master A
         INNER JOIN t_product_detail B
         ON A.iproduct = B.iproduct
@@ -40,12 +39,14 @@
         GROUP BY iproduct
         )C
         ON C.iproduct = A.iproduct
-        INNER JOIN (
-        SELECT ifnull(SUM(result_price), 0) AS master_total, D.iproduct
+        LEFT JOIN (
+        SELECT ifnull(SUM(E.result_price), 0) AS master_total, D.iproduct
         FROM t_product_detail D
         LEFT JOIN t_order_product E
         ON D.idetail = E.idetail
-        WHERE D.iproduct
+        LEFT JOIN t_order L
+        ON E.iorder = L.iorder
+        WHERE D.iproduct AND L.order_status LIKE CONCAT('%','구매확정','%')
         GROUP BY D.iproduct
         ) F
         ON F.iproduct = A.iproduct
@@ -57,7 +58,7 @@
         INNER JOIN t_order I
         ON H.iorder = I.iorder
         WHERE I.rdt BETWEEN DATE_ADD(NOW(),INTERVAL -3 MONTH) AND NOW()
-        AND G.iproduct
+        AND G.iproduct AND I.order_status LIKE CONCAT('%','구매확정','%')
         GROUP BY G.iproduct
         ) J
         ON J.iproduct = A.iproduct
@@ -85,7 +86,7 @@
     </select>
 
     <select id="selProductMasterDetail" resultType="ProductVo">
-        SELECT A.rdt, B.price , B.ssd, B.hdd, B.color, B.stock, C.nm, D.nm,G.detail_total,IFNULL(K.detail_month_total,0),B.img
+        SELECT A.rdt, B.price , B.ssd, B.hdd, B.color, B.stock, C.nm, D.nm,G.detail_total,IFNULL(K.detail_month_total,0) AS detail_month_total,B.img
              , B.idetail
         FROM t_product_master A
         INNER JOIN t_product_detail B
@@ -99,7 +100,9 @@
             FROM t_product_detail E
             LEFT JOIN t_order_product F
             ON E.idetail = F.idetail
-            WHERE E.iproduct
+            LEFT JOIN t_order L
+            ON F.iorder = L.iorder
+            WHERE E.iproduct AND L.order_status LIKE CONCAT('%','구매확정','%')
             GROUP BY E.idetail
         ) G
         ON B.idetail = G.idetail
@@ -111,7 +114,7 @@
             LEFT JOIN t_order J
             ON I.iorder = J.iorder
             WHERE J.rdt BETWEEN DATE_ADD(NOW(),INTERVAL -3 MONTH) AND NOW()
-            AND H.iproduct
+            AND H.iproduct AND J.order_status LIKE CONCAT('%','구매확정','%')
             GROUP BY H.idetail
         ) K
         ON B.idetail = K.idetail
@@ -121,9 +124,9 @@
     </select>
 
     <select id="selProductMasterDetail2" resultType="ProductVo">
-        SELECT A.product_code, A.nm, A.rdt, A.brand, A.ram, A.size, A.weight, A.os,
+        SELECT A.product_code, A.nm, date(A.rdt) AS rdt , A.brand, A.ram, A.size, A.weight, A.os,
                B.idetail, C.nm AS cpu, D.nm AS gpu,  B.img, A.iproduct, A.hz, A.battery,
-               A.istwoinone, A.resolution, G.total_price, IFNULL(K.month_total,0),A.icpu,A.igpu
+               A.istwoinone, A.resolution, IFNULL(G.total_price,0) AS total_price, IFNULL(K.month_total,0) AS month_total ,A.icpu,A.igpu
         FROM t_product_master A
         INNER JOIN t_product_detail B
         ON A.iproduct = B.iproduct
@@ -136,7 +139,9 @@
             FROM t_product_detail E
             LEFT JOIN t_order_product F
             ON E.idetail = F.idetail
-            WHERE E.iproduct = ${iproduct}
+            LEFT JOIN t_order L
+            ON F.iorder = L.iorder
+            WHERE E.iproduct = ${iproduct} AND L.order_status LIKE CONCAT('%','구매확정','%')
         )G
         ON A.iproduct = G.iproduct
         LEFT JOIN(
@@ -147,7 +152,7 @@
             LEFT JOIN t_order J
             ON I.iorder = J.iorder
             WHERE J.rdt BETWEEN DATE_ADD(NOW(),INTERVAL -3 MONTH) AND NOW()
-            AND H.iproduct
+            AND H.iproduct AND J.order_status LIKE CONCAT('%','구매확정','%')
             GROUP BY H.iproduct
         ) K
         ON K.iproduct = A.iproduct

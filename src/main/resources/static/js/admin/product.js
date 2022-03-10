@@ -46,6 +46,7 @@
                 trElem.classList.add('cspointer')
                 const master_total = item.master_total.toLocaleString();
                 const month_total = item.month_total.toLocaleString();
+                const rating = item.rating.toFixed(1);
                 trElem.innerHTML = `
             <td>${item.num}</td>
             <td>${item.product_code}</td>
@@ -59,9 +60,13 @@
             </td>
             <td>${item.brand}</td>
             <td>${item.stock} EA</td>
-            <td>${master_total}원</td>
             <td>${month_total}원</td>
-            <td>${item.rating} / ${item.ratingCount}</td>
+             <td>${master_total}원</td>
+            <td>
+                <span>
+                    <i class="star icon"></i><span>${rating} (${item.ratingCount})</span>
+                </span>
+            </td>
             `;
                 trElem.addEventListener('click', e => {
                     location.href = `/admin/product_master_detail?iproduct=${item.iproduct}`
