@@ -127,7 +127,6 @@ public class FitService {
             if(product.getBrand().equals("삼성") || product.getBrand().equals("LG")) {
                 asScore = 5;
             }
-            // TODO 다른 브랜드들
         }
         fitness += asScore;
 

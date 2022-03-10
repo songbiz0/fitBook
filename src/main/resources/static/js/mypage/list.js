@@ -1,23 +1,3 @@
-const makeErrorToast = msg => {
-    $(document).ready(() => {
-            $('body').toast({
-                class: 'error',
-                message: msg
-            });
-        }
-    );
-}
-
-const makeInfoToast = msg => {
-    $(document).ready(() => {
-            $('body').toast({
-                class: 'info',
-                message: msg
-            });
-        }
-    );
-}
-
 const todayBtnElem = document.querySelector('#todayBtn');
 const weekBtnElem = document.querySelector('#weekBtn');
 const fifteenDayBtnElem = document.querySelector('#fifteenDayBtn');

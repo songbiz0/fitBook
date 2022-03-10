@@ -14,4 +14,5 @@ public interface PointMapper {
     List<PointEntity> selPointHistoryList(PageDto dto);
     int insPointHistoryByOrderDto(OrderDto dto);
     int insPointHistory(PointEntity entity);
+    int insPointHisotryMidnight(List<PointEntity> list);
 }
