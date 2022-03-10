@@ -80,7 +80,7 @@ http://fitbook.shop/
 ![image](https://github.com/songbiz0/fitBook/blob/master/img/shipment.png?raw=true)
 [사용자 페이지 배송지 등록]
 
-
+<br>
 
 ### AJAX / Rest API
 
@@ -90,7 +90,7 @@ http://fitbook.shop/
 
 [Javascript AJAX](https://github.com/songbiz0/fitBook/blob/230a0a25cbf5e7bedf10b66626ad2aa0aee06517/src/main/resources/static/js/mypage/list.js#L191)
 
-
+<br>
 
 ### 댓글과 대댓글 구현
 
@@ -101,7 +101,7 @@ http://fitbook.shop/
 ![image](https://github.com/songbiz0/fitBook/blob/master/img/comment.png?raw=true)
 [상품 문의/댓글 페이지]
 
-
+<br>
 
 ### Transaction
 
@@ -109,7 +109,7 @@ http://fitbook.shop/
 
 [트랜잭션을 활용한 주문 메소드](https://github.com/songbiz0/fitBook/blob/230a0a25cbf5e7bedf10b66626ad2aa0aee06517/src/main/java/com/fitbook/shop/ShopService.java#L267)
 
-
+<br>
 
 ### Spring Scheduler
 
@@ -118,7 +118,7 @@ http://fitbook.shop/
 ![image](https://github.com/songbiz0/fitBook/blob/master/img/scheduler.png?raw=true)
 [매일 자정마다 주문 상태 변경과 포인트 지급이 자동으로 진행되는 시스템]
 
-
+<br>
 
 ### 노트북 추천 시스템
 
@@ -126,6 +126,8 @@ http://fitbook.shop/
 
 ![image](https://github.com/songbiz0/fitBook/blob/master/img/recommendation.png?raw=true)
 [상품마다 표시되는 적합도]
+
+<br>
 
 ## 역할 분담
 김민재 (songbiz00@gmail.com) : 사용자 페이지 총괄, 스프링 시큐리티, DB 설계
