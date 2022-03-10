@@ -281,10 +281,10 @@
         let searchElem = document.querySelector('#searchText');
         let result;
         let maxPage;
-        let pageCnt = 3;
+        let pageCnt = 5;
         let currentPage = 1;
         let startIdx = 0;
-        let rowCnt = 3;
+        let rowCnt = 5;
         let selectedSeq = '';
         let url = `/ajax/admin/programSearch?`;
 

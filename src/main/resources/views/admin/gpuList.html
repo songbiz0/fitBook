@@ -11,14 +11,14 @@
 
 <th:block layout:fragment="content">
   <div class="w100p">
-    <div class="gpuListFrm">
+    <div class="gpuListFrm mb10">
       <div class="searchDiv">
-        <div>
-        <select id="select">
-          <option value="nm">GPU명</option>
-          <option value="brand">브랜드</option>
-        </select>
-        <input type="search" placeholder="검색" id="searchText">
+        <div class="ui right labeled input">
+          <select id="select" class="ui selection dropdown minw100">
+            <option value="nm">GPU명</option>
+            <option value="brand">브랜드</option>
+          </select>
+          <input type="search" placeholder="검색" id="searchText">
         </div>
         <div class="frow gap10">
           <i class="fa-solid fa-angle-up" id="seq"> 세대</i>

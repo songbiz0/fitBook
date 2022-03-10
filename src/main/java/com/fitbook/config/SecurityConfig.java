@@ -31,7 +31,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .antMatchers("/shop/cart").authenticated()
                 .antMatchers("/shop/order").authenticated()
                 .antMatchers("/admin/**").access("hasRole('ROLE_ADMIN')")
-                .antMatchers("/notice/writenotice").access("hasRole(ROLE_ADMIN)")
+                .antMatchers("/notice/writenotice").access("hasRole('ROLE_ADMIN')")
                 .anyRequest().permitAll()
                 .and()
                 .formLogin()
