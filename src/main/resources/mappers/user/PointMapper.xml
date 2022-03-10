@@ -25,4 +25,14 @@
         VALUES
             (#{iuser}, #{changed_point}, #{reason})
     </insert>
+    <insert id="insPointHisotryMidnight">
+        INSERT INTO t_point
+            (iuser, changed_point, reason)
+        VALUES
+            <foreach collection="list" item="item" separator=",">
+               <if test="item.changed_point != 0">
+                    (#{item.iuser}, #{item.changed_point}, '구매 확정으로 포인트 적립')
+               </if>
+            </foreach>
+    </insert>
 </mapper>

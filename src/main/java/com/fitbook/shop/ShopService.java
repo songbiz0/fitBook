@@ -8,11 +8,14 @@ import com.fitbook.model.PageDto;
 import com.fitbook.model.address.AddressDto;
 import com.fitbook.model.address.AddressEntity;
 import com.fitbook.model.order.OrderDto;
+import com.fitbook.model.point.PointEntity;
 import com.fitbook.model.product.*;
 import com.fitbook.model.productReview.ProductReviewEntity;
 import com.fitbook.model.productReview.ProductReviewVo;
 import com.fitbook.model.productquestion.ProductQuestionEntity;
 import com.fitbook.model.productquestion.ProductQuestionVo;
+import com.fitbook.order.OrderMapper;
+import com.fitbook.user.PointMapper;
 import com.fitbook.user.UserMapper;
 import com.fitbook.user.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -28,6 +31,10 @@ public class ShopService {
 
     @Autowired
     private ShopMapper mapper;
+    @Autowired
+    private OrderMapper orderMapper;
+    @Autowired
+    private PointMapper pointMapper;
     @Autowired
     private FitService fitService;
     @Autowired
@@ -262,6 +269,19 @@ public class ShopService {
     public AddressEntity selAddr(AddressDto dto) {
         dto.setIuser(authenticationFacade.getLoginUserPk());
         return addressMapper.selAddr(dto);
+    }
+
+    public void updOrderMidnight() {
+        orderMapper.updOrderMidnight();
+        List<PointEntity> list = orderMapper.selOrderMidnight();
+        int result = 0;
+        if(list.size() != 0) {
+            result = pointMapper.insPointHisotryMidnight(list);
+            for(PointEntity entity : list) {
+                userMapper.updPoint(entity);
+            }
+        }
+        System.out.println("배송 완료 후 2주가 지난 주문이 " + list.size() + "건 구매 확정, " + result + "건에 대해 포인트 지급이 완료되었습니다.");
     }
 
     @Transactional(rollbackFor = Exception.class)

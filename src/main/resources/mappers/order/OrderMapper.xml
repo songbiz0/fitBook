@@ -77,4 +77,20 @@
         WHERE iorder = #{iorder}
         AND iuser = #{iuser}
     </update>
+
+    <update id="updOrderMidnight">
+        UPDATE t_order
+        SET order_status = '구매확정',
+            confirm_date = CURDATE()
+        WHERE cdt IS NULL
+        AND confirm_date IS NULL
+        AND complete_date NOT BETWEEN DATE_ADD(NOW(), interval -14 day) AND NOW()
+        AND order_status = '배송완료'
+    </update>
+
+    <select id="selOrderMidnight" resultType="PointEntity">
+        SELECT iuser, ROUND(result_price / 1000) AS changed_point
+        FROM t_order
+        WHERE confirm_date = CURDATE()
+    </select>
 </mapper>
