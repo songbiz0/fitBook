@@ -55,7 +55,7 @@ http://fitbook.shop/
 - Chart.js
 
 ## E-R 다이어그램
-![image](https://github.com/songbiz0/fitBook/blob/master/img/fitbook-1.png)
+![image](https://github.com/songbiz0/fitBook/blob/master/img/fitbook-1.png?raw=true)
 
 ## 프로젝트 목적
 
@@ -77,18 +77,16 @@ http://fitbook.shop/
 
 또한 사용자와 관리자가 같이 접근할 수 있는 공지사항 페이지는 글쓰기 기능의 경우 관리자 권한을 가지고 있는 경우에만 접근할 수 있도록 **시큐리티 설정**을 하였습니다.
 
-![image](https://github.com/songbiz0/fitBook/blob/master/img/shipment.png)
+![image](https://github.com/songbiz0/fitBook/blob/master/img/shipment.png?raw=true)
 [사용자 페이지 배송지 등록]
 
 ### AJAX / Rest API
 
 사용자와의 상호작용으로 인한 페이지 변환이 잦은 경우 자원의 효율적인 사용과 UX 개선을 위해 Rest API를 적극적으로 활용하였습니다.
 
-[Rest API Controller]
-(https://github.com/songbiz0/fitBook/blob/master/src/main/java/com/fitbook/shop/ShopRestController.java)
+[Rest API Controller](https://github.com/songbiz0/fitBook/blob/master/src/main/java/com/fitbook/shop/ShopRestController.java#L1)
 
-[Javascript AJAX]
-(https://github.com/songbiz0/fitBook/blob/230a0a25cbf5e7bedf10b66626ad2aa0aee06517/src/main/resources/static/js/mypage/list.js#L191)
+[Javascript AJAX](https://github.com/songbiz0/fitBook/blob/230a0a25cbf5e7bedf10b66626ad2aa0aee06517/src/main/resources/static/js/mypage/list.js#L191)
 
 ### 댓글과 대댓글 구현
 
@@ -96,7 +94,7 @@ http://fitbook.shop/
 
 댓글 모델 내에 또 다른 댓글 리스트를 멤버 필드로 가질 수 있도록 모델 구조를 작성하여 대댓글의 개수와 관계없이 일정한 수의 댓글이 한 페이지에 표시될 수 있도록 하였습니다.
 
-![image](https://github.com/songbiz0/fitBook/blob/master/img/comment.png)
+![image](https://github.com/songbiz0/fitBook/blob/master/img/comment.png?raw=true)
 [상품 문의/댓글 페이지]
 
 ### Transaction
@@ -110,14 +108,14 @@ http://fitbook.shop/
 
 배송 완료 후 2주가 지나면 자동으로 주문 확정이 되며 적립금이 지급되는 시스템을 구현하기 위해서 **Spring Scheduler** 기능을 사용하였습니다.
 
-![image](https://github.com/songbiz0/fitBook/blob/master/img/scheduler.png)
+![image](https://github.com/songbiz0/fitBook/blob/master/img/scheduler.png?raw=true)
 [매일 자정마다 주문 상태 변경과 포인트 지급이 자동으로 진행되는 시스템]
 
 ### 노트북 추천 시스템
 
 사이트에서 제공하는 질문에 대한 답변을 기반으로 개인마다 해당 노트북이 얼마나 어울리는지를 **적합도**로 환산해 제공하는 기능을 구현하였습니다.
 
-![image](https://github.com/songbiz0/fitBook/blob/master/img/recommendation.png)
+![image](https://github.com/songbiz0/fitBook/blob/master/img/recommendation.png?raw=true)
 [상품마다 표시되는 적합도]
 
 ## 역할 분담
