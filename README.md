@@ -20,7 +20,7 @@ http://fitbook.shop/
     * [기본적인 게시물 CRUD](#기본적인-crud)
     * [AJAX / Rest API](#ajax-/-rest-api)
     * [댓글과 대댓글 구현](#댓글과-대댓글-구현)
-    * Transaction(#transaction)
+    * [Transaction](#transaction)
     * [Spring Scheduler](#spring-scheduler)
     * [노트북 추천 시스템](#노트북-추천-시스템)
 - [역할 분담](#역할-분담)
