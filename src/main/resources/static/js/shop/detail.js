@@ -438,7 +438,7 @@ orderBtnElem.addEventListener('click', () => {
     fetch('/shop/api/selordercount?iproduct=' + iproduct)
         .then(res => res.json())
         .then(data => {
-            isOrdered = data.result > 1;
+            isOrdered = data.result > 0;
             reviewWriteBtnElem.addEventListener('click', () => {
                 if(dataElem.dataset.iuser === '0') {
                     location.href = '/user/login';

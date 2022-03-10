@@ -54,8 +54,8 @@ public class AdminRestController {
         return service.getOrderMaxPage(dto);
     }
     @PutMapping("/updorderstatus")
-    public ResultVo updOrderStatus(@RequestBody OrderEntity entity) {
-        return service.updOrderStatus(entity);
+    public ResultVo updOrderStatus(@RequestBody OrderVo vo) {
+        return service.updOrderStatus(vo);
     }
 
     //상품목록
@@ -173,7 +173,6 @@ public class AdminRestController {
     private List<UserVo> selectUserSearchList(UserDto dto) throws Exception {
         return service.selectUserSearchList(dto);
     }
-
     @GetMapping("/userorder")
     public List<OrderVo> selUserOrderList(UserDto dto) {
         return service.selUserOrderList(dto);
@@ -194,6 +193,10 @@ public class AdminRestController {
     public List<ProductQuestionVo> selUserQuestionList(UserDto dto) {
         return service.selUserQuestionList(dto);
     }
+    @GetMapping("/userisparent")
+    public ProductQuestionVo selUserIsParent(ProductQuestionDto dto) {
+        return service.selIsParent(dto);
+    }
     @GetMapping("/qnamaxpage")
     public ResultVo selUserQuestionMaxPage(UserDto dto) {
         return service.selUserQuestionMaxPage(dto);
@@ -202,7 +205,6 @@ public class AdminRestController {
     public ResultVo userInfoProc(PointEntity entity) {
         return service.insUserPoint(entity);
     }
-
     @GetMapping("/userMaxPage")
     public ResultVo userMaxPage(UserDto dto) {
         return service.selUserMaxPage(dto);

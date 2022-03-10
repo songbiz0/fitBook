@@ -35,4 +35,5 @@ public class OrderVo extends OrderEntity{
     private int ssd;
     private int hdd;
     private int iproduct;
+    private int oper;
 }

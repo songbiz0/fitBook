@@ -7,5 +7,6 @@ import lombok.Setter;
 @Setter
 public class CpuVo extends CpuEntity{
     private String gpuNm;
+    private String cpuNm;
     private int igpu;
 }

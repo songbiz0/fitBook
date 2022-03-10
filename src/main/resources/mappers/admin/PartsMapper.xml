@@ -92,7 +92,23 @@
     </select>
 
     <select id="selCpuList" resultType="CpuVo">
-        <include refid="selPartsList"></include>
+        SELECT A.nm AS cpuNm, A.performance, B.nm AS gpuNm, A.seq, A.brand
+        FROM t_product_cpu A
+        INNER JOIN t_product_gpu B
+        ON A.inner_gpu = B.igpu
+        WHERE
+        <choose>
+            <when test="select != null">A.${select} LIKE CONCAT('%', #{search}, '%')</when>
+            <otherwise>
+                A.nm LIKE '%%'
+                OR A.brand LIKE '%%'
+            </otherwise>
+        </choose>
+        <choose>
+            <when test="typeNo == 1"> ORDER BY A.${type} </when>
+            <when test="typeNo == 2"> ORDER BY A.${type} DESC </when>
+        </choose>
+        LIMIT ${startIdx}, ${rowCnt}
     </select>
 
     <select id="selCpuDetail" resultType="CpuVo">

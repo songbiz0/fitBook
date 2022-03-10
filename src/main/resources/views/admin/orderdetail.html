@@ -55,7 +55,7 @@
                     </td>
                     <td>
                         <b th:text="${#numbers.formatInteger(pd[num].result_price * pd[0].quantity, 0, 'COMMA')} + '원'"></b>
-                        <p th:text="|(${pd[num].quantity})|"></p>
+                        <p th:text="|(${pd[num].quantity})|" th:data-quantity="${pd[num].quantity}"></p>
                     </td>
                     <td th:rowspan="${#lists.size(pd)}" >
                         <select class="init-select" th:if="${num} == 0" th:with="s=${data.order_status}">
