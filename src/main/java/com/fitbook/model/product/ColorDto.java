@@ -9,4 +9,5 @@ public class ColorDto {
     private String color;
     private int idetail;
     private String img;
+    private int stock;
 }

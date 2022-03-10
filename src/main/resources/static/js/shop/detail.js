@@ -107,7 +107,14 @@ $('#colorDropdown').dropdown('setting', 'onChange', () => {
             const div = document.createElement('div');
             div.className = 'item';
             div.dataset.value = item.idetail;
-            div.innerText = item.option;
+
+            if(item.stock === 0) {
+                div.classList.add('disabled');
+                div.innerText = item.option + ' (품절)';
+            } else {
+                div.innerText = item.option;
+            }
+
             optionMenuElem.appendChild(div);
         }
     });
@@ -159,7 +166,7 @@ orderBtnElem.addEventListener('click', () => {
         return;
     }
 
-    fetch('/shop/api/inscart?idetail=' + selected)
+    fetch('/shop/api/inscartsetone?idetail=' + selected)
         .then(res => res.json())
         .then(data => {
             if(data.result === 0) {

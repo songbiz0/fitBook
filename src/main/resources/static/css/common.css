@@ -64,7 +64,8 @@ table {
 .w12_73 { width: 12.73px !important; }
 .w13 { width: 10px; }
 .w40 { width: 40px !important; }
-.w50 { width: 50px }
+.w50 { width: 50px !important; }
+.w60 { width: 60px !important; }
 .w70 { width: 70px; }
 .w100 { width: 100px !important; }
 .w150 { width: 150px !important; }
@@ -78,8 +79,9 @@ table {
 .w60p { width: 60%; }
 .w70p { width: 70%; }
 .w80p { width: 80%; }
+.w90p { width: 90% !important; }
 .w95p { width: 95%; }
-.w100p { width: 100%; }
+.w100p { width: 100% !important; }
 .w110p {width: 110%;}
 .wfc { width: fit-content !important; }
 
@@ -210,6 +212,7 @@ table {
 .bgcf7f7f7 { background-color: #f7f7f7 !important;}
 
 .hp:hover { cursor: pointer !important; }
+.hd { cursor: default !important; }
 
 .ulfl > li { float: left; }
 
@@ -223,6 +226,7 @@ table {
 .disnoneNotInportant { display: none; }
 .ofhidden { overflow: hidden; }
 .ofhiddenx { overflow-x: hidden; }
+.afauto { overflow: auto; }
 
 .mytable { border-top: 1px solid #999999; border-collapse: collapse; font-size: 12px; }
 .mytable th { background-color: #f7f7f7; text-align: center; padding: 10px; }
@@ -242,6 +246,7 @@ table {
 .headerSearch { position: absolute !important; top: 80px !important; right: 420px !important; }
 
 .cspointer:hover { cursor: pointer; background-color: #e1e1e1; }
+.cspointer2:hover { cursor: pointer; background-color: #F6F6F6; }
 .text-pointer:hover { cursor: pointer; color: #788fff; }
 .status { color: #003eff; }
 

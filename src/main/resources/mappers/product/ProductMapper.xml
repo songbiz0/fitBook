@@ -12,7 +12,7 @@
     </select>
     <select id="selFavList" resultType="ProductVo">
         SELECT A.nm, A.product_code, D.price, D.dc_rate, D.img,
-               A.brand, A.iproduct
+               A.brand, A.iproduct, D.idetail
         FROM t_product_master A
         INNER JOIN t_fav_mapping B
         ON A.iproduct = B.iproduct
@@ -60,5 +60,14 @@
             (#{iuser}, #{idetail}, 1)
         ON DUPLICATE KEY
         UPDATE quantity = quantity + 1
+    </insert>
+
+    <insert id="insCartSetOne">
+        INSERT INTO t_cart
+            (iuser, idetail, quantity)
+        VALUES
+            (#{iuser}, #{idetail}, 1)
+        ON DUPLICATE KEY
+            UPDATE quantity = 1
     </insert>
 </mapper>

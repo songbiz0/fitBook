@@ -25,8 +25,13 @@ public class ShopRestController {
     @Autowired private ShopService service;
 
     @GetMapping("/inscart")
-    public ResultVo instCart(@RequestParam int idetail) {
+    public ResultVo insCart(@RequestParam int idetail) {
         return mypageService.insCartByIdetail(idetail);
+    }
+
+    @GetMapping("/inscartsetone")
+    public ResultVo insCartSetOne(@RequestParam int idetail) {
+        return mypageService.insCartSetOne(idetail);
     }
 
     @PostMapping("/reviewmaxpage")
