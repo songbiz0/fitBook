@@ -101,8 +101,7 @@ http://fitbook.shop/
 
 상품 주문 중 일어난 에러로 인하여 주문이 완료되지 않았음에도 장바구니에서 품목이 사라진다거나, 주문 테이블에는 레코드가 삽입되었지만 상세 주문 테이블에는 삽입되지 않는 등의 경우를 막기 위해 **Transaction** 기능을 사용하였습니다.
 
-[트랜잭션을 활용한 주문 메소드]
-(https://github.com/songbiz0/fitBook/blob/230a0a25cbf5e7bedf10b66626ad2aa0aee06517/src/main/java/com/fitbook/shop/ShopService.java#L267)
+[트랜잭션을 활용한 주문 메소드](https://github.com/songbiz0/fitBook/blob/230a0a25cbf5e7bedf10b66626ad2aa0aee06517/src/main/java/com/fitbook/shop/ShopService.java#L267)
 
 ### Spring Scheduler
 
