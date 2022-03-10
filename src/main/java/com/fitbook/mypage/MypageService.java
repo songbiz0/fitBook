@@ -215,6 +215,7 @@ public class MypageService {
         }
 
         dto.setIuser(authenticationFacade.getLoginUserPk());
+        dto.setIslatest("N");
 
         if(dto.getIsrep().equals("Y")) {
             addressMapper.updIsrep(dto);
