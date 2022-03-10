@@ -1,4 +1,5 @@
 const pointHistoryTbodyElem = document.querySelector('#pointHistoryTbody');
+const pointSpanElem = document.querySelector('#pointSpan');
 
 const makeActive = item => {
     item.classList.remove('link');
@@ -139,3 +140,11 @@ const makeList = list => {
 }
 
 loadPointHistory();
+
+const loadCurrentPoint = () => {
+    fetch('/mypage/api/selpoint')
+        .then(res => res.json())
+        .then(data => { pointSpanElem.innerText = data.result.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",") + ' p' })
+        .catch(err => { console.error(err); });
+}
+loadCurrentPoint();

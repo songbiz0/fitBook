@@ -107,10 +107,11 @@ const selRating = liList => {
         fetch('/fit/api/selrating?iproduct=' + li.querySelector('.data').dataset.iproduct)
             .then(res => res.json())
             .then(data => {
-                li.querySelector('#starSpan').innerText = data.result;
+                li.querySelector('#starSpan').innerText = data.resultFloat;
             }).catch(err => { console.error(err); });
     });
 }
+selRating(liListElem);
 
 const isFavorite = liList => {
     liList.forEach(li => {
@@ -134,10 +135,8 @@ const isRating = liList => {
             .then(data => {
                 if(data.result === 1) {
                     li.querySelector('#starI').classList.add('cgold');
-                    li.querySelector('#starSpan').innerText = data.resultFloat;
                 } else {
                     li.querySelector('#starI').classList.remove('cgold');
-                    selRating(liListElem);
                 }
             }).catch(err => { console.error(err); });
     });

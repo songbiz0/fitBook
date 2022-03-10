@@ -9,6 +9,8 @@ import com.fitbook.model.order.OrderVo;
 import com.fitbook.model.point.PointEntity;
 import com.fitbook.model.product.ProductVo;
 import com.fitbook.model.user.UserEntity;
+import com.fitbook.user.UserMapper;
+import com.fitbook.user.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -19,6 +21,8 @@ import java.util.List;
 public class MyPageRestController {
 
     @Autowired MypageService service;
+    @Autowired
+    UserService userService;
 
     @PostMapping("/orderlist")
     public List<OrderVo> orderlist(@RequestBody OrderDto dto) { return service.selOrderList(dto); }
@@ -67,5 +71,12 @@ public class MyPageRestController {
         AddressDto dto = new AddressDto();
         dto.setIaddress(iaddress);
         return service.delAddr(dto);
+    }
+
+    @GetMapping("/selpoint")
+    public ResultVo selPoint() {
+        ResultVo result = new ResultVo();
+        result.setResult(userService.selPoint());
+        return result;
     }
 }

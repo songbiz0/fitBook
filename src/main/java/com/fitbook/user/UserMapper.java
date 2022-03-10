@@ -13,4 +13,5 @@ public interface UserMapper {
     int delUser(UserEntity entity);
     int updPointByOrderDto(OrderDto dto);
     int updPoint(PointEntity entity);
+    int selPoint(int iuser);
 }

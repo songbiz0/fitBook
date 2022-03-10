@@ -43,10 +43,13 @@
                     </td>
                     <td>
                         <div class="frow w100p ct gap20">
-                            <img th:src="@{${'/imgPath/products/detail/' + data.productDetails[0].idetail + '/' + data.productDetails[0].img}}"
-                                 width="100px" height="100px">
+                            <a th:href="@{${'/shop/detail?iproduct=' + data.productDetails[0].iproduct}}">
+                                <img th:src="@{${'/imgPath/products/detail/' + data.productDetails[0].idetail + '/' + data.productDetails[0].img}}" width="100px" height="100px">
+                            </a>
                             <div class="taleft minw130">
-                                <div class="mb5" th:text="${data.productDetails[0].brand} + ' ' + ${data.productDetails[0].nm}"></div>
+                                <a class="cb hul" th:href="@{${'/shop/detail?iproduct=' + data.productDetails[0].iproduct}}">
+                                    <div class="mb5" th:text="${data.productDetails[0].brand} + ' ' + ${data.productDetails[0].nm}"></div>
+                                </a>
                                 <div class="mb5" th:text="${data.productDetails[0].product_code}"></div>
                                 <div class="c777777" th:text="'옵션 : ' + ${data.productDetails[0].option}"></div>
                             </div>
@@ -80,10 +83,14 @@
                     th:classappend="${numStat.last} ? 'btline' : ''">
                     <td>
                         <div class="frow w100p ct gap20">
-                            <img th:src="@{${'/imgPath/products/detail/' + data.productDetails[num].idetail + '/' + data.productDetails[num].img}}"
+                            <a th:href="@{${'/shop/detail?iproduct=' + data.productDetails[num].iproduct}}">
+                                <img th:src="@{${'/imgPath/products/detail/' + data.productDetails[num].idetail + '/' + data.productDetails[num].img}}"
                                  width="100px" height="100px">
+                            </a>
                             <div class="taleft minw130">
-                                <div class="mb5" th:text="${data.productDetails[num].brand} + ' ' + ${data.productDetails[num].nm}"></div>
+                                <a class="cb hul" th:href="@{${'/shop/detail?iproduct=' + data.productDetails[num].iproduct}}">
+                                    <div class="mb5" th:text="${data.productDetails[num].brand} + ' ' + ${data.productDetails[num].nm}"></div>
+                                </a>
                                 <div class="mb5" th:text="${data.productDetails[num].product_code}"></div>
                                 <div class="c777777" th:text="'옵션 : ' + ${data.productDetails[num].option}"></div>
                             </div>

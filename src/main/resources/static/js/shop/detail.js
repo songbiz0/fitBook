@@ -438,7 +438,7 @@ orderBtnElem.addEventListener('click', () => {
     fetch('/shop/api/selordercount?iproduct=' + iproduct)
         .then(res => res.json())
         .then(data => {
-            isOrdered = data.result > 1;
+            isOrdered = data.result > 0;
             reviewWriteBtnElem.addEventListener('click', () => {
                 if(dataElem.dataset.iuser === '0') {
                     location.href = '/user/login';
@@ -638,7 +638,7 @@ orderBtnElem.addEventListener('click', () => {
                         method: 'delete'
                     }).then(res => res.json())
                         .then(data => {
-                            if(data.result === 1) {
+                            if(data.result >= 1) {
                                 loadList();
                                 makeInfoToast('문의를 삭제했어요.');
                             } else {
