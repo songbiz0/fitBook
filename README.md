@@ -80,6 +80,8 @@ http://fitbook.shop/
 ![image](https://github.com/songbiz0/fitBook/blob/master/img/shipment.png?raw=true)
 [사용자 페이지 배송지 등록]
 
+
+
 ### AJAX / Rest API
 
 사용자와의 상호작용으로 인한 페이지 변환이 잦은 경우 자원의 효율적인 사용과 UX 개선을 위해 Rest API를 적극적으로 활용하였습니다.
@@ -87,6 +89,8 @@ http://fitbook.shop/
 [Rest API Controller](https://github.com/songbiz0/fitBook/blob/master/src/main/java/com/fitbook/shop/ShopRestController.java#L1)
 
 [Javascript AJAX](https://github.com/songbiz0/fitBook/blob/230a0a25cbf5e7bedf10b66626ad2aa0aee06517/src/main/resources/static/js/mypage/list.js#L191)
+
+
 
 ### 댓글과 대댓글 구현
 
@@ -97,11 +101,15 @@ http://fitbook.shop/
 ![image](https://github.com/songbiz0/fitBook/blob/master/img/comment.png?raw=true)
 [상품 문의/댓글 페이지]
 
+
+
 ### Transaction
 
 상품 주문 중 일어난 에러로 인하여 주문이 완료되지 않았음에도 장바구니에서 품목이 사라진다거나, 주문 테이블에는 레코드가 삽입되었지만 상세 주문 테이블에는 삽입되지 않는 등의 경우를 막기 위해 **Transaction** 기능을 사용하였습니다.
 
 [트랜잭션을 활용한 주문 메소드](https://github.com/songbiz0/fitBook/blob/230a0a25cbf5e7bedf10b66626ad2aa0aee06517/src/main/java/com/fitbook/shop/ShopService.java#L267)
+
+
 
 ### Spring Scheduler
 
@@ -109,6 +117,8 @@ http://fitbook.shop/
 
 ![image](https://github.com/songbiz0/fitBook/blob/master/img/scheduler.png?raw=true)
 [매일 자정마다 주문 상태 변경과 포인트 지급이 자동으로 진행되는 시스템]
+
+
 
 ### 노트북 추천 시스템
 
