@@ -8,6 +8,12 @@
         const searchElem = noticeList.querySelector('#search');
         const searchBtnElem = noticeList.querySelector('#searchBtn');
 
+        searchElem.addEventListener('keypress', e => {
+            if(e.key === 'Enter') {
+                searchBtnElem.click();
+            }
+        });
+
         let selectVal = selectElem.value;
         let searchVal = searchElem.value;
         let maxPage = 1;
@@ -56,7 +62,7 @@
                     location.href = '/notice/detail?inotice=' + item.inotice +'&page=' + currentPage +'&search=' + searchVal + '&select=' + selectVal;
                 });
                 const rdt = item.rdt.substr(0, item.rdt.indexOf('.'));
-                trElem.classList.add('cspointer');
+                trElem.classList.add('cspointer2');
                 trElem.innerHTML = `
                     <td>${item.inotice}</td>
                     <td>${item.title}</td>
@@ -235,21 +241,25 @@
         let isTitle = false;
         let isCtnt = false;
 
+        const writeCancelBtnElem = document.querySelector('#writeCancelBtn');
+        const modCancelBtnElem = document.querySelector('#modCancelBtn');
+
+        if(writeCancelBtnElem) {
+            writeCancelBtnElem.addEventListener('click', e => {
+                e.preventDefault();
+                location.href = '/notice/list';
+            });
+        }
+
+        if(modCancelBtnElem) {
+            modCancelBtnElem.addEventListener('click', e => {
+                e.preventDefault();
+                const inotice = new URL(document.location).searchParams.get('inotice');
+                location.href = '/notice/detail?inotice=' + inotice;
+            });
+        }
+
         editingArea.classList.add('h500');
-        titleElem.addEventListener('keyup', () => {
-            const titleDivElem = document.querySelector('#tit');
-            if(!titleRegex.test(titleElem.value)) {
-                noticeTitle.classList.add('error');
-                titleDivElem.classList.replace('hidden', 'cerror');
-                titleDivElem.querySelector('span').innerText = '제목은 30자 이내로 비워두지 말고 작성해 주세요.';
-                isTitle = false;
-                return;
-            } else {
-                noticeTitle.classList.remove('error');
-                titleDivElem.classList.replace('cerror', 'hidden');
-                isTitle = true;
-            }
-        });
         ctntElem2.addEventListener('keyup', () => {
             let ctntElemVal = document.querySelector('#summernote').value;
             ctntElemVal = ctntElemVal.replaceAll('<p>', '').replaceAll('</p>', '').replaceAll('<br>', '').replaceAll('&nbsp;', '').replaceAll(' &nbsp;', '');
@@ -276,10 +286,10 @@
         }
 
         formElem.addEventListener('submit' , (e) => {
-            if(!isTitle || !isCtnt) {
+            if(titleElem.value.length === 0 || ctntElem1.value.length === 0) {
                 $('body').toast({
                     class: 'error',
-                    message: '잠깐 ! 내용이나 제목을 입력하셨나요?'
+                    message: '제목과 내용을 입력해주세요.'
                 });
                 e.preventDefault();
                 return;

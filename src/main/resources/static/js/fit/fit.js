@@ -22,8 +22,6 @@ $('#simpleChk').checkbox().first().checkbox({
 });
 
 $(() => {
-    $('.q0').transition('fade up');
-
     fetch('/fit/api/programlist')
         .then(res => res.json())
         .then(data => {

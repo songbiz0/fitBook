@@ -5,14 +5,15 @@
         SELECT iaddress, addr_nm, user_nm, post, addr, addr_detail, phone, isrep
         FROM t_address
         WHERE iuser = #{iuser}
+        AND islatest = 'N'
         ORDER BY isrep DESC, iaddress
     </select>
 
     <insert id="insAddr">
         INSERT INTO t_address
-            (iuser, post, addr, addr_detail, phone, addr_nm, user_nm, isrep)
+            (iuser, post, addr, addr_detail, phone, addr_nm, user_nm, isrep, islatest)
         VALUES
-            (#{iuser}, #{post}, #{addr}, #{addr_detail}, #{phone}, #{addr_nm}, #{user_nm}, #{isrep})
+            (#{iuser}, #{post}, #{addr}, #{addr_detail}, #{phone}, #{addr_nm}, #{user_nm}, #{isrep}, #{islatest})
     </insert>
 
     <update id="updIsrep">
@@ -40,4 +41,19 @@
         AND iaddress = #{iaddress}
         AND isrep = 'N'
     </delete>
+
+    <select id="selAddr" resultType="AddressEntity">
+        SELECT iaddress, user_nm, post, addr, addr_detail, phone, isrep
+        FROM t_address
+        WHERE iuser = #{iuser}
+        <if test="iaddress != null and iaddress != 0">
+            AND iaddress = #{iaddress}
+        </if>
+        <if test="param == 'rep'">
+            AND isrep = 'Y'
+        </if>
+        <if test="param == 'latest'">
+            AND islatest = 'Y'
+        </if>
+    </select>
 </mapper>

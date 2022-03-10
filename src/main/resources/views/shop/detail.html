@@ -67,7 +67,8 @@
                                 <div class="default text">색상</div>
                                 <div id="colorMenu" class="scrollhint menu">
                                     <th:block th:each="color : ${data.colorList}">
-                                        <div class="item" th:text="${color.color}" th:data-value="${colorStat.index}"></div>
+                                        <div th:if="${color.stock} != 0" class="item" th:text="${color.color}" th:data-value="${colorStat.index}"></div>
+                                        <div th:if="${color.stock} == 0" class="disabled item" th:text="${color.color} + ' (품절)'" th:data-value="${colorStat.index}"></div>
                                     </th:block>
                                 </div>
                             </div>

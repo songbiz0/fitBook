@@ -45,9 +45,10 @@ public interface ShopMapper {
     int updCart(ProductDetailDto dto);
     int delCart(List<Integer> list, int iuser);
 
-    AddressEntity selAddr(AddressDto dto);
-
     int insOrder(OrderDto dto);
     int insDetailOrder(OrderDto dto);
     int insOrderProduct(OrderDto dto);
+    int updOrder(OrderDto dto);
+
+    Integer selIsOutOfStock(List<String> list);
 }

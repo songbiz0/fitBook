@@ -11,4 +11,5 @@ public class OptionDto {
     private String option;
     private int idetail;
     private String color;
+    private int stock;
 }

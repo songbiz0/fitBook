@@ -107,7 +107,14 @@ $('#colorDropdown').dropdown('setting', 'onChange', () => {
             const div = document.createElement('div');
             div.className = 'item';
             div.dataset.value = item.idetail;
-            div.innerText = item.option;
+
+            if(item.stock === 0) {
+                div.classList.add('disabled');
+                div.innerText = item.option + ' (품절)';
+            } else {
+                div.innerText = item.option;
+            }
+
             optionMenuElem.appendChild(div);
         }
     });
@@ -159,7 +166,7 @@ orderBtnElem.addEventListener('click', () => {
         return;
     }
 
-    fetch('/shop/api/inscart?idetail=' + selected)
+    fetch('/shop/api/inscartsetone?idetail=' + selected)
         .then(res => res.json())
         .then(data => {
             if(data.result === 0) {
@@ -432,26 +439,25 @@ orderBtnElem.addEventListener('click', () => {
         .then(res => res.json())
         .then(data => {
             isOrdered = data.result > 1;
+            reviewWriteBtnElem.addEventListener('click', () => {
+                if(dataElem.dataset.iuser === '0') {
+                    location.href = '/user/login';
+                    return;
+                }
+
+                if(!isOrdered) {
+                    makeErrorToast('상품을 구매확정한 회원만 리뷰를 작성할 수 있어요.');
+                    return;
+                }
+
+                if(isRatingLet) {
+                    makeErrorToast('이미 이 제품에 대한 리뷰를 작성했어요.');
+                    return;
+                }
+
+                makeReviewWriteArea();
+            });
         }).catch(err => { console.error(err); });
-
-    reviewWriteBtnElem.addEventListener('click', () => {
-        if(dataElem.dataset.iuser === '0') {
-            location.href = '/user/login';
-            return;
-        }
-
-        if(!isOrdered) {
-            makeErrorToast('상품을 구매확정한 회원만 리뷰를 작성할 수 있어요.');
-            return;
-        }
-
-        if(isRatingLet) {
-            makeErrorToast('이미 이 제품에 대한 리뷰를 작성했어요.');
-            return;
-        }
-
-        makeReviewWriteArea();
-    });
 }
 
 // 상품 문의
