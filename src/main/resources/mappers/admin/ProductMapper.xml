@@ -95,7 +95,7 @@
         ON A.icpu = C.icpu
         INNER JOIN t_product_gpu D
         ON A.igpu = D.igpu
-        INNER JOIN (
+        LEFT JOIN (
             SELECT IFNULL(SUM(F.result_price),0) AS detail_total, E.idetail
             FROM t_product_detail E
             LEFT JOIN t_order_product F
@@ -134,7 +134,7 @@
         ON A.icpu = C.icpu
         INNER JOIN t_product_gpu D
         ON A.igpu = D.igpu
-        INNER JOIN (
+        LEFT JOIN (
             SELECT IFNULL(SUM(F.result_price),0) AS total_price, E.iproduct
             FROM t_product_detail E
             LEFT JOIN t_order_product F

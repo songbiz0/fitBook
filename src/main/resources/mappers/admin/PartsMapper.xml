@@ -92,7 +92,7 @@
     </select>
 
     <select id="selCpuList" resultType="CpuVo">
-        SELECT A.nm AS cpuNm, A.performance, B.nm AS gpuNm, A.seq, A.brand
+        SELECT A.nm AS cpuNm, A.performance, B.nm AS gpuNm, A.seq, A.brand, A.icpu
         FROM t_product_cpu A
         INNER JOIN t_product_gpu B
         ON A.inner_gpu = B.igpu
