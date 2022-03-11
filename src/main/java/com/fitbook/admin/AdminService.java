@@ -162,6 +162,9 @@ public class AdminService {
                     mapper.updProductDetailStock(item);
                 }
                 break;
+            case "배송완료" :
+                mapper.updOrderCompleteDate(orderVo);
+                break;
         }
         vo.setResult(mapper.updOrderStatus(orderVo));
         return vo;
