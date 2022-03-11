@@ -166,5 +166,9 @@
         SET stock = stock <if test="oper == 0">-</if><if test="oper == 1">+</if> ${quantity}
         WHERE idetail = ${idetail}
     </update>
-
+    <update id="updOrderCompleteDate">
+        UPDATE t_order
+        SET complete_date = now()
+        WHERE iorder = ${iorder}
+    </update>
 </mapper>

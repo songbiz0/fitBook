@@ -20,7 +20,7 @@
             <div class="title fs14" th:text="${data.title}"></div>
             <div class="info">
                 <div class="fs12"><b th:text="${data.writerNm}"></b></div>
-                <div class="fs11 fr1">2022.02.04 15:27:55</div>
+                <div class="fs11 fr1"><span th:text="${#strings.substring(data.rdt, 0, 19)}"></span></div>
                 <div class="fs12"><b>조회수</b> <span th:text="${data.hits}"></span></div>
             </div>
             <div class="fs12 content" th:utext="${data.ctnt}"></div>
