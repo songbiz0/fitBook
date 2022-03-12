@@ -82,12 +82,12 @@ public class FitService {
         fitness += weightScore;
 
         int sizeScore = 0;
+        int size = (int)Math.floor(product.getSize());
         switch (question.getSize()) {
             case 0:
                 sizeScore = 10 - ((int)Math.floor(product.getSize()) - 13) * 3;
                 break;
             case 1:
-                int size = (int)Math.floor(product.getSize());
                 if(size < 14) {
                     sizeScore = 10 + (size - 14) * 3;
                 } else if(size > 15) {
@@ -97,7 +97,11 @@ public class FitService {
                 }
                 break;
             case 2:
-                sizeScore = 10;
+                if(size < 16) {
+                    sizeScore = 10 + (size - 16) * 3;
+                } else {
+                    sizeScore = 10;
+                }
         }
         sizeScore = Math.max(sizeScore, 0);
         sizeScore = Math.min(sizeScore, 10);

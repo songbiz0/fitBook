@@ -50,6 +50,14 @@
         }
         const setList = (list) => {
             noticeBody.innerHTML = '';
+
+            if(list.length === 0) {
+                const tr = document.createElement('tr');
+                tr.innerHTML =
+                    `<td rowspan="1" colspan="5" class="btline h150">등록된 글이 없습니다.</td>`
+                noticeBody.appendChild(tr);
+            }
+
             list.forEach(item => {
                 const trElem = document.createElement('tr');
                 trElem.addEventListener('click', () => {

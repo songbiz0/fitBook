@@ -10655,7 +10655,7 @@ $.fn.dropdown.settings = {
   message: {
     addResult     : 'Add <b>{term}</b>',
     count         : '{count} selected',
-    maxSelections : 'Max {maxCount} selections',
+    maxSelections : '최대 {maxCount}개까지 입력 가능합니다.',
     noResults     : 'No results found.',
     serverError   : 'There was an error contacting the server'
   },
