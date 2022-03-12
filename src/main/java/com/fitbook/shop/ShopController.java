@@ -39,6 +39,8 @@ public class ShopController {
 
     @GetMapping("/list")
     public void list(Model model, PageDto dto) {
+        int iuser = 0;
+
         dto.setCurrentPage(dto.getCurrentPage() == 0 ? 1 : dto.getCurrentPage());
         dto.setRecordCount(dto.getRecordCount() == 0 ? 20 : dto.getRecordCount());
         dto.setSort(dto.getSort() == null ? "best" : dto.getSort());
@@ -47,10 +49,13 @@ public class ShopController {
         boolean fit = false;
         if(authenticationFacade.getLoginUser() != null) {
             QuestionDto questionDto = fitService.selQuestion();
+            iuser = authenticationFacade.getLoginUserPk();
             if (questionDto != null) {
                 fit = true;
             }
         }
+
+        model.addAttribute("iuser", iuser);
 
         if(dto.getBrand() != null) { dto.setBrand(service.fromJSON(dto.getBrand())); }
         if(dto.getCpu() != null) { dto.setCpu(service.fromJSON(dto.getCpu())); }
