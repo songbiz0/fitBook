@@ -50,8 +50,6 @@ http://fitbook.shop/
 #### Database
 - MariaDB
 
-<br>
-
 ### 프론트엔드
 - Javascript
 - HTML/CSS
