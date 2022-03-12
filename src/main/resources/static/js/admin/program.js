@@ -8,7 +8,7 @@
         img - String 200
      */
 
-    const nmRegex = /^([a-zA-Z가-힣ㄱ-ㅎ0-9\s-_=+]{1,20})$/;
+    const nmRegex = /^([a-zA-Z가-힣ㄱ-ㅎ0-9\s-_=+]{1,50})$/;
     const imgRegex = /^([a-zA-Z가-힣ㄱ-ㅎ0-9\s-_=+./?()<>!@#$%^&*~`]{1,200})$/;
     const cpuRegex = /^([0-9]{1,10})$/;
     const gpuRegex = /^([0-9]{1,10})$/;
@@ -153,7 +153,7 @@
                         if(i === searchId) {
                             if(!regexParam[i].test(val)) {
                                 if(i === 'nm') {
-                                    makeToast(elem, '20글자 이내로 작성해 주세요.');
+                                    makeToast(elem, '50글자 이내로 작성해 주세요.');
                                 } else {
                                     makeToast(elem, '숫자 10자리 이내로 작성해 주세요.');
                                 }
