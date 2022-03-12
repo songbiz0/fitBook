@@ -188,18 +188,14 @@ public class FitService {
         }
 
         int performanceScore = 0;
-        if(question.getPrograms() == null || question.getPrograms().equals("")) {
-            performanceScore = 20;
-        } else {
-            int cpuPerformanceDifference = product.getCpuPerformance() - question.getRequiredCpu();
-            performanceScore += Math.max(cpuPerformanceDifference >= 0 ? 7 : 7 + cpuPerformanceDifference / 1000, 0);
+        int cpuPerformanceDifference = product.getCpuPerformance() - question.getRequiredCpu();
+        performanceScore += Math.max(cpuPerformanceDifference >= 0 ? 7 : 7 + cpuPerformanceDifference / 1000, 0);
 
-            int gpuPerformanceDifference = product.getGpuPerformance() - question.getRequiredGpu();
-            performanceScore += Math.max(gpuPerformanceDifference >= 0 ? 7 : 7 + gpuPerformanceDifference / 1000, 0);
+        int gpuPerformanceDifference = product.getGpuPerformance() - question.getRequiredGpu();
+        performanceScore += Math.max(gpuPerformanceDifference >= 0 ? 7 : 7 + gpuPerformanceDifference / 1000, 0);
 
-            int ramDifference = product.getRam() - question.getRequiredRam();
-            performanceScore += Math.max(ramDifference >= 0 ? 6 : 6 + ramDifference, 0);
-        }
+        int ramDifference = product.getRam() - question.getRequiredRam();
+        performanceScore += Math.max(ramDifference >= 0 ? 6 : 6 + ramDifference, 0);
         fitness += performanceScore;
 
         return fitness;
