@@ -2,6 +2,7 @@ const dataElem = document.querySelector('#data');
 let currentPage = Number(dataElem.dataset.currentpage);
 const maxPage = Number(dataElem.dataset.maxpage);
 let sort = dataElem.dataset.sort;
+const iuser = dataElem.dataset.iuser;
 
 const URLSearch = new URLSearchParams(location.search);
 makeQueryString = (URLSearch, name, value) => {
