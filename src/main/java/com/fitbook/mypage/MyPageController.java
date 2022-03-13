@@ -62,7 +62,7 @@ public class MyPageController {
         if(isRightPassword) {
             isRightPassword = false;
             model.addAttribute("user", authenticationFacade.getLoginUser());
-            return "/mypage/changeinfo";
+            return "mypage/changeinfo";
         } else {
             return "redirect:/mypage/changeinfoconf";
         }

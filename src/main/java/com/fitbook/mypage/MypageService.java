@@ -104,7 +104,7 @@ public class MypageService {
             if(changedPoint != 0) {
                 entity.setChanged_point(changedPoint);
                 userMapper.updPoint(entity);
-                entity.setReason("주문 확정으로 포인트 적립");
+                entity.setReason("구매 확정으로 포인트 적립");
                 pointMapper.insPointHistory(entity);
             }
         }
