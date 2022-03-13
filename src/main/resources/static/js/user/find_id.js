@@ -24,8 +24,19 @@ findIdBtnElem.addEventListener('click', e => {
     fetch(`/user/find_id/${emailInputValue}`)
         .then(res => res.json())
         .then(data => {
-            location.href=`/user/find_id_result?uid=${data.resultString}`;
+            if(data.resultString === null) {
+                makeErrorToast('해당하는 회원 정보가 없어요.');
+            } else {
+                location.href=`/user/find_id_result?uid=${data.resultString}`;
+            }
         }).catch(err => {
             console.error(err);
     })
+});
+
+emailInputElem.addEventListener('keypress', e => {
+    if(e.key === 'Enter') {
+        e.preventDefault();
+        findIdBtnElem.click();
+    }
 });
