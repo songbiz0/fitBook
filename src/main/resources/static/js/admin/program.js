@@ -8,7 +8,7 @@
         img - String 200
      */
 
-    const nmRegex = /^([a-zA-Z가-힣ㄱ-ㅎ0-9\s-_=+]{1,50})$/;
+    const nmRegex = /^([a-zA-Z가-힣ㄱ-ㅎ0-9\s()<>!@#$%^&*~_/-=+]{1,100})$/;
     const imgRegex = /^([a-zA-Z가-힣ㄱ-ㅎ0-9\s-_=+./?()<>!@#$%^&*~`]{1,200})$/;
     const cpuRegex = /^([0-9]{1,10})$/;
     const gpuRegex = /^([0-9]{1,10})$/;
@@ -147,13 +147,13 @@
                     if(elem.checked) {
                         elem.value="Y";
                     }
-                    console.log(elem.value);
+
                     elem.name = result;
                     for(let i in regexParam) {
                         if(i === searchId) {
                             if(!regexParam[i].test(val)) {
                                 if(i === 'nm') {
-                                    makeToast(elem, '50글자 이내로 작성해 주세요.');
+                                    makeToast(elem, '100글자 이내로 작성해 주세요.');
                                 } else {
                                     makeToast(elem, '숫자 10자리 이내로 작성해 주세요.');
                                 }
@@ -197,19 +197,19 @@
                     </div>
                 </div>
                 <div class="ui right labeled input">
-                    <select id="cpuOption" class="required_cpu">
+                    <select id="cpuOption" class="ui selection dropdown minw100">
                         <option value="0">선택</option>
                     </select>
-                    <input type="text" class="input-cpu">
+                    <input type="text" class="required_cpu input-cpu">
                     <div class="ui basic label">
                         권장 CPU
                     </div>
                 </div>
                 <div class="ui right labeled input">
-                <select id="gpuOption" class="required_gpu">
+                <select id="gpuOption" class="ui selection dropdown minw100">
                         <option value="0">선택</option>
                     </select>
-                    <input type="text" class="input-gpu">
+                    <input type="text" class="input-gpu required_gpu">
                     <div class="ui basic label">
                         권장 GPU
                     </div>

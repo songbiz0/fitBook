@@ -1,9 +1,9 @@
 // gpu insert
 {
-    const nmRegex = /^([a-zA-Z가-힣ㄱ-ㅎ0-9\s-_=+]{1,20})$/;
+    const nmRegex = /^([a-zA-Z가-힣ㄱ-ㅎ0-9\s-_=+!@#$%^&*()<>?/.,]{1,50})$/;
     const perfRegex = /^([0-9]{1,10})$/;
     const seqRegex = /^([0-9]{1,10})$/;
-    const brandRegex = /^([a-zA-Z가-힣ㄱ-ㅎ0-9\s-_=+]{1,20})$/;
+    const brandRegex = /^([a-zA-Z가-힣ㄱ-ㅎ0-9\s-_=+]{1,50})$/;
 
     const regexObject = {
         nm : nmRegex,
@@ -49,7 +49,7 @@
                             if(!regexObject[i].test(val)) {
                                 elem.parentNode.classList.add('error');
                                 if(i === 'nm' || i === 'brand') {
-                                    makeToast(elem, '20글자 이내로 작성해 주세요.');
+                                    makeToast(elem, '50글자 이내로 작성해 주세요.');
                                 } else {
                                     makeToast(elem, '10자리 이내의 숫자로 작성해 주세요.');
                                 }

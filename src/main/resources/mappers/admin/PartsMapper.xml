@@ -112,8 +112,10 @@
     </select>
 
     <select id="selCpuDetail" resultType="CpuVo">
-        SELECT *
-        FROM t_product_cpu
+        SELECT A.nm AS cpuNm, A.performance, B.performance AS gpuPerf, A.seq, A.brand
+        FROM t_product_cpu A
+        INNER JOIN t_product_gpu B
+        ON A.inner_gpu = B.igpu
         WHERE icpu = ${icpu}
     </select>
 

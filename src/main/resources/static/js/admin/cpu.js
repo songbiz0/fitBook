@@ -1,7 +1,7 @@
 {
     // cpu insert
 
-    const nmRegex = /^([a-zA-Z가-힣0-9-_=+\s]{1,20})$/;
+    const nmRegex = /^([a-zA-Z가-힣0-9-_=+!@#$%^&*()~<>/,.\s]{1,50})$/;
     const perfRegex = /^([0-9]{1,10})$/;
     const innerGpuRegex = /^([1-9]{1,10})$/;
     const seqRegex = /^([0-9]{1,10})$/;
@@ -84,7 +84,7 @@
                         e.preventDefault();
                         bool = false;
                         parentElem.classList.add('error');
-                        makeErrBox('20글자 이내로 작성해주세요.');
+                        makeErrBox('50글자 이내로 작성해주세요.');
                     }
                     break;
                 case 'performance' :
@@ -463,7 +463,7 @@
             tbodyElem.innerHTML = `
                 <tr>
                     <th>CPU 명</th>
-                    <td class="tnm">${data.nm}</td>
+                    <td class="tnm">${data.cpuNm}</td>
                 </tr>
                 <tr>
                     <th>성능수치</th>
@@ -471,7 +471,7 @@
                 </tr>
                 <tr>
                     <th>내장그래픽 성능수치</th>
-                    <td class="tinner">${data.inner_gpu}</td>
+                    <td class="tinner">${data.gpuPerf}</td>
                 </tr>
                 <tr>
                     <th>세대</th>
