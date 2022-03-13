@@ -218,7 +218,7 @@
     if(insProductElem) {
         // master
         const nmRegex = /^([a-zA-Z가-힣ㄱ-ㅎ0-9\s.\-_+=/()<>,.';`~!@#$%^&*]{1,100})$/;
-        const codeRegex = /^([a-zA-Z0-9\-\s.]{1,100})$/;
+        const codeRegex = /^([a-zA-Z0-9\-\s/!@#$%^&*()_=+?><,.]{1,100})$/;
         const rdtRegex = /^([0-9\-]{1,30})$/;
         const ramRegex = /^([0-9]{1,10})$/;
         const sizeRegex = /^[0-9]+(.[0-9]+)?$/;

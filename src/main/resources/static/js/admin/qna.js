@@ -41,9 +41,9 @@
         }
         const setList = (data) => {
             tbodyElem.innerHTML = '';
-            cntContainer.innerText = ('(총 : ' + data[0].maxPage + '개)');
+            cntContainer.innerText = ('(총 : ' + data.length + '개)');
             try {
-                maxPage = Math.ceil(data[0].maxPage / rowCnt);
+                maxPage = Math.ceil(data.length / rowCnt);
             } catch (e) {
                 maxPage = 0;
                 console.log(e);

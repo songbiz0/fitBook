@@ -500,22 +500,22 @@ public class AdminService {
             list = mapper.selQuestionList(dto);
             vo = mapper.qnaMustMaxPage(dto);
         }
-        if(vo.getResult() > 0) {
-            list.get(0).setMaxPage(vo.getResult());
-        } else {
-            ProductQuestionVo item = new ProductQuestionVo();
-            item.setMaxPage(0);
-            list.add(item);
-        }
+//        if(vo.getResult() > 0) {
+//            list.get(0).setMaxPage(vo.getResult());
+//        } else {
+//            ProductQuestionVo item = new ProductQuestionVo();
+//            item.setMaxPage(0);
+//            list.add(item);
+//        }
 
-        for(ProductQuestionVo item : list) {
-            try {
-                item.setCnt(mapper.selCmtCount(item.getIquestion()).getCnt());
-            } catch (Exception e) {
-                e.printStackTrace();
-                item.setCnt(0);
-            }
-        }
+//        for(ProductQuestionVo item : list) {
+//            try {
+//                item.setCnt(mapper.selCmtCount(item.getIquestion()).getCnt());
+//            } catch (Exception e) {
+//                e.printStackTrace();
+//                item.setCnt(0);
+//            }
+//        }
 
         return list;
     }
