@@ -91,10 +91,13 @@ public class ShopController {
             if(fit) {
                 QuestionDto questionDto = fitService.selQuestion();
                 questionDto = fitService.calRequiredPerformance(questionDto);
-                List<ProductVo> list = fitService.selProductList();
+                dto.setStartIdx(0);
+                dto.setRecordCount(1000000);
+                List<ProductVo> list = service.selProductList(dto);
                 for (ProductVo vo : list) {
                     vo.setFitness(fitService.calFitness(questionDto, vo));
                 }
+                dto.setRecordCount(20);
                 list.sort((o1, o2) -> o2.getFitness() - o1.getFitness());
                 int end = Math.min(list.size(), startIdx + dto.getRecordCount());
                 model.addAttribute("list", list.subList(startIdx, end));
