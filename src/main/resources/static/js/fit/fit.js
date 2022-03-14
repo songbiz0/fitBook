@@ -198,6 +198,12 @@ const makeProductList = list => {
     list.forEach(item => {
         const li = document.createElement('li');
         li.className = 'fc w300 product hp mlr10 pl';
+
+        let gpuNm = '';
+        if(item.is_inner_gpu === 'N') {
+            gpuNm = ' / ' + item.gpuNm;
+        }
+
         li.innerHTML =
             `
         <div>
@@ -206,7 +212,7 @@ const makeProductList = list => {
         </div>
         <div class="fs13">${item.brand} ${item.nm}</div>
         <div class="fs12 cgrey">${item.product_code}</div>
-        <div class="fs12 cgrey">${item.cpuNm} / ${item.ram}GB</div>
+        <div class="fs12 cgrey">${item.cpuNm} / ${item.ram}GB${gpuNm}</div>
         <div class="fs12 mt10 tdlt cgrey">${item.originalPrice.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}원</div>
         <div class="fs13">${item.price.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}원</div>
         <div class="mt10">
