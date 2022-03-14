@@ -210,12 +210,13 @@ public class FitService {
         List<QuestionDto> list = mapper.selRequiredPerformance(myProgramList);
         for(QuestionDto program : list) {
             dto.setRequiredCpu(Math.max(dto.getRequiredCpu(), program.getRequiredCpu()));
-            dto.setRequiredGpu(Math.max(dto.getRequiredRam(), program.getRequiredRam()));
+            dto.setRequiredGpu(Math.max(dto.getRequiredGpu(), program.getRequiredGpu()));
             dto.setRequiredRam(Math.max(dto.getRequiredRam(), program.getRequiredRam()));
             if(dto.isSupportMac() && !program.isSupportMac()) {
                 dto.setSupportMac(false);
             }
         }
+
         return dto;
     }
 
