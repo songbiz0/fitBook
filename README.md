@@ -149,6 +149,6 @@ http://fitbook.shop/
 
 유언수 (yueonsu@gmail.com) : 관리자 페이지 총괄, 파일 업로드, DB 설계
 
-김동규 () : 관리자 페이지 상품 관련 페이지 담당
+김동규 (sgrhrg@naver.com) : 관리자 페이지 상품 관련 페이지 담당
 
 김규형 (gyuhyeong.kim@icloud.com) : 관리자 페이지 회원 관련 페이지 담당
