@@ -49,18 +49,34 @@
     </select>
 
     <select id="selProductList" resultType="ProductVo">
-        SELECT A.ram, A.size, A.weight, A.brand, A.os,
-               A.battery, A.istwoinone, A.hz, A.resolution, ROUND(B.price * (1 - B.dc_rate), -3) AS price,
-               C.performance AS cpuPerformance, D.performance AS gpuPerformance, B.img AS detailImg, A.nm, A.product_code,
-               C.nm AS cpuNm, D.nm AS gpuNm, B.price AS originalPrice, B.idetail, A.iproduct,
+        SELECT A.ram,
+               A.size,
+               A.weight,
+               A.brand,
+               A.os,
+               A.battery,
+               A.istwoinone,
+               A.hz,
+               A.resolution,
+               ROUND(B.price * (1 - B.dc_rate), -3) AS price,
+               C.performance                        AS cpuPerformance,
+               D.performance                        AS gpuPerformance,
+               B.img                                AS detailImg,
+               A.nm,
+               A.product_code,
+               C.nm                                 AS cpuNm,
+               D.nm                                 AS gpuNm,
+               B.price                              AS originalPrice,
+               B.idetail,
+               A.iproduct,
                D.is_inner_gpu
         FROM t_product_master A
-        INNER JOIN t_product_detail B
-        ON A.iproduct = B.iproduct
-        INNER JOIN t_product_cpu C
-        ON A.icpu = C.icpu
-        INNER JOIN t_product_gpu D
-        ON A.igpu = D.igpu
+                 INNER JOIN t_product_detail B
+                            ON A.iproduct = B.iproduct
+                 INNER JOIN t_product_cpu C
+                            ON A.icpu = C.icpu
+                 INNER JOIN t_product_gpu D
+                            ON A.igpu = D.igpu
         WHERE B.isrep = 'Y'
           AND (
                   SELECT SUM(stock)
