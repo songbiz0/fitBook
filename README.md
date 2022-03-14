@@ -30,7 +30,7 @@ http://fitbook.shop/
 <br>
 
 ## 개발 환경
-- IntelliJ
+- IntelliJ IDEA
 - Postman
 - GitHub
 - HeidiSQL
