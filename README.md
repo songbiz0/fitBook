@@ -42,8 +42,8 @@ http://fitbook.shop/
 ### 백엔드
 #### 주요 프레임워크 / 라이브러리
 - Java 11
-- SpringBoot 2.6.3
-- SpringBoot Security
+- Spring Boot 2.6.3
+- Spring Security
 - Mybatis
 
 #### Build tool
