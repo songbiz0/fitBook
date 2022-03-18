@@ -214,169 +214,284 @@
 }
 // 상품등록--------------------------------------------------------------------------------------------------------------[start]
 {
-    const insProductElem = document.querySelector('.ins-product');
-    if(insProductElem) {
-        // master
-        const nmRegex = /^([a-zA-Z가-힣ㄱ-ㅎ0-9\s.\-_+=/()<>,.';`~!@#$%^&*]{1,100})$/;
-        const codeRegex = /^([a-zA-Z0-9\-\s/!@#$%^&*()_=+?><,.]{1,100})$/;
-        const rdtRegex = /^([0-9\-]{1,30})$/;
-        const ramRegex = /^([0-9]{1,10})$/;
-        const sizeRegex = /^[0-9]+(.[0-9]+)?$/;
-        const weigthRegex = /^[0-9]+(.[0-9]+)?$/;
-        const brandRegex = /^([a-zA-Z가-힣ㄱ-ㅎ0-9\s]{1,20})$/;
-        const osRegex = /^([a-zA-Z가-힣0-9\s]{1,20})$/;
-        const battryRegex = /^([0-9]{1,10})$/;
+    const insProductFrmElem = document.querySelector('#ins-product-frm');
+    if(insProductFrmElem) {
+        const selCpuElem = document.querySelector('.icpu');
+        const isInnerGpuElem = document.querySelector('.is_inner_gpu');
 
-        // detail
-        const colorRegex = /^([a-zA-Z가-힣0-9\s]{1,20})$/;
-        const hddRegex = /^([0-9]{1,10})$/;
-        const ssdRegex = /^([0-9]{1,10})$/;
-        const priceRegex = /^([0-9]{1,10})$/;
-        const stockRegex = /^([0-9]{1,10})$/;
-        const dc_rateRegex = /^([0-9]{1,10})$/;
+        selCpuElem.addEventListener('change', () => {
+            if(isInnerGpuElem.checked) {
+                selInnerGpu();
+            }
+        });
 
-        const getMasterInnerGpuFromCpu = () => {
-            const iCpuVal = document.querySelector('.icpu').value;
-            const selectIgpuElem = document.querySelector('.igpu');
-            const igpuOption = document.createElement('option');
-            fetch(`/ajax/admin/getMasterInnerGpu?icpu=${iCpuVal}`)
+        const selInnerGpu = () => {
+            const icpu = selCpuElem.value;
+            const igpuElem = document.querySelector('.igpu');
+            fetch(`/ajax/admin/getMasterInnerGpu?icpu=${icpu}`)
                 .then(res => res.json())
                 .then(data => {
-                    selectIgpuElem.innerHTML = '';
-                    igpuOption.value = data.igpu;
-                    igpuOption.innerText = data.gpuNm;
-                    selectIgpuElem.appendChild(igpuOption);
+                    igpuElem.innerHTML = '';
+                    const option = document.createElement('option');
+                    option.value = data.igpu;
+                    option.text = data.gpuNm;
+                    igpuElem.appendChild(option);
                 })
                 .catch(e => {
-                    selectIgpuElem.innerHTML = '';
-                    igpuOption.value = '';
-                    igpuOption.innerText = '';
-                    selectIgpuElem.appendChild(igpuOption);
                     console.error(e);
                 });
         }
-        const selGpu = () => {
-            fetch('/ajax/admin/selGpu')
-                .then(res => res.json())
-                .then(data => {
-                    const selectIgpuElem = document.querySelector('.igpu');
-                    data.forEach(item => {
-                        const gpuOption = document.createElement('option');
-                        gpuOption.value = item.igpu;
-                        gpuOption.innerText = item.nm;
-                        selectIgpuElem.appendChild(gpuOption);
+
+        isInnerGpuElem.addEventListener('click', (e) => {
+            const igpuElem = document.querySelector('.igpu');
+            if(e.target.checked) {
+                selInnerGpu();
+            } else {
+                fetch('/ajax/admin/selGpu')
+                    .then(res => res.json())
+                    .then(data => {
+                        console.log(data);
+                        igpuElem.innerHTML = '';
+                        data.forEach(item => {
+                            const option = document.createElement('option');
+                            option.value = item.igpu;
+                            option.text = item.nm;
+                            igpuElem.appendChild(option);
+                        });
                     })
-                })
+                    .catch(e => {
+                        console.error(e);
+                    });
+            }
+        });
+
+        const makeErrBox = (elem, msg) => {
+            $('body')
+                .toast({
+                    class: 'error',
+                    position: 'top right',
+                    message: msg
+                });
+            elem.classList.add('err-red');
+            setTimeout(function() {
+                elem.classList.remove('err-red');
+            }, 3000);
         }
 
-        const detailList = document.querySelector('#detail-list-container');
-        if (detailList) {
-            const isInnerGpuBtnElem = document.querySelector('.is_inner_gpu');
-            const selectGpuElem = document.querySelector('.igpu');
-            const selectCpuElem = document.querySelector('.icpu');
+        // master
+        const nmRegex = /^([a-zA-Z가-힣ㄱ-ㅎ0-9\s.\-_+=/()<>,.';`~!@#$%^&*]{1,100})$/;
+        const nmMsg = '상품명은 특수기호를 포함한 1~100자 이내로 작성해 주세요.'
+        const codeRegex = /^([a-zA-Z0-9\-\s/!@#$%^&*()_=+?><,.]{1,100})$/;
+        const codeMsg = '상품코드는 특수기호를 포함한 1~100자 이내로 작성해 주세요.'
+        const rdtRegex = /^([0-9\-]{1,30})$/;
+        const rdtMsg = '올바른 날짜를 선택해 주세요';
+        const ramRegex = /^([0-9]{1,10})$/;
+        const ramMsg = 'RAM은 1~10자리의 정수로 작성해 주세요.';
+        const sizeRegex = /^[0-9]+(.[0-9]+)?$/;
+        const sizeMsg = '사이즈는 정수, 실수로만 작성해 주세요.';
+        const weightRegex = /^[0-9]+(.[0-9]+)?$/;
+        const weightMsg = '무게는 정수, 실수로만 작성해 주세요.';
+        const brandRegex = /^([a-zA-Z가-힣ㄱ-ㅎ0-9\s]{1,20})$/;
+        const brandMsg = '브랜드는 1~20자 이내로 작성해 주세요.(숫자, 영어, 한글 가능)'
+        const osRegex = /^([a-zA-Z가-힣0-9\s]{1,20})$/;
+        const osMsg = 'OS를 선택해 주세요.';
+        const batteryRegex = /^([0-9]{1,10})$/;
+        const batteryMsg = '배터리는 정수 10자리 이내로 작성해 주세요.';
 
-            selectCpuElem.addEventListener('change', () => {
-                if (isInnerGpuBtnElem.checked) {
-                    getMasterInnerGpuFromCpu();
+        const masterChk = (elem, type) => {
+            const value = elem.value;
+            if(type === 'nm') {
+                if(!nmRegex.test(value)) {
+                    makeErrBox(elem, nmMsg);
+                    return false;
                 }
-            });
-
-            isInnerGpuBtnElem.addEventListener('change', () => {
-                selectGpuElem.innerHTML = '';
-                if (isInnerGpuBtnElem.checked) {
-                    getMasterInnerGpuFromCpu();
-                } else {
-                    selGpu();
+            }
+            if(type === 'code') {
+                if(!codeRegex.test(value)) {
+                    makeErrBox(elem, codeMsg);
+                    return false;
                 }
-            });
-
-            const isMacBook = document.querySelector('#mac');
-            isMacBook.addEventListener('change', () => {
-                const osList = ['Window 11', 'Window 10', 'FreeDOS'];
-                const brand = document.querySelector('.brand');
-                const os = document.querySelector('.os');
-                const osOption = document.createElement('option');
-                if (isMacBook.checked) {
-                    brand.value = 'APPLE';
-                    brand.readOnly = true;
-                    os.innerHTML = '';
-                    osOption.value = 'Mac OS';
-                    osOption.innerText = 'Mac OS';
-                    os.appendChild(osOption);
-                } else {
-                    brand.value = '';
-                    brand.readOnly = false;
-                    os.innerHTML = '';
-                    for (let i = 0; i < osList.length; i++) {
-                        const osOption = document.createElement('option');
-                        const val = osList[i];
-                        osOption.value = val;
-                        osOption.innerText = val;
-                        os.appendChild(osOption);
-                    }
+            }
+            if(type === 'rdt') {
+                if(!rdtRegex.test(value)) {
+                    makeErrBox(elem, rdtMsg);
+                    return false;
                 }
-            });
+            }
+            if(type === 'ram') {
+                if(!ramRegex.test(value)) {
+                    makeErrBox(elem, ramMsg);
+                    return false;
+                }
+            }
+            if(type === 'size') {
+                if(!sizeRegex.test(value)) {
+                    makeErrBox(elem, sizeMsg);
+                    return false;
+                }
+            }
+            if(type === 'weight') {
+                if(!weightRegex.test(value)) {
+                    makeErrBox(elem, weightMsg);
+                    return false;
+                }
+            }
+            if(type === 'brand') {
+                if(!brandRegex.test(value)) {
+                    makeErrBox(elem, brandMsg);
+                    return false;
+                }
+            }
+            if(type === 'os') {
+                if(!osRegex.test(value)) {
+                    makeErrBox(elem, osMsg);
+                    return false;
+                }
+            }
+            if(type === 'battery') {
+                if(!batteryRegex.test(value)) {
+                    makeErrBox(elem, batteryMsg);
+                    return false;
+                }
+            }
+            return true;
+        }
 
-            const detailElem = document.querySelector('#detail-list-container');
-            const addDetailBtn = document.querySelector('#add-detail-btn');
+        // detail
+        const colorRegex = /^([a-zA-Z가-힣0-9\s]{1,20})$/;
+        const colorMsg = '색상은 영어, 한글, 숫자 1~20자 이내로 작성해 주세요.';
+        const hddRegex = /^([0-9]{1,10})$/;
+        const hddMsg = '하드디스크 용량은 10자리 이내의 정수로 작성해 주세요.';
+        const ssdRegex = /^([0-9]{1,10})$/;
+        const ssdMsg = 'SSD 용량은 10자리 이내의 정수로 작성해 주세요.';
+        const priceRegex = /^([0-9]{1,10})$/;
+        const priceMsg = '가격은 10자리 이내의 정수로 작성해 주세요.';
+        const stockRegex = /^([0-9]{1,10})$/;
+        const stockMsg = '재고는 10자리 이내의 정수로 작성해 주세요.';
+        const dc_rateRegex = /^([0-9]{1,3})$/;
+        const dc_rateMsg = '할인은 0~100 사이의 정수로 작성해 주세요.';
+        const mfFileMsg = '이미지를 선택해 주세요.';
 
-            const fileRemoveBtnArr = document.querySelectorAll('.file-remove-button');
-            if (fileRemoveBtnArr) {
-                fileRemoveBtnArr.forEach((item) => item.addEventListener('click', (e) => {
-                    e.target.closest('.inv-btm').querySelector('#mfFile').value = '';
-                }));
+        const detailChk = (elem, type) => {
+            const value = elem.value;
+            if(type === 'color') {
+                if(!colorRegex.test(value)) {
+                    makeErrBox(elem, colorMsg);
+                    return false;
+                }
+            }
+            if(type === 'hdd') {
+                if(!hddRegex.test(value)) {
+                    makeErrBox(elem, hddMsg);
+                    return false;
+                }
+            }
+            if(type === 'ssd') {
+                if(!ssdRegex.test(value)) {
+                    makeErrBox(elem, ssdMsg);
+                    return false;
+                }
+            }
+            if(type === 'price') {
+                if(!priceRegex.test(value)) {
+                    makeErrBox(elem, priceMsg);
+                    return false;
+                }
+            }
+            if(type === 'stock') {
+                if(!stockRegex.test(value)) {
+                    makeErrBox(elem, stockMsg);
+                    return false;
+                }
+            }
+            if(type === 'dc_rate') {
+                if(!dc_rateRegex.test(value)) {
+                    makeErrBox(elem, dc_rateMsg);
+                    return false;
+                }
+            }
+            if(type === 'mfFile') {
+                if(value.length === 0) {
+                    makeErrBox(elem, mfFileMsg);
+                    return false;
+                }
+            }
+            return true;
+        }
+
+        const detailListContainerElem = document.querySelector('#detail-list-container');
+        let copyBtnElem = document.querySelector('.copy-btn');
+        const addDetailBtnElem = document.querySelector('#add-detail-btn');
+        const delBtnElem = document.querySelector('.delBtn');
+        const repreBtnElem = document.querySelector('.repre');
+        const smBtn = document.querySelector('#submitBtn');
+
+        const list = [
+            'color', 'hdd', 'ssd', 'price', 'stock', 'dc_rate', 'mfFile'
+        ]
+
+        const addBtn = (elem) => {
+            let color = '';
+            let hdd = '';
+            let ssd = '';
+            let price = '';
+            let stock = '';
+            let dc_rate = '';
+            if (elem) {
+                color = elem.querySelector('.color').value;
+                hdd = elem.querySelector('.hdd').value;
+                ssd = elem.querySelector('.ssd').value;
+                price = elem.querySelector('.price').value;
+                stock = elem.querySelector('.stock').value;
+                dc_rate = elem.querySelector('.dc_rate').value;
             }
 
-
-            if (addDetailBtn) {
-                addDetailBtn.addEventListener('click', (e) => {
-                    e.preventDefault();
-                    const divElem = document.createElement('div');
-                    divElem.className = 'product-detail';
-                    divElem.innerHTML = `
+            const divElem = document.createElement('div');
+            divElem.classList.add('detail-div');
+            divElem.innerHTML = `
                     <div class="inv-box">
                         <div class="inv-name">
                             <span>색상</span>
                             <span>:</span>
                         </div>
-                        <input type="text" class="color">
+                        <input type="text" class="color" value="${color}">
                     </div>
                     <div class="inv-box">
                         <div class="inv-name">
                             <span>하드디스크 용량</span>
                             <span>:</span>
                         </div>
-                        <input type="text" class="hdd">
+                        <input type="text" class="hdd" value="${hdd}">
                     </div>
                     <div class="inv-box">
                         <div class="inv-name">
                             <span>SSD 용량</span>
                             <span>:</span>
                         </div>
-                        <input type="text" class="ssd">
+                        <input type="text" class="ssd" value="${ssd}">
                     </div>
                     <div class="inv-box">
                         <div class="inv-name">
                             <span>가격</span>
                             <span>:</span>
                         </div>
-                        <input type="text" class="price">
+                        <input type="text" class="price" value="${price}">
                     </div>
                     <div class="inv-box">
                         <div class="inv-name">
                             <span>재고</span>
                             <span>:</span>
                         </div>
-                        <input type="text" class="stock">
+                        <input type="text" class="stock" value="${stock}">
                     </div>
                     <div class="inv-box">
                         <div class="inv-name">
                             <span>할인</span>
                             <span>:</span>
                         </div>
-                        <input type="text" class="dc_rate">
+                        <input type="text" class="dc_rate" value="${dc_rate}">
                     </div>
-                    <div id="repre-div">
+                    <div class="detail-img-box">
                         <div class="inv-name">
                             <span>이미지</span>
                             <span>:</span>
@@ -386,254 +501,141 @@
                                 <input type="file" class="mfFile">
                             </div>
                             <div class="file-set">
-                                <input type="button" class="ui inverted red button file-remove-button" value="파일초기화">
                                 <input type="button" class="ui inverted red button ml10 delBtn" value="삭제하기">
                                 <input type="button" class="ui inverted blue button ml10 repre" value="대표옵션으로설정">
+                                <input type="button" class="ui inverted blue button ml10 copy-btn" value="복사하기">
                             </div>
                         </div>
                     </div>
-                `;
-
-                    const insBeforeElem = document.querySelector('#ins-before-div');
-                    const repreElem = insBeforeElem.querySelector('.product-detail');
-                    if (!repreElem) {
-                        const insBeforeElem = document.querySelector('#ins-before-div');
-                        insBeforeElem.appendChild(divElem);
-                        document.querySelector('.product-detail').querySelector('.repre').className = 'dis-none repre';
-                    } else {
-                        detailElem.appendChild(divElem);
-                    }
-
-                    const fileRemoveBtn = divElem.querySelector('.file-remove-button');
-                    if (fileRemoveBtn) {
-                        fileRemoveBtn.addEventListener('click', (e) => {
-                            e.target.closest('.inv-btm').querySelector('.mfFile').value = '';
-                        });
-                    }
-
-                    const detail_list = document.querySelectorAll('.repre');
-                    detail_list.forEach(item => item.addEventListener('click', (e) => {
-                        const thisElem = e.target.closest('.product-detail');
-                        const thisRepreBtn = thisElem.querySelector('.repre');
-
-                        const beforeElem = document.querySelector('#ins-before-div');
-                        const beforeBtn = beforeElem.querySelector('.repre');
-
-                        const detailListContainer = document.querySelector('#detail-list-container');
-                        const repreElem = beforeElem.querySelector('.product-detail');
-
-                        beforeBtn.className = 'ui inverted blue button ml10 repre';
-                        thisRepreBtn.className = 'dis-none repre';
-                        console.log(thisRepreBtn);
-
-
-                        detailListContainer.appendChild(repreElem);
-
-                        const insElem = document.querySelector('#ins-before-div');
-
-                        insElem.appendChild(thisElem);
-                    }));
-
-                    const delBtnElemArr = document.querySelectorAll('.delBtn');
-                    delBtnElemArr.forEach((item) => item.addEventListener('click', (e) => {
-
-                        const insBeforeDivElem = document.querySelector('#ins-before-div');
-                        const repreDivElem = insBeforeDivElem.querySelector('.product-detail');
-                        const thisDivElem = e.target.closest('.product-detail');
-
-
-                        if (thisDivElem === repreDivElem || (detailElem.children.length === 2)) {
-                            thisDivElem.remove();
-                            const productDetailArr = document.querySelectorAll('.product-detail');
-                            const toBeRepreDivElem = productDetailArr[0];
-                            const repreBtn = toBeRepreDivElem.querySelector('.repre');
-                            repreBtn.className = 'dis-none repre';
-                            insBeforeDivElem.appendChild(productDetailArr[0]);
-                        }
-                        thisDivElem.remove();
-                    }))
-                });
-                addDetailBtn.click();
-
-            }
-
-            const list = [
-                'color', 'hdd', 'ssd', 'price', 'stock', 'dc_rate', 'mfFile'
-            ];
-
-            const submitBtn = document.querySelector('#submitBtn');
-            if (submitBtn) {
-                submitBtn.addEventListener('click', (e) => {
-                    e.preventDefault();
-                    const submitBeforeList = document.querySelectorAll('.product-detail');
-
-                    let num = 0;
-                    submitBeforeList.forEach(item => {
-                        let forNo = 0;
-                        for (let i in list) {
-                            const dbName = list[forNo];
-                            const result = 'productList[' + num + '].' + dbName;
-                            item.querySelector(`#${dbName}`).name = result;
-                            forNo++;
-                        }
-                        num++;
-                    });
-                    const frmElem = document.querySelector('#frm');
-                    frmElem.submit();
-                });
-            }
-        }
-
-        const list = [
-            'color', 'hdd', 'ssd', 'price', 'stock', 'dc_rate', 'mfFile'
-        ];
-
-        const masterList = [
-            'nm', 'code', 'rdt', 'ram', 'icpu', 'igpu', 'size', 'weight', 'brand', 'os', 'img', 'battery'
-        ]
-
-        const makeErrBox = (item, msg) => {
-            $('body')
-                .toast({
-                    class: 'error',
-                    position: 'bottom right',
-                    message: msg
-                });
-            item.classList.add('err-red');
-            setTimeout(function () {
-                item.classList.remove('err-red');
-            }, 3000);
-        }
-
-        const frmChk = (type, item) => {
-            let result = 0;
-            let cnt = 0;
-            if (type === 'detail') {
-                for (let i in list) {
-                    const elem = item.querySelector(`.${list[i]}`);
-                    const val = elem.value;
-                    const length = val.length;
-                    if (list[i] === 'color' && !colorRegex.test(val)) {
-                        console.log('color');
-                        makeErrBox(elem, '색상: 한글/영문 조합으로 20글자 이내로 작성해 주세요.');
-                    } else if (list[i] === 'hdd' && !hddRegex.test(val)) {
-                        console.log('hdd');
-                        makeErrBox(elem, 'HDD: 숫자 10자리 이내로 작성해 주세요.');
-                    } else if (list[i] === 'ssd' && !ssdRegex.test(val)) {
-                        console.log('ssd');
-                        makeErrBox(elem, 'SSD: 숫자 10자리 이내로 작성해 주세요.');
-                    } else if (list[i] === 'price' && !priceRegex.test(val)) {
-                        console.log('price');
-                        makeErrBox(elem, '가격: 숫자 10자리 이내로 작성해 주세요.');
-                    } else if (list[i] === 'stock' && !stockRegex.test(val)) {
-                        console.log('stock');
-                        makeErrBox(elem, '재고: 숫자 10자리 이내로 작성해 주세요.');
-                    } else if (list[i] === 'dc_rate' && !dc_rateRegex.test(val)) {
-                        makeErrBox(elem, '할인율: 0~100 (% 제외)로 작성해 주세요.');
-                        console.log('dc_rate');
-                    } else if (list[i] === 'mfFile' && (length < 1)) {
-                        makeErrBox(elem, '이미지: 이미지를 추가해 주세요.');
-                        console.log('mfFile');
-                    } else {
-                        cnt++;
-                    }
+                </div>
+            `;
+            //===================== 추가하기버튼 =========================
+            const copyElem = divElem.querySelector('.copy-btn');
+            copyElem.addEventListener('click', (e) => {
+                addBtn(divElem);
+            });
+            const insBeforeDivElem = document.querySelector('#ins-before-div');
+            if (elem) {
+                const insDetailDiv = document.querySelector('#ins-before-div').querySelector('.detail-div');
+                if(insDetailDiv == elem) {
+                    insBeforeDivElem.after(divElem);
+                } else {
+                    elem.after(divElem);
                 }
-            } else if (type === 'master') {
-                for (let i in masterList) {
-                    const elem = item.querySelector(`.${masterList[i]}`);
-                    const val = elem.value;
-                    const length = val.length;
-                    if (masterList[i] === 'nm' && !nmRegex.test(val)) {
-                        console.log('nm');
-                        makeErrBox(elem, '이름: 영어/한글/숫자/특수문자를 조합해서 100자 이내로 작성해 주세요.');
-                    } else if (masterList[i] === 'code' && !codeRegex.test(val)) {
-                        makeErrBox(elem, '상품코드: 영어/숫자를 조합해서 100자 이내로 작성해 주세요.')
-                        console.log('code');
-                    } else if (masterList[i] === 'rdt' && !rdtRegex.test(val)) {
-                        makeErrBox(elem, '날짜: 날짜를 빠짐없이 입력해 주세요.');
-                        console.log('rdt');
-                    } else if (masterList[i] === 'ram' && !ramRegex.test(val)) {
-                        makeErrBox(elem, 'RAM : 숫자 10자리 이하로 작성해 주세요.');
-                        console.log('ram');
-                    } else if (masterList[i] === 'icpu' && length < 1) {
-                        makeErrBox(elem, 'CPU : 숫자 10자리 이하로 작성해 주세요.');
-                        console.log('icpu');
-                    } else if (masterList[i] === 'igpu' && length < 1) {
-                        makeErrBox(elem, 'GPU : 숫자 10자리 이하로 작성해 주세요.');
-                        console.log('igpu');
-                    } else if (masterList[i] === 'size' && !sizeRegex.test(val)) {
-                        makeErrBox(elem, '사이즈 : 실수, 정수를 조합해서 10자리 이하로 작성해 주세요.');
-                        console.log('size');
-                    } else if (masterList[i] === 'weight' && !weigthRegex.test(val)) {
-                        makeErrBox(elem, '무게 : 실수, 정수를 조합해서 10자리 이하로 작성해 주세요.');
-                        console.log('weight');
-                    } else if (masterList[i] === 'brand' && !brandRegex.test(val)) {
-                        makeErrBox(elem, '브랜드 : 영문, 한글을 조합해서 20자 이하로 작성해 주세요.');
-                        console.log('brand');
-                    } else if (masterList[i] === 'os' && !osRegex.test(val)) {
-                        makeErrBox(elem, 'OS : 영문, 한글, 숫자를 조합해서 20자 이하로 작성해 주세요.');
-                        console.log('os');
-                    } else if (masterList[i] === 'battery' && !battryRegex.test(val)) {
-                        makeErrBox(elem, '배터리 : 숫자 10자리 이하로 작성해 주세요.');
-                        console.log('battry');
-                    } else if (masterList[i] === 'img') {
-                        cnt++;
-                    } else {
-                        cnt++;
-                    }
-                }
-            }
-            if (list.length === cnt || masterList.length === cnt) {
-                result++;
-            }
-            return result;
-
-        }
-
-        const isInnerGpuBtnElem = document.querySelector('.is_inner_gpu');
-        isInnerGpuBtnElem.addEventListener('click', () => {
-            if (isInnerGpuBtnElem.checked) {
-
             } else {
+                if(insBeforeDivElem.children.length === 0) {
+                    insBeforeDivElem.appendChild(divElem);
+                } else {
+                    detailListContainerElem.appendChild(divElem);
+                }
+            }
+            //==========================================================
 
+
+
+            //===================== 삭제하기버튼 ===========================
+            const delBtnElem = divElem.querySelector('.delBtn');
+            delBtnElem.addEventListener('click', () => {
+                divElem.remove();
+                const insBeforeDivElem = document.querySelector('#ins-before-div');
+                if(insBeforeDivElem.children.length === 0) {
+                    const detailList = document.querySelectorAll('.detail-div');
+                    insBeforeDivElem.appendChild(detailList[0]);
+                }
+            });
+            //==============================================================
+
+
+
+            // ======================= 대표옵션으로 설정 버튼 ===================
+            const repreBtnElem = divElem.querySelector('.repre');
+            repreBtnElem.addEventListener('click', (e) => {
+                const insBeforeDivElem = document.querySelector('#ins-before-div');
+                const detailDivInInsBeforeDiv = insBeforeDivElem.querySelector('.detail-div');
+                const curElem = e.target.closest('.detail-div');
+                detailListContainerElem.appendChild(detailDivInInsBeforeDiv);
+                insBeforeDivElem.appendChild(curElem);
+                curElem.querySelector('.repre').classList.add('dis-none');
+                detailDivInInsBeforeDiv.querySelector('.repre').classList.remove('dis-none');
+            });
+            // ==============================================================
+        }
+
+        copyBtnElem.addEventListener('click', (e) => {
+            const elem = e.target.closest('.detail-div');
+            addBtn(elem);
+        });
+
+        addDetailBtnElem.addEventListener('click', (e) => {
+            e.preventDefault();
+            addBtn();
+        });
+
+        delBtnElem.addEventListener('click', (e) => {
+            e.target.closest('.detail-div').remove();
+            const insBeforeDivElem = document.querySelector('#ins-before-div');
+            if(insBeforeDivElem.children.length === 0) {
+                const detailList = document.querySelectorAll('.detail-div');
+                insBeforeDivElem.appendChild(detailList[0]);
             }
         });
 
-        const submitBtn = document.querySelector('#submitBtn');
-        if (submitBtn) {
-            submitBtn.addEventListener('click', (e) => {
-                e.preventDefault();
-                const submitBeforeList = document.querySelectorAll('.product-detail');
-                const frmDivElemList = document.querySelectorAll('.frmDiv');
+        repreBtnElem.addEventListener('click', (e) => {
+            const insBeforeDivElem = document.querySelector('#ins-before-div');
+            const detailDivInInsBeforeDiv = insBeforeDivElem.querySelector('.detail-div');
+            const curElem = e.target.closest('.detail-div');
+            detailListContainerElem.appendChild(detailDivInInsBeforeDiv);
+            insBeforeDivElem.appendChild(curElem);
+            curElem.querySelector('.repre').classList.add('dis-none');
+            detailDivInInsBeforeDiv.querySelector('.repre').classList.remove('dis-none');
+        });
 
-                let cnt = 0;
-                let result = submitBeforeList.length + frmDivElemList.length;
+        smBtn.addEventListener('click', (e) => {
+            e.preventDefault();
 
-                frmDivElemList.forEach(item => {
-                    cnt += frmChk('master', item);
-                })
+            const insBeforeDivElem = document.querySelector('#ins-before-div');
+            if(insBeforeDivElem.children.length === 0) {
+                makeErrBox(insBeforeDivElem, '대표상품을 등록해 주세요');
+                return;
+            }
 
-                let num = 0;
-                submitBeforeList.forEach(item => {
-
-                    cnt += frmChk('detail', item);
-
-                    let forNo = 0;
-                    for (let i in list) {
-                        const dbName = list[forNo];
-
-                        const result = 'productList[' + num + '].' + dbName;
-                        item.querySelector(`.${dbName}`).name = result;
-                        forNo++;
-                    }
-                    num++;
-                });
-
-                if (result === cnt) {
-                    const frmElem = document.querySelector('#frm');
-                    frmElem.submit();
+            // ================ Master Chk ============================
+            const masterList = [
+                  'nm', 'code', 'rdt', 'ram', 'size'
+                , 'weight', 'brand', 'os', 'battery'
+            ];
+            for(let i in masterList) {
+                const elem = document.querySelector(`.${masterList[i]}`);
+                if (!masterChk(elem, masterList[i])) {
+                    return;
                 }
+            }
+
+            for(let i in list) {
+                const elem = document.querySelector(`.${list[i]}`);
+                if(!detailChk(elem, list[i])) {
+                    return;
+                }
+            }
+
+
+            // =========================================================
+
+            const detailList = document.querySelectorAll('.detail-div');
+            let no = 0;
+            detailList.forEach(item => {
+                for(let i in list) {
+                    const type = list[i];
+                    const nameResult = `productList[${no}].${type}`;
+                    const typeElem = item.querySelector(`.${type}`);
+                    typeElem.name = nameResult;
+                }
+                no++;
             });
-        }
+
+            const smFrm = document.querySelector('#ins-product-frm');
+            smFrm.submit();
+
+        });
     }
 }

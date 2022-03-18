@@ -9,7 +9,7 @@
 </head>
 
 <th:block layout:fragment="content">
-    <form id="frm" method="post" th:action="@{/admin/insproduct}" enctype="multipart/form-data" class="adm-con01">
+    <form id="ins-product-frm" method="post" th:action="@{/admin/insproduct}" enctype="multipart/form-data" class="adm-con01">
         <div class="frmDiv ins-product">
             <div class="inv-box">
                 <div class="inv-name">
@@ -90,7 +90,7 @@
                     <span>:</span>
                 </div>
                 <div class="ui toggle checkbox" id="macDiv">
-                    <input type="checkbox" id="mac">
+                    <input type="checkbox" id="mac" class="is_mac">
                     <label></label>
                 </div>
             </div>
@@ -158,7 +158,7 @@
                 </select>
             </div>
 <!--       ==============================================================     -->
-            <div id="repre-div">
+            <div id="master-img">
                 <div class="inv-name">
                     <span>이미지</span>
                     <span>:</span>
@@ -167,17 +167,75 @@
                     <div class="file-area">
                         <input type="file" name="mfFile" id="mfFile" class="img">
                     </div>
-                    <div class="file-set">
-                        <input type="button" name="mfFile" class="ui inverted red button file-remove-button" value="파일초기화">
-                    </div>
                 </div>
             </div>
         </div>
         <div id="detail-list-container">
             <h3>대표상품섹션</h3>
-            <div id="ins-before-div">
 
+            <div id="ins-before-div">
+                <div class="detail-div">
+                    <div class="inv-box">
+                        <div class="inv-name">
+                            <span>색상</span>
+                            <span>:</span>
+                        </div>
+                        <input type="text" class="color">
+                    </div>
+                    <div class="inv-box">
+                        <div class="inv-name">
+                            <span>하드디스크 용량</span>
+                            <span>:</span>
+                        </div>
+                        <input type="text" class="hdd">
+                    </div>
+                    <div class="inv-box">
+                        <div class="inv-name">
+                            <span>SSD 용량</span>
+                            <span>:</span>
+                        </div>
+                        <input type="text" class="ssd">
+                    </div>
+                    <div class="inv-box">
+                        <div class="inv-name">
+                            <span>가격</span>
+                            <span>:</span>
+                        </div>
+                        <input type="text" class="price">
+                    </div>
+                    <div class="inv-box">
+                        <div class="inv-name">
+                            <span>재고</span>
+                            <span>:</span>
+                        </div>
+                        <input type="text" class="stock">
+                    </div>
+                    <div class="inv-box">
+                        <div class="inv-name">
+                            <span>할인</span>
+                            <span>:</span>
+                        </div>
+                        <input type="text" class="dc_rate">
+                    </div>
+                    <div class="detail-img-box">
+                        <div class="inv-name">
+                            <span>이미지</span>
+                            <span>:</span>
+                        </div>
+                        <div class="inv-btm">
+                            <div class="file-area">
+                                <input type="file" class="mfFile">
+                            </div>
+                            <div class="file-set">
+                                <input type="button" class="ui inverted red button ml10 delBtn" value="삭제하기">
+                                <input type="button" class="ui inverted blue button ml10 repre dis-none" value="대표옵션으로설정">
+                                <input type="button" class="ui inverted blue button ml10 copy-btn" value="복사하기">
+                            </div>
+                        </div>
+                    </div>
+                </div>
             </div>
+
         </div>
         <div class="utils-container">
             <input type="submit" class="ui inverted secondary button" value="등록" id="submitBtn">
