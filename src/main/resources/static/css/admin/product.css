@@ -107,11 +107,11 @@
 }
 
 .err-red {
-    border: 1px solid red !important;
+    border-color: #e0b4b4 !important;
+    background-color: #fff6f6;
+    color: #9f3a38; !important;
 }
 
-.err-red {
-    border: 1px solid red !important;
-    background-color: #fdc5c5;
-    color: red; !important;
+.detail-img-box {
+    display: flex;
 }
