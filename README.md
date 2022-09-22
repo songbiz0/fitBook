@@ -6,6 +6,7 @@
 http://fitbook.shop/
 
 ※ 관리자 아이디 : admin / 비밀번호 : asd123
+
 ※ 테스트용 아이디 : songbiz / 비밀번호 : songbiz
 
 <br>
